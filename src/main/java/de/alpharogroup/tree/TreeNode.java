@@ -29,13 +29,15 @@ import java.util.List;
 import java.util.Stack;
 
 import de.alpharogroup.tree.ifaces.ITreeNode;
+import lombok.ToString;
 
 /**
  * The generic class TreeNode.
- * 
+ *
  * @param <T>
  *            the generic type
  */
+@ToString
 public class TreeNode<T> implements ITreeNode<T>
 {
 
@@ -65,7 +67,7 @@ public class TreeNode<T> implements ITreeNode<T>
 
 	/**
 	 * Instantiates a new tree node.
-	 * 
+	 *
 	 * @param value
 	 *            the value
 	 */
@@ -81,15 +83,8 @@ public class TreeNode<T> implements ITreeNode<T>
 	@Override
 	public void addChild(final ITreeNode<T> child)
 	{
-		if (children != null)
-		{
-			children.add(child);
-		}
-		else
-		{
-			children = new ArrayList<>();
-			children.add(child);
-		}
+		child.setParent(this);
+		getChildren().add(child);
 	}
 
 	/**
@@ -99,9 +94,9 @@ public class TreeNode<T> implements ITreeNode<T>
 	public void addChildAt(final int index, final ITreeNode<T> child)
 		throws IndexOutOfBoundsException
 	{
-		if (children != null && children.size() < index)
+		if (getChildren().size() < index)
 		{
-			children.add(index, child);
+			getChildren().add(index, child);
 		}
 		else
 		{
@@ -140,11 +135,7 @@ public class TreeNode<T> implements ITreeNode<T>
 	@Override
 	public int getChildCount()
 	{
-		if (children == null)
-		{
-			return 0;
-		}
-		return children.size();
+		return getChildren().size();
 	}
 
 	/**
@@ -155,7 +146,7 @@ public class TreeNode<T> implements ITreeNode<T>
 	{
 		if (this.children == null)
 		{
-			return new ArrayList<>();
+			this.children = new ArrayList<>();
 		}
 		return this.children;
 	}
@@ -355,14 +346,8 @@ public class TreeNode<T> implements ITreeNode<T>
 	@Override
 	public void removeChild(final ITreeNode<T> child)
 	{
-		if (children != null)
-		{
-			children.remove(child);
-		}
-		else
-		{
-			children = new ArrayList<>();
-		}
+		getChildren().remove(child);
+		child.setParent(null);
 	}
 
 	/**
@@ -371,7 +356,10 @@ public class TreeNode<T> implements ITreeNode<T>
 	@Override
 	public void removeChildAt(final int index) throws IndexOutOfBoundsException
 	{
-		children.remove(index);
+		final ITreeNode<T> child = getChildren().remove(index);
+		if(child != null) {
+			child.setParent(null);
+		}
 	}
 
 	/**
