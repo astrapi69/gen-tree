@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Stack;
 
 import de.alpharogroup.tree.ifaces.ITreeNode;
-import lombok.ToString;
 
 /**
  * The generic class TreeNode.
@@ -37,7 +36,6 @@ import lombok.ToString;
  * @param <T>
  *            the generic type
  */
-@ToString
 public class TreeNode<T> implements ITreeNode<T>
 {
 
