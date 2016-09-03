@@ -1,5 +1,7 @@
 # gen-tree
 
+Project that holds a generic model for tree objects
+
 ## License
 
 The source code comes under the liberal MIT License, making gen-tree great for all types of applications.
@@ -51,6 +53,7 @@ Do not hesitate to contact the gen-tree developers with your questions, concerns
 
 # Donate
 
+If you like this library, please consider a donation through 
 <a href="https://flattr.com/submit/auto?fid=r7vp62&url=https%3A%2F%2Fgithub.com%2Flightblueseas%2Fgen-tree" target="_blank">
 <img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" />
 </a>
