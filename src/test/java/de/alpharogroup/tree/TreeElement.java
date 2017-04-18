@@ -45,7 +45,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder(toBuilder=true)
 public class TreeElement implements Serializable {
 	/** The serial Version UID */
 	private static final long serialVersionUID = 1L;
