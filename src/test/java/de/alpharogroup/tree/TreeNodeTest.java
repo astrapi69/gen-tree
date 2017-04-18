@@ -37,16 +37,21 @@ public class TreeNodeTest
 	@Test(enabled = true)
 	public void traverse()
 	{
-		final TreeElement parent = TreeElement.builder().name("parent").parent(null).node(false).build();
-		final TreeElement firstChild = TreeElement.builder().name("firstChild").parent(parent).node(false).build();
-		final TreeElement firstGrandChild = TreeElement.builder().name("firstGrandChild").parent(firstChild).node(true).build();
-		final TreeElement secondChild = TreeElement.builder().name("secondChild").parent(parent).node(true).build();
+		final TreeElement parent = TreeElement.builder().name("parent").parent(null).node(false)
+			.build();
+		final TreeElement firstChild = TreeElement.builder().name("firstChild").parent(parent)
+			.node(false).build();
+		final TreeElement firstGrandChild = TreeElement.builder().name("firstGrandChild")
+			.parent(firstChild).node(true).build();
+		final TreeElement secondChild = TreeElement.builder().name("secondChild").parent(parent)
+			.node(true).build();
 		final ITreeNode<TreeElement> parentTreeNode = new TreeNode<TreeElement>(parent);
 		final ITreeNode<TreeElement> firstChildTreeNode = new TreeNode<TreeElement>(firstChild);
 		parentTreeNode.addChild(firstChildTreeNode);
 		final ITreeNode<TreeElement> secondChildTreeNode = new TreeNode<TreeElement>(secondChild);
 		parentTreeNode.addChild(secondChildTreeNode);
-		final ITreeNode<TreeElement> firstGrandChildTreeNode = new TreeNode<TreeElement>(firstGrandChild);
+		final ITreeNode<TreeElement> firstGrandChildTreeNode = new TreeNode<TreeElement>(
+			firstGrandChild);
 		firstChildTreeNode.addChild(firstGrandChildTreeNode);
 		final List<ITreeNode<TreeElement>> list = new ArrayList<>();
 		parentTreeNode.traverse(parentTreeNode, list);

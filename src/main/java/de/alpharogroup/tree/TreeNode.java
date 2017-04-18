@@ -355,7 +355,8 @@ public class TreeNode<T> implements ITreeNode<T>
 	public void removeChildAt(final int index) throws IndexOutOfBoundsException
 	{
 		final ITreeNode<T> child = getChildren().remove(index);
-		if(child != null) {
+		if (child != null)
+		{
 			child.setParent(null);
 		}
 	}

@@ -37,7 +37,8 @@ import lombok.ToString;
 /**
  * The class {@link TreeElement}.
  *
- * @param <P> the generic type of the parent
+ * @param <P>
+ *            the generic type of the parent
  */
 @Getter
 @Setter
@@ -45,8 +46,9 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder(toBuilder=true)
-public class TreeElement implements Serializable {
+@Builder(toBuilder = true)
+public class TreeElement implements Serializable
+{
 	/** The serial Version UID */
 	private static final long serialVersionUID = 1L;
 	private String name;
