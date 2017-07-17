@@ -6,11 +6,15 @@ Project that holds a generic model for tree objects
 
 The source code comes under the liberal MIT License, making gen-tree great for all types of applications.
 
-# Build status and latest maven version
+## Build status
 [![Build Status](https://travis-ci.org/lightblueseas/gen-tree.svg?branch=master)](https://travis-ci.org/lightblueseas/gen-tree)
 
+## Maven Central
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.alpharogroup/gen-tree/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.alpharogroup/gen-tree)
+## javadoc
+
+gen-tree [![Javadocs](http://www.javadoc.io/badge/de.alpharogroup/gen-tree.svg)](http://www.javadoc.io/doc/de.alpharogroup/gen-tree)
 
 ## Maven dependency
 
