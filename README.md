@@ -45,7 +45,7 @@ The source code for gen-tree are on GitHub. Please feel free to fork and send pu
 
 Create your own fork of [lightblueseas/gen-tree/fork](https://github.com/lightblueseas/gen-tree/fork)
 
-To share your changes, [submit a pull request](https://github.com/lightblueseas/gen-tree/pull/new/master).
+To share your changes, [submit a pull request](https://github.com/lightblueseas/gen-tree/pull/new/develop).
 
 Don't forget to add new units tests on your changes.
 
