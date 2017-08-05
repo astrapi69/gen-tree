@@ -1,6 +1,6 @@
-# gen-tree
+# Overview
 
-Project that holds a generic model for tree objects
+The gen-tree project holds a generic model for tree objects
 
 ## License
 
@@ -12,6 +12,7 @@ The source code comes under the liberal MIT License, making gen-tree great for a
 ## Maven Central
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.alpharogroup/gen-tree/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.alpharogroup/gen-tree)
+
 ## javadoc
 
 gen-tree [![Javadocs](http://www.javadoc.io/badge/de.alpharogroup/gen-tree.svg)](http://www.javadoc.io/doc/de.alpharogroup/gen-tree)
