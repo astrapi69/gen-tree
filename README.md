@@ -26,11 +26,12 @@ Add the following maven dependency to your project `pom.xml` if you want to impo
 
 Than you can add the dependency to your dependencies:
 
-		<!-- gen-tree version -->
+		<!-- GEN-TREE version -->
 		<gen-tree.version>4.10.0</gen-tree.version>
 
 		<dependencies>
 			...
+            <!-- GEN-TREE DEPENDENCY -->
 			<dependency>
 				<groupId>de.alpharogroup</groupId>
 				<artifactId>gen-tree</artifactId>
