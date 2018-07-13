@@ -24,37 +24,420 @@
  */
 package de.alpharogroup.tree;
 
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertTrue;
+import static org.testng.AssertJUnit.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import org.meanbean.lang.Factory;
+import org.meanbean.test.BeanTester;
+import org.meanbean.test.Configuration;
+import org.meanbean.test.ConfigurationBuilder;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import de.alpharogroup.AbstractTestCase;
+import de.alpharogroup.evaluate.object.EqualsHashCodeAndToStringEvaluator;
 import de.alpharogroup.tree.ifaces.ITreeNode;
 
-public class TreeNodeTest
+/**
+ * The unit test class for the class {@link TreeNode}
+ */
+public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 {
 
+	TreeElement parent;
+	TreeElement firstChild;
+	TreeElement firstGrandChild;
+	TreeElement firstGrandGrandChild;
+	TreeElement secondChild;
+	ITreeNode<TreeElement> parentTreeNode;
+	ITreeNode<TreeElement> firstChildTreeNode;
+	ITreeNode<TreeElement> secondChildTreeNode;
+	ITreeNode<TreeElement> firstGrandChildTreeNode;
+	ITreeNode<TreeElement> firstGrandGrandChildTreeNode;
+	List<ITreeNode<TreeElement>> list;
+
+	@BeforeMethod
+	@Override
+	protected void setUp() throws Exception
+	{
+		super.setUp();
+		parent = TreeElement.builder().name("parent").parent(null).node(false).build();
+		firstChild = TreeElement.builder().name("firstChild").parent(parent).node(false).build();
+		firstGrandChild = TreeElement.builder().name("firstGrandChild").parent(firstChild)
+			.node(true).build();
+		firstGrandGrandChild = TreeElement.builder().name("firstGrandGrandChild")
+			.parent(firstGrandChild).node(true).build();
+		secondChild = TreeElement.builder().name("secondChild").parent(parent).node(true).build();
+		parentTreeNode = new TreeNode<TreeElement>(parent);
+		firstChildTreeNode = new TreeNode<TreeElement>(firstChild);
+		secondChildTreeNode = new TreeNode<TreeElement>(secondChild);
+		firstGrandChildTreeNode = new TreeNode<TreeElement>(firstGrandChild);
+		firstGrandGrandChildTreeNode = new TreeNode<TreeElement>(firstGrandGrandChild);
+	}
+
+	@AfterMethod
+	@Override
+	protected void tearDown() throws Exception
+	{
+		super.tearDown();
+		list = null;
+		parent = null;
+		firstChild = null;
+		firstGrandChild = null;
+		secondChild = null;
+		parentTreeNode = null;
+		firstChildTreeNode = null;
+		secondChildTreeNode = null;
+		firstGrandChildTreeNode = null;
+	}
+
+	/**
+	 * Test method for {@link TreeNode#addChildAt(int, ITreeNode)}.
+	 */
+	@Test
+	public void testAddChildAt()
+	{
+		parentTreeNode.addChild(firstChildTreeNode);
+		parentTreeNode.addChildAt(0, secondChildTreeNode);
+		parentTreeNode.addChildAt(4, firstGrandChildTreeNode);
+
+		list = parentTreeNode.getChildren();
+
+		assertTrue(list.size() == 3);
+		assertEquals(list.get(0), secondChildTreeNode);
+		assertEquals(list.get(1), firstChildTreeNode);
+		assertEquals(list.get(2), firstGrandChildTreeNode);
+	}
+
+	/**
+	 * Test method for {@link TreeNode} constructors and builders
+	 */
+	@Test
+	public final void testConstructors()
+	{
+		ITreeNode<TreeElement> parentTreeNode = new TreeNode<TreeElement>();
+		assertNotNull(parentTreeNode);
+		parentTreeNode.setValue(parent);
+		parentTreeNode = new TreeNode<TreeElement>(parent);
+		assertNotNull(parentTreeNode);
+	}
+
+	/**
+	 * Test method for {@link TreeNode#equals(Object)} , {@link TreeNode#hashCode()} and
+	 * {@link TreeNode#toString()}
+	 */
+	@Test
+	public void testEqualsHashcodeAndToString()
+	{
+		final boolean expected;
+		final boolean actual;
+
+		TreeNode<TreeElement> first = new TreeNode<>(parent);
+		TreeNode<TreeElement> second = new TreeNode<>();
+		TreeNode<TreeElement> third = new TreeNode<>(parent);
+		TreeNode<TreeElement> fourth = new TreeNode<>(parent);
+
+		actual = EqualsHashCodeAndToStringEvaluator.evaluateEqualsHashcodeAndToString(first, second,
+			third, fourth);
+		expected = true;
+		assertEquals(expected, actual);
+	}
+
+	/**
+	 * Test method for {@link TreeNode#getAllSiblings()}.
+	 */
+	@Test
+	public void testGetAllSiblings()
+	{
+		parentTreeNode.addChild(firstChildTreeNode);
+		parentTreeNode.addChild(secondChildTreeNode);
+		parentTreeNode.addChild(firstGrandChildTreeNode);
+
+		list = firstChildTreeNode.getAllSiblings();
+
+		assertTrue(list.size() == 2);
+		assertEquals(list.get(0), secondChildTreeNode);
+		assertEquals(list.get(1), firstGrandChildTreeNode);
+
+		list = parentTreeNode.getAllSiblings();
+		assertNull(list);
+	}
+
+	// ========================================================
+
+	/**
+	 * Test method for {@link TreeNode#getChildCount()}.
+	 */
+	@Test
+	public void testGetChildCount()
+	{
+		int actual;
+		int expected;
+		parentTreeNode.addChild(firstChildTreeNode);
+		parentTreeNode.addChild(secondChildTreeNode);
+		parentTreeNode.addChild(firstGrandChildTreeNode);
+
+		list = parentTreeNode.getChildren();
+
+		actual = parentTreeNode.getChildCount();
+		expected = list.size();
+		assertEquals(expected, actual);
+
+	}
+
+	/**
+	 * Test method for {@link TreeNode#getDepth()}.
+	 */
+	@Test
+	public void testGetDepth()
+	{
+		int actual;
+		int expected;
+
+		actual = parentTreeNode.getDepth();
+		expected = 0;
+		assertEquals(expected, actual);
+
+		parentTreeNode.addChild(firstChildTreeNode);
+
+		actual = parentTreeNode.getDepth();
+		expected = 1;
+		assertEquals(expected, actual);
+		parentTreeNode.addChild(secondChildTreeNode);
+		firstChildTreeNode.addChild(firstGrandChildTreeNode);
+
+		actual = parentTreeNode.getDepth();
+		expected = 2;
+		assertEquals(expected, actual);
+
+		firstGrandChildTreeNode.addChild(firstGrandGrandChildTreeNode);
+
+		actual = parentTreeNode.getDepth();
+		expected = 3;
+		assertEquals(expected, actual);
+	}
+
+	/**
+	 * Test method for {@link TreeNode#getLevel()}.
+	 */
+	@Test
+	public void testGetLevel()
+	{
+		int actual;
+		int expected;
+
+		actual = parentTreeNode.getLevel();
+		expected = 0;
+		assertEquals(expected, actual);
+
+		parentTreeNode.addChild(firstChildTreeNode);
+
+		actual = firstChildTreeNode.getLevel();
+		expected = 1;
+		assertEquals(expected, actual);
+		parentTreeNode.addChild(secondChildTreeNode);
+		firstChildTreeNode.addChild(firstGrandChildTreeNode);
+
+		actual = firstGrandChildTreeNode.getLevel();
+		expected = 2;
+		assertEquals(expected, actual);
+
+		firstGrandChildTreeNode.addChild(firstGrandGrandChildTreeNode);
+
+		actual = firstGrandGrandChildTreeNode.getLevel();
+		expected = 3;
+		assertEquals(expected, actual);
+	}
+
+	/**
+	 * Test method for {@link TreeNode#getNextSibling()}.
+	 */
+	@Test
+	public void testGetNextSibling()
+	{
+		ITreeNode<TreeElement> actual;
+		ITreeNode<TreeElement> expected;
+
+		actual = firstChildTreeNode.getNextSibling();
+		expected = null;
+		assertEquals(expected, actual);
+
+		parentTreeNode.addChild(firstChildTreeNode);
+
+		actual = firstChildTreeNode.getNextSibling();
+		expected = null;
+		assertEquals(expected, actual);
+
+		parentTreeNode.addChild(secondChildTreeNode);
+
+		actual = firstChildTreeNode.getNextSibling();
+		expected = secondChildTreeNode;
+		assertEquals(expected, actual);
+	}
+
+	/**
+	 * Test method for {@link TreeNode#getPreviousSibling()}.
+	 */
+	@Test
+	public void testGetPreviousSibling()
+	{
+		ITreeNode<TreeElement> actual;
+		ITreeNode<TreeElement> expected;
+
+		actual = firstChildTreeNode.getPreviousSibling();
+		expected = null;
+		assertEquals(expected, actual);
+
+		parentTreeNode.addChild(firstChildTreeNode);
+
+		actual = firstChildTreeNode.getPreviousSibling();
+		expected = null;
+		assertEquals(expected, actual);
+
+		parentTreeNode.addChild(secondChildTreeNode);
+
+		actual = secondChildTreeNode.getPreviousSibling();
+		expected = firstChildTreeNode;
+		assertEquals(expected, actual);
+	}
+
+	/**
+	 * Test method for {@link TreeNode#hasChildren()}.
+	 */
+	@Test
+	public void testHasChildren()
+	{
+		assertFalse(parentTreeNode.hasChildren());
+		parentTreeNode.addChild(firstChildTreeNode);
+		assertTrue(parentTreeNode.hasChildren());
+	}
+
+	/**
+	 * Test method for {@link TreeNode#hasParent()}.
+	 */
+	@Test
+	public void testHasParent()
+	{
+		assertFalse(parentTreeNode.hasParent());
+		parentTreeNode.addChild(firstChildTreeNode);
+		assertTrue(firstChildTreeNode.hasParent());
+	}
+
+	/**
+	 * Test method for {@link TreeNode#isRoot()}.
+	 */
+	@Test
+	public void testIsRoot()
+	{
+		assertTrue(parentTreeNode.isRoot());
+		parentTreeNode.addChild(firstChildTreeNode);
+		assertFalse(firstChildTreeNode.isRoot());
+	}
+
+	/**
+	 * Test method for {@link TreeNode#removeChild(ITreeNode)}.
+	 */
+	@Test
+	public void testRemoveChild()
+	{
+		parentTreeNode.addChild(firstChildTreeNode);
+		parentTreeNode.addChild(secondChildTreeNode);
+		parentTreeNode.addChild(firstGrandChildTreeNode);
+
+		list = parentTreeNode.getChildren();
+		assertTrue(list.contains(firstChildTreeNode));
+
+		parentTreeNode.removeChild(firstChildTreeNode);
+		list = parentTreeNode.getChildren();
+		assertFalse(list.contains(firstChildTreeNode));
+	}
+
+	/**
+	 * Test method for {@link TreeNode#removeChildAt(int)}.
+	 */
+	@Test
+	public void testRemoveChildAt()
+	{
+		parentTreeNode.addChild(firstChildTreeNode);
+		parentTreeNode.addChild(secondChildTreeNode);
+
+		list = parentTreeNode.getChildren();
+		assertTrue(list.contains(firstChildTreeNode));
+
+		parentTreeNode.removeChildAt(0);
+
+		list = parentTreeNode.getChildren();
+		assertFalse(list.contains(firstChildTreeNode));
+	}
+
+	/**
+	 * Test method for {@link TreeNode#toList()}.
+	 */
+	@Test
+	public void testToList()
+	{
+		// TODO fail("Not yet implemented");
+
+		parentTreeNode.addChild(firstChildTreeNode);
+		parentTreeNode.addChild(secondChildTreeNode);
+		parentTreeNode.addChild(firstGrandChildTreeNode);
+
+		list = parentTreeNode.toList();
+
+		assertTrue(list.size() == 4);
+		assertEquals(list.get(0), parentTreeNode);
+		assertEquals(list.get(1), firstChildTreeNode);
+		assertEquals(list.get(2), secondChildTreeNode);
+		assertEquals(list.get(3), firstGrandChildTreeNode);
+	}
+
+	/**
+	 * Test method for {@link TreeNode}
+	 */
+	@Test
+	public void testWithBeanTester()
+	{
+		final TreeNode<TreeElement> parentTreeNode = new TreeNode<TreeElement>(parent);
+		Configuration configuration = new ConfigurationBuilder()
+			.overrideFactory("parent", new Factory<TreeNode<TreeElement>>()
+			{
+
+				@Override
+				public TreeNode<TreeElement> create()
+				{
+					return parentTreeNode;
+				}
+
+			}).build();
+		final BeanTester beanTester = new BeanTester();
+		beanTester.addCustomConfiguration(TreeNode.class, configuration);
+		beanTester.testBean(TreeNode.class);
+	}
+
+	/**
+	 * Test method for {@link TreeNode#traverse(ITreeNode, List)}
+	 */
 	@Test(enabled = true)
 	public void traverse()
 	{
-		final TreeElement parent = TreeElement.builder().name("parent").parent(null).node(false)
-			.build();
-		final TreeElement firstChild = TreeElement.builder().name("firstChild").parent(parent)
-			.node(false).build();
-		final TreeElement firstGrandChild = TreeElement.builder().name("firstGrandChild")
-			.parent(firstChild).node(true).build();
-		final TreeElement secondChild = TreeElement.builder().name("secondChild").parent(parent)
-			.node(true).build();
-		final ITreeNode<TreeElement> parentTreeNode = new TreeNode<TreeElement>(parent);
-		final ITreeNode<TreeElement> firstChildTreeNode = new TreeNode<TreeElement>(firstChild);
 		parentTreeNode.addChild(firstChildTreeNode);
-		final ITreeNode<TreeElement> secondChildTreeNode = new TreeNode<TreeElement>(secondChild);
 		parentTreeNode.addChild(secondChildTreeNode);
-		final ITreeNode<TreeElement> firstGrandChildTreeNode = new TreeNode<TreeElement>(
-			firstGrandChild);
 		firstChildTreeNode.addChild(firstGrandChildTreeNode);
-		final List<ITreeNode<TreeElement>> list = new ArrayList<>();
+
+		list = new ArrayList<>();
 		parentTreeNode.traverse(parentTreeNode, list);
-		System.out.println(list);
+		assertTrue(list.size() == 4);
+		assertEquals(list.get(0), parentTreeNode);
+		assertEquals(list.get(1), firstChildTreeNode);
+		assertEquals(list.get(2), firstGrandChildTreeNode);
+		assertEquals(list.get(3), secondChildTreeNode);
 	}
+
 }

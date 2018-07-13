@@ -1,21 +1,21 @@
 # Overview
 
+<div align="center">
+
+[![Build Status](https://travis-ci.org/lightblueseas/gen-tree.svg?branch=master)](https://travis-ci.org/lightblueseas/gen-tree) 
+[![Coverage Status](https://coveralls.io/repos/github/lightblueseas/gen-tree/badge.svg?branch=develop)](https://coveralls.io/github/lightblueseas/gen-tree?branch=master)
+[![Open Issues](https://img.shields.io/github/issues/lightblueseas/gen-tree.svg?style=flat)](https://github.com/lightblueseas/gen-tree/issues)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.alpharogroup/gen-tree/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.alpharogroup/gen-tree)
+[![Javadocs](http://www.javadoc.io/badge/de.alpharogroup/gen-tree.svg)](http://www.javadoc.io/doc/de.alpharogroup/gen-tree)
+[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](http://opensource.org/licenses/MIT)
+
+</div>
+
 The gen-tree project holds a generic model for tree objects
 
 ## License
 
 The source code comes under the liberal MIT License, making gen-tree great for all types of applications.
-
-## Build status
-[![Build Status](https://travis-ci.org/lightblueseas/gen-tree.svg?branch=master)](https://travis-ci.org/lightblueseas/gen-tree)
-
-## Maven Central
-
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.alpharogroup/gen-tree/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.alpharogroup/gen-tree)
-
-## javadoc
-
-gen-tree [![Javadocs](http://www.javadoc.io/badge/de.alpharogroup/gen-tree.svg)](http://www.javadoc.io/doc/de.alpharogroup/gen-tree)
 
 ## Maven dependency
 

@@ -26,12 +26,13 @@ package de.alpharogroup.tree;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 import de.alpharogroup.tree.ifaces.ITreeNode;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * The generic class TreeNode.
@@ -40,6 +41,8 @@ import lombok.Setter;
  *            the generic type
  */
 @NoArgsConstructor
+@EqualsAndHashCode
+@ToString(exclude = { "children" })
 public class TreeNode<T> implements ITreeNode<T>
 {
 
@@ -48,7 +51,7 @@ public class TreeNode<T> implements ITreeNode<T>
 	 */
 	private static final long serialVersionUID = 1L;
 
-	/** The children. */	
+	/** The children. */
 	private List<ITreeNode<T>> children;
 
 	/** The parent from this node. If this is null it is the root. */
@@ -94,7 +97,7 @@ public class TreeNode<T> implements ITreeNode<T>
 	public void addChildAt(final int index, final ITreeNode<T> child)
 		throws IndexOutOfBoundsException
 	{
-		if (getChildren().size() < index)
+		if (index < getChildren().size())
 		{
 			getChildren().add(index, child);
 		}
@@ -102,15 +105,6 @@ public class TreeNode<T> implements ITreeNode<T>
 		{
 			addChild(child);
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean equals(final ITreeNode<T> treeNode)
-	{
-		return treeNode.getValue().equals(treeNode);
 	}
 
 	/**
@@ -161,45 +155,21 @@ public class TreeNode<T> implements ITreeNode<T>
 		{
 			return 0;
 		}
-		final Stack<Integer> stack = new Stack<>();
-		stack.push(0);
-		ITreeNode<T> node = getChildren().get(0);
-		int depth = 0;
-		int current = 1;
-		while (!stack.empty())
+		int maxDepth = 1;
+		int currentDepth = 1;
+		for (ITreeNode<T> data : getChildren())
 		{
-			if (node.getChildCount() != 0)
+			while (data.hasChildren())
 			{
-				node = getChildren().get(0);
-				stack.push(0);
-				current++;
+				currentDepth++;
+				data = data.getChildren().get(0);
 			}
-			else
+			if (maxDepth < currentDepth)
 			{
-				if (current > depth)
-				{
-					depth = current;
-				}
-				int size;
-				int index;
-				do
-				{
-					node = node.getParent();
-					size = node.getChildCount();
-					index = stack.pop() + 1;
-					current--;
-				}
-				while (index >= size && node != this);
-
-				if (index < size)
-				{
-					node = getChildren().get(index);
-					stack.push(index);
-					current++;
-				}
+				maxDepth = currentDepth;
 			}
 		}
-		return depth;
+		return maxDepth;
 	}
 
 	/**
@@ -262,19 +232,6 @@ public class TreeNode<T> implements ITreeNode<T>
 	public boolean hasChildren()
 	{
 		return getChildren() != null && !getChildren().isEmpty();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int hashCode()
-	{
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (children == null ? 0 : children.hashCode());
-		result = prime * result + (value == null ? 0 : value.hashCode());
-		return result;
 	}
 
 	/**

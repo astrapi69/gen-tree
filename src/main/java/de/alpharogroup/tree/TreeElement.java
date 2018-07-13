@@ -39,8 +39,8 @@ import lombok.ToString;
  */
 @Getter
 @Setter
-@EqualsAndHashCode
-@ToString
+@EqualsAndHashCode(exclude = { "parent" })
+@ToString(exclude = { "parent" })
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
@@ -48,7 +48,13 @@ public class TreeElement implements Serializable
 {
 	/** The serial Version UID */
 	private static final long serialVersionUID = 1L;
+
+	/** The name of this tree element. */
 	private String name;
-	private Boolean node;
+
+	/** The flag that indicates if this tree element is a node. */
+	private boolean node;
+
+	/** The parent of this tree element. */
 	private TreeElement parent;
 }

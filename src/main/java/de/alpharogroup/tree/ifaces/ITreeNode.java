@@ -57,15 +57,6 @@ public interface ITreeNode<T> extends Serializable
 	void addChildAt(final int index, final ITreeNode<T> child) throws IndexOutOfBoundsException;
 
 	/**
-	 * Equals.
-	 *
-	 * @param treeNode
-	 *            the tree node
-	 * @return true, if successful
-	 */
-	boolean equals(final ITreeNode<T> treeNode);
-
-	/**
 	 * Returns all siblings of this node in the parent's children list. Returns null if this node is
 	 * the root.
 	 *
