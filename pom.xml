@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>gen-tree</artifactId>
-	<version>4.11-SNAPSHOT</version>
+	<version>4.11</version>
 
 	<name>${project.artifactId}</name>
 

@@ -27,7 +27,7 @@ Add the following maven dependency to your project `pom.xml` if you want to impo
 Than you can add the dependency to your dependencies:
 
 		<!-- GEN-TREE version -->
-		<gen-tree.version>4.10.0</gen-tree.version>
+		<gen-tree.version>4.11</gen-tree.version>
 
 		<dependencies>
 			...
@@ -40,7 +40,16 @@ Than you can add the dependency to your dependencies:
 			...
 		</dependencies>
 
+## Semantic Versioning
 
+The versions of gen-tree are maintained with the Semantic Versioning guidelines.
+
+Release version numbers will be incremented in the following format:
+
+`<major>.<minor>.<patch>`
+
+For detailed information on versioning you can visit the [wiki page](https://github.com/lightblueseas/mvn-parent-projects/wiki/Semantic-Versioning).
+		
 ## Want to Help and improve it? ###
 
 The source code for gen-tree are on GitHub. Please feel free to fork and send pull requests!
@@ -85,7 +94,3 @@ or over flattr:
 |:-:|
 |![Travis CI](https://travis-ci.com/images/logos/TravisCI-Full-Color.png)|
 |Many thanks to [Travis CI](https://travis-ci.org) for providing a free continuous integration service for open source projects.|
-
-
-
-
