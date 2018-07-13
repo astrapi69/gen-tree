@@ -35,10 +35,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * The class {@link TreeElement}.
- *
- * @param <P>
- *            the generic type of the parent
+ * The class {@link TreeElement} represents as the name already presume a tree element
  */
 @Getter
 @Setter

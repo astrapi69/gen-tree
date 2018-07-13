@@ -29,6 +29,9 @@ import java.util.List;
 import java.util.Stack;
 
 import de.alpharogroup.tree.ifaces.ITreeNode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * The generic class TreeNode.
@@ -36,6 +39,7 @@ import de.alpharogroup.tree.ifaces.ITreeNode;
  * @param <T>
  *            the generic type
  */
+@NoArgsConstructor
 public class TreeNode<T> implements ITreeNode<T>
 {
 
@@ -44,24 +48,23 @@ public class TreeNode<T> implements ITreeNode<T>
 	 */
 	private static final long serialVersionUID = 1L;
 
-	/** The children. */
+	/** The children. */	
 	private List<ITreeNode<T>> children;
 
 	/** The parent from this node. If this is null it is the root. */
+	@Getter
+	@Setter
 	private ITreeNode<T> parent;
 
 	/** The value. */
+	@Getter
+	@Setter
 	private T value;
 
 	/** The optional display value. */
+	@Getter
+	@Setter
 	private String displayValue;
-
-	/**
-	 * Instantiates a new tree node.
-	 */
-	public TreeNode()
-	{
-	}
 
 	/**
 	 * Instantiates a new tree node.
@@ -71,7 +74,6 @@ public class TreeNode<T> implements ITreeNode<T>
 	 */
 	public TreeNode(final T value)
 	{
-		this();
 		setValue(value);
 	}
 
@@ -204,15 +206,6 @@ public class TreeNode<T> implements ITreeNode<T>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getDisplayValue()
-	{
-		return displayValue;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public int getLevel()
 	{
 		ITreeNode<T> current = this;
@@ -247,15 +240,6 @@ public class TreeNode<T> implements ITreeNode<T>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ITreeNode<T> getParent()
-	{
-		return parent;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public ITreeNode<T> getPreviousSibling()
 	{
 		final ITreeNode<T> parent = getParent();
@@ -269,15 +253,6 @@ public class TreeNode<T> implements ITreeNode<T>
 			return null;
 		}
 		return parent.getChildren().get(index);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public T getValue()
-	{
-		return value;
 	}
 
 	/**
@@ -368,33 +343,6 @@ public class TreeNode<T> implements ITreeNode<T>
 	public void setChildren(final List<ITreeNode<T>> children)
 	{
 		this.children = children;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setDisplayValue(final String displayValue)
-	{
-		this.displayValue = displayValue;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setParent(final ITreeNode<T> parent)
-	{
-		this.parent = parent;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setValue(final T value)
-	{
-		this.value = value;
 	}
 
 	/**
