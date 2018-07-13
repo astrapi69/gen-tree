@@ -54,6 +54,11 @@ public class TreeNode<T> implements ITreeNode<T>
 	/** The children. */
 	private List<ITreeNode<T>> children;
 
+	/** The optional display value. */
+	@Getter
+	@Setter
+	private String displayValue;
+
 	/** The parent from this node. If this is null it is the root. */
 	@Getter
 	@Setter
@@ -63,11 +68,6 @@ public class TreeNode<T> implements ITreeNode<T>
 	@Getter
 	@Setter
 	private T value;
-
-	/** The optional display value. */
-	@Getter
-	@Setter
-	private String displayValue;
 
 	/**
 	 * Instantiates a new tree node.

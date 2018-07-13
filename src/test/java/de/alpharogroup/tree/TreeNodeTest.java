@@ -51,17 +51,17 @@ import de.alpharogroup.tree.ifaces.ITreeNode;
 public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 {
 
-	TreeElement parent;
 	TreeElement firstChild;
-	TreeElement firstGrandChild;
-	TreeElement firstGrandGrandChild;
-	TreeElement secondChild;
-	ITreeNode<TreeElement> parentTreeNode;
 	ITreeNode<TreeElement> firstChildTreeNode;
-	ITreeNode<TreeElement> secondChildTreeNode;
+	TreeElement firstGrandChild;
 	ITreeNode<TreeElement> firstGrandChildTreeNode;
+	TreeElement firstGrandGrandChild;
 	ITreeNode<TreeElement> firstGrandGrandChildTreeNode;
 	List<ITreeNode<TreeElement>> list;
+	TreeElement parent;
+	ITreeNode<TreeElement> parentTreeNode;
+	TreeElement secondChild;
+	ITreeNode<TreeElement> secondChildTreeNode;
 
 	@BeforeMethod
 	@Override
