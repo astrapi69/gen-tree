@@ -45,21 +45,6 @@ public interface ITreeNode<T> extends Serializable
 	void addChild(final ITreeNode<T> child);
 
 	/**
-	 * Gets the optional display value.
-	 *
-	 * @return the display value
-	 */
-	String getDisplayValue();
-
-	/**
-	 * Sets the optional display value.
-	 *
-	 * @param displayValue
-	 *            the new optional display value
-	 */
-	void setDisplayValue(final String displayValue);
-
-	/**
 	 * Adds the child.
 	 *
 	 * @param index
@@ -72,13 +57,12 @@ public interface ITreeNode<T> extends Serializable
 	void addChildAt(final int index, final ITreeNode<T> child) throws IndexOutOfBoundsException;
 
 	/**
-	 * Equals.
+	 * Returns all siblings of this node in the parent's children list. Returns null if this node is
+	 * the root.
 	 *
-	 * @param treeNode
-	 *            the tree node
-	 * @return true, if successful
+	 * @return Returns all siblings of this node or null if this node is the root.
 	 */
-	boolean equals(final ITreeNode<T> treeNode);
+	List<ITreeNode<T>> getAllSiblings();
 
 	/**
 	 * Gets the child count.
@@ -95,11 +79,50 @@ public interface ITreeNode<T> extends Serializable
 	List<ITreeNode<T>> getChildren();
 
 	/**
+	 * Returns the depth of the tree beginning at this node Returns 0 if this node has no children.
+	 *
+	 * @return the depth of the tree beginning at this node.
+	 */
+	int getDepth();
+
+	/**
+	 * Gets the optional display value.
+	 *
+	 * @return the display value
+	 */
+	String getDisplayValue();
+
+	/**
+	 * Returns the distance from the root to this node. Returns 0 if this node is the root.
+	 *
+	 * @return the level from this node.
+	 */
+	int getLevel();
+
+	/**
+	 * Returns the next sibling of this node in the parent's children list. Returns null if this
+	 * node is the root or is the parent's last child.
+	 *
+	 * @return the next sibling of this node or null if this node is the root or is the parent's
+	 *         last child.
+	 */
+	ITreeNode<T> getNextSibling();
+
+	/**
 	 * Gets the parent.
 	 *
 	 * @return the parent
 	 */
 	ITreeNode<T> getParent();
+
+	/**
+	 * Returns the previous sibling of this node in the parent's children list. Returns null if this
+	 * node is the root or is the parent's first child.
+	 *
+	 * @return the next sibling of this node or null if this node is the root or is the parent's
+	 *         last child.
+	 */
+	ITreeNode<T> getPreviousSibling();
 
 	/**
 	 * Gets the value.
@@ -170,6 +193,14 @@ public interface ITreeNode<T> extends Serializable
 	void setChildren(final List<ITreeNode<T>> children);
 
 	/**
+	 * Sets the optional display value.
+	 *
+	 * @param displayValue
+	 *            the new optional display value
+	 */
+	void setDisplayValue(final String displayValue);
+
+	/**
 	 * Sets the parent.
 	 *
 	 * @param parent
@@ -201,45 +232,5 @@ public interface ITreeNode<T> extends Serializable
 	 *            the list
 	 */
 	void traverse(final ITreeNode<T> node, final List<ITreeNode<T>> list);
-
-	/**
-	 * Returns the next sibling of this node in the parent's children list. Returns null if this
-	 * node is the root or is the parent's last child.
-	 *
-	 * @return the next sibling of this node or null if this node is the root or is the parent's
-	 *         last child.
-	 */
-	ITreeNode<T> getNextSibling();
-
-	/**
-	 * Returns the previous sibling of this node in the parent's children list. Returns null if this
-	 * node is the root or is the parent's first child.
-	 *
-	 * @return the next sibling of this node or null if this node is the root or is the parent's
-	 *         last child.
-	 */
-	ITreeNode<T> getPreviousSibling();
-
-	/**
-	 * Returns all siblings of this node in the parent's children list. Returns null if this node is
-	 * the root.
-	 *
-	 * @return Returns all siblings of this node or null if this node is the root.
-	 */
-	List<ITreeNode<T>> getAllSiblings();
-
-	/**
-	 * Returns the distance from the root to this node. Returns 0 if this node is the root.
-	 *
-	 * @return the level from this node.
-	 */
-	int getLevel();
-
-	/**
-	 * Returns the depth of the tree beginning at this node Returns 0 if this node has no children.
-	 *
-	 * @return the depth of the tree beginning at this node.
-	 */
-	int getDepth();
 
 }

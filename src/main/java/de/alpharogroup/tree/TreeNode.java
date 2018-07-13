@@ -26,9 +26,13 @@ package de.alpharogroup.tree;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 import de.alpharogroup.tree.ifaces.ITreeNode;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * The generic class TreeNode.
@@ -36,6 +40,9 @@ import de.alpharogroup.tree.ifaces.ITreeNode;
  * @param <T>
  *            the generic type
  */
+@NoArgsConstructor
+@EqualsAndHashCode
+@ToString(exclude = { "children" })
 public class TreeNode<T> implements ITreeNode<T>
 {
 
@@ -47,21 +54,20 @@ public class TreeNode<T> implements ITreeNode<T>
 	/** The children. */
 	private List<ITreeNode<T>> children;
 
+	/** The optional display value. */
+	@Getter
+	@Setter
+	private String displayValue;
+
 	/** The parent from this node. If this is null it is the root. */
+	@Getter
+	@Setter
 	private ITreeNode<T> parent;
 
 	/** The value. */
+	@Getter
+	@Setter
 	private T value;
-
-	/** The optional display value. */
-	private String displayValue;
-
-	/**
-	 * Instantiates a new tree node.
-	 */
-	public TreeNode()
-	{
-	}
 
 	/**
 	 * Instantiates a new tree node.
@@ -71,7 +77,6 @@ public class TreeNode<T> implements ITreeNode<T>
 	 */
 	public TreeNode(final T value)
 	{
-		this();
 		setValue(value);
 	}
 
@@ -92,7 +97,7 @@ public class TreeNode<T> implements ITreeNode<T>
 	public void addChildAt(final int index, final ITreeNode<T> child)
 		throws IndexOutOfBoundsException
 	{
-		if (getChildren().size() < index)
+		if (index < getChildren().size())
 		{
 			getChildren().add(index, child);
 		}
@@ -100,15 +105,6 @@ public class TreeNode<T> implements ITreeNode<T>
 		{
 			addChild(child);
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean equals(final ITreeNode<T> treeNode)
-	{
-		return treeNode.getValue().equals(treeNode);
 	}
 
 	/**
@@ -159,54 +155,21 @@ public class TreeNode<T> implements ITreeNode<T>
 		{
 			return 0;
 		}
-		final Stack<Integer> stack = new Stack<>();
-		stack.push(0);
-		ITreeNode<T> node = getChildren().get(0);
-		int depth = 0;
-		int current = 1;
-		while (!stack.empty())
+		int maxDepth = 1;
+		int currentDepth = 1;
+		for (ITreeNode<T> data : getChildren())
 		{
-			if (node.getChildCount() != 0)
+			while (data.hasChildren())
 			{
-				node = getChildren().get(0);
-				stack.push(0);
-				current++;
+				currentDepth++;
+				data = data.getChildren().get(0);
 			}
-			else
+			if (maxDepth < currentDepth)
 			{
-				if (current > depth)
-				{
-					depth = current;
-				}
-				int size;
-				int index;
-				do
-				{
-					node = node.getParent();
-					size = node.getChildCount();
-					index = stack.pop() + 1;
-					current--;
-				}
-				while (index >= size && node != this);
-
-				if (index < size)
-				{
-					node = getChildren().get(index);
-					stack.push(index);
-					current++;
-				}
+				maxDepth = currentDepth;
 			}
 		}
-		return depth;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getDisplayValue()
-	{
-		return displayValue;
+		return maxDepth;
 	}
 
 	/**
@@ -247,15 +210,6 @@ public class TreeNode<T> implements ITreeNode<T>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ITreeNode<T> getParent()
-	{
-		return parent;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public ITreeNode<T> getPreviousSibling()
 	{
 		final ITreeNode<T> parent = getParent();
@@ -275,31 +229,9 @@ public class TreeNode<T> implements ITreeNode<T>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public T getValue()
-	{
-		return value;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public boolean hasChildren()
 	{
 		return getChildren() != null && !getChildren().isEmpty();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int hashCode()
-	{
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (children == null ? 0 : children.hashCode());
-		result = prime * result + (value == null ? 0 : value.hashCode());
-		return result;
 	}
 
 	/**
@@ -355,7 +287,8 @@ public class TreeNode<T> implements ITreeNode<T>
 	public void removeChildAt(final int index) throws IndexOutOfBoundsException
 	{
 		final ITreeNode<T> child = getChildren().remove(index);
-		if(child != null) {
+		if (child != null)
+		{
 			child.setParent(null);
 		}
 	}
@@ -367,33 +300,6 @@ public class TreeNode<T> implements ITreeNode<T>
 	public void setChildren(final List<ITreeNode<T>> children)
 	{
 		this.children = children;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setDisplayValue(final String displayValue)
-	{
-		this.displayValue = displayValue;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setParent(final ITreeNode<T> parent)
-	{
-		this.parent = parent;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setValue(final T value)
-	{
-		this.value = value;
 	}
 
 	/**
