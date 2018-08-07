@@ -26,9 +26,13 @@ Add the following maven dependency to your project `pom.xml` if you want to impo
 
 Than you can add the dependency to your dependencies:
 
+	<properties>
+			...
 		<!-- GEN-TREE version -->
 		<gen-tree.version>4.11</gen-tree.version>
-
+			...
+	</properties>
+			...
 		<dependencies>
 			...
             <!-- GEN-TREE DEPENDENCY -->
