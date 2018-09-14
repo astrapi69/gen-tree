@@ -24,74 +24,50 @@
  */
 package de.alpharogroup.tree;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import de.alpharogroup.tree.ifaces.ITreeNode;
+import de.alpharogroup.tree.ifaces.IChainableTreeNode;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.FieldDefaults;
 
 /**
- * The generic class TreeNode.
+ * The class {@link ChainableTreeNode} can have only one child.
  *
- * @param <T>
- *            the generic type
+ * @param <T> the generic type of the value
  */
-@NoArgsConstructor
+@Getter
+@Setter
 @EqualsAndHashCode
-@ToString(exclude = { "children" })
-public class TreeNode<T> implements ITreeNode<T>
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(toBuilder = true)
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class ChainableTreeNode<T> implements IChainableTreeNode<T>
 {
 
-	/**
-	 * The serialVersionUID.
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/** The children. */
-	@Setter
-	private List<ITreeNode<T>> children;
-
-	/** The optional display value. */
-	@Getter
-	@Setter
-	private String displayValue;
-
-	/** The parent from this node. If this is null it is the root. */
-	@Getter
-	@Setter
-	private ITreeNode<T> parent;
-
 	/** The value. */
-	@Getter
-	@Setter
-	private T value;
+	T value;
+
+	/** The single parent. */
+	IChainableTreeNode<T> parent;
+
+	/** The single child. */
+	IChainableTreeNode<T> child;
 
 	/**
-	 * Instantiates a new tree node.
+	 * Instantiates a new {@link ChainableTreeNode} object.
 	 *
-	 * @param value
-	 *            the value
+	 * @param value the value
 	 */
-	public TreeNode(final T value)
+	public ChainableTreeNode(T value)
 	{
-		setValue(value);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public List<ITreeNode<T>> getChildren()
-	{
-		if (this.children == null)
-		{
-			this.children = new ArrayList<>();
-		}
-		return this.children;
+		this.value = value;
 	}
 
 }

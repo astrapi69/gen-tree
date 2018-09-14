@@ -22,76 +22,87 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package de.alpharogroup.tree;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import de.alpharogroup.tree.ifaces.ITreeNode;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+package de.alpharogroup.tree.ifaces;
 
 /**
- * The generic class TreeNode.
+ * The interface {@link IChainableTreeNode} represents a chainable tree node
  *
  * @param <T>
- *            the generic type
+ *            the generic type of the value
  */
-@NoArgsConstructor
-@EqualsAndHashCode
-@ToString(exclude = { "children" })
-public class TreeNode<T> implements ITreeNode<T>
+public interface IChainableTreeNode<T>
 {
 
 	/**
-	 * The serialVersionUID.
+	 * Gets the child.
+	 *
+	 * @return the child
 	 */
-	private static final long serialVersionUID = 1L;
-
-	/** The children. */
-	@Setter
-	private List<ITreeNode<T>> children;
-
-	/** The optional display value. */
-	@Getter
-	@Setter
-	private String displayValue;
-
-	/** The parent from this node. If this is null it is the root. */
-	@Getter
-	@Setter
-	private ITreeNode<T> parent;
-
-	/** The value. */
-	@Getter
-	@Setter
-	private T value;
+	IChainableTreeNode<T> getChild();
 
 	/**
-	 * Instantiates a new tree node.
+	 * Gets the value.
+	 *
+	 * @return the value
+	 */
+	T getValue();
+
+	/**
+	 * Sets the value.
 	 *
 	 * @param value
-	 *            the value
+	 *            the new value
 	 */
-	public TreeNode(final T value)
-	{
-		setValue(value);
+	void setValue(T value);
+
+	/**
+	 * Sets the child.
+	 *
+	 * @param child
+	 *            the new child
+	 */
+	void setChild(IChainableTreeNode<T> child);
+
+	/**
+	 * Checks if this tree node has a child
+	 *
+	 * @return true, if successful
+	 */
+	default boolean hasChild() {
+		return getChild() != null;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Gets the parent
+	 *
+	 * @return the parent
 	 */
-	@Override
-	public List<ITreeNode<T>> getChildren()
+	IChainableTreeNode<T> getParent();
+
+	/**
+	 * Sets the parent.
+	 *
+	 * @param parent
+	 *            the new parent
+	 */
+	void setParent(final IChainableTreeNode<T> parent);
+
+	/**
+	 * Checks for parent
+	 *
+	 * @return true, if successful
+	 */
+	default boolean hasParent()
 	{
-		if (this.children == null)
-		{
-			this.children = new ArrayList<>();
-		}
-		return this.children;
+		return getParent() != null;
 	}
 
+	/**
+	 * Checks if this treenode is root.
+	 *
+	 * @return true, if is root
+	 */
+	default boolean isRoot() {
+		return !hasParent();
+	}
 }

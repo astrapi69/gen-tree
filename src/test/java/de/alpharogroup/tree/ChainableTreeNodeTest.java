@@ -24,74 +24,10 @@
  */
 package de.alpharogroup.tree;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import de.alpharogroup.tree.ifaces.ITreeNode;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
 /**
- * The generic class TreeNode.
- *
- * @param <T>
- *            the generic type
+ * The unit test class for the class {@link ChainableTreeNode}
  */
-@NoArgsConstructor
-@EqualsAndHashCode
-@ToString(exclude = { "children" })
-public class TreeNode<T> implements ITreeNode<T>
+public class ChainableTreeNodeTest
 {
-
-	/**
-	 * The serialVersionUID.
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/** The children. */
-	@Setter
-	private List<ITreeNode<T>> children;
-
-	/** The optional display value. */
-	@Getter
-	@Setter
-	private String displayValue;
-
-	/** The parent from this node. If this is null it is the root. */
-	@Getter
-	@Setter
-	private ITreeNode<T> parent;
-
-	/** The value. */
-	@Getter
-	@Setter
-	private T value;
-
-	/**
-	 * Instantiates a new tree node.
-	 *
-	 * @param value
-	 *            the value
-	 */
-	public TreeNode(final T value)
-	{
-		setValue(value);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public List<ITreeNode<T>> getChildren()
-	{
-		if (this.children == null)
-		{
-			this.children = new ArrayList<>();
-		}
-		return this.children;
-	}
 
 }
