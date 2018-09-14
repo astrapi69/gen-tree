@@ -73,6 +73,23 @@ public interface IChainableTreeNode<T>
 	}
 
 	/**
+	 * Gets the root {@link IChainableTreeNode} object
+	 *
+	 * @return the root {@link IChainableTreeNode} object
+	 */
+	default IChainableTreeNode<T> getRoot()
+	{
+		IChainableTreeNode<T> root = this;
+		IChainableTreeNode<T> parent = getParent();
+		while (parent != null && !parent.isRoot())
+		{
+			parent = parent.getParent();
+			root = parent;
+		}
+		return root;
+	}
+
+	/**
 	 * Gets the parent
 	 *
 	 * @return the parent

@@ -255,13 +255,31 @@ public interface ITreeNode<T> extends Serializable
 	}
 
 	/**
-	 * Checks if this treenode is root.
+	 * Checks if this {@link ITreeNode} is the root {@link ITreeNode} object
 	 *
-	 * @return true, if is root
+	 * @return true, if this {@link ITreeNode} is the root {@link ITreeNode} object
 	 */
-	default boolean isRoot() {
+	default boolean isRoot()
+	{
 		return !hasParent();
 	};
+
+	/**
+	 * Gets the root {@link ITreeNode} object
+	 *
+	 * @return the root {@link ITreeNode} object
+	 */
+	default ITreeNode<T> getRoot()
+	{
+		ITreeNode<T> root = this;
+		ITreeNode<T> parent = getParent();
+		while (parent != null && !parent.isRoot())
+		{
+			parent = parent.getParent();
+			root = parent;
+		}
+		return root;
+	}
 
 	/**
 	 * Removes the child.

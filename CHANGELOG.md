@@ -4,6 +4,9 @@
 Version 4.12-SNAPSHOT
 -------------
 
+ADDED: 
+
+- created new tree node that can be chained
 
 Version 4.11
 -------------
