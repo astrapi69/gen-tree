@@ -314,6 +314,18 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		assertEquals(expected, actual);
 	}
 
+	@Test(enabled = true)
+	public void testGetRoot()
+	{
+		ITreeNode<TreeElement> root;
+
+		root = parentTreeNode.getRoot();
+		assertEquals(root, parentTreeNode);
+
+		root = firstGrandChildTreeNode.getRoot();
+		assertEquals(root, parentTreeNode);
+	}
+
 	/**
 	 * Test method for {@link TreeNode#hasChildren()}.
 	 */
@@ -403,6 +415,25 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
+	 * Test method for {@link TreeNode#traverse(ITreeNode, List)}
+	 */
+	@Test(enabled = true)
+	public void testTraverse()
+	{
+		parentTreeNode.addChild(firstChildTreeNode);
+		parentTreeNode.addChild(secondChildTreeNode);
+		firstChildTreeNode.addChild(firstGrandChildTreeNode);
+
+		list = new ArrayList<>();
+		parentTreeNode.traverse(parentTreeNode, list);
+		assertTrue(list.size() == 4);
+		assertEquals(list.get(0), parentTreeNode);
+		assertEquals(list.get(1), firstChildTreeNode);
+		assertEquals(list.get(2), firstGrandChildTreeNode);
+		assertEquals(list.get(3), secondChildTreeNode);
+	}
+
+	/**
 	 * Test method for {@link TreeNode}
 	 */
 	@Test
@@ -423,35 +454,5 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		final BeanTester beanTester = new BeanTester();
 		beanTester.addCustomConfiguration(TreeNode.class, configuration);
 		beanTester.testBean(TreeNode.class);
-	}
-
-	/**
-	 * Test method for {@link TreeNode#traverse(ITreeNode, List)}
-	 */
-	@Test(enabled = true)
-	public void testTraverse()
-	{
-		parentTreeNode.addChild(firstChildTreeNode);
-		parentTreeNode.addChild(secondChildTreeNode);
-		firstChildTreeNode.addChild(firstGrandChildTreeNode);
-
-		list = new ArrayList<>();
-		parentTreeNode.traverse(parentTreeNode, list);
-		assertTrue(list.size() == 4);
-		assertEquals(list.get(0), parentTreeNode);
-		assertEquals(list.get(1), firstChildTreeNode);
-		assertEquals(list.get(2), firstGrandChildTreeNode);
-		assertEquals(list.get(3), secondChildTreeNode);
-	}
-
-	@Test(enabled = true)
-	public void testGetRoot() {
-		ITreeNode<TreeElement> root;
-
-		root = parentTreeNode.getRoot();
-		assertEquals(root, parentTreeNode);
-
-		root = firstGrandChildTreeNode.getRoot();
-		assertEquals(root, parentTreeNode);
 	}
 }

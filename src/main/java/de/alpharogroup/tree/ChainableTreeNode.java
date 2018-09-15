@@ -38,7 +38,8 @@ import lombok.experimental.FieldDefaults;
 /**
  * The class {@link ChainableTreeNode} can have only one child.
  *
- * @param <T> the generic type of the value
+ * @param <T>
+ *            the generic type of the value
  */
 @Getter
 @Setter
@@ -51,19 +52,20 @@ import lombok.experimental.FieldDefaults;
 public class ChainableTreeNode<T> implements IChainableTreeNode<T>
 {
 
-	/** The value. */
-	T value;
+	/** The single child. */
+	IChainableTreeNode<T> child;
 
 	/** The single parent. */
 	IChainableTreeNode<T> parent;
 
-	/** The single child. */
-	IChainableTreeNode<T> child;
+	/** The value. */
+	T value;
 
 	/**
 	 * Instantiates a new {@link ChainableTreeNode} object.
 	 *
-	 * @param value the value
+	 * @param value
+	 *            the value
 	 */
 	public ChainableTreeNode(T value)
 	{

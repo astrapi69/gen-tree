@@ -25,97 +25,97 @@
 package de.alpharogroup.tree.ifaces;
 
 /**
- * The interface {@link IChainableTreeNode} represents a chainable tree node
+ * The interface {@link ILinkedObject} represents a chainable object with a generic value
  *
  * @param <T>
  *            the generic type of the value
  */
-public interface IChainableTreeNode<T>
+public interface ILinkedObject<T>
 {
 
 	/**
-	 * Gets the child.
+	 * Gets the first {@link ILinkedObject} object
 	 *
-	 * @return the child
+	 * @return the first {@link ILinkedObject} object
 	 */
-	IChainableTreeNode<T> getChild();
-
-	/**
-	 * Gets the parent
-	 *
-	 * @return the parent
-	 */
-	IChainableTreeNode<T> getParent();
-
-	/**
-	 * Gets the root {@link IChainableTreeNode} object
-	 *
-	 * @return the root {@link IChainableTreeNode} object
-	 */
-	default IChainableTreeNode<T> getRoot()
+	default ILinkedObject<T> getFirst()
 	{
-		IChainableTreeNode<T> root = this;
-		IChainableTreeNode<T> parent = getParent();
-		while (parent != null && !parent.isRoot())
+		ILinkedObject<T> first = this;
+		ILinkedObject<T> previous = getPrevious();
+		while (previous != null && !previous.isFirst())
 		{
-			parent = parent.getParent();
-			root = parent;
+			previous = previous.getPrevious();
+			first = previous;
 		}
-		return root;
+		return first;
 	}
 
 	/**
-	 * Gets the value.
+	 * Gets the next object
+	 *
+	 * @return the next object
+	 */
+	ILinkedObject<T> getNext();
+
+	/**
+	 * Gets the previous object
+	 *
+	 * @return the previous object
+	 */
+	ILinkedObject<T> getPrevious();
+
+	/**
+	 * Gets the value
 	 *
 	 * @return the value
 	 */
 	T getValue();
 
 	/**
-	 * Checks if this tree node has a child
+	 * Checks if this tree node has a next object
 	 *
 	 * @return true, if successful
 	 */
-	default boolean hasChild()
+	default boolean hasNext()
 	{
-		return getChild() != null;
+		return getNext() != null;
 	}
 
 	/**
-	 * Checks for parent
+	 * Checks for previous object
 	 *
 	 * @return true, if successful
 	 */
-	default boolean hasParent()
+	default boolean hasPrevious()
 	{
-		return getParent() != null;
+		return getPrevious() != null;
 	}
 
 	/**
-	 * Checks if this treenode is root.
+	 * Checks if this is the first object
 	 *
-	 * @return true, if is root
+	 * @return true, if is first
 	 */
-	default boolean isRoot()
+	default boolean isFirst()
 	{
-		return !hasParent();
+		return !hasPrevious();
 	}
 
 	/**
-	 * Sets the child.
+	 * Sets the next object
 	 *
-	 * @param child
-	 *            the new child
+	 * @param next
+	 *            the new next object
 	 */
-	void setChild(IChainableTreeNode<T> child);
+	void setNext(ILinkedObject<T> next);
 
 	/**
-	 * Sets the parent.
+	 * Sets the previous object
 	 *
-	 * @param parent
-	 *            the new parent
+	 * @param previous
+	 *            the new previous object
 	 */
-	void setParent(final IChainableTreeNode<T> parent);
+	void setPrevious(final ILinkedObject<T> previous);
 
 	/**
 	 * Sets the value.

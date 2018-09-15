@@ -44,16 +44,16 @@ import de.alpharogroup.tree.ifaces.IChainableTreeNode;
 public class ChainableTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 {
 
-	TreeElement firstElement;
-	TreeElement secondElement;
-	TreeElement thirdElement;
-	TreeElement fourthElement;
 	TreeElement fifthElement;
-	ChainableTreeNode<TreeElement> firstTreeNode;
-	ChainableTreeNode<TreeElement> secondTreeNode;
-	ChainableTreeNode<TreeElement> thirdTreeNode;
-	ChainableTreeNode<TreeElement> fourthTreeNode;
 	ChainableTreeNode<TreeElement> fifthTreeNode;
+	TreeElement firstElement;
+	ChainableTreeNode<TreeElement> firstTreeNode;
+	TreeElement fourthElement;
+	ChainableTreeNode<TreeElement> fourthTreeNode;
+	TreeElement secondElement;
+	ChainableTreeNode<TreeElement> secondTreeNode;
+	TreeElement thirdElement;
+	ChainableTreeNode<TreeElement> thirdTreeNode;
 
 	@BeforeMethod
 	@Override
@@ -62,16 +62,18 @@ public class ChainableTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		super.setUp();
 		firstElement = TreeElement.builder().name("first ").parent(null).build();
 		secondElement = TreeElement.builder().name("second ").parent(firstElement).build();
-		thirdElement = TreeElement.builder().name("third ").parent(secondElement)
-			.build();
-		fourthElement = TreeElement.builder().name("fourth ")
-			.parent(thirdElement).build();
+		thirdElement = TreeElement.builder().name("third ").parent(secondElement).build();
+		fourthElement = TreeElement.builder().name("fourth ").parent(thirdElement).build();
 		fifthElement = TreeElement.builder().name("fifth.").parent(fourthElement).build();
-		firstTreeNode = ChainableTreeNode.<TreeElement>builder().value(firstElement).build();
-		secondTreeNode = ChainableTreeNode.<TreeElement>builder().value(secondElement).parent(firstTreeNode).build();
-		thirdTreeNode = ChainableTreeNode.<TreeElement>builder().value(thirdElement).parent(secondTreeNode).build();
-		fourthTreeNode = ChainableTreeNode.<TreeElement>builder().value(fourthElement).parent(thirdTreeNode).build();
-		fifthTreeNode = ChainableTreeNode.<TreeElement>builder().value(fifthElement).parent(fourthTreeNode).build();
+		firstTreeNode = ChainableTreeNode.<TreeElement> builder().value(firstElement).build();
+		secondTreeNode = ChainableTreeNode.<TreeElement> builder().value(secondElement)
+			.parent(firstTreeNode).build();
+		thirdTreeNode = ChainableTreeNode.<TreeElement> builder().value(thirdElement)
+			.parent(secondTreeNode).build();
+		fourthTreeNode = ChainableTreeNode.<TreeElement> builder().value(fourthElement)
+			.parent(thirdTreeNode).build();
+		fifthTreeNode = ChainableTreeNode.<TreeElement> builder().value(fifthElement)
+			.parent(fourthTreeNode).build();
 
 		firstTreeNode.setChild(secondTreeNode);
 		secondTreeNode.setChild(thirdTreeNode);
@@ -87,7 +89,8 @@ public class ChainableTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	@Test(enabled = true)
-	public void testConcatenate() {
+	public void testConcatenate()
+	{
 		String actual;
 		String expected;
 		TreeElement current;
@@ -101,7 +104,7 @@ public class ChainableTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 			currentChild = currentTreeNode.getChild();
 			currentTreeNode = currentChild;
 		}
-		while(currentChild != null);
+		while (currentChild != null);
 		actual = sb.toString();
 		expected = "first second third fourth fifth.";
 		assertEquals(expected, actual);
@@ -136,8 +139,7 @@ public class ChainableTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 					return firstTreeNode;
 				}
 
-			})
-			.overrideFactory("child", new Factory<ChainableTreeNode<TreeElement>>()
+			}).overrideFactory("child", new Factory<ChainableTreeNode<TreeElement>>()
 			{
 
 				@Override
