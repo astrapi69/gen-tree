@@ -36,24 +36,23 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.alpharogroup.AbstractTestCase;
-import de.alpharogroup.tree.ifaces.IChainableTreeNode;
 
 /**
- * The unit test class for the class {@link ChainableTreeNode}
+ * The unit test class for the class {@link LinkedNode}
  */
-public class ChainableTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
+public class LinkedNodeTest extends AbstractTestCase<Boolean, Boolean>
 {
 
 	TreeElement fifthElement;
-	ChainableTreeNode<TreeElement> fifthTreeNode;
+	LinkedNode<TreeElement> fifthTreeNode;
 	TreeElement firstElement;
-	ChainableTreeNode<TreeElement> firstTreeNode;
+	LinkedNode<TreeElement> firstTreeNode;
 	TreeElement fourthElement;
-	ChainableTreeNode<TreeElement> fourthTreeNode;
+	LinkedNode<TreeElement> fourthTreeNode;
 	TreeElement secondElement;
-	ChainableTreeNode<TreeElement> secondTreeNode;
+	LinkedNode<TreeElement> secondTreeNode;
 	TreeElement thirdElement;
-	ChainableTreeNode<TreeElement> thirdTreeNode;
+	LinkedNode<TreeElement> thirdTreeNode;
 
 	@BeforeMethod
 	@Override
@@ -65,20 +64,20 @@ public class ChainableTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		thirdElement = TreeElement.builder().name("third ").parent(secondElement).build();
 		fourthElement = TreeElement.builder().name("fourth ").parent(thirdElement).build();
 		fifthElement = TreeElement.builder().name("fifth.").parent(fourthElement).build();
-		firstTreeNode = ChainableTreeNode.<TreeElement> builder().value(firstElement).build();
-		secondTreeNode = ChainableTreeNode.<TreeElement> builder().value(secondElement)
-			.parent(firstTreeNode).build();
-		thirdTreeNode = ChainableTreeNode.<TreeElement> builder().value(thirdElement)
-			.parent(secondTreeNode).build();
-		fourthTreeNode = ChainableTreeNode.<TreeElement> builder().value(fourthElement)
-			.parent(thirdTreeNode).build();
-		fifthTreeNode = ChainableTreeNode.<TreeElement> builder().value(fifthElement)
-			.parent(fourthTreeNode).build();
+		firstTreeNode = LinkedNode.<TreeElement> builder().value(firstElement).build();
+		secondTreeNode = LinkedNode.<TreeElement> builder().value(secondElement)
+			.previous(firstTreeNode).build();
+		thirdTreeNode = LinkedNode.<TreeElement> builder().value(thirdElement)
+			.previous(secondTreeNode).build();
+		fourthTreeNode = LinkedNode.<TreeElement> builder().value(fourthElement)
+			.previous(thirdTreeNode).build();
+		fifthTreeNode = LinkedNode.<TreeElement> builder().value(fifthElement)
+			.previous(fourthTreeNode).build();
 
-		firstTreeNode.setChild(secondTreeNode);
-		secondTreeNode.setChild(thirdTreeNode);
-		thirdTreeNode.setChild(fourthTreeNode);
-		fourthTreeNode.setChild(fifthTreeNode);
+		firstTreeNode.setNext(secondTreeNode);
+		secondTreeNode.setNext(thirdTreeNode);
+		thirdTreeNode.setNext(fourthTreeNode);
+		fourthTreeNode.setNext(fifthTreeNode);
 	}
 
 	@AfterMethod
@@ -94,63 +93,61 @@ public class ChainableTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		String actual;
 		String expected;
 		TreeElement current;
-		IChainableTreeNode<TreeElement> currentChild;
-		IChainableTreeNode<TreeElement> currentTreeNode = firstTreeNode;
+		LinkedNode<TreeElement> currentNext;
+		LinkedNode<TreeElement> currentTreeNode = firstTreeNode;
 		StringBuilder sb = new StringBuilder();
 		do
 		{
 			current = currentTreeNode.getValue();
 			sb.append(current.getName());
-			currentChild = currentTreeNode.getChild();
-			currentTreeNode = currentChild;
+			currentNext = (LinkedNode<TreeElement>)currentTreeNode.getNext();
+			currentTreeNode = currentNext;
 		}
-		while (currentChild != null);
+		while (currentNext != null);
 		actual = sb.toString();
 		expected = "first second third fourth fifth.";
 		assertEquals(expected, actual);
 	}
 
 	/**
-	 * Test method for {@link ChainableTreeNode} constructors and builders
+	 * Test method for {@link LinkedNode} constructors and builders
 	 */
 	@Test
 	public final void testConstructors()
 	{
-		IChainableTreeNode<TreeElement> parentTreeNode = new ChainableTreeNode<>();
+		LinkedNode<TreeElement> parentTreeNode = new LinkedNode<>();
 		assertNotNull(parentTreeNode);
 		parentTreeNode.setValue(firstElement);
-		parentTreeNode = new ChainableTreeNode<>(firstElement);
-		assertNotNull(parentTreeNode);
 	}
 
 	/**
-	 * Test method for {@link ChainableTreeNode}
+	 * Test method for {@link LinkedNode}
 	 */
 	@Test
 	public void testWithBeanTester()
 	{
 		Configuration configuration = new ConfigurationBuilder()
-			.overrideFactory("parent", new Factory<ChainableTreeNode<TreeElement>>()
+			.overrideFactory("previous", new Factory<LinkedNode<TreeElement>>()
 			{
 
 				@Override
-				public ChainableTreeNode<TreeElement> create()
+				public LinkedNode<TreeElement> create()
 				{
 					return firstTreeNode;
 				}
 
-			}).overrideFactory("child", new Factory<ChainableTreeNode<TreeElement>>()
+			}).overrideFactory("next", new Factory<LinkedNode<TreeElement>>()
 			{
 
 				@Override
-				public ChainableTreeNode<TreeElement> create()
+				public LinkedNode<TreeElement> create()
 				{
 					return secondTreeNode;
 				}
 
 			}).build();
 		final BeanTester beanTester = new BeanTester();
-		beanTester.addCustomConfiguration(ChainableTreeNode.class, configuration);
-		beanTester.testBean(ChainableTreeNode.class);
+		beanTester.addCustomConfiguration(LinkedNode.class, configuration);
+		beanTester.testBean(LinkedNode.class);
 	}
 }

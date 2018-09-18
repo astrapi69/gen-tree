@@ -24,7 +24,7 @@
  */
 package de.alpharogroup.tree;
 
-import de.alpharogroup.tree.ifaces.IChainableTreeNode;
+import de.alpharogroup.tree.ifaces.ILinked;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,7 +36,7 @@ import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 /**
- * The class {@link ChainableTreeNode} can have only one child and one parent
+ * The class {@link LinkedNode} can have only one next element and one previous element
  *
  * @param <T>
  *            the generic type of the value
@@ -44,32 +44,20 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @EqualsAndHashCode
-@ToString(exclude = { "child" })
+@ToString(exclude = { "next" })
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ChainableTreeNode<T> implements IChainableTreeNode<T>
+public class LinkedNode<T> implements ILinked<T>
 {
 
-	/** The single child. */
-	IChainableTreeNode<T> child;
+	/** The next. */
+	ILinked<T> next;
 
-	/** The single parent. */
-	IChainableTreeNode<T> parent;
+	/** The previous. */
+	ILinked<T> previous;
 
 	/** The value. */
 	T value;
-
-	/**
-	 * Instantiates a new {@link ChainableTreeNode} object.
-	 *
-	 * @param value
-	 *            the value
-	 */
-	public ChainableTreeNode(T value)
-	{
-		this.value = value;
-	}
-
 }
