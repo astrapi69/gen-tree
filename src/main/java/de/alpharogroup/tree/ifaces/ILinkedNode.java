@@ -25,23 +25,23 @@
 package de.alpharogroup.tree.ifaces;
 
 /**
- * The interface {@link ILinked} represents a chainable object with a generic value
+ * The interface {@link ILinkedNode} represents a chainable object with a generic value
  *
  * @param <T>
  *            the generic type of the value
  */
-public interface ILinked<T>
+public interface ILinkedNode<T>
 {
 
 	/**
-	 * Gets the first {@link ILinked} object
+	 * Gets the first {@link ILinkedNode} object
 	 *
-	 * @return the first {@link ILinked} object
+	 * @return the first {@link ILinkedNode} object
 	 */
-	default ILinked<T> getFirst()
+	default ILinkedNode<T> getFirst()
 	{
-		ILinked<T> first = this;
-		ILinked<T> previous = getPrevious();
+		ILinkedNode<T> first = this;
+		ILinkedNode<T> previous = getPrevious();
 		while (previous != null && !previous.isFirst())
 		{
 			previous = previous.getPrevious();
@@ -55,14 +55,14 @@ public interface ILinked<T>
 	 *
 	 * @return the next object
 	 */
-	ILinked<T> getNext();
+	ILinkedNode<T> getNext();
 
 	/**
 	 * Gets the previous object
 	 *
 	 * @return the previous object
 	 */
-	ILinked<T> getPrevious();
+	ILinkedNode<T> getPrevious();
 
 	/**
 	 * Gets the value
@@ -107,7 +107,7 @@ public interface ILinked<T>
 	 * @param next
 	 *            the new next object
 	 */
-	void setNext(ILinked<T> next);
+	void setNext(ILinkedNode<T> next);
 
 	/**
 	 * Sets the previous object
@@ -115,7 +115,7 @@ public interface ILinked<T>
 	 * @param previous
 	 *            the new previous object
 	 */
-	void setPrevious(final ILinked<T> previous);
+	void setPrevious(final ILinkedNode<T> previous);
 
 	/**
 	 * Sets the value.

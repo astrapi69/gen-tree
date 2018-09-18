@@ -24,7 +24,7 @@
  */
 package de.alpharogroup.tree;
 
-import de.alpharogroup.tree.ifaces.ILinked;
+import de.alpharogroup.tree.ifaces.ILinkedNode;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -49,14 +49,14 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class LinkedNode<T> implements ILinked<T>
+public class LinkedNode<T> implements ILinkedNode<T>
 {
 
 	/** The next. */
-	ILinked<T> next;
+	ILinkedNode<T> next;
 
 	/** The previous. */
-	ILinked<T> previous;
+	ILinkedNode<T> previous;
 
 	/** The value. */
 	T value;
