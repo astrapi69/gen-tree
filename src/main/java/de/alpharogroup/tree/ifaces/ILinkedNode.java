@@ -24,6 +24,9 @@
  */
 package de.alpharogroup.tree.ifaces;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * The interface {@link ILinkedNode} represents a chainable object with a generic value
  *
@@ -56,6 +59,22 @@ public interface ILinkedNode<T>
 	 * @return the next object
 	 */
 	ILinkedNode<T> getNext();
+
+	/**
+	 * Transforms this node object to an ordered {@link List} with all nodes
+	 *
+	 * @return the list
+	 */
+	default List<ILinkedNode<T>> toList() {
+		List<ILinkedNode<T>> list = new LinkedList<>();
+		ILinkedNode<T> first = getFirst();
+		list.add(first);
+		ILinkedNode<T> next = first;
+		while(next.hasNext()) {
+			list.add(next.getNext());
+		}
+		return list;
+	}
 
 	/**
 	 * Gets the previous object

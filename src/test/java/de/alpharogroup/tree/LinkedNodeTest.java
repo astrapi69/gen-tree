@@ -27,6 +27,8 @@ package de.alpharogroup.tree;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.AssertJUnit.assertEquals;
 
+import java.util.List;
+
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
@@ -36,6 +38,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.alpharogroup.AbstractTestCase;
+import de.alpharogroup.tree.ifaces.ILinkedNode;
 
 /**
  * The unit test class for the class {@link LinkedNode}
@@ -54,6 +57,9 @@ public class LinkedNodeTest extends AbstractTestCase<Boolean, Boolean>
 	TreeElement thirdElement;
 	LinkedNode<TreeElement> thirdTreeNode;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@BeforeMethod
 	@Override
 	protected void setUp() throws Exception
@@ -80,6 +86,9 @@ public class LinkedNodeTest extends AbstractTestCase<Boolean, Boolean>
 		fourthTreeNode.setNext(fifthTreeNode);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@AfterMethod
 	@Override
 	protected void tearDown() throws Exception
@@ -118,6 +127,21 @@ public class LinkedNodeTest extends AbstractTestCase<Boolean, Boolean>
 		LinkedNode<TreeElement> parentTreeNode = new LinkedNode<>();
 		assertNotNull(parentTreeNode);
 		parentTreeNode.setValue(firstElement);
+	}
+
+	/**
+	 * Test method for {@link LinkedNode#toList()}
+	 */
+	@Test
+	public final void testToList()
+	{
+		int actual;
+		int expected;
+		List<ILinkedNode<TreeElement>> list = firstTreeNode.toList();
+		assertNotNull(list);
+		actual = list.size();
+		expected = 4;
+		assertEquals(actual, expected);
 	}
 
 	/**
