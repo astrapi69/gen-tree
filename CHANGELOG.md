@@ -6,7 +6,23 @@ Version 4.12-SNAPSHOT
 
 ADDED: 
 
-- created new tree node that can be chained
+- created new tree node IChainableTreeNode
+- created new linked node ILinkedNode
+- created methods in IChainableTreeNode
+
+ * getAllParent
+ * getChildCount
+ * getChildren
+ * getLevel
+ * toList
+
+- created methods in ILinkedNode
+
+ * getNextCount
+ * getNextLinkedNodes
+ * getPreviousCount
+ * getPreviousLinkedNodes
+ * toList
 
 Version 4.11
 -------------
