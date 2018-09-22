@@ -61,11 +61,65 @@ public interface ILinkedNode<T>
 	ILinkedNode<T> getNext();
 
 	/**
+	 * Gets the next count.
+	 *
+	 * @return the next count
+	 */
+	default int getNextCount()
+	{
+		return getNextLinkedNodes().size();
+	}
+
+	/**
+	 * Gets all next {@link ILinkedNode} from the current linked node
+	 *
+	 * @return all next {@link ILinkedNode} from the current linked node
+	 */
+	default List<ILinkedNode<T>> getNextLinkedNodes()
+	{
+		List<ILinkedNode<T>> list = new LinkedList<>();
+		ILinkedNode<T> next = this;
+		while (next.hasNext())
+		{
+			next = next.getNext();
+			list.add(next);
+		}
+		return list;
+	}
+
+	/**
 	 * Gets the previous object
 	 *
 	 * @return the previous object
 	 */
 	ILinkedNode<T> getPrevious();
+
+	/**
+	 * Gets the next count.
+	 *
+	 * @return the next count
+	 */
+	default int getPreviousCount()
+	{
+		return getPreviousLinkedNodes().size();
+	}
+
+	/**
+	 * Gets all previous {@link ILinkedNode} from the current linked node
+	 *
+	 * @return all previous {@link ILinkedNode} from the current linked node
+	 */
+	default List<ILinkedNode<T>> getPreviousLinkedNodes()
+	{
+		List<ILinkedNode<T>> list = new LinkedList<>();
+		ILinkedNode<T> previous = this;
+		while (previous.hasPrevious())
+		{
+			previous = previous.getPrevious();
+			list.add(previous);
+		}
+		return list;
+	}
 
 	/**
 	 * Gets the value
@@ -129,9 +183,9 @@ public interface ILinkedNode<T>
 	void setValue(T value);
 
 	/**
-	 * Transforms this node object to an ordered {@link List} with all nodes
+	 * Transforms this linked node object to an ordered {@link LinkedList} with all nodes
 	 *
-	 * @return the list
+	 * @return the ordered {@link LinkedList} with all nodes
 	 */
 	default List<ILinkedNode<T>> toList()
 	{
@@ -146,4 +200,5 @@ public interface ILinkedNode<T>
 		}
 		return list;
 	}
+
 }

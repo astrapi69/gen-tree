@@ -24,6 +24,9 @@
  */
 package de.alpharogroup.tree.ifaces;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * The interface {@link IChainableTreeNode} represents a chainable tree node
  *
@@ -34,11 +37,65 @@ public interface IChainableTreeNode<T>
 {
 
 	/**
+	 * Gets all parent {@link IChainableTreeNode} from the current tree node
+	 *
+	 * @return all parent {@link IChainableTreeNode} from the current tree node
+	 */
+	default List<IChainableTreeNode<T>> getAllParent()
+	{
+		List<IChainableTreeNode<T>> list = new LinkedList<>();
+		IChainableTreeNode<T> parent = this;
+		while (parent.hasParent())
+		{
+			parent = parent.getParent();
+			list.add(parent);
+		}
+		return list;
+	}
+
+	/**
 	 * Gets the child.
 	 *
 	 * @return the child
 	 */
 	IChainableTreeNode<T> getChild();
+
+	/**
+	 * Gets the child count.
+	 *
+	 * @return the child count
+	 */
+	default int getChildCount()
+	{
+		return getChildren().size();
+	}
+
+	/**
+	 * Gets the children from the current tree node
+	 *
+	 * @return the children from the current tree node
+	 */
+	default List<IChainableTreeNode<T>> getChildren()
+	{
+		List<IChainableTreeNode<T>> list = new LinkedList<>();
+		IChainableTreeNode<T> child = this;
+		while (child.hasChild())
+		{
+			child = child.getChild();
+			list.add(child);
+		}
+		return list;
+	}
+
+	/**
+	 * Returns the distance from the root to this node. Returns 0 if this node is the root.
+	 *
+	 * @return the level from this node.
+	 */
+	default int getLevel()
+	{
+		return getAllParent().size();
+	}
 
 	/**
 	 * Gets the parent
@@ -124,4 +181,24 @@ public interface IChainableTreeNode<T>
 	 *            the new value
 	 */
 	void setValue(T value);
+
+	/**
+	 * Transforms this tree node object to an ordered {@link LinkedList} with all tree nodes
+	 *
+	 * @return the ordered {@link LinkedList} with all tree nodes
+	 */
+	default List<IChainableTreeNode<T>> toList()
+	{
+		List<IChainableTreeNode<T>> list = new LinkedList<>();
+		IChainableTreeNode<T> root = getRoot();
+		list.add(root);
+		IChainableTreeNode<T> child = root;
+		while (child.hasChild())
+		{
+			child = child.getChild();
+			list.add(child);
+		}
+		return list;
+	}
+
 }

@@ -27,6 +27,8 @@ package de.alpharogroup.tree;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.AssertJUnit.assertEquals;
 
+import java.util.List;
+
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
@@ -121,6 +123,54 @@ public class ChainableTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		parentTreeNode.setValue(firstElement);
 		parentTreeNode = new ChainableTreeNode<>(firstElement);
 		assertNotNull(parentTreeNode);
+	}
+
+	/**
+	 * Test method for {@link ChainableTreeNode#getChildren()}
+	 */
+	@Test
+	public final void testGetChildren()
+	{
+		int actual;
+		int expected;
+		List<IChainableTreeNode<TreeElement>> list;
+		// scenario
+		// 1
+		list = fifthTreeNode.getChildren();
+		assertNotNull(list);
+		actual = list.size();
+		expected = 0;
+		assertEquals(actual, expected);
+		// 2
+		list = firstTreeNode.getChildren();
+		assertNotNull(list);
+		actual = list.size();
+		expected = 4;
+		assertEquals(actual, expected);
+	}
+
+	/**
+	 * Test method for {@link ChainableTreeNode#toList()}
+	 */
+	@Test
+	public final void testToList()
+	{
+		int actual;
+		int expected;
+		List<IChainableTreeNode<TreeElement>> list;
+		// scenario
+		// 1
+		list = firstTreeNode.toList();
+		assertNotNull(list);
+		actual = list.size();
+		expected = 5;
+		assertEquals(actual, expected);
+		// 2
+		list = fifthTreeNode.toList();
+		assertNotNull(list);
+		actual = list.size();
+		expected = 5;
+		assertEquals(actual, expected);
 	}
 
 	/**
