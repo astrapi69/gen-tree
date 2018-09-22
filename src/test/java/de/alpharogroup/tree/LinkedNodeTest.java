@@ -140,7 +140,7 @@ public class LinkedNodeTest extends AbstractTestCase<Boolean, Boolean>
 		List<ILinkedNode<TreeElement>> list = firstTreeNode.toList();
 		assertNotNull(list);
 		actual = list.size();
-		expected = 4;
+		expected = 5;
 		assertEquals(actual, expected);
 	}
 

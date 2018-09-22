@@ -61,22 +61,6 @@ public interface ILinkedNode<T>
 	ILinkedNode<T> getNext();
 
 	/**
-	 * Transforms this node object to an ordered {@link List} with all nodes
-	 *
-	 * @return the list
-	 */
-	default List<ILinkedNode<T>> toList() {
-		List<ILinkedNode<T>> list = new LinkedList<>();
-		ILinkedNode<T> first = getFirst();
-		list.add(first);
-		ILinkedNode<T> next = first;
-		while(next.hasNext()) {
-			list.add(next.getNext());
-		}
-		return list;
-	}
-
-	/**
 	 * Gets the previous object
 	 *
 	 * @return the previous object
@@ -143,4 +127,23 @@ public interface ILinkedNode<T>
 	 *            the new value
 	 */
 	void setValue(T value);
+
+	/**
+	 * Transforms this node object to an ordered {@link List} with all nodes
+	 *
+	 * @return the list
+	 */
+	default List<ILinkedNode<T>> toList()
+	{
+		List<ILinkedNode<T>> list = new LinkedList<>();
+		ILinkedNode<T> first = getFirst();
+		list.add(first);
+		ILinkedNode<T> next = first;
+		while (next.hasNext())
+		{
+			next = next.getNext();
+			list.add(next);
+		}
+		return list;
+	}
 }
