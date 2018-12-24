@@ -3,7 +3,7 @@
 <div align="center">
 
 [![Build Status](https://travis-ci.org/lightblueseas/gen-tree.svg?branch=master)](https://travis-ci.org/lightblueseas/gen-tree) 
-[![Coverage Status](https://coveralls.io/repos/github/lightblueseas/gen-tree/badge.svg?branch=develop)](https://coveralls.io/github/lightblueseas/gen-tree?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/lightblueseas/gen-tree/badge.svg?branch=master)](https://coveralls.io/github/lightblueseas/gen-tree?branch=master)
 [![Open Issues](https://img.shields.io/github/issues/lightblueseas/gen-tree.svg?style=flat)](https://github.com/lightblueseas/gen-tree/issues)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.alpharogroup/gen-tree/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.alpharogroup/gen-tree)
 [![Javadocs](http://www.javadoc.io/badge/de.alpharogroup/gen-tree.svg)](http://www.javadoc.io/doc/de.alpharogroup/gen-tree)
