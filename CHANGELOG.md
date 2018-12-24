@@ -1,6 +1,35 @@
 ## Change log
 ----------------------
 
+Version 4.12
+-------------
+
+ADDED: 
+
+- created new tree node IChainableTreeNode
+- created new linked node ILinkedNode
+- created methods in IChainableTreeNode
+
+ * getAllParent
+ * getChildCount
+ * getChildren
+ * getLevel
+ * toList
+
+- created methods in ILinkedNode
+
+ * getNextCount
+ * getNextLinkedNodes
+ * getPreviousCount
+ * getPreviousLinkedNodes
+ * toList
+ 
+CHANGED:
+
+- update of parent version to 4.5
+- update of test-objects dependency version to 5
+- update of jobject-evaluate dependency version to 2.5
+
 Version 4.11
 -------------
 

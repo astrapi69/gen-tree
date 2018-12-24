@@ -24,74 +24,40 @@
  */
 package de.alpharogroup.tree;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import de.alpharogroup.tree.ifaces.ITreeNode;
+import de.alpharogroup.tree.ifaces.ILinkedNode;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.FieldDefaults;
 
 /**
- * The generic class TreeNode.
+ * The class {@link LinkedNode} can have only one next element and one previous element
  *
  * @param <T>
- *            the generic type
+ *            the generic type of the value
  */
-@NoArgsConstructor
+@Getter
+@Setter
 @EqualsAndHashCode
-@ToString(exclude = { "children" })
-public class TreeNode<T> implements ITreeNode<T>
+@ToString(exclude = { "next" })
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(toBuilder = true)
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class LinkedNode<T> implements ILinkedNode<T>
 {
 
-	/**
-	 * The serialVersionUID.
-	 */
-	private static final long serialVersionUID = 1L;
+	/** The next. */
+	ILinkedNode<T> next;
 
-	/** The children. */
-	@Setter
-	private List<ITreeNode<T>> children;
-
-	/** The optional display value. */
-	@Getter
-	@Setter
-	private String displayValue;
-
-	/** The parent from this node. If this is null it is the root. */
-	@Getter
-	@Setter
-	private ITreeNode<T> parent;
+	/** The previous. */
+	ILinkedNode<T> previous;
 
 	/** The value. */
-	@Getter
-	@Setter
-	private T value;
-
-	/**
-	 * Instantiates a new tree node.
-	 *
-	 * @param value
-	 *            the value
-	 */
-	public TreeNode(final T value)
-	{
-		setValue(value);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public List<ITreeNode<T>> getChildren()
-	{
-		if (this.children == null)
-		{
-			this.children = new ArrayList<>();
-		}
-		return this.children;
-	}
-
+	T value;
 }

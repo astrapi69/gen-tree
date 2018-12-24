@@ -27,10 +27,13 @@ package de.alpharogroup.tree;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.AssertJUnit.assertEquals;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+
 import org.meanbean.test.BeanTester;
 import org.testng.annotations.Test;
 
-import de.alpharogroup.evaluate.object.SilentEqualsHashCodeAndToStringEvaluator;
+import de.alpharogroup.evaluate.object.evaluators.EqualsHashCodeAndToStringEvaluator;
 
 /**
  * The unit test class for the class {@link TreeElement}
@@ -55,14 +58,27 @@ public class TreeElementTest
 	/**
 	 * Test method for {@link TreeElement#equals(Object)} , {@link TreeElement#hashCode()} and
 	 * {@link TreeElement#toString()}
+	 *
+	 * @throws IllegalAccessException
+	 *             if the caller does not have access to the property accessor method
+	 * @throws InstantiationException
+	 *             if a new instance of the bean's class cannot be instantiated
+	 * @throws InvocationTargetException
+	 *             if the property accessor method throws an exception
+	 * @throws NoSuchMethodException
+	 *             if an accessor method for this property cannot be found
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 * @throws ClassNotFoundException
+	 *             occurs if a given class cannot be located by the specified class loader
 	 */
 	@Test
-	public void testEqualsHashcodeAndToStringWithClassSilently()
+	public void testEqualsHashcodeAndToStringWithClassSilently() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException, IOException
 	{
 		boolean expected;
 		boolean actual;
-		actual = SilentEqualsHashCodeAndToStringEvaluator
-			.evaluateEqualsHashcodeAndToStringQuietly(TreeElement.class);
+		actual = EqualsHashCodeAndToStringEvaluator
+			.evaluateEqualsHashcodeAndToString(TreeElement.class);
 		expected = true;
 		assertEquals(expected, actual);
 	}

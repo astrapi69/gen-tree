@@ -5,12 +5,12 @@
 	<parent>
 		<groupId>de.alpharogroup</groupId>
 		<artifactId>mvn-java-parent</artifactId>
-		<version>3.12</version>
+		<version>4.5</version>
 		<relativePath></relativePath>
 	</parent>
 
 	<artifactId>gen-tree</artifactId>
-	<version>4.11</version>
+	<version>4.12</version>
 
 	<name>${project.artifactId}</name>
 
@@ -30,10 +30,10 @@
 
 	<properties>
 		<!-- JOBJECT-EXTENSIONS version -->
-		<jobject-extensions.version>1.11</jobject-extensions.version>
+		<jobject-extensions.version>2.5</jobject-extensions.version>
 		<jobject-evaluate.version>${jobject-extensions.version}</jobject-evaluate.version>
 		<!-- TEST-OBJECTS version -->
-		<test-objects.version>4.28</test-objects.version>
+		<test-objects.version>5</test-objects.version>
 	</properties>
 
 	<scm>

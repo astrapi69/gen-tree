@@ -42,7 +42,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.alpharogroup.AbstractTestCase;
-import de.alpharogroup.evaluate.object.EqualsHashCodeAndToStringEvaluator;
+import de.alpharogroup.evaluate.object.evaluators.EqualsHashCodeAndToStringEvaluator;
 import de.alpharogroup.tree.ifaces.ITreeNode;
 
 /**
@@ -75,11 +75,20 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		firstGrandGrandChild = TreeElement.builder().name("firstGrandGrandChild")
 			.parent(firstGrandChild).node(true).build();
 		secondChild = TreeElement.builder().name("secondChild").parent(parent).node(true).build();
-		parentTreeNode = new TreeNode<TreeElement>(parent);
-		firstChildTreeNode = new TreeNode<TreeElement>(firstChild);
-		secondChildTreeNode = new TreeNode<TreeElement>(secondChild);
-		firstGrandChildTreeNode = new TreeNode<TreeElement>(firstGrandChild);
-		firstGrandGrandChildTreeNode = new TreeNode<TreeElement>(firstGrandGrandChild);
+
+		parentTreeNode = new TreeNode<>(parent);
+
+		firstChildTreeNode = new TreeNode<>(firstChild);
+		firstChildTreeNode.setParent(parentTreeNode);
+
+		secondChildTreeNode = new TreeNode<>(secondChild);
+		secondChildTreeNode.setParent(parentTreeNode);
+
+		firstGrandChildTreeNode = new TreeNode<>(firstGrandChild);
+		firstGrandChildTreeNode.setParent(firstChildTreeNode);
+
+		firstGrandGrandChildTreeNode = new TreeNode<>(firstGrandGrandChild);
+		firstGrandGrandChildTreeNode.setParent(firstChildTreeNode);
 	}
 
 	@AfterMethod
@@ -122,10 +131,10 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public final void testConstructors()
 	{
-		ITreeNode<TreeElement> parentTreeNode = new TreeNode<TreeElement>();
+		ITreeNode<TreeElement> parentTreeNode = new TreeNode<>();
 		assertNotNull(parentTreeNode);
 		parentTreeNode.setValue(parent);
-		parentTreeNode = new TreeNode<TreeElement>(parent);
+		parentTreeNode = new TreeNode<>(parent);
 		assertNotNull(parentTreeNode);
 	}
 
@@ -136,9 +145,6 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public void testEqualsHashcodeAndToString()
 	{
-		final boolean expected;
-		final boolean actual;
-
 		TreeNode<TreeElement> first = new TreeNode<>(parent);
 		TreeNode<TreeElement> second = new TreeNode<>();
 		TreeNode<TreeElement> third = new TreeNode<>(parent);
@@ -308,6 +314,18 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		assertEquals(expected, actual);
 	}
 
+	@Test(enabled = true)
+	public void testGetRoot()
+	{
+		ITreeNode<TreeElement> root;
+
+		root = parentTreeNode.getRoot();
+		assertEquals(root, parentTreeNode);
+
+		root = firstGrandChildTreeNode.getRoot();
+		assertEquals(root, parentTreeNode);
+	}
+
 	/**
 	 * Test method for {@link TreeNode#hasChildren()}.
 	 */
@@ -383,8 +401,6 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public void testToList()
 	{
-		// TODO fail("Not yet implemented");
-
 		parentTreeNode.addChild(firstChildTreeNode);
 		parentTreeNode.addChild(secondChildTreeNode);
 		parentTreeNode.addChild(firstGrandChildTreeNode);
@@ -399,12 +415,31 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
+	 * Test method for {@link TreeNode#traverse(ITreeNode, List)}
+	 */
+	@Test(enabled = true)
+	public void testTraverse()
+	{
+		parentTreeNode.addChild(firstChildTreeNode);
+		parentTreeNode.addChild(secondChildTreeNode);
+		firstChildTreeNode.addChild(firstGrandChildTreeNode);
+
+		list = new ArrayList<>();
+		parentTreeNode.traverse(parentTreeNode, list);
+		assertTrue(list.size() == 4);
+		assertEquals(list.get(0), parentTreeNode);
+		assertEquals(list.get(1), firstChildTreeNode);
+		assertEquals(list.get(2), firstGrandChildTreeNode);
+		assertEquals(list.get(3), secondChildTreeNode);
+	}
+
+	/**
 	 * Test method for {@link TreeNode}
 	 */
 	@Test
 	public void testWithBeanTester()
 	{
-		final TreeNode<TreeElement> parentTreeNode = new TreeNode<TreeElement>(parent);
+		final TreeNode<TreeElement> parentTreeNode = new TreeNode<>(parent);
 		Configuration configuration = new ConfigurationBuilder()
 			.overrideFactory("parent", new Factory<TreeNode<TreeElement>>()
 			{
@@ -420,24 +455,4 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		beanTester.addCustomConfiguration(TreeNode.class, configuration);
 		beanTester.testBean(TreeNode.class);
 	}
-
-	/**
-	 * Test method for {@link TreeNode#traverse(ITreeNode, List)}
-	 */
-	@Test(enabled = true)
-	public void traverse()
-	{
-		parentTreeNode.addChild(firstChildTreeNode);
-		parentTreeNode.addChild(secondChildTreeNode);
-		firstChildTreeNode.addChild(firstGrandChildTreeNode);
-
-		list = new ArrayList<>();
-		parentTreeNode.traverse(parentTreeNode, list);
-		assertTrue(list.size() == 4);
-		assertEquals(list.get(0), parentTreeNode);
-		assertEquals(list.get(1), firstChildTreeNode);
-		assertEquals(list.get(2), firstGrandChildTreeNode);
-		assertEquals(list.get(3), secondChildTreeNode);
-	}
-
 }
