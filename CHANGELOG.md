@@ -1,7 +1,7 @@
 ## Change log
 ----------------------
 
-Version 4.12-SNAPSHOT
+Version 4.12
 -------------
 
 ADDED: 
@@ -23,6 +23,12 @@ ADDED:
  * getPreviousCount
  * getPreviousLinkedNodes
  * toList
+ 
+CHANGED:
+
+- update of parent version to 4.5
+- update of test-objects dependency version to 5
+- update of jobject-evaluate dependency version to 2.5
 
 Version 4.11
 -------------
