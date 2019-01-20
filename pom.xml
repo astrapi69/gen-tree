@@ -161,7 +161,7 @@
 								<!-- beans -->
 								<!-- exceptions -->
 								<!-- interfaces -->
-								<exclude>de/alpharogroup/tree/ifaces/**/*.class</exclude>
+								<exclude>de/alpharogroup/tree/api/**/*.class</exclude>
 								<!-- deprecated classes -->
 								<!-- constant classes with only constants -->
 								<!-- explicit abstract classes -->
