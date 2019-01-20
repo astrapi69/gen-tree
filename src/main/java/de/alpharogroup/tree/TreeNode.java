@@ -27,7 +27,7 @@ package de.alpharogroup.tree;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.alpharogroup.tree.ifaces.ITreeNode;
+import de.alpharogroup.tree.api.ITreeNode;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

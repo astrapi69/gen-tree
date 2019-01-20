@@ -43,7 +43,7 @@ import org.testng.annotations.Test;
 
 import de.alpharogroup.AbstractTestCase;
 import de.alpharogroup.evaluate.object.evaluators.EqualsHashCodeAndToStringEvaluator;
-import de.alpharogroup.tree.ifaces.ITreeNode;
+import de.alpharogroup.tree.api.ITreeNode;
 
 /**
  * The unit test class for the class {@link TreeNode}

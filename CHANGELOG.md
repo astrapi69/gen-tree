@@ -4,6 +4,11 @@
 Version 5-SNAPSHOT
 -------------
 
+CHANGED:
+
+- update of test-objects dependency version to 5.0.1
+- moved interfaces from package ifaces to new appropriate api package
+
 Version 4.12
 -------------
 

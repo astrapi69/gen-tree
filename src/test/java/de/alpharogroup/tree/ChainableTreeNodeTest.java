@@ -38,7 +38,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.alpharogroup.AbstractTestCase;
-import de.alpharogroup.tree.ifaces.IChainableTreeNode;
+import de.alpharogroup.tree.api.IChainableTreeNode;
 
 /**
  * The unit test class for the class {@link ChainableTreeNode}

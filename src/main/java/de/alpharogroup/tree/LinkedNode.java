@@ -24,7 +24,7 @@
  */
 package de.alpharogroup.tree;
 
-import de.alpharogroup.tree.ifaces.ILinkedNode;
+import de.alpharogroup.tree.api.ILinkedNode;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
