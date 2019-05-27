@@ -24,7 +24,7 @@
  */
 package de.alpharogroup.tree;
 
-import static org.testng.Assert.assertNotNull;
+import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.util.List;
