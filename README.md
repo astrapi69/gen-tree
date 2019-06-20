@@ -14,6 +14,8 @@
 
 The gen-tree project holds a generic model for tree objects
 
+If you like this project put a ⭐ and donate
+
 ## License
 
 The source code comes under the liberal MIT License, making gen-tree great for all types of applications.
