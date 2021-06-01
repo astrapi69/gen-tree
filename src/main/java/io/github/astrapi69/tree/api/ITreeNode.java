@@ -108,6 +108,33 @@ public interface ITreeNode<T> extends Serializable
 	List<ITreeNode<T>> getChildren();
 
 	/**
+	 * Gets the child from the given index.
+	 *
+	 * @param parent
+	 *            the parent
+	 * @param index
+	 *            the index
+	 * @return the child from the given index
+	 */
+	default ITreeNode<T> getChild(ITreeNode<T> parent, int index) {
+		return parent.getChildren().get(index);
+	}
+
+	/**
+	 * Gets the index of the given child from the given parent.
+	 *
+	 * @param parent
+	 *            the parent
+	 * @param child
+	 *            the child
+	 * @return the index of the given child from the given parent
+	 */
+	default int getIndexOfChild(ITreeNode<T> parent, ITreeNode<T> child)
+	{
+		return parent.getChildren().indexOf(child);
+	}
+
+	/**
 	 * Returns the depth of the tree beginning at this node Returns 0 if this node has no children.
 	 *
 	 * @return the depth of the tree beginning at this node.
@@ -269,7 +296,7 @@ public interface ITreeNode<T> extends Serializable
 	default boolean isNode()
 	{
 		return true;
-	};
+	}
 
 	/**
 	 * Checks if this {@link ITreeNode} is the root {@link ITreeNode} object

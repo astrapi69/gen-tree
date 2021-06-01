@@ -4,6 +4,11 @@
 Version 5.1-SNAPSHOT
 -------------
 
+ADDED:
+
+- new method that get from a given parent the child with a given index
+- new method that get the index from a given child from the given parent
+
 Version 5
 -------------
 
