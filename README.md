@@ -2,16 +2,19 @@
 
 <div align="center">
 
-[![Build Status](https://travis-ci.org/lightblueseas/gen-tree.svg?branch=master)](https://travis-ci.org/lightblueseas/gen-tree) 
-[![Coverage Status](https://coveralls.io/repos/github/lightblueseas/gen-tree/badge.svg?branch=master)](https://coveralls.io/github/lightblueseas/gen-tree?branch=master)
+[![Build Status](https://api.travis-ci.com/lightblueseas/gen-tree.svg?branch=master)](https://travis-ci.com/github/lightblueseas/gen-tree) 
+[![Coverage Status](https://coveralls.io/repos/github/lightblueseas/gen-tree/badge.svg?branch=develop)](https://coveralls.io/github/lightblueseas/gen-tree?branch=master)
 [![Open Issues](https://img.shields.io/github/issues/lightblueseas/gen-tree.svg?style=flat)](https://github.com/lightblueseas/gen-tree/issues)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.alpharogroup/gen-tree/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.alpharogroup/gen-tree)
-[![Javadocs](http://www.javadoc.io/badge/de.alpharogroup/gen-tree.svg)](http://www.javadoc.io/doc/de.alpharogroup/gen-tree)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/gen-tree/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/gen-tree)
+[![Javadocs](http://www.javadoc.io/badge/io.github.astrapi69/gen-tree.svg)](http://www.javadoc.io/doc/io.github.astrapi69/gen-tree)
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](http://opensource.org/licenses/MIT)
+[![Donate](https://img.shields.io/badge/donate-❤-ff2244.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GVBTWLRAZ7HB8)
 
 </div>
 
 The gen-tree project holds a generic model for tree objects
+
+If you like this project put a ⭐ and donate
 
 ## License
 
@@ -20,7 +23,7 @@ The source code comes under the liberal MIT License, making gen-tree great for a
 ## Maven dependency
 
 Maven dependency is now on sonatype.
-Check out [sonatype repository](https://oss.sonatype.org/index.html#nexus-search;gav~de.alpharogroup~gen-tree~~~) for latest snapshots and releases.
+Check out [sonatype repository](https://oss.sonatype.org/index.html#nexus-search;gav~io.github.astrapi69~gen-tree~~~) for latest snapshots and releases.
 
 Add the following maven dependency to your project `pom.xml` if you want to import the core functionality of gen-tree:
 
@@ -29,7 +32,7 @@ Than you can add the dependency to your dependencies:
 	<properties>
 			...
 		<!-- GEN-TREE version -->
-		<gen-tree.version>4.12</gen-tree.version>
+		<gen-tree.version>5</gen-tree.version>
 			...
 	</properties>
 			...
@@ -37,12 +40,43 @@ Than you can add the dependency to your dependencies:
 			...
             <!-- GEN-TREE DEPENDENCY -->
 			<dependency>
-				<groupId>de.alpharogroup</groupId>
+				<groupId>io.github.astrapi69</groupId>
 				<artifactId>gen-tree</artifactId>
 				<version>${gen-tree.version}</version>
 			</dependency>
 			...
 		</dependencies>
+
+## gradle dependency
+
+You can first define the version in the ext section and add than the following gradle dependency to
+your project `build.gradle` if you want to import the core functionality of silly-collections:
+
+define version in file gradle.properties
+```
+
+genTreeVersion=5
+```
+
+or in build.gradle ext area
+
+```
+ext {
+			...
+    genTreeVersion = "5"
+			...
+}
+```
+
+and than add the dependency to the dependencies area
+
+```
+dependencies {
+			...
+    implementation("io.github.astrapi69:gen-tree:$genTreeVersion")
+			...
+}
+```
 
 ## Semantic Versioning
 
@@ -75,17 +109,55 @@ No animals were harmed in the making of this library.
 
 # Donations
 
-If you like this library, please consider a donation through paypal: <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=B37J9DZF6G9ZC" target="_blank">
-<img src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" alt="PayPal this" title="PayPal – The safer, easier way to pay online!" border="0" />
+This project is kept as an open source product and relies on contributions to remain being
+developed. If you like this library, please consider a donation
+
+over paypal: <br><br>
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MJ7V43GU2H386" target="_blank">
+<img src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" alt="PayPal this" title="PayPal – The safer, easier way to pay online!" style="border: none" />
 </a>
+<br><br>
+or over bitcoin(BTC) with this address:
 
-or over bitcoin or bitcoin-cash with:
+bc1ql2y99q7e8psndhcc3gferk03esw3qqf677rhjy
 
-36JxRRDfRazLNqUV6NsywCw1q7TK38ukpC
+<img src="https://github.com/astrapi69/jgeohash/blob/master/src/main/resources/img/bc1ql2y99q7e8psndhcc3gferk03esw3qqf677rhjy.png"
+alt="Donation Bitcoin Wallet" width="250"/>
 
-or over ether with:
+or over FIO with this address:
 
-0x588Aa02De98B1Ef70afeDC3ec5290130a3E5e273
+FIO7tFMUVAA9cHiPPqKMfMXiSxHrbpiFyRYqTketNuM67aULuwjop
+
+<img src="https://github.com/astrapi69/jgeohash/blob/master/src/main/resources/img/FIO7tFMUVAA9cHiPPqKMfMXiSxHrbpiFyRYqTketNuM67aULuwjop.png"
+alt="Donation FIO Wallet" width="250"/>
+
+or over Ethereum(ETH) with:
+
+0xc057D159D3C8f3311E73568b334FF6fE82EB2b7D
+
+<img src="https://github.com/astrapi69/jgeohash/blob/master/src/main/resources/img/0xc057D159D3C8f3311E73568b334FF6fE82EB2b7D.png"
+alt="Donation Ethereum Wallet" width="250"/>
+
+or over Ethereum Classic(ETC) with:
+
+0xF708cA86D86C246B69c3F4BAe431eBbe0c2bfddD
+
+<img src="https://github.com/astrapi69/jgeohash/blob/master/src/main/resources/img/0xF708cA86D86C246B69c3F4BAe431eBbe0c2bfddD.png"
+alt="Donation Ethereum Classic Wallet" width="250"/>
+
+or over Dogecoin(DOGE) with:
+
+D5yi4Um8cpakd6yPRm2hGWuQ5nrVzhSSW1
+
+<img src="https://github.com/astrapi69/jgeohash/blob/master/src/main/resources/img/D5yi4Um8cpakd6yPRm2hGWuQ5nrVzhSSW1.png"
+alt="Donation Dogecoin Wallet" width="250"/>
+
+or over Monero(XMR) with:
+
+49bqeRQ7Bf49oJFVC72pqpe5hFbb62pfXDYPdLsadGGF81KZW2ZfrPZ8PbAVu5X2v1TYAspeczMya3cYQysNS4usRRPQHVw
+
+<img src="https://github.com/astrapi69/jgeohash/blob/master/src/main/resources/img/49bqeRQ7Bf49oJFVC72pqpe5hFbb62pfXDYPdLsadGGF81KZW2ZfrPZ8PbAVu5X2v1TYAspeczMya3cYQysNS4usRRPQHVw.png"
+alt="Donation Monero Wallet" width="250"/>
 
 or over flattr: 
 <a href="https://flattr.com/submit/auto?fid=r7vp62&url=https%3A%2F%2Fgithub.com%2Flightblueseas%2Fgen-tree" target="_blank">
