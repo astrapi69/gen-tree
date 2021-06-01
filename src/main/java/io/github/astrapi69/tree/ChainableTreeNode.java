@@ -22,76 +22,54 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package de.alpharogroup.tree;
+package io.github.astrapi69.tree;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import de.alpharogroup.tree.api.ITreeNode;
+import io.github.astrapi69.tree.api.IChainableTreeNode;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.FieldDefaults;
 
 /**
- * The generic class TreeNode.
+ * The class {@link ChainableTreeNode} can have only one child and one parent
  *
  * @param <T>
- *            the generic type
+ *            the generic type of the value
  */
-@NoArgsConstructor
+@Getter
+@Setter
 @EqualsAndHashCode
-@ToString(exclude = { "children" })
-public class TreeNode<T> implements ITreeNode<T>
+@ToString(exclude = { "child" })
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(toBuilder = true)
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class ChainableTreeNode<T> implements IChainableTreeNode<T>
 {
 
-	/**
-	 * The serialVersionUID.
-	 */
-	private static final long serialVersionUID = 1L;
+	/** The single child. */
+	IChainableTreeNode<T> child;
 
-	/** The children. */
-	@Setter
-	private List<ITreeNode<T>> children;
-
-	/** The optional display value. */
-	@Getter
-	@Setter
-	private String displayValue;
-
-	/** The parent from this node. If this is null it is the root. */
-	@Getter
-	@Setter
-	private ITreeNode<T> parent;
+	/** The single parent. */
+	IChainableTreeNode<T> parent;
 
 	/** The value. */
-	@Getter
-	@Setter
-	private T value;
+	T value;
 
 	/**
-	 * Instantiates a new tree node.
+	 * Instantiates a new {@link ChainableTreeNode} object.
 	 *
 	 * @param value
 	 *            the value
 	 */
-	public TreeNode(final T value)
+	public ChainableTreeNode(T value)
 	{
-		setValue(value);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public List<ITreeNode<T>> getChildren()
-	{
-		if (this.children == null)
-		{
-			this.children = new ArrayList<>();
-		}
-		return this.children;
+		this.value = value;
 	}
 
 }

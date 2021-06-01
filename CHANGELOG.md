@@ -11,6 +11,7 @@ ADDED:
 CHANGED:
 
 - changed project nature from maven to gradle nature
+- changed to new package io.github.astrapi69
 - removed maven related files
 - update of test-objects dependency version to 5.3
 - moved interfaces from package ifaces to new appropriate api package

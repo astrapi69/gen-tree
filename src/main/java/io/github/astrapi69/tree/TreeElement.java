@@ -22,10 +22,10 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package de.alpharogroup.tree;
+package io.github.astrapi69.tree;
 
-import de.alpharogroup.tree.api.IChainableTreeNode;
-import lombok.AccessLevel;
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -33,43 +33,28 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.experimental.FieldDefaults;
 
 /**
- * The class {@link ChainableTreeNode} can have only one child and one parent
- *
- * @param <T>
- *            the generic type of the value
+ * The class {@link TreeElement} represents as the name already presume a tree element
  */
 @Getter
 @Setter
-@EqualsAndHashCode
-@ToString(exclude = { "child" })
+@EqualsAndHashCode(exclude = { "parent" })
+@ToString(exclude = { "parent" })
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@FieldDefaults(level = AccessLevel.PRIVATE)
-public class ChainableTreeNode<T> implements IChainableTreeNode<T>
+public class TreeElement implements Serializable
 {
+	/** The serial Version UID */
+	private static final long serialVersionUID = 1L;
 
-	/** The single child. */
-	IChainableTreeNode<T> child;
+	/** The name of this tree element. */
+	private String name;
 
-	/** The single parent. */
-	IChainableTreeNode<T> parent;
+	/** The flag that indicates if this tree element is a node. */
+	private boolean node;
 
-	/** The value. */
-	T value;
-
-	/**
-	 * Instantiates a new {@link ChainableTreeNode} object.
-	 *
-	 * @param value
-	 *            the value
-	 */
-	public ChainableTreeNode(T value)
-	{
-		this.value = value;
-	}
-
+	/** The parent of this tree element. */
+	private TreeElement parent;
 }

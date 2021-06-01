@@ -22,8 +22,10 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package de.alpharogroup.tree;
+package io.github.astrapi69.tree;
 
+import io.github.astrapi69.tree.api.ILinkedNode;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -31,24 +33,31 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.FieldDefaults;
 
 /**
- * The class {@link LazyTreeElement} represents a lazy tree element that does not know about
- * the parent or children
+ * The class {@link LinkedNode} can have only one next element and one previous element
+ *
+ * @param <T>
+ *            the generic type of the value
  */
 @Getter
 @Setter
 @EqualsAndHashCode
-@ToString
+@ToString(exclude = { "next" })
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class LazyTreeElement<T>
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class LinkedNode<T> implements ILinkedNode<T>
 {
 
-	/** The value. */
-	private T value;
+	/** The next. */
+	ILinkedNode<T> next;
 
-	/** The flag that indicates if this tree element is a leaf. */
-	private boolean leaf;
+	/** The previous. */
+	ILinkedNode<T> previous;
+
+	/** The value. */
+	T value;
 }

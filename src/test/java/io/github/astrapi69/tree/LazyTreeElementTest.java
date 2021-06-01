@@ -22,36 +22,36 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package de.alpharogroup.tree;
+package io.github.astrapi69.tree;
 
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertEquals;
+import de.alpharogroup.evaluate.object.evaluators.EqualsHashCodeAndToStringEvaluator;
+import io.github.astrapi69.tree.LazyTreeElement;
+import io.github.astrapi69.tree.TreeElement;
+import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
-import org.meanbean.test.BeanTester;
-import org.testng.annotations.Test;
-
-import de.alpharogroup.evaluate.object.evaluators.EqualsHashCodeAndToStringEvaluator;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNotNull;
 
 /**
  * The unit test class for the class {@link TreeElement}
  */
-public class TreeElementTest
+public class LazyTreeElementTest
 {
 
 	/**
-	 * Test method for {@link TreeElement} constructors and builders
+	 * Test method for {@link LazyTreeElement} constructors and builders
 	 */
 	@Test
 	public final void testConstructors()
 	{
-		TreeElement model = new TreeElement();
+		LazyTreeElement<String> model = new LazyTreeElement<>();
 		assertNotNull(model);
-		model = new TreeElement("name", false, null);
+		model = new LazyTreeElement<>("value", false);
 		assertNotNull(model);
-		model = TreeElement.builder().build();
+		model = LazyTreeElement.<String>builder().build();
 		assertNotNull(model);
 	}
 
@@ -78,19 +78,9 @@ public class TreeElementTest
 		boolean expected;
 		boolean actual;
 		actual = EqualsHashCodeAndToStringEvaluator
-			.evaluateEqualsHashcodeAndToString(TreeElement.class);
+			.evaluateEqualsHashcodeAndToString(LazyTreeElement.class);
 		expected = true;
 		assertEquals(expected, actual);
-	}
-
-	/**
-	 * Test method for {@link TreeElement}
-	 */
-	@Test
-	public void testWithBeanTester()
-	{
-		final BeanTester beanTester = new BeanTester();
-		beanTester.testBean(TreeElement.class);
 	}
 
 }

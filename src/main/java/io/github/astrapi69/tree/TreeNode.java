@@ -22,12 +22,12 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package de.alpharogroup.tree;
+package io.github.astrapi69.tree;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import io.github.astrapi69.tree.api.ITreeNode;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,26 +35,63 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * The class {@link TreeElement} represents as the name already presume a tree element
+ * The generic class TreeNode.
+ *
+ * @param <T>
+ *            the generic type
  */
-@Getter
-@Setter
-@EqualsAndHashCode(exclude = { "parent" })
-@ToString(exclude = { "parent" })
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder(toBuilder = true)
-public class TreeElement implements Serializable
+@EqualsAndHashCode
+@ToString(exclude = { "children" })
+public class TreeNode<T> implements ITreeNode<T>
 {
-	/** The serial Version UID */
+
+	/**
+	 * The serialVersionUID.
+	 */
 	private static final long serialVersionUID = 1L;
 
-	/** The name of this tree element. */
-	private String name;
+	/** The children. */
+	@Setter
+	private List<ITreeNode<T>> children;
 
-	/** The flag that indicates if this tree element is a node. */
-	private boolean node;
+	/** The optional display value. */
+	@Getter
+	@Setter
+	private String displayValue;
 
-	/** The parent of this tree element. */
-	private TreeElement parent;
+	/** The parent from this node. If this is null it is the root. */
+	@Getter
+	@Setter
+	private ITreeNode<T> parent;
+
+	/** The value. */
+	@Getter
+	@Setter
+	private T value;
+
+	/**
+	 * Instantiates a new tree node.
+	 *
+	 * @param value
+	 *            the value
+	 */
+	public TreeNode(final T value)
+	{
+		setValue(value);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<ITreeNode<T>> getChildren()
+	{
+		if (this.children == null)
+		{
+			this.children = new ArrayList<>();
+		}
+		return this.children;
+	}
+
 }

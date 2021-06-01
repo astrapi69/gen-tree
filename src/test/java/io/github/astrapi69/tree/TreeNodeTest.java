@@ -22,7 +22,7 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package de.alpharogroup.tree;
+package io.github.astrapi69.tree;
 
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
@@ -33,6 +33,8 @@ import static org.testng.AssertJUnit.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.astrapi69.tree.TreeElement;
+import io.github.astrapi69.tree.TreeNode;
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
@@ -43,7 +45,7 @@ import org.testng.annotations.Test;
 
 import de.alpharogroup.AbstractTestCase;
 import de.alpharogroup.evaluate.object.evaluators.EqualsHashCodeAndToStringEvaluator;
-import de.alpharogroup.tree.api.ITreeNode;
+import io.github.astrapi69.tree.api.ITreeNode;
 
 /**
  * The unit test class for the class {@link TreeNode}
