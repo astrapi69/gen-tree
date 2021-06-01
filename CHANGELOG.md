@@ -4,9 +4,15 @@
 Version 5-SNAPSHOT
 -------------
 
+ADDED:
+
+- gradle as new build system
+
 CHANGED:
 
-- update of test-objects dependency version to 5.0.1
+- changed project nature from maven to gradle nature
+- removed maven related files
+- update of test-objects dependency version to 5.3
 - moved interfaces from package ifaces to new appropriate api package
 
 Version 4.12
