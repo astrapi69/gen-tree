@@ -167,6 +167,7 @@ or over flattr:
 ## Similar projects
 
 * [Tree Data Structure Java Library](https://github.com/Scalified/tree) This Library contains different implementations of the tree data structures, such as K-ary, binary, expression trees etc.
+* [Sample tree structure](https://github.com/gt4dev/yet-another-tree-structure) Sample tree structure for C# / Java with iterator and search
 
 ## Credits
 
