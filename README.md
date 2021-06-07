@@ -164,6 +164,10 @@ or over flattr:
 <img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" />
 </a>
 
+## Similar projects
+
+* [Tree Data Structure Java Library](https://github.com/Scalified/tree) This Library contains different implementations of the tree data structures, such as K-ary, binary, expression trees etc.
+
 ## Credits
 
 |Travis CI|
