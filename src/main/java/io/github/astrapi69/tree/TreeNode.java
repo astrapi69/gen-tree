@@ -41,7 +41,7 @@ import lombok.ToString;
  *            the generic type
  */
 @NoArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = { "children" })
 @ToString(exclude = { "children" })
 public class TreeNode<T> implements ITreeNode<T>
 {

@@ -43,7 +43,7 @@ import lombok.experimental.FieldDefaults;
  */
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = { "child" })
 @ToString(exclude = { "child" })
 @NoArgsConstructor
 @AllArgsConstructor
