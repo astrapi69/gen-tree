@@ -32,7 +32,7 @@ Than you can add the dependency to your dependencies:
 	<properties>
 			...
 		<!-- GEN-TREE version -->
-		<gen-tree.version>5</gen-tree.version>
+		<gen-tree.version>5.1</gen-tree.version>
 			...
 	</properties>
 			...
@@ -55,7 +55,7 @@ your project `build.gradle` if you want to import the core functionality of sill
 define version in file gradle.properties
 ```
 
-genTreeVersion=5
+genTreeVersion=5.1
 ```
 
 or in build.gradle ext area
@@ -63,7 +63,7 @@ or in build.gradle ext area
 ```
 ext {
 			...
-    genTreeVersion = "5"
+    genTreeVersion = "5.1"
 			...
 }
 ```
