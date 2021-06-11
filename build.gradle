@@ -187,7 +187,7 @@ dependencies {
     testCompileOnly("org.projectlombok:lombok:$lombokVersion")
     testAnnotationProcessor("org.projectlombok:lombok:$lombokVersion")
     testImplementation("org.meanbean:meanbean:$meanbeanVersion")
-    testImplementation("de.alpharogroup:jobject-evaluate:$jobjectEvaluateVersion")
-    testImplementation("de.alpharogroup:test-objects:$testObjectsVersion")
+    testImplementation("de.alpharogroup:jobj-contract-verifier:$jobjContractVerifierVersion")
+    testImplementation("io.github.astrapi69:test-objects:$testObjectsVersion")
     testImplementation("org.testng:testng:$testngVersion")
 }

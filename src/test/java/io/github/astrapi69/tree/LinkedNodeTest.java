@@ -1,8 +1,8 @@
 /**
  * The MIT License
- *
+ * <p>
  * Copyright (C) 2015 Asterios Raptis
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
  * "Software"), to deal in the Software without restriction, including
@@ -10,10 +10,10 @@
  * distribute, sublicense, and/or sell copies of the Software, and to
  * permit persons to whom the Software is furnished to do so, subject to
  * the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -24,13 +24,8 @@
  */
 package io.github.astrapi69.tree;
 
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertEquals;
-
-import java.util.List;
-
-import io.github.astrapi69.tree.LinkedNode;
-import io.github.astrapi69.tree.TreeElement;
+import io.github.astrapi69.AbstractTestCase;
+import io.github.astrapi69.tree.api.ILinkedNode;
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
@@ -39,8 +34,10 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.alpharogroup.AbstractTestCase;
-import io.github.astrapi69.tree.api.ILinkedNode;
+import java.util.List;
+
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNotNull;
 
 /**
  * The unit test class for the class {@link LinkedNode}
@@ -62,9 +59,7 @@ public class LinkedNodeTest extends AbstractTestCase<Boolean, Boolean>
 	/**
 	 * {@inheritDoc}
 	 */
-	@BeforeMethod
-	@Override
-	protected void setUp() throws Exception
+	@BeforeMethod @Override protected void setUp() throws Exception
 	{
 		super.setUp();
 		firstElement = TreeElement.builder().name("first ").parent(null).build();
@@ -72,14 +67,14 @@ public class LinkedNodeTest extends AbstractTestCase<Boolean, Boolean>
 		thirdElement = TreeElement.builder().name("third ").parent(secondElement).build();
 		fourthElement = TreeElement.builder().name("fourth ").parent(thirdElement).build();
 		fifthElement = TreeElement.builder().name("fifth.").parent(fourthElement).build();
-		firstTreeNode = LinkedNode.<TreeElement> builder().value(firstElement).build();
-		secondTreeNode = LinkedNode.<TreeElement> builder().value(secondElement)
+		firstTreeNode = LinkedNode.<TreeElement>builder().value(firstElement).build();
+		secondTreeNode = LinkedNode.<TreeElement>builder().value(secondElement)
 			.previous(firstTreeNode).build();
-		thirdTreeNode = LinkedNode.<TreeElement> builder().value(thirdElement)
+		thirdTreeNode = LinkedNode.<TreeElement>builder().value(thirdElement)
 			.previous(secondTreeNode).build();
-		fourthTreeNode = LinkedNode.<TreeElement> builder().value(fourthElement)
+		fourthTreeNode = LinkedNode.<TreeElement>builder().value(fourthElement)
 			.previous(thirdTreeNode).build();
-		fifthTreeNode = LinkedNode.<TreeElement> builder().value(fifthElement)
+		fifthTreeNode = LinkedNode.<TreeElement>builder().value(fifthElement)
 			.previous(fourthTreeNode).build();
 
 		firstTreeNode.setNext(secondTreeNode);
@@ -91,15 +86,12 @@ public class LinkedNodeTest extends AbstractTestCase<Boolean, Boolean>
 	/**
 	 * {@inheritDoc}
 	 */
-	@AfterMethod
-	@Override
-	protected void tearDown() throws Exception
+	@AfterMethod @Override protected void tearDown() throws Exception
 	{
 		super.tearDown();
 	}
 
-	@Test(enabled = true)
-	public void testConcatenate()
+	@Test(enabled = true) public void testConcatenate()
 	{
 		String actual;
 		String expected;
@@ -123,8 +115,7 @@ public class LinkedNodeTest extends AbstractTestCase<Boolean, Boolean>
 	/**
 	 * Test method for {@link LinkedNode} constructors and builders
 	 */
-	@Test
-	public final void testConstructors()
+	@Test public final void testConstructors()
 	{
 		LinkedNode<TreeElement> parentTreeNode = new LinkedNode<>();
 		assertNotNull(parentTreeNode);
@@ -134,8 +125,7 @@ public class LinkedNodeTest extends AbstractTestCase<Boolean, Boolean>
 	/**
 	 * Test method for {@link LinkedNode#toList()}
 	 */
-	@Test
-	public final void testToList()
+	@Test public final void testToList()
 	{
 		int actual;
 		int expected;
@@ -149,15 +139,13 @@ public class LinkedNodeTest extends AbstractTestCase<Boolean, Boolean>
 	/**
 	 * Test method for {@link LinkedNode}
 	 */
-	@Test
-	public void testWithBeanTester()
+	@Test public void testWithBeanTester()
 	{
 		Configuration configuration = new ConfigurationBuilder()
 			.overrideFactory("previous", new Factory<LinkedNode<TreeElement>>()
 			{
 
-				@Override
-				public LinkedNode<TreeElement> create()
+				@Override public LinkedNode<TreeElement> create()
 				{
 					return firstTreeNode;
 				}
@@ -165,8 +153,7 @@ public class LinkedNodeTest extends AbstractTestCase<Boolean, Boolean>
 			}).overrideFactory("next", new Factory<LinkedNode<TreeElement>>()
 			{
 
-				@Override
-				public LinkedNode<TreeElement> create()
+				@Override public LinkedNode<TreeElement> create()
 				{
 					return secondTreeNode;
 				}

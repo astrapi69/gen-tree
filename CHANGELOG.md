@@ -4,6 +4,10 @@
 Version 5.2-SNAPSHOT
 -------------
 
+CHANGED:
+
+- replaced dependency jobject-evaluate with new dependency jobj-contract-verifier in version 3.3
+
 Version 5.1
 -------------
 

@@ -1,8 +1,8 @@
 /**
  * The MIT License
- *
+ * <p>
  * Copyright (C) 2015 Asterios Raptis
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
  * "Software"), to deal in the Software without restriction, including
@@ -10,10 +10,10 @@
  * distribute, sublicense, and/or sell copies of the Software, and to
  * permit persons to whom the Software is furnished to do so, subject to
  * the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -24,17 +24,9 @@
  */
 package io.github.astrapi69.tree;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import io.github.astrapi69.tree.TreeElement;
-import io.github.astrapi69.tree.TreeNode;
+import de.alpharogroup.evaluate.object.evaluators.EqualsHashCodeAndToStringEvaluator;
+import io.github.astrapi69.AbstractTestCase;
+import io.github.astrapi69.tree.api.ITreeNode;
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
@@ -43,9 +35,14 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.alpharogroup.AbstractTestCase;
-import de.alpharogroup.evaluate.object.evaluators.EqualsHashCodeAndToStringEvaluator;
-import io.github.astrapi69.tree.api.ITreeNode;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 /**
  * The unit test class for the class {@link TreeNode}
@@ -65,9 +62,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	TreeElement secondChild;
 	ITreeNode<TreeElement> secondChildTreeNode;
 
-	@BeforeMethod
-	@Override
-	protected void setUp() throws Exception
+	@BeforeMethod @Override protected void setUp() throws Exception
 	{
 		super.setUp();
 		parent = TreeElement.builder().name("parent").parent(null).node(false).build();
@@ -93,9 +88,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		firstGrandGrandChildTreeNode.setParent(firstChildTreeNode);
 	}
 
-	@AfterMethod
-	@Override
-	protected void tearDown() throws Exception
+	@AfterMethod @Override protected void tearDown() throws Exception
 	{
 		super.tearDown();
 		list = null;
@@ -112,8 +105,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	/**
 	 * Test method for {@link TreeNode#addChildAt(int, ITreeNode)}.
 	 */
-	@Test
-	public void testAddChildAt()
+	@Test public void testAddChildAt()
 	{
 		parentTreeNode.addChild(firstChildTreeNode);
 		parentTreeNode.addChildAt(0, secondChildTreeNode);
@@ -130,8 +122,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	/**
 	 * Test method for {@link TreeNode} constructors and builders
 	 */
-	@Test
-	public final void testConstructors()
+	@Test public final void testConstructors()
 	{
 		ITreeNode<TreeElement> parentTreeNode = new TreeNode<>();
 		assertNotNull(parentTreeNode);
@@ -144,16 +135,15 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	 * Test method for {@link TreeNode#equals(Object)} , {@link TreeNode#hashCode()} and
 	 * {@link TreeNode#toString()}
 	 */
-	@Test
-	public void testEqualsHashcodeAndToString()
+	@Test public void testEqualsHashcodeAndToString()
 	{
 		TreeNode<TreeElement> first = new TreeNode<>(parent);
 		TreeNode<TreeElement> second = new TreeNode<>();
 		TreeNode<TreeElement> third = new TreeNode<>(parent);
 		TreeNode<TreeElement> fourth = new TreeNode<>(parent);
 
-		actual = EqualsHashCodeAndToStringEvaluator.evaluateEqualsHashcodeAndToString(first, second,
-			third, fourth);
+		actual = EqualsHashCodeAndToStringEvaluator
+			.evaluateEqualsHashcodeAndToString(first, second, third, fourth);
 		expected = true;
 		assertEquals(expected, actual);
 	}
@@ -161,8 +151,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	/**
 	 * Test method for {@link TreeNode#getAllSiblings()}.
 	 */
-	@Test
-	public void testGetAllSiblings()
+	@Test public void testGetAllSiblings()
 	{
 		parentTreeNode.addChild(firstChildTreeNode);
 		parentTreeNode.addChild(secondChildTreeNode);
@@ -183,8 +172,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	/**
 	 * Test method for {@link TreeNode#getChildCount()}.
 	 */
-	@Test
-	public void testGetChildCount()
+	@Test public void testGetChildCount()
 	{
 		int actual;
 		int expected;
@@ -203,8 +191,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	/**
 	 * Test method for {@link TreeNode#getDepth()}.
 	 */
-	@Test
-	public void testGetDepth()
+	@Test public void testGetDepth()
 	{
 		int actual;
 		int expected;
@@ -235,8 +222,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	/**
 	 * Test method for {@link TreeNode#getLevel()}.
 	 */
-	@Test
-	public void testGetLevel()
+	@Test public void testGetLevel()
 	{
 		int actual;
 		int expected;
@@ -267,8 +253,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	/**
 	 * Test method for {@link TreeNode#getNextSibling()}.
 	 */
-	@Test
-	public void testGetNextSibling()
+	@Test public void testGetNextSibling()
 	{
 		ITreeNode<TreeElement> actual;
 		ITreeNode<TreeElement> expected;
@@ -293,8 +278,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	/**
 	 * Test method for {@link TreeNode#getPreviousSibling()}.
 	 */
-	@Test
-	public void testGetPreviousSibling()
+	@Test public void testGetPreviousSibling()
 	{
 		ITreeNode<TreeElement> actual;
 		ITreeNode<TreeElement> expected;
@@ -316,8 +300,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		assertEquals(expected, actual);
 	}
 
-	@Test(enabled = true)
-	public void testGetRoot()
+	@Test(enabled = true) public void testGetRoot()
 	{
 		ITreeNode<TreeElement> root;
 
@@ -331,8 +314,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	/**
 	 * Test method for {@link TreeNode#hasChildren()}.
 	 */
-	@Test
-	public void testHasChildren()
+	@Test public void testHasChildren()
 	{
 		assertFalse(parentTreeNode.hasChildren());
 		parentTreeNode.addChild(firstChildTreeNode);
@@ -342,8 +324,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	/**
 	 * Test method for {@link TreeNode#hasParent()}.
 	 */
-	@Test
-	public void testHasParent()
+	@Test public void testHasParent()
 	{
 		assertFalse(parentTreeNode.hasParent());
 		parentTreeNode.addChild(firstChildTreeNode);
@@ -353,8 +334,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	/**
 	 * Test method for {@link TreeNode#isRoot()}.
 	 */
-	@Test
-	public void testIsRoot()
+	@Test public void testIsRoot()
 	{
 		assertTrue(parentTreeNode.isRoot());
 		parentTreeNode.addChild(firstChildTreeNode);
@@ -364,8 +344,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	/**
 	 * Test method for {@link TreeNode#removeChild(ITreeNode)}.
 	 */
-	@Test
-	public void testRemoveChild()
+	@Test public void testRemoveChild()
 	{
 		parentTreeNode.addChild(firstChildTreeNode);
 		parentTreeNode.addChild(secondChildTreeNode);
@@ -382,8 +361,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	/**
 	 * Test method for {@link TreeNode#removeChildAt(int)}.
 	 */
-	@Test
-	public void testRemoveChildAt()
+	@Test public void testRemoveChildAt()
 	{
 		parentTreeNode.addChild(firstChildTreeNode);
 		parentTreeNode.addChild(secondChildTreeNode);
@@ -400,8 +378,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	/**
 	 * Test method for {@link TreeNode#toList()}.
 	 */
-	@Test
-	public void testToList()
+	@Test public void testToList()
 	{
 		parentTreeNode.addChild(firstChildTreeNode);
 		parentTreeNode.addChild(secondChildTreeNode);
@@ -419,8 +396,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	/**
 	 * Test method for {@link TreeNode#traverse(ITreeNode, List)}
 	 */
-	@Test(enabled = true)
-	public void testTraverse()
+	@Test(enabled = true) public void testTraverse()
 	{
 		parentTreeNode.addChild(firstChildTreeNode);
 		parentTreeNode.addChild(secondChildTreeNode);
@@ -438,16 +414,14 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	/**
 	 * Test method for {@link TreeNode}
 	 */
-	@Test
-	public void testWithBeanTester()
+	@Test public void testWithBeanTester()
 	{
 		final TreeNode<TreeElement> parentTreeNode = new TreeNode<>(parent);
 		Configuration configuration = new ConfigurationBuilder()
 			.overrideFactory("parent", new Factory<TreeNode<TreeElement>>()
 			{
 
-				@Override
-				public TreeNode<TreeElement> create()
+				@Override public TreeNode<TreeElement> create()
 				{
 					return parentTreeNode;
 				}
