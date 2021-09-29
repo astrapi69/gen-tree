@@ -4,6 +4,10 @@
 Version 5.2-SNAPSHOT
 -------------
 
+ADDED:
+
+- new class TreeElementNode that creates a TreeNode from a TreeElement
+
 CHANGED:
 
 - replaced dependency jobject-evaluate with new dependency jobj-contract-verifier in version 3.3

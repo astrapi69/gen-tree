@@ -28,11 +28,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.astrapi69.tree.api.ITreeNode;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.FieldDefaults;
 
 /**
  * The generic class TreeNode.
@@ -43,6 +45,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = { "children" })
 @ToString(exclude = { "children" })
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class TreeNode<T> implements ITreeNode<T>
 {
 
@@ -53,22 +56,27 @@ public class TreeNode<T> implements ITreeNode<T>
 
 	/** The children. */
 	@Setter
-	private List<ITreeNode<T>> children;
+	List<ITreeNode<T>> children;
 
 	/** The optional display value. */
 	@Getter
 	@Setter
-	private String displayValue;
+	String displayValue;
 
 	/** The parent from this node. If this is null it is the root. */
 	@Getter
 	@Setter
-	private ITreeNode<T> parent;
+	ITreeNode<T> parent;
 
 	/** The value. */
 	@Getter
 	@Setter
-	private T value;
+	T value;
+
+	/** The flag that indicates if this tree node is a node or a leaf */
+	@Getter
+	@Setter
+	boolean node = true;
 
 	/**
 	 * Instantiates a new tree node.

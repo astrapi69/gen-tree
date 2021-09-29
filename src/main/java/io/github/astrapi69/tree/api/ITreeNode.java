@@ -348,16 +348,21 @@ public interface ITreeNode<T> extends Serializable
 	/**
 	 * Sets the optional display value.
 	 *
-	 * @param displayValue
-	 *            the new optional display value
+	 * @param displayValue the new optional display value
 	 */
 	void setDisplayValue(final String displayValue);
 
 	/**
+	 * Sets the flag that indicates if this tree node is a node or a leaf
+	 *
+	 * @param node The flag to set that indicates if this tree node is a node or a leaf
+	 */
+	void setNode(boolean node);
+
+	/**
 	 * Sets the parent.
 	 *
-	 * @param parent
-	 *            the new parent
+	 * @param parent the new parent
 	 */
 	void setParent(final ITreeNode<T> parent);
 
