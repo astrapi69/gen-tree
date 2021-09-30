@@ -34,8 +34,8 @@ import lombok.experimental.SuperBuilder;
  * The concreted class {@link TreeElementNode}
  */
 @NoArgsConstructor
-@EqualsAndHashCode
-@ToString
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @SuperBuilder(toBuilder = true)
 public class TreeElementNode extends TreeNode<TreeElement>
 {
