@@ -65,8 +65,8 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@BeforeMethod @Override protected void setUp() throws Exception
 	{
 		super.setUp();
-		parent = TreeElement.builder().name("parent").parent(null).node(false).build();
-		firstChild = TreeElement.builder().name("firstChild").parent(parent).node(false).build();
+		parent = TreeElement.builder().name("parent").parent(null).node(true).build();
+		firstChild = TreeElement.builder().name("firstChild").parent(parent).node(true).build();
 		firstGrandChild = TreeElement.builder().name("firstGrandChild").parent(firstChild)
 			.node(true).build();
 		firstGrandGrandChild = TreeElement.builder().name("firstGrandGrandChild")
@@ -74,6 +74,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		secondChild = TreeElement.builder().name("secondChild").parent(parent).node(true).build();
 
 		parentTreeNode = new TreeNode<>(parent);
+		parentTreeNode.setNode(true);
 
 		firstChildTreeNode = new TreeNode<>(firstChild);
 		firstChildTreeNode.setParent(parentTreeNode);
@@ -129,6 +130,9 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		parentTreeNode.setValue(parent);
 		parentTreeNode = new TreeNode<>(parent);
 		assertNotNull(parentTreeNode);
+		TreeNode<TreeElement> treeNode = TreeNode.<TreeElement>builder().build();
+		assertNotNull(treeNode);
+		assertTrue(treeNode.isNode());
 	}
 
 	/**

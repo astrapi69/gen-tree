@@ -25,7 +25,10 @@
 package io.github.astrapi69.tree;
 
 import de.alpharogroup.evaluate.object.evaluators.EqualsHashCodeAndToStringEvaluator;
+import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
+import org.meanbean.test.Configuration;
+import org.meanbean.test.ConfigurationBuilder;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -54,6 +57,29 @@ public class TreeElementNodeTest
 		assertNotNull(model);
 		treeElementNode = new TreeElementNode(model);
 		assertNotNull(treeElementNode);
+
+		treeElementNode = TreeElementNode.builder().build();
+		assertNotNull(treeElementNode);
 	}
 
+	/**
+	 * Test method for {@link TreeElementNode}
+	 */
+	@Test public void testWithBeanTester()
+	{
+		final TreeElementNode parentTreeNode = new TreeElementNode();
+		Configuration configuration = new ConfigurationBuilder()
+			.overrideFactory("parent", new Factory<TreeElementNode>()
+			{
+
+				@Override public TreeElementNode create()
+				{
+					return parentTreeNode;
+				}
+
+			}).build();
+		final BeanTester beanTester = new BeanTester();
+		beanTester.addCustomConfiguration(TreeNode.class, configuration);
+		beanTester.testBean(TreeNode.class);
+	}
 }

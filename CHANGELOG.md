@@ -10,6 +10,8 @@ ADDED:
 
 CHANGED:
 
+- update gradle to new version 7.2
+- update of test dependency test-objects version to 5.5
 - replaced dependency jobject-evaluate with new dependency jobj-contract-verifier in version 3.3
 
 Version 5.1

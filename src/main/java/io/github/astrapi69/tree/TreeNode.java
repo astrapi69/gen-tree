@@ -29,12 +29,14 @@ import java.util.List;
 
 import io.github.astrapi69.tree.api.ITreeNode;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 
 /**
  * The generic class TreeNode.
@@ -45,6 +47,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = { "children" })
 @ToString(exclude = { "children" })
+@SuperBuilder(toBuilder = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TreeNode<T> implements ITreeNode<T>
 {
@@ -56,7 +59,8 @@ public class TreeNode<T> implements ITreeNode<T>
 
 	/** The children. */
 	@Setter
-	List<ITreeNode<T>> children;
+	@Builder.Default
+	List<ITreeNode<T>> children = new ArrayList<>();
 
 	/** The optional display value. */
 	@Getter
@@ -76,6 +80,7 @@ public class TreeNode<T> implements ITreeNode<T>
 	/** The flag that indicates if this tree node is a node or a leaf */
 	@Getter
 	@Setter
+	@Builder.Default
 	boolean node = true;
 
 	/**

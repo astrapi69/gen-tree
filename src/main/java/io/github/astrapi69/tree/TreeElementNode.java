@@ -1,10 +1,18 @@
 package io.github.astrapi69.tree;
 
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 /**
  * The concreted class {@link TreeElementNode}
  */
+@NoArgsConstructor
+@EqualsAndHashCode
+@ToString
+@SuperBuilder(toBuilder = true)
 public class TreeElementNode extends TreeNode<TreeElement>
 {
 
