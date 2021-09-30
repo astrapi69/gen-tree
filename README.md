@@ -1,6 +1,6 @@
 # Overview
 
-<div align="center">
+<div style="text-align: center">
 
 [![Build Status](https://api.travis-ci.com/lightblueseas/gen-tree.svg?branch=master)](https://travis-ci.com/github/lightblueseas/gen-tree)
 [![Coverage Status](https://coveralls.io/repos/github/lightblueseas/gen-tree/badge.svg?branch=develop)](https://coveralls.io/github/lightblueseas/gen-tree?branch=master)
@@ -35,7 +35,7 @@ Than you can add the dependency to your dependencies:
 	<properties>
 			...
 		<!-- GEN-TREE version -->
-		<gen-tree.version>5.1</gen-tree.version>
+		<gen-tree.version>5.2</gen-tree.version>
 			...
 	</properties>
 			...
@@ -59,7 +59,7 @@ define version in file gradle.properties
 
 ```
 
-genTreeVersion=5.1
+genTreeVersion=5.2
 ```
 
 or in build.gradle ext area
@@ -67,7 +67,7 @@ or in build.gradle ext area
 ```
 ext {
 			...
-    genTreeVersion = "5.1"
+    genTreeVersion = "5.2"
 			...
 }
 ```
@@ -177,7 +177,7 @@ alt="Donation Monero Wallet" width="250"/>
 
 or over flattr:
 <a href="https://flattr.com/submit/auto?fid=r7vp62&url=https%3A%2F%2Fgithub.com%2Flightblueseas%2Fgen-tree" target="_blank">
-<img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" />
+<img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" style="border: none" />
 </a>
 
 ## Similar projects
