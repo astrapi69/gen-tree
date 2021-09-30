@@ -108,6 +108,14 @@ public interface ITreeNode<T> extends Serializable
 	List<ITreeNode<T>> getChildren();
 
 	/**
+	 * Sets the children.
+	 *
+	 * @param children
+	 *            the new children
+	 */
+	void setChildren(final List<ITreeNode<T>> children);
+
+	/**
 	 * Gets the child from the given index.
 	 *
 	 * @param parent
@@ -116,7 +124,8 @@ public interface ITreeNode<T> extends Serializable
 	 *            the index
 	 * @return the child from the given index
 	 */
-	default ITreeNode<T> getChild(ITreeNode<T> parent, int index) {
+	default ITreeNode<T> getChild(ITreeNode<T> parent, int index)
+	{
 		return parent.getChildren().get(index);
 	}
 
@@ -170,6 +179,14 @@ public interface ITreeNode<T> extends Serializable
 	String getDisplayValue();
 
 	/**
+	 * Sets the optional display value.
+	 *
+	 * @param displayValue
+	 *            the new optional display value
+	 */
+	void setDisplayValue(final String displayValue);
+
+	/**
 	 * Returns the distance from the root to this node. Returns 0 if this node is the root.
 	 *
 	 * @return the level from this node.
@@ -212,6 +229,14 @@ public interface ITreeNode<T> extends Serializable
 	 * @return the parent
 	 */
 	ITreeNode<T> getParent();
+
+	/**
+	 * Sets the parent.
+	 *
+	 * @param parent
+	 *            the new parent
+	 */
+	void setParent(final ITreeNode<T> parent);
 
 	/**
 	 * Returns the previous sibling of this node in the parent's children list. Returns null if this
@@ -259,6 +284,14 @@ public interface ITreeNode<T> extends Serializable
 	T getValue();
 
 	/**
+	 * Sets the value.
+	 *
+	 * @param value
+	 *            the new value
+	 */
+	void setValue(final T value);
+
+	/**
 	 * Checks for children.
 	 *
 	 * @return true, if successful
@@ -299,6 +332,14 @@ public interface ITreeNode<T> extends Serializable
 	}
 
 	/**
+	 * Sets the flag that indicates if this tree node is a node or a leaf
+	 *
+	 * @param node
+	 *            The flag to set that indicates if this tree node is a node or a leaf
+	 */
+	void setNode(boolean node);
+
+	/**
 	 * Checks if this {@link ITreeNode} is the root {@link ITreeNode} object
 	 *
 	 * @return true, if this {@link ITreeNode} is the root {@link ITreeNode} object
@@ -336,43 +377,6 @@ public interface ITreeNode<T> extends Serializable
 			child.setParent(null);
 		}
 	}
-
-	/**
-	 * Sets the children.
-	 *
-	 * @param children
-	 *            the new children
-	 */
-	void setChildren(final List<ITreeNode<T>> children);
-
-	/**
-	 * Sets the optional display value.
-	 *
-	 * @param displayValue the new optional display value
-	 */
-	void setDisplayValue(final String displayValue);
-
-	/**
-	 * Sets the flag that indicates if this tree node is a node or a leaf
-	 *
-	 * @param node The flag to set that indicates if this tree node is a node or a leaf
-	 */
-	void setNode(boolean node);
-
-	/**
-	 * Sets the parent.
-	 *
-	 * @param parent the new parent
-	 */
-	void setParent(final ITreeNode<T> parent);
-
-	/**
-	 * Sets the value.
-	 *
-	 * @param value
-	 *            the new value
-	 */
-	void setValue(final T value);
 
 	/**
 	 * To list.

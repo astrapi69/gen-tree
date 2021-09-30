@@ -1,8 +1,8 @@
 /**
  * The MIT License
- * <p>
+ *
  * Copyright (C) 2015 Asterios Raptis
- * <p>
+ *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
  * "Software"), to deal in the Software without restriction, including
@@ -10,10 +10,10 @@
  * distribute, sublicense, and/or sell copies of the Software, and to
  * permit persons to whom the Software is furnished to do so, subject to
  * the following conditions:
- * <p>
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- * <p>
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -24,9 +24,9 @@
  */
 package io.github.astrapi69.tree;
 
-import org.testng.annotations.Test;
-
 import static org.testng.AssertJUnit.assertNotNull;
+
+import org.testng.annotations.Test;
 
 /**
  * The unit test class for the class {@link TreeElement}
@@ -37,13 +37,14 @@ public class LazyTreeElementTest
 	/**
 	 * Test method for {@link LazyTreeElement} constructors and builders
 	 */
-	@Test public final void testConstructors()
+	@Test
+	public final void testConstructors()
 	{
 		LazyTreeElement<String> model = new LazyTreeElement<>();
 		assertNotNull(model);
 		model = new LazyTreeElement<>("value", false);
 		assertNotNull(model);
-		model = LazyTreeElement.<String>builder().build();
+		model = LazyTreeElement.<String> builder().build();
 		assertNotNull(model);
 	}
 

@@ -61,6 +61,14 @@ public interface ILinkedNode<T>
 	ILinkedNode<T> getNext();
 
 	/**
+	 * Sets the next object
+	 *
+	 * @param next
+	 *            the new next object
+	 */
+	void setNext(ILinkedNode<T> next);
+
+	/**
 	 * Gets the next count.
 	 *
 	 * @return the next count
@@ -93,6 +101,14 @@ public interface ILinkedNode<T>
 	 * @return the previous object
 	 */
 	ILinkedNode<T> getPrevious();
+
+	/**
+	 * Sets the previous object
+	 *
+	 * @param previous
+	 *            the new previous object
+	 */
+	void setPrevious(final ILinkedNode<T> previous);
 
 	/**
 	 * Gets the next count.
@@ -129,6 +145,14 @@ public interface ILinkedNode<T>
 	T getValue();
 
 	/**
+	 * Sets the value.
+	 *
+	 * @param value
+	 *            the new value
+	 */
+	void setValue(T value);
+
+	/**
 	 * Checks if this tree node has a next object
 	 *
 	 * @return true, if successful
@@ -157,30 +181,6 @@ public interface ILinkedNode<T>
 	{
 		return !hasPrevious();
 	}
-
-	/**
-	 * Sets the next object
-	 *
-	 * @param next
-	 *            the new next object
-	 */
-	void setNext(ILinkedNode<T> next);
-
-	/**
-	 * Sets the previous object
-	 *
-	 * @param previous
-	 *            the new previous object
-	 */
-	void setPrevious(final ILinkedNode<T> previous);
-
-	/**
-	 * Sets the value.
-	 *
-	 * @param value
-	 *            the new value
-	 */
-	void setValue(T value);
 
 	/**
 	 * Transforms this linked node object to an ordered {@link LinkedList} with all nodes

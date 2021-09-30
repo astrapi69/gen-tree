@@ -24,7 +24,7 @@ ADDED:
 
 CHANGED:
 
-- added exclude in EqualsAndHashCode for the children field 
+- added exclude in EqualsAndHashCode for the children field
 
 Version 5
 -------------
@@ -44,26 +44,26 @@ CHANGED:
 Version 4.12
 -------------
 
-ADDED: 
+ADDED:
 
 - created new tree node IChainableTreeNode
 - created new linked node ILinkedNode
 - created methods in IChainableTreeNode
 
- * getAllParent
- * getChildCount
- * getChildren
- * getLevel
- * toList
+* getAllParent
+* getChildCount
+* getChildren
+* getLevel
+* toList
 
 - created methods in ILinkedNode
 
- * getNextCount
- * getNextLinkedNodes
- * getPreviousCount
- * getPreviousLinkedNodes
- * toList
- 
+* getNextCount
+* getNextLinkedNodes
+* getPreviousCount
+* getPreviousLinkedNodes
+* toList
+
 CHANGED:
 
 - update of parent version to 4.5
@@ -73,7 +73,7 @@ CHANGED:
 Version 4.11
 -------------
 
-ADDED: 
+ADDED:
 
 - new CHANGELOG.md file created
 - new eclipse launch scripts created
@@ -86,4 +86,5 @@ CHANGED:
 - moved TreeElement from test package to main package
 
 Notable links:
-[keep a changelog](http://keepachangelog.com/en/1.0.0/) Don’t let your friends dump git logs into changelogs
+[keep a changelog](http://keepachangelog.com/en/1.0.0/) Don’t let your friends dump git logs into
+changelogs

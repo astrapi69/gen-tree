@@ -33,8 +33,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * The class {@link LazyTreeElement} represents a lazy tree element that does not know about
- * the parent or children
+ * The class {@link LazyTreeElement} represents a lazy tree element that does not know about the
+ * parent or children
  */
 @Getter
 @Setter

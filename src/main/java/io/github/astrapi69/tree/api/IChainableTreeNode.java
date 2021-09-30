@@ -61,6 +61,14 @@ public interface IChainableTreeNode<T>
 	IChainableTreeNode<T> getChild();
 
 	/**
+	 * Sets the child.
+	 *
+	 * @param child
+	 *            the new child
+	 */
+	void setChild(IChainableTreeNode<T> child);
+
+	/**
 	 * Gets the child count.
 	 *
 	 * @return the child count
@@ -105,6 +113,14 @@ public interface IChainableTreeNode<T>
 	IChainableTreeNode<T> getParent();
 
 	/**
+	 * Sets the parent.
+	 *
+	 * @param parent
+	 *            the new parent
+	 */
+	void setParent(final IChainableTreeNode<T> parent);
+
+	/**
 	 * Gets the root {@link IChainableTreeNode} object
 	 *
 	 * @return the root {@link IChainableTreeNode} object
@@ -127,6 +143,14 @@ public interface IChainableTreeNode<T>
 	 * @return the value
 	 */
 	T getValue();
+
+	/**
+	 * Sets the value.
+	 *
+	 * @param value
+	 *            the new value
+	 */
+	void setValue(T value);
 
 	/**
 	 * Checks if this tree node has a child
@@ -157,30 +181,6 @@ public interface IChainableTreeNode<T>
 	{
 		return !hasParent();
 	}
-
-	/**
-	 * Sets the child.
-	 *
-	 * @param child
-	 *            the new child
-	 */
-	void setChild(IChainableTreeNode<T> child);
-
-	/**
-	 * Sets the parent.
-	 *
-	 * @param parent
-	 *            the new parent
-	 */
-	void setParent(final IChainableTreeNode<T> parent);
-
-	/**
-	 * Sets the value.
-	 *
-	 * @param value
-	 *            the new value
-	 */
-	void setValue(T value);
 
 	/**
 	 * Transforms this tree node object to an ordered {@link LinkedList} with all tree nodes
