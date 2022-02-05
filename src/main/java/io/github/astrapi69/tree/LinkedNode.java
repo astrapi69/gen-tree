@@ -24,7 +24,6 @@
  */
 package io.github.astrapi69.tree;
 
-import io.github.astrapi69.tree.api.ILinkedNode;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,6 +33,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
+import io.github.astrapi69.tree.api.ILinkedNode;
 
 /**
  * The class {@link LinkedNode} can have only one next element and one previous element

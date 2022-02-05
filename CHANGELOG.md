@@ -4,6 +4,23 @@
 Version 5.3-SNAPSHOT
 -------------
 
+ADDED:
+
+- new inteface ILinkedTreeNode that extends ITreeNode
+- new class LinkedTreeNode that unites the features of TreeNode and LinkedNode
+- new gradle-plugin dependency of 'com.diffplug.spotless:spotless-plugin-gradle' in version 6.2.1 for formatting source code
+- new gradle-plugin dependency of 'org.ajoberstar.grgit:grgit-gradle' in version 4.4.1 for create git release tags
+
+CHANGED:
+
+- update gradle to new version 7.3.3
+- update of lombok version to 1.18.22
+- improve gradle build performance by adding new gradle parameters for caching, parallel, configure on demand and file watch
+- update of com.github.ben-manes.versions.gradle.plugin to new version 0.42.0
+- update of test dependency test-objects version to 5.7
+- update of test dependency testng version to 7.5
+- update of test dependency jobj-contract-verifier version to 3.5
+
 Version 5.2
 -------------
 

@@ -41,8 +41,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.alpharogroup.evaluate.object.evaluators.EqualsHashCodeAndToStringEvaluator;
 import io.github.astrapi69.AbstractTestCase;
+import io.github.astrapi69.evaluate.object.evaluators.EqualsHashCodeAndToStringEvaluator;
 import io.github.astrapi69.tree.api.ITreeNode;
 
 /**
@@ -76,20 +76,19 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 			.parent(firstGrandChild).node(true).build();
 		secondChild = TreeElement.builder().name("secondChild").parent(parent).node(true).build();
 
-		parentTreeNode = new TreeNode<>(parent);
-		parentTreeNode.setNode(true);
+		parentTreeNode = TreeNode.<TreeElement> builder().value(parent).node(true).build();
 
-		firstChildTreeNode = new TreeNode<>(firstChild);
-		firstChildTreeNode.setParent(parentTreeNode);
+		firstChildTreeNode = TreeNode.<TreeElement> builder().value(firstChild)
+			.parent(parentTreeNode).build();
 
-		secondChildTreeNode = new TreeNode<>(secondChild);
-		secondChildTreeNode.setParent(parentTreeNode);
+		secondChildTreeNode = TreeNode.<TreeElement> builder().value(secondChild)
+			.parent(parentTreeNode).build();
 
-		firstGrandChildTreeNode = new TreeNode<>(firstGrandChild);
-		firstGrandChildTreeNode.setParent(firstChildTreeNode);
+		firstGrandChildTreeNode = TreeNode.<TreeElement> builder().value(firstGrandChild)
+			.parent(firstChildTreeNode).build();
 
-		firstGrandGrandChildTreeNode = new TreeNode<>(firstGrandGrandChild);
-		firstGrandGrandChildTreeNode.setParent(firstChildTreeNode);
+		firstGrandGrandChildTreeNode = TreeNode.<TreeElement> builder().value(firstGrandGrandChild)
+			.parent(firstChildTreeNode).build();
 	}
 
 	@AfterMethod

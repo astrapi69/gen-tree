@@ -322,7 +322,7 @@ public interface ITreeNode<T> extends Serializable
 	}
 
 	/**
-	 * Checks if is node.
+	 * Checks if is node. Overwrite this method if this node is a leaf
 	 *
 	 * @return true, if is node
 	 */

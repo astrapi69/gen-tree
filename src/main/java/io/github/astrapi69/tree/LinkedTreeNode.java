@@ -26,50 +26,44 @@ package io.github.astrapi69.tree;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
-import io.github.astrapi69.tree.api.IChainableTreeNode;
+import lombok.experimental.SuperBuilder;
+import io.github.astrapi69.tree.api.ILinkedTreeNode;
 
 /**
- * The class {@link ChainableTreeNode} can have only one child and one parent
+ * The class {@link LinkedTreeNode} can have only one next element and one previous element
  *
  * @param <T>
  *            the generic type of the value
  */
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = { "child" })
-@ToString(exclude = { "child" })
+@EqualsAndHashCode(callSuper = true, exclude = { "next" })
+@ToString(exclude = { "next" })
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder(toBuilder = true)
+@SuperBuilder(toBuilder = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ChainableTreeNode<T> implements IChainableTreeNode<T>
+public class LinkedTreeNode<T> extends TreeNode<T> implements ILinkedTreeNode<T>
 {
 
-	/** The single child. */
-	IChainableTreeNode<T> child;
-
-	/** The single parent. */
-	IChainableTreeNode<T> parent;
-
-	/** The value. */
-	T value;
+	/**
+	 * The next.
+	 */
+	ILinkedTreeNode<T> next;
 
 	/**
-	 * Instantiates a new {@link ChainableTreeNode} object.
-	 *
-	 * @param value
-	 *            the value
+	 * The previous.
 	 */
-	public ChainableTreeNode(T value)
-	{
-		this.value = value;
-	}
+	ILinkedTreeNode<T> previous;
 
+	/**
+	 * The value.
+	 */
+	T value;
 }

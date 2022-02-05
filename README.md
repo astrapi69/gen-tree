@@ -32,23 +32,23 @@ functionality of gen-tree:
 
 Than you can add the dependency to your dependencies:
 
-	<properties>
-			...
-		<!-- GEN-TREE version -->
-		<gen-tree.version>5.2</gen-tree.version>
-			...
-	</properties>
-			...
-		<dependencies>
-			...
+    <properties>
+            ...
+        <!-- GEN-TREE version -->
+        <gen-tree.version>5.2</gen-tree.version>
+            ...
+    </properties>
+            ...
+        <dependencies>
+            ...
             <!-- GEN-TREE DEPENDENCY -->
-			<dependency>
-				<groupId>io.github.astrapi69</groupId>
-				<artifactId>gen-tree</artifactId>
-				<version>${gen-tree.version}</version>
-			</dependency>
-			...
-		</dependencies>
+            <dependency>
+                <groupId>io.github.astrapi69</groupId>
+                <artifactId>gen-tree</artifactId>
+                <version>${gen-tree.version}</version>
+            </dependency>
+            ...
+        </dependencies>
 
 ## gradle dependency
 
@@ -66,9 +66,9 @@ or in build.gradle ext area
 
 ```
 ext {
-			...
+            ...
     genTreeVersion = "5.2"
-			...
+            ...
 }
 ```
 
@@ -76,9 +76,9 @@ and than add the dependency to the dependencies area
 
 ```
 dependencies {
-			...
+            ...
     implementation("io.github.astrapi69:gen-tree:$genTreeVersion")
-			...
+            ...
 }
 ```
 
