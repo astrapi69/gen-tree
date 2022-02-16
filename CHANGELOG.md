@@ -9,6 +9,7 @@ ADDED:
 - new abstract class GenericBinaryTree that represents a generic binary tree
 - new gradle-plugin dependency of 'com.diffplug.spotless:spotless-plugin-gradle' in version 6.3.0 for formatting source code
 - new gradle-plugin dependency of 'org.ajoberstar.grgit:grgit-gradle' in version 4.4.1 for create git release tags
+- new workflow github-action for 'Java CI with Gradle' with codecov-action
 
 CHANGED:
 
