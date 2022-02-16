@@ -79,4 +79,5 @@ public class TreeElementNode extends TreeNode<TreeElement>
 			setDisplayValue(value.getName());
 		}
 	}
+
 }
