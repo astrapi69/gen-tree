@@ -36,7 +36,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-@SuperBuilder(toBuilder = true)
+@SuperBuilder
 public class TreeElementNode extends TreeNode<TreeElement>
 {
 
