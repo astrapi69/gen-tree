@@ -35,6 +35,9 @@ import lombok.ToString;
 /**
  * The class {@link LazyTreeElement} represents a lazy tree element that does not know about the
  * parent or children
+ *
+ * @param <T>
+ *            the generic type of the value
  */
 @Getter
 @Setter

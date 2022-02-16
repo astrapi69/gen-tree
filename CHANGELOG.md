@@ -6,8 +6,7 @@ Version 5.3-SNAPSHOT
 
 ADDED:
 
-- new inteface ILinkedTreeNode that extends ITreeNode
-- new class LinkedTreeNode that unites the features of TreeNode and LinkedNode
+- new abstract class GenericBinaryTree that represents a generic binary tree
 - new gradle-plugin dependency of 'com.diffplug.spotless:spotless-plugin-gradle' in version 6.2.1 for formatting source code
 - new gradle-plugin dependency of 'org.ajoberstar.grgit:grgit-gradle' in version 4.4.1 for create git release tags
 

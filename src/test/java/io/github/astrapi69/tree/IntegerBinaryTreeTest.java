@@ -24,52 +24,23 @@
  */
 package io.github.astrapi69.tree;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.experimental.FieldDefaults;
-import io.github.astrapi69.tree.api.ILinkedNode;
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
 
-/**
- * The class {@link LinkedNode} is a representation of a binary tree node and can have only one next
- * element and one previous element and a current value.
- *
- * @param <T>
- *            the generic type of the value
- */
-@Getter
-@Setter
-@EqualsAndHashCode(exclude = { "next" })
-@ToString(exclude = { "next" })
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(toBuilder = true)
-@FieldDefaults(level = AccessLevel.PRIVATE)
-public class LinkedNode<T> implements ILinkedNode<T>
+import org.testng.annotations.Test;
+
+public class IntegerBinaryTreeTest
 {
 
-	/** The next. */
-	ILinkedNode<T> next;
-
-	/** The previous. */
-	ILinkedNode<T> previous;
-
-	/** The value. */
-	T value;
-
-	/**
-	 * Instantiates a new {@link LinkedNode}
-	 *
-	 * @param value
-	 *            the value
-	 */
-	public LinkedNode(T value)
+	@Test
+	public void testGenericBinaryTreeWithInteger()
 	{
-		this.value = value;
+		IntegerBinaryTree integerBinaryTree = new IntegerBinaryTree();
+
+		integerBinaryTree.add(5).add(3).add(7).add(2).add(4).add(6).add(8);
+
+		assertTrue(integerBinaryTree.contains(3));
+		assertTrue(integerBinaryTree.contains(5));
+		assertFalse(integerBinaryTree.contains(9));
 	}
 }

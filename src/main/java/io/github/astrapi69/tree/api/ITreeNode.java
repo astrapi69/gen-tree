@@ -32,7 +32,7 @@ import java.util.List;
  * The Interface ITreeNode.
  *
  * @param <T>
- *            the generic type
+ *            the generic type of the value
  */
 public interface ITreeNode<T> extends Serializable
 {

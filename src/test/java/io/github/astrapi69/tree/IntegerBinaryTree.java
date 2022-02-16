@@ -24,46 +24,19 @@
  */
 package io.github.astrapi69.tree;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.experimental.FieldDefaults;
-import lombok.experimental.SuperBuilder;
-import io.github.astrapi69.tree.api.ILinkedTreeNode;
-
-/**
- * The class {@link LinkedTreeNode} can have only one next element and one previous element
- *
- * @param <T>
- *            the generic type of the value
- */
-@Getter
-@Setter
-@EqualsAndHashCode(callSuper = true, exclude = { "next" })
-@ToString(exclude = { "next" })
-@NoArgsConstructor
-@AllArgsConstructor
-@SuperBuilder(toBuilder = true)
-@FieldDefaults(level = AccessLevel.PRIVATE)
-public class LinkedTreeNode<T> extends TreeNode<T> implements ILinkedTreeNode<T>
+public class IntegerBinaryTree extends GenericBinaryTree<Integer>
 {
 
-	/**
-	 * The next.
-	 */
-	ILinkedTreeNode<T> next;
+	@Override
+	public boolean isSmaller(LinkedNode<Integer> linkedNode, Integer value)
+	{
+		return value < linkedNode.getValue();
+	}
 
-	/**
-	 * The previous.
-	 */
-	ILinkedTreeNode<T> previous;
+	@Override
+	public boolean isGreater(LinkedNode<Integer> linkedNode, Integer value)
+	{
+		return value > linkedNode.getValue();
+	}
 
-	/**
-	 * The value.
-	 */
-	T value;
 }

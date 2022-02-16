@@ -42,7 +42,7 @@ import io.github.astrapi69.tree.api.ITreeNode;
  * The generic class TreeNode.
  *
  * @param <T>
- *            the generic type
+ *            the generic type of the value
  */
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = { "children" })
