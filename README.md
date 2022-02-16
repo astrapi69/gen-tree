@@ -13,14 +13,41 @@
 
 </div>
 
-The gen-tree project holds a generic model for tree objects
+The gen-tree repository holds a generic model for simple and binary tree objects
 
-If you like this project put a ⭐ and donate
+> Please support this project by simply putting a Github <!-- Place this tag where you want the button to render. -->
+<a class="github-button" href="https://github.com/lightblueseas/gen-tree" data-icon="octicon-star" aria-label="Star lightblueseas/gen-tree on GitHub">Star ⭐</a>
+>
+> Share this library with friends on Twitter and everywhere else you can
+>
+> If you love this project [![donation](https://img.shields.io/badge/donate-❤-ff2244.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GVBTWLRAZ7HB8)
 
 ## License
 
-The source code comes under the liberal MIT License, making gen-tree great for all types of
-applications.
+The source code comes under the liberal MIT License, making gen-tree great for all types of applications.
+
+## gradle dependency
+
+You can first define the version in the ext section and add than the following gradle dependency to
+your project `build.gradle` if you want to import the core functionality of silly-collections:
+
+define version in file gradle.properties
+
+```
+genTreeVersion=5.2
+```
+
+or in build.gradle ext area
+
+```
+    genTreeVersion = "5.2"
+```
+
+and than add the dependency to the dependencies area
+
+```
+    implementation("io.github.astrapi69:gen-tree:$genTreeVersion")
+```
 
 ## Maven dependency
 
@@ -50,38 +77,6 @@ Than you can add the dependency to your dependencies:
             </dependency>
             ...
         </dependencies>
-
-## gradle dependency
-
-You can first define the version in the ext section and add than the following gradle dependency to
-your project `build.gradle` if you want to import the core functionality of silly-collections:
-
-define version in file gradle.properties
-
-```
-
-genTreeVersion=5.2
-```
-
-or in build.gradle ext area
-
-```
-ext {
-            ...
-    genTreeVersion = "5.2"
-            ...
-}
-```
-
-and than add the dependency to the dependencies area
-
-```
-dependencies {
-            ...
-    implementation("io.github.astrapi69:gen-tree:$genTreeVersion")
-            ...
-}
-```
 
 ## Semantic Versioning
 
@@ -191,6 +186,21 @@ or over flattr:
 
 ## Credits
 
-|Travis CI| |:-:| |![Travis CI](https://travis-ci.com/images/logos/TravisCI-Full-Color.png)|
-|Many thanks to [Travis CI](https://travis-ci.org) for providing a free continuous integration
-service for open source projects.|
+|**Nexus Sonatype repositories**|
+|     :---:      |
+|[![sonatype repository](https://img.shields.io/nexus/r/https/oss.sonatype.org/io.github.astrapi69/gen-tree.svg?style=for-the-badge)](https://oss.sonatype.org/index.html#nexus-search;gav~io.github.astrapi69~gen-tree~~~)|
+|Special thanks to [sonatype repository](https://www.sonatype.com) for providing a free maven repository service for open source projects|
+|     <img width=1000/>     |
+
+|**codecov.io**|
+|     :---:      |
+|[![Coverage Status](https://codecov.io/gh/lightblueseas/gen-tree/branch/develop/graph/badge.svg)](https://codecov.io/gh/lightblueseas/gen-tree)|
+|Special thanks to [codecov.io](https://codecov.io) for providing a free code coverage for open source projects|
+|     <img width=1000/>     |
+
+|**javadoc.io**|
+|     :---:      |
+|[![Javadocs](http://www.javadoc.io/badge/io.github.astrapi69/gen-tree.svg)](http://www.javadoc.io/doc/io.github.astrapi69/gen-tree)|
+|Special thanks to [javadoc.io](http://www.javadoc.io) for providing a free javadoc documentation for open source projects|
+|     <img width=1000/>     |
+
