@@ -4,7 +4,13 @@
 Version 5.4-SNAPSHOT
 -------------
 
+ADDED:
 
+- new BaseTreeNode class provides the same functionality as TreeNode without implementing an interface
+
+CHANGED:
+
+- update of test dependency test-objects to new major version 6
 
 Version 5.3
 -------------
