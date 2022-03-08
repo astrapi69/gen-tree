@@ -26,6 +26,7 @@ package io.github.astrapi69.tree;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -38,7 +39,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
 /**
- * The generic class {@link BaseTreeNode} provides the same functionality as {@link TreeNode}
+ * The generic class {@link ParentIdTreeNode} provides the same functionality as {@link TreeNode}
  * without implementing an interface
  *
  * @param <T>
@@ -49,29 +50,33 @@ import lombok.experimental.SuperBuilder;
 @ToString(exclude = { "children" })
 @SuperBuilder(toBuilder = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BaseTreeNode<T>
+public class ParentIdTreeNode<T>
 {
-
 
 	/**
 	 * The serialVersionUID.
 	 */
 	private static final long serialVersionUID = 1L;
 
+	/** The id from this node. */
+	@Getter
+	@Setter
+	UUID id;
+
+	/** The parent id from this node. If parentId is null this tree node is the root. */
+	@Getter
+	@Setter
+	UUID parentId;
+
 	/** The children. */
 	@Setter
 	@Builder.Default
-	List<BaseTreeNode<T>> children = new ArrayList<>();
+	List<ParentIdTreeNode<T>> children = new ArrayList<>();
 
 	/** The optional display value. */
 	@Getter
 	@Setter
 	String displayValue;
-
-	/** The parent from this node. If this is null it is the root. */
-	@Getter
-	@Setter
-	BaseTreeNode<T> parent;
 
 	/** The value. */
 	@Getter
@@ -90,12 +95,12 @@ public class BaseTreeNode<T>
 	 * @param value
 	 *            the value
 	 */
-	public BaseTreeNode(final T value)
+	public ParentIdTreeNode(final T value)
 	{
 		setValue(value);
 	}
 
-	public List<BaseTreeNode<T>> getChildren()
+	public List<ParentIdTreeNode<T>> getChildren()
 	{
 		if (this.children == null)
 		{
@@ -111,9 +116,9 @@ public class BaseTreeNode<T>
 	 * @param child
 	 *            the child
 	 */
-	public void addChild(final BaseTreeNode<T> child)
+	public void addChild(final ParentIdTreeNode<T> child)
 	{
-		child.setParent(this);
+		child.setParentId(this.id);
 		getChildren().add(child);
 	}
 
@@ -127,35 +132,18 @@ public class BaseTreeNode<T>
 	 * @throws IndexOutOfBoundsException
 	 *             the index out of bounds exception
 	 */
-	public void addChildAt(final int index, final BaseTreeNode<T> child)
+	public void addChildAt(final int index, final ParentIdTreeNode<T> child)
 		throws IndexOutOfBoundsException
 	{
 		if (index < getChildren().size())
 		{
+			child.setParentId(this.id);
 			getChildren().add(index, child);
 		}
 		else
 		{
 			addChild(child);
 		}
-	}
-
-	/**
-	 * Returns all siblings of this node in the parent's children list. Returns null if this node is
-	 * the root.
-	 *
-	 * @return Returns all siblings of this node or null if this node is the root.
-	 */
-	public List<BaseTreeNode<T>> getAllSiblings()
-	{
-		final BaseTreeNode<T> parent = getParent();
-		if (parent == null)
-		{
-			return null;
-		}
-		final List<BaseTreeNode<T>> siblings = new ArrayList<>(parent.getChildren());
-		siblings.remove(this);
-		return siblings;
 	}
 
 	/**
@@ -177,7 +165,7 @@ public class BaseTreeNode<T>
 	 *            the index
 	 * @return the child from the given index
 	 */
-	public BaseTreeNode<T> getChild(BaseTreeNode<T> parent, int index)
+	public ParentIdTreeNode<T> getChild(ParentIdTreeNode<T> parent, int index)
 	{
 		return parent.getChildren().get(index);
 	}
@@ -191,112 +179,9 @@ public class BaseTreeNode<T>
 	 *            the child
 	 * @return the index of the given child from the given parent
 	 */
-	public int getIndexOfChild(BaseTreeNode<T> parent, BaseTreeNode<T> child)
+	public int getIndexOfChild(ParentIdTreeNode<T> parent, ParentIdTreeNode<T> child)
 	{
 		return parent.getChildren().indexOf(child);
-	}
-
-	/**
-	 * Returns the depth of the tree beginning at this node Returns 0 if this node has no children.
-	 *
-	 * @return the depth of the tree beginning at this node.
-	 */
-	public int getDepth()
-	{
-		if (isLeaf() || getChildCount() == 0)
-		{
-			return 0;
-		}
-		int maxDepth = 1;
-		int currentDepth = 1;
-		for (BaseTreeNode<T> data : getChildren())
-		{
-			while (data.hasChildren())
-			{
-				currentDepth++;
-				data = data.getChildren().get(0);
-			}
-			if (maxDepth < currentDepth)
-			{
-				maxDepth = currentDepth;
-			}
-		}
-		return maxDepth;
-	}
-
-	/**
-	 * Returns the distance from the root to this node. Returns 0 if this node is the root.
-	 *
-	 * @return the level from this node.
-	 */
-	public int getLevel()
-	{
-		BaseTreeNode<T> current = this;
-		int count = 0;
-		while ((current = current.getParent()) != null)
-		{
-			count++;
-		}
-		return count;
-	}
-
-	/**
-	 * Returns the next sibling of this node in the parent's children list. Returns null if this
-	 * node is the root or is the parent's last child.
-	 *
-	 * @return the next sibling of this node or null if this node is the root or is the parent's
-	 *         last child.
-	 */
-	public BaseTreeNode<T> getNextSibling()
-	{
-		if (getParent() == null)
-		{
-			return null;
-		}
-		final int index = getParent().getChildren().indexOf(this) + 1;
-		if (index == getParent().getChildCount())
-		{
-			return null;
-		}
-		return getParent().getChildren().get(index);
-	}
-
-	/**
-	 * Returns the previous sibling of this node in the parent's children list. Returns null if this
-	 * node is the root or is the parent's first child.
-	 *
-	 * @return the next sibling of this node or null if this node is the root or is the parent's
-	 *         last child.
-	 */
-	public BaseTreeNode<T> getPreviousSibling()
-	{
-		if (getParent() == null)
-		{
-			return null;
-		}
-		final int index = getParent().getChildren().indexOf(this) - 1;
-		if (index < 0)
-		{
-			return null;
-		}
-		return getParent().getChildren().get(index);
-	}
-
-	/**
-	 * Gets the root {@link BaseTreeNode} object
-	 *
-	 * @return the root {@link BaseTreeNode} object
-	 */
-	public BaseTreeNode<T> getRoot()
-	{
-		BaseTreeNode<T> root = this;
-		BaseTreeNode<T> parent = getParent();
-		while (parent != null && !parent.isRoot())
-		{
-			parent = parent.getParent();
-			root = parent;
-		}
-		return root;
 	}
 
 	/**
@@ -316,7 +201,7 @@ public class BaseTreeNode<T>
 	 */
 	public boolean hasParent()
 	{
-		return getParent() != null;
+		return getParentId() != null;
 	}
 
 	/**
@@ -330,9 +215,9 @@ public class BaseTreeNode<T>
 	}
 
 	/**
-	 * Checks if this {@link BaseTreeNode} is the root {@link BaseTreeNode} object
+	 * Checks if this {@link ParentIdTreeNode} is the root {@link ParentIdTreeNode} object
 	 *
-	 * @return true, if this {@link BaseTreeNode} is the root {@link BaseTreeNode} object
+	 * @return true, if this {@link ParentIdTreeNode} is the root {@link ParentIdTreeNode} object
 	 */
 	public boolean isRoot()
 	{
@@ -345,10 +230,10 @@ public class BaseTreeNode<T>
 	 * @param child
 	 *            the child
 	 */
-	public void removeChild(final BaseTreeNode<T> child)
+	public void removeChild(final ParentIdTreeNode<T> child)
 	{
 		getChildren().remove(child);
-		child.setParent(null);
+		child.setParentId(null);
 	}
 
 	/**
@@ -361,10 +246,10 @@ public class BaseTreeNode<T>
 	 */
 	public void removeChildAt(final int index) throws IndexOutOfBoundsException
 	{
-		final BaseTreeNode<T> child = getChildren().remove(index);
+		final ParentIdTreeNode<T> child = getChildren().remove(index);
 		if (child != null)
 		{
-			child.setParent(null);
+			child.setParentId(null);
 		}
 	}
 
@@ -373,9 +258,9 @@ public class BaseTreeNode<T>
 	 *
 	 * @return the list
 	 */
-	public List<BaseTreeNode<T>> toList()
+	public List<ParentIdTreeNode<T>> toList()
 	{
-		final List<BaseTreeNode<T>> list = new ArrayList<>();
+		final List<ParentIdTreeNode<T>> list = new ArrayList<>();
 		traverse(this, list);
 		return list;
 	}
@@ -388,10 +273,10 @@ public class BaseTreeNode<T>
 	 * @param list
 	 *            the list
 	 */
-	public void traverse(final BaseTreeNode<T> node, final List<BaseTreeNode<T>> list)
+	public void traverse(final ParentIdTreeNode<T> node, final List<ParentIdTreeNode<T>> list)
 	{
 		list.add(node);
-		for (final BaseTreeNode<T> data : node.getChildren())
+		for (final ParentIdTreeNode<T> data : node.getChildren())
 		{
 			traverse(data, list);
 		}

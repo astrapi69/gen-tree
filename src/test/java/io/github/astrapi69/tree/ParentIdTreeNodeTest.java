@@ -27,11 +27,11 @@ package io.github.astrapi69.tree;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -40,20 +40,20 @@ import org.testng.annotations.Test;
 import io.github.astrapi69.AbstractTestCase;
 import io.github.astrapi69.evaluate.object.evaluators.EqualsHashCodeAndToStringEvaluator;
 
-public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
+public class ParentIdTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 {
 
 	TreeElement firstChild;
-	BaseTreeNode<TreeElement> firstChildTreeNode;
+	ParentIdTreeNode<TreeElement> firstChildTreeNode;
 	TreeElement firstGrandChild;
-	BaseTreeNode<TreeElement> firstGrandChildTreeNode;
+	ParentIdTreeNode<TreeElement> firstGrandChildTreeNode;
 	TreeElement firstGrandGrandChild;
-	BaseTreeNode<TreeElement> firstGrandGrandChildTreeNode;
-	List<BaseTreeNode<TreeElement>> list;
+	ParentIdTreeNode<TreeElement> firstGrandGrandChildTreeNode;
+	List<ParentIdTreeNode<TreeElement>> list;
 	TreeElement parent;
-	BaseTreeNode<TreeElement> parentTreeNode;
+	ParentIdTreeNode<TreeElement> parentTreeNode;
 	TreeElement secondChild;
-	BaseTreeNode<TreeElement> secondChildTreeNode;
+	ParentIdTreeNode<TreeElement> secondChildTreeNode;
 
 	@BeforeMethod
 	@Override
@@ -68,19 +68,21 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 			.parent(firstGrandChild).node(true).build();
 		secondChild = TreeElement.builder().name("secondChild").parent(parent).node(true).build();
 
-		parentTreeNode = BaseTreeNode.<TreeElement> builder().value(parent).node(true).build();
+		parentTreeNode = ParentIdTreeNode.<TreeElement> builder().id(UUID.randomUUID())
+			.value(parent).node(true).build();
 
-		firstChildTreeNode = BaseTreeNode.<TreeElement> builder().value(firstChild)
-			.parent(parentTreeNode).build();
+		firstChildTreeNode = ParentIdTreeNode.<TreeElement> builder().value(firstChild)
+			.id(UUID.randomUUID()).parentId(parentTreeNode.getParentId()).build();
 
-		secondChildTreeNode = BaseTreeNode.<TreeElement> builder().value(secondChild)
-			.parent(parentTreeNode).build();
+		secondChildTreeNode = ParentIdTreeNode.<TreeElement> builder().value(secondChild)
+			.id(UUID.randomUUID()).parentId(parentTreeNode.getParentId()).build();
 
-		firstGrandChildTreeNode = BaseTreeNode.<TreeElement> builder().value(firstGrandChild)
-			.parent(firstChildTreeNode).build();
+		firstGrandChildTreeNode = ParentIdTreeNode.<TreeElement> builder().value(firstGrandChild)
+			.id(UUID.randomUUID()).parentId(firstChildTreeNode.getParentId()).build();
 
-		firstGrandGrandChildTreeNode = BaseTreeNode.<TreeElement> builder()
-			.value(firstGrandGrandChild).parent(firstChildTreeNode).build();
+		firstGrandGrandChildTreeNode = ParentIdTreeNode.<TreeElement> builder()
+			.id(UUID.randomUUID()).value(firstGrandGrandChild)
+			.parentId(firstChildTreeNode.getParentId()).build();
 	}
 
 	@AfterMethod
@@ -100,7 +102,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#addChildAt(int, BaseTreeNode)}.
+	 * Test method for {@link ParentIdTreeNode#addChildAt(int, ParentIdTreeNode)}.
 	 */
 	@Test
 	public void testAddChildAt()
@@ -118,32 +120,32 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode} constructors and builders
+	 * Test method for {@link ParentIdTreeNode} constructors and builders
 	 */
 	@Test
 	public final void testConstructors()
 	{
-		BaseTreeNode<TreeElement> parentTreeNode = new BaseTreeNode<>();
+		ParentIdTreeNode<TreeElement> parentTreeNode = new ParentIdTreeNode<>();
 		assertNotNull(parentTreeNode);
 		parentTreeNode.setValue(parent);
-		parentTreeNode = new BaseTreeNode<>(parent);
+		parentTreeNode = new ParentIdTreeNode<>(parent);
 		assertNotNull(parentTreeNode);
-		BaseTreeNode<TreeElement> treeNode = BaseTreeNode.<TreeElement> builder().build();
+		ParentIdTreeNode<TreeElement> treeNode = ParentIdTreeNode.<TreeElement> builder().build();
 		assertNotNull(treeNode);
 		assertTrue(treeNode.isNode());
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#equals(Object)} , {@link BaseTreeNode#hashCode()} and
-	 * {@link BaseTreeNode#toString()}
+	 * Test method for {@link ParentIdTreeNode#equals(Object)} , {@link ParentIdTreeNode#hashCode()}
+	 * and {@link ParentIdTreeNode#toString()}
 	 */
 	@Test
 	public void testEqualsHashcodeAndToString()
 	{
-		BaseTreeNode<TreeElement> first = new BaseTreeNode<>(parent);
-		BaseTreeNode<TreeElement> second = new BaseTreeNode<>();
-		BaseTreeNode<TreeElement> third = new BaseTreeNode<>(parent);
-		BaseTreeNode<TreeElement> fourth = new BaseTreeNode<>(parent);
+		ParentIdTreeNode<TreeElement> first = new ParentIdTreeNode<>(parent);
+		ParentIdTreeNode<TreeElement> second = new ParentIdTreeNode<>();
+		ParentIdTreeNode<TreeElement> third = new ParentIdTreeNode<>(parent);
+		ParentIdTreeNode<TreeElement> fourth = new ParentIdTreeNode<>(parent);
 
 		actual = EqualsHashCodeAndToStringEvaluator.evaluateEqualsHashcodeAndToString(first, second,
 			third, fourth);
@@ -151,30 +153,10 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		assertEquals(expected, actual);
 	}
 
-	/**
-	 * Test method for {@link BaseTreeNode#getAllSiblings()}.
-	 */
-	@Test
-	public void testGetAllSiblings()
-	{
-		parentTreeNode.addChild(firstChildTreeNode);
-		parentTreeNode.addChild(secondChildTreeNode);
-		parentTreeNode.addChild(firstGrandChildTreeNode);
-
-		list = firstChildTreeNode.getAllSiblings();
-
-		assertEquals(list.size(), 2);
-		assertEquals(list.get(0), secondChildTreeNode);
-		assertEquals(list.get(1), firstGrandChildTreeNode);
-
-		list = parentTreeNode.getAllSiblings();
-		assertNull(list);
-	}
-
 	// ========================================================
 
 	/**
-	 * Test method for {@link BaseTreeNode#getChildCount()}.
+	 * Test method for {@link ParentIdTreeNode#getChildCount()}.
 	 */
 	@Test
 	public void testGetChildCount()
@@ -194,133 +176,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#getDepth()}.
-	 */
-	@Test
-	public void testGetDepth()
-	{
-		int actual;
-		int expected;
-
-		actual = parentTreeNode.getDepth();
-		expected = 0;
-		assertEquals(expected, actual);
-
-		parentTreeNode.addChild(firstChildTreeNode);
-
-		actual = parentTreeNode.getDepth();
-		expected = 1;
-		assertEquals(expected, actual);
-		parentTreeNode.addChild(secondChildTreeNode);
-		firstChildTreeNode.addChild(firstGrandChildTreeNode);
-
-		actual = parentTreeNode.getDepth();
-		expected = 2;
-		assertEquals(expected, actual);
-
-		firstGrandChildTreeNode.addChild(firstGrandGrandChildTreeNode);
-
-		actual = parentTreeNode.getDepth();
-		expected = 3;
-		assertEquals(expected, actual);
-	}
-
-	/**
-	 * Test method for {@link BaseTreeNode#getLevel()}.
-	 */
-	@Test
-	public void testGetLevel()
-	{
-		int actual;
-		int expected;
-
-		actual = parentTreeNode.getLevel();
-		expected = 0;
-		assertEquals(expected, actual);
-
-		parentTreeNode.addChild(firstChildTreeNode);
-
-		actual = firstChildTreeNode.getLevel();
-		expected = 1;
-		assertEquals(expected, actual);
-		parentTreeNode.addChild(secondChildTreeNode);
-		firstChildTreeNode.addChild(firstGrandChildTreeNode);
-
-		actual = firstGrandChildTreeNode.getLevel();
-		expected = 2;
-		assertEquals(expected, actual);
-
-		firstGrandChildTreeNode.addChild(firstGrandGrandChildTreeNode);
-
-		actual = firstGrandGrandChildTreeNode.getLevel();
-		expected = 3;
-		assertEquals(expected, actual);
-	}
-
-	/**
-	 * Test method for {@link BaseTreeNode#getNextSibling()}.
-	 */
-	@Test
-	public void testGetNextSibling()
-	{
-		BaseTreeNode<TreeElement> actual;
-		BaseTreeNode<TreeElement> expected;
-
-		actual = firstChildTreeNode.getNextSibling();
-		expected = null;
-		assertEquals(expected, actual);
-
-		parentTreeNode.addChild(firstChildTreeNode);
-
-		actual = firstChildTreeNode.getNextSibling();
-		assertEquals(expected, actual);
-
-		parentTreeNode.addChild(secondChildTreeNode);
-
-		actual = firstChildTreeNode.getNextSibling();
-		expected = secondChildTreeNode;
-		assertEquals(expected, actual);
-	}
-
-	/**
-	 * Test method for {@link BaseTreeNode#getPreviousSibling()}.
-	 */
-	@Test
-	public void testGetPreviousSibling()
-	{
-		BaseTreeNode<TreeElement> actual;
-		BaseTreeNode<TreeElement> expected;
-
-		actual = firstChildTreeNode.getPreviousSibling();
-		expected = null;
-		assertEquals(expected, actual);
-
-		parentTreeNode.addChild(firstChildTreeNode);
-
-		actual = firstChildTreeNode.getPreviousSibling();
-		assertEquals(expected, actual);
-
-		parentTreeNode.addChild(secondChildTreeNode);
-
-		actual = secondChildTreeNode.getPreviousSibling();
-		expected = firstChildTreeNode;
-		assertEquals(expected, actual);
-	}
-
-	@Test
-	public void testGetRoot()
-	{
-		BaseTreeNode<TreeElement> root;
-
-		root = parentTreeNode.getRoot();
-		assertEquals(root, parentTreeNode);
-
-		root = firstGrandChildTreeNode.getRoot();
-		assertEquals(root, parentTreeNode);
-	}
-
-	/**
-	 * Test method for {@link BaseTreeNode#hasChildren()}.
+	 * Test method for {@link ParentIdTreeNode#hasChildren()}.
 	 */
 	@Test
 	public void testHasChildren()
@@ -331,7 +187,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#hasParent()}.
+	 * Test method for {@link ParentIdTreeNode#hasParent()}.
 	 */
 	@Test
 	public void testHasParent()
@@ -342,7 +198,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#isRoot()}.
+	 * Test method for {@link ParentIdTreeNode#isRoot()}.
 	 */
 	@Test
 	public void testIsRoot()
@@ -353,7 +209,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#removeChild(BaseTreeNode)}.
+	 * Test method for {@link ParentIdTreeNode#removeChild(ParentIdTreeNode)}.
 	 */
 	@Test
 	public void testRemoveChild()
@@ -371,7 +227,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#removeChildAt(int)}.
+	 * Test method for {@link ParentIdTreeNode#removeChildAt(int)}.
 	 */
 	@Test
 	public void testRemoveChildAt()
@@ -389,7 +245,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#toList()}.
+	 * Test method for {@link ParentIdTreeNode#toList()}.
 	 */
 	@Test
 	public void testToList()
@@ -408,7 +264,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#traverse(BaseTreeNode, List)}
+	 * Test method for {@link ParentIdTreeNode#traverse(ParentIdTreeNode, List)}
 	 */
 	@Test
 	public void testTraverse()
