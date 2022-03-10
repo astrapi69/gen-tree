@@ -7,7 +7,7 @@ Version 5.4-SNAPSHOT
 ADDED:
 
 - new test dependency data-api in major version 3
-- new class ParentIdTreeNode without direct parent reference, but therefore instead an id and parentId 
+- new class ParentIdTreeNode without direct parent reference, but therefore instead an id and parentId
 
 CHANGED:
 
