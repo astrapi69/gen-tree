@@ -226,7 +226,6 @@ dependencies {
     testCompileOnly("org.projectlombok:lombok:$lombokVersion")
     testAnnotationProcessor("org.projectlombok:lombok:$lombokVersion")
     testImplementation("org.meanbean:meanbean:$meanbeanVersion")
-    testImplementation("io.github.astrapi69:data-api:$dataApiVersion")
     testImplementation("io.github.astrapi69:test-objects:$testObjectsVersion")
     testImplementation("io.github.astrapi69:jobj-contract-verifier:$jobjContractVerifierVersion")
     testImplementation("org.testng:testng:$testngVersion")
