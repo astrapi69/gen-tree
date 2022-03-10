@@ -44,16 +44,16 @@ public class ParentIdTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 {
 
 	TreeElement firstChild;
-	ParentIdTreeNode<TreeElement> firstChildTreeNode;
+	ParentIdTreeNode<TreeElement, UUID> firstChildTreeNode;
 	TreeElement firstGrandChild;
-	ParentIdTreeNode<TreeElement> firstGrandChildTreeNode;
+	ParentIdTreeNode<TreeElement, UUID> firstGrandChildTreeNode;
 	TreeElement firstGrandGrandChild;
-	ParentIdTreeNode<TreeElement> firstGrandGrandChildTreeNode;
-	List<ParentIdTreeNode<TreeElement>> list;
+	ParentIdTreeNode<TreeElement, UUID> firstGrandGrandChildTreeNode;
+	List<ParentIdTreeNode<TreeElement, UUID>> list;
 	TreeElement parent;
-	ParentIdTreeNode<TreeElement> parentTreeNode;
+	ParentIdTreeNode<TreeElement, UUID> parentTreeNode;
 	TreeElement secondChild;
-	ParentIdTreeNode<TreeElement> secondChildTreeNode;
+	ParentIdTreeNode<TreeElement, UUID> secondChildTreeNode;
 
 	@BeforeMethod
 	@Override
@@ -68,19 +68,20 @@ public class ParentIdTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 			.parent(firstGrandChild).node(true).build();
 		secondChild = TreeElement.builder().name("secondChild").parent(parent).node(true).build();
 
-		parentTreeNode = ParentIdTreeNode.<TreeElement> builder().id(UUID.randomUUID())
+		parentTreeNode = ParentIdTreeNode.<TreeElement, UUID> builder().id(UUID.randomUUID())
 			.value(parent).node(true).build();
 
-		firstChildTreeNode = ParentIdTreeNode.<TreeElement> builder().value(firstChild)
+		firstChildTreeNode = ParentIdTreeNode.<TreeElement, UUID> builder().value(firstChild)
 			.id(UUID.randomUUID()).parentId(parentTreeNode.getParentId()).build();
 
-		secondChildTreeNode = ParentIdTreeNode.<TreeElement> builder().value(secondChild)
+		secondChildTreeNode = ParentIdTreeNode.<TreeElement, UUID> builder().value(secondChild)
 			.id(UUID.randomUUID()).parentId(parentTreeNode.getParentId()).build();
 
-		firstGrandChildTreeNode = ParentIdTreeNode.<TreeElement> builder().value(firstGrandChild)
-			.id(UUID.randomUUID()).parentId(firstChildTreeNode.getParentId()).build();
+		firstGrandChildTreeNode = ParentIdTreeNode.<TreeElement, UUID> builder()
+			.value(firstGrandChild).id(UUID.randomUUID()).parentId(firstChildTreeNode.getParentId())
+			.build();
 
-		firstGrandGrandChildTreeNode = ParentIdTreeNode.<TreeElement> builder()
+		firstGrandGrandChildTreeNode = ParentIdTreeNode.<TreeElement, UUID> builder()
 			.id(UUID.randomUUID()).value(firstGrandGrandChild)
 			.parentId(firstChildTreeNode.getParentId()).build();
 	}
@@ -125,12 +126,13 @@ public class ParentIdTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public final void testConstructors()
 	{
-		ParentIdTreeNode<TreeElement> parentTreeNode = new ParentIdTreeNode<>();
+		ParentIdTreeNode<TreeElement, UUID> parentTreeNode = new ParentIdTreeNode<>();
 		assertNotNull(parentTreeNode);
 		parentTreeNode.setValue(parent);
 		parentTreeNode = new ParentIdTreeNode<>(parent);
 		assertNotNull(parentTreeNode);
-		ParentIdTreeNode<TreeElement> treeNode = ParentIdTreeNode.<TreeElement> builder().build();
+		ParentIdTreeNode<TreeElement, UUID> treeNode = ParentIdTreeNode
+			.<TreeElement, UUID> builder().build();
 		assertNotNull(treeNode);
 		assertTrue(treeNode.isNode());
 	}
@@ -142,10 +144,10 @@ public class ParentIdTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public void testEqualsHashcodeAndToString()
 	{
-		ParentIdTreeNode<TreeElement> first = new ParentIdTreeNode<>(parent);
-		ParentIdTreeNode<TreeElement> second = new ParentIdTreeNode<>();
-		ParentIdTreeNode<TreeElement> third = new ParentIdTreeNode<>(parent);
-		ParentIdTreeNode<TreeElement> fourth = new ParentIdTreeNode<>(parent);
+		ParentIdTreeNode<TreeElement, UUID> first = new ParentIdTreeNode<>(parent);
+		ParentIdTreeNode<TreeElement, UUID> second = new ParentIdTreeNode<>();
+		ParentIdTreeNode<TreeElement, UUID> third = new ParentIdTreeNode<>(parent);
+		ParentIdTreeNode<TreeElement, UUID> fourth = new ParentIdTreeNode<>(parent);
 
 		actual = EqualsHashCodeAndToStringEvaluator.evaluateEqualsHashcodeAndToString(first, second,
 			third, fourth);
