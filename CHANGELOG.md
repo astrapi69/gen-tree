@@ -6,6 +6,7 @@ Version 5.4-SNAPSHOT
 
 ADDED:
 
+- new BaseTreeNode class provides the same functionality as TreeNode without implementing an interface
 - new class ParentIdTreeNode without direct parent reference, but therefore instead an id and parentId
 
 CHANGED:
