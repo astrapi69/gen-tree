@@ -27,6 +27,7 @@ package io.github.astrapi69.tree;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.astrapi69.id.generate.LongIdGenerator;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -52,8 +53,15 @@ import lombok.experimental.SuperBuilder;
 public class BaseTreeNode<T>
 {
 
+	/** The constant for the id generator */
+	private final static LongIdGenerator LONG_ID_GENERATOR = LongIdGenerator.of(0L);
+
+	/** The id from this node. */
+	@Getter
+	long id;
+
 	/** The children. */
-	@Setter
+	@Getter
 	@Builder.Default
 	List<BaseTreeNode<T>> children = new ArrayList<>();
 
@@ -72,11 +80,14 @@ public class BaseTreeNode<T>
 	@Setter
 	T value;
 
-	/** The flag that indicates if this tree node is a node or a leaf */
+	/** The flag that indicates if this tree node is a leaf or a node */
 	@Getter
 	@Setter
-	@Builder.Default
-	boolean node = true;
+	boolean leaf;
+
+	{
+		id = LONG_ID_GENERATOR.getNextId();
+	}
 
 	/**
 	 * Instantiates a new tree node.
@@ -88,16 +99,6 @@ public class BaseTreeNode<T>
 	{
 		setValue(value);
 	}
-
-	public List<BaseTreeNode<T>> getChildren()
-	{
-		if (this.children == null)
-		{
-			this.children = new ArrayList<>();
-		}
-		return this.children;
-	}
-
 
 	/**
 	 * Adds the child.
@@ -314,13 +315,13 @@ public class BaseTreeNode<T>
 	}
 
 	/**
-	 * Checks if is leaf.
+	 * Checks if this {@link BaseTreeNode} object is a node
 	 *
-	 * @return true, if is leaf
+	 * @return true, if this {@link BaseTreeNode} object is a node otherwise false
 	 */
-	public boolean isLeaf()
+	boolean isNode()
 	{
-		return !isNode();
+		return !isLeaf();
 	}
 
 	/**

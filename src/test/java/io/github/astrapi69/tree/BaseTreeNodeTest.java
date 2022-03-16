@@ -66,9 +66,9 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 			.node(true).build();
 		firstGrandGrandChild = TreeElement.builder().name("firstGrandGrandChild")
 			.parent(firstGrandChild).node(true).build();
-		secondChild = TreeElement.builder().name("secondChild").parent(parent).node(true).build();
+		secondChild = TreeElement.builder().name("secondChild").parent(parent).build();
 
-		parentTreeNode = BaseTreeNode.<TreeElement> builder().value(parent).node(true).build();
+		parentTreeNode = BaseTreeNode.<TreeElement> builder().value(parent).build();
 
 		firstChildTreeNode = BaseTreeNode.<TreeElement> builder().value(firstChild)
 			.parent(parentTreeNode).build();
@@ -131,24 +131,6 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		BaseTreeNode<TreeElement> treeNode = BaseTreeNode.<TreeElement> builder().build();
 		assertNotNull(treeNode);
 		assertTrue(treeNode.isNode());
-	}
-
-	/**
-	 * Test method for {@link BaseTreeNode#equals(Object)} , {@link BaseTreeNode#hashCode()} and
-	 * {@link BaseTreeNode#toString()}
-	 */
-	@Test
-	public void testEqualsHashcodeAndToString()
-	{
-		BaseTreeNode<TreeElement> first = new BaseTreeNode<>(parent);
-		BaseTreeNode<TreeElement> second = new BaseTreeNode<>();
-		BaseTreeNode<TreeElement> third = new BaseTreeNode<>(parent);
-		BaseTreeNode<TreeElement> fourth = new BaseTreeNode<>(parent);
-
-		actual = EqualsHashCodeAndToStringEvaluator.evaluateEqualsHashcodeAndToString(first, second,
-			third, fourth);
-		expected = true;
-		assertEquals(expected, actual);
 	}
 
 	/**

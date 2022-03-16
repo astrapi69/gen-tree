@@ -40,7 +40,7 @@ import lombok.experimental.SuperBuilder;
 @ToString(exclude = { "parent" })
 @SuperBuilder(toBuilder = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SimpleTreeNode<T>
+public class SimpleTreeNode<T> implements Acceptable<Visitor<SimpleTreeNode<T>>>
 {
 
 	@Getter
@@ -127,6 +127,58 @@ public class SimpleTreeNode<T>
 		return allSiblings;
 	}
 
+	public Set<SimpleTreeNode<T>> getAllLeftSiblings()
+	{
+		Set<SimpleTreeNode<T>> allSiblings = new LinkedHashSet<>();
+		if (hasParent())
+		{
+			SimpleTreeNode<T> parent = getParent();
+			SimpleTreeNode<T> leftMostChild = parent.getLeftMostChild();
+			if (leftMostChild.equals(this))
+			{
+				return allSiblings;
+			}
+			allSiblings.add(leftMostChild);
+			if (leftMostChild.hasRightSibling())
+			{
+				SimpleTreeNode<T> currentRightSibling = leftMostChild.getRightSibling();
+				if (currentRightSibling.equals(this))
+				{
+					return allSiblings;
+				}
+				allSiblings.add(currentRightSibling);
+				do
+				{
+					currentRightSibling = currentRightSibling.getRightSibling();
+					if (currentRightSibling.equals(this))
+					{
+						return allSiblings;
+					}
+					allSiblings.add(currentRightSibling);
+				}
+				while (currentRightSibling.hasRightSibling());
+			}
+		}
+		return allSiblings;
+	}
+
+	public Set<SimpleTreeNode<T>> getAllRightSiblings()
+	{
+		Set<SimpleTreeNode<T>> allRightSiblings = new LinkedHashSet<>();
+		if (hasRightSibling())
+		{
+			SimpleTreeNode<T> currentRightSibling;
+			do
+			{
+				currentRightSibling = getRightSibling();
+				allRightSiblings.add(currentRightSibling);
+			}
+			while (currentRightSibling.hasRightSibling());
+		}
+
+		return allRightSiblings;
+	}
+
 	/**
 	 * Checks if this node has a parent
 	 *
@@ -156,4 +208,23 @@ public class SimpleTreeNode<T>
 	{
 		return getLeftMostChild() != null;
 	}
+
+	public Set<SimpleTreeNode<T>> getSubTree()
+	{
+		TraverseSimpleTreeNodeVisitor<T> traverseVisitor = new TraverseSimpleTreeNodeVisitor<>();
+		this.accept(traverseVisitor);
+		return traverseVisitor.getAllTreeNodes();
+	}
+
+	@Override
+	public void accept(Visitor<SimpleTreeNode<T>> visitor) {
+		visitor.visit(this);
+		if(hasLeftMostChild()) {
+			getLeftMostChild().accept(visitor);
+		}
+		if(hasRightSibling()){
+			getRightSibling().accept(visitor);
+		}
+	}
+
 }
