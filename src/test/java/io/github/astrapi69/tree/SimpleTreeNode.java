@@ -59,6 +59,10 @@ public class SimpleTreeNode<T>
 	@Getter
 	@Setter
 	T value;
+	/** The flag that indicates if this tree node is a leaf or a node */
+	@Getter
+	@Setter
+	boolean leaf;
 
 	public SimpleTreeNode(T value)
 	{
@@ -67,14 +71,14 @@ public class SimpleTreeNode<T>
 
 	public SimpleTreeNode<T> getRoot()
 	{
+		SimpleTreeNode<T> root = this;
 		if (isRoot())
 		{
-			return this;
+			return root;
 		}
-		SimpleTreeNode<T> root = this;
 		do
 		{
-			root = root.parent;
+			root = root.getParent();
 		}
 		while (!isRoot());
 		return root;
@@ -88,6 +92,16 @@ public class SimpleTreeNode<T>
 	public boolean isRoot()
 	{
 		return !hasParent();
+	}
+
+	/**
+	 * Checks if this {@link SimpleTreeNode} object is a node
+	 *
+	 * @return true, if this {@link SimpleTreeNode} object is a node otherwise false
+	 */
+	boolean isNode()
+	{
+		return !isLeaf();
 	}
 
 	public Set<SimpleTreeNode<T>> getAllSiblings()
@@ -131,5 +145,15 @@ public class SimpleTreeNode<T>
 	public boolean hasRightSibling()
 	{
 		return getRightSibling() != null;
+	}
+
+	/**
+	 * Checks if this node has a left most child
+	 *
+	 * @return true, if successful
+	 */
+	public boolean hasLeftMostChild()
+	{
+		return getLeftMostChild() != null;
 	}
 }
