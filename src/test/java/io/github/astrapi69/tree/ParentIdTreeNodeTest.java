@@ -31,6 +31,7 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.testng.annotations.AfterMethod;
@@ -49,7 +50,7 @@ public class ParentIdTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	ParentIdTreeNode<TreeElement, UUID> firstGrandChildTreeNode;
 	TreeElement firstGrandGrandChild;
 	ParentIdTreeNode<TreeElement, UUID> firstGrandGrandChildTreeNode;
-	List<ParentIdTreeNode<TreeElement, UUID>> list;
+	Set<ParentIdTreeNode<TreeElement, UUID>> list;
 	TreeElement parent;
 	ParentIdTreeNode<TreeElement, UUID> parentTreeNode;
 	TreeElement secondChild;
@@ -100,24 +101,6 @@ public class ParentIdTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		firstChildTreeNode = null;
 		secondChildTreeNode = null;
 		firstGrandChildTreeNode = null;
-	}
-
-	/**
-	 * Test method for {@link ParentIdTreeNode#addChildAt(int, ParentIdTreeNode)}.
-	 */
-	@Test
-	public void testAddChildAt()
-	{
-		parentTreeNode.addChild(firstChildTreeNode);
-		parentTreeNode.addChildAt(0, secondChildTreeNode);
-		parentTreeNode.addChildAt(4, firstGrandChildTreeNode);
-
-		list = parentTreeNode.getChildren();
-
-		assertEquals(list.size(), 3);
-		assertEquals(list.get(0), secondChildTreeNode);
-		assertEquals(list.get(1), firstChildTreeNode);
-		assertEquals(list.get(2), firstGrandChildTreeNode);
 	}
 
 	/**
@@ -226,62 +209,6 @@ public class ParentIdTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		parentTreeNode.removeChild(firstChildTreeNode);
 		list = parentTreeNode.getChildren();
 		assertFalse(list.contains(firstChildTreeNode));
-	}
-
-	/**
-	 * Test method for {@link ParentIdTreeNode#removeChildAt(int)}.
-	 */
-	@Test
-	public void testRemoveChildAt()
-	{
-		parentTreeNode.addChild(firstChildTreeNode);
-		parentTreeNode.addChild(secondChildTreeNode);
-
-		list = parentTreeNode.getChildren();
-		assertTrue(list.contains(firstChildTreeNode));
-
-		parentTreeNode.removeChildAt(0);
-
-		list = parentTreeNode.getChildren();
-		assertFalse(list.contains(firstChildTreeNode));
-	}
-
-	/**
-	 * Test method for {@link ParentIdTreeNode#toList()}.
-	 */
-	@Test
-	public void testToList()
-	{
-		parentTreeNode.addChild(firstChildTreeNode);
-		parentTreeNode.addChild(secondChildTreeNode);
-		parentTreeNode.addChild(firstGrandChildTreeNode);
-
-		list = parentTreeNode.toList();
-
-		assertEquals(list.size(), 4);
-		assertEquals(list.get(0), parentTreeNode);
-		assertEquals(list.get(1), firstChildTreeNode);
-		assertEquals(list.get(2), secondChildTreeNode);
-		assertEquals(list.get(3), firstGrandChildTreeNode);
-	}
-
-	/**
-	 * Test method for {@link ParentIdTreeNode#traverse(ParentIdTreeNode, List)}
-	 */
-	@Test
-	public void testTraverse()
-	{
-		parentTreeNode.addChild(firstChildTreeNode);
-		parentTreeNode.addChild(secondChildTreeNode);
-		firstChildTreeNode.addChild(firstGrandChildTreeNode);
-
-		list = new ArrayList<>();
-		parentTreeNode.traverse(parentTreeNode, list);
-		assertEquals(list.size(), 4);
-		assertEquals(list.get(0), parentTreeNode);
-		assertEquals(list.get(1), firstChildTreeNode);
-		assertEquals(list.get(2), firstGrandChildTreeNode);
-		assertEquals(list.get(3), secondChildTreeNode);
 	}
 
 }

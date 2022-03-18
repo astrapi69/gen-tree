@@ -100,44 +100,43 @@ public class SimpleTreeNodeTest
 			.build();
 
 		firstChild = SimpleTreeNode.<String> builder().parent(root).rightSibling(secondChild)
-			.value("I'm the first child")
-			.build();
+			.value("I'm the first child").build();
 
 		secondChild = SimpleTreeNode.<String> builder().parent(root).leftMostChild(firstGrandChild)
-			.rightSibling(thirdChild).value("I'm the second child")
-			.build();
-
+			.rightSibling(thirdChild).value("I'm the second child").build();
 
 		firstGrandChild = SimpleTreeNode.<String> builder().parent(secondChild)
 			.leftMostChild(firstGrandGrandChild).rightSibling(secondGrandChild)
-			.value("I'm the first grand child")
+			.value("I'm the first grand child").build();
+
+		firstGrandGrandChild = SimpleTreeNode.<String> builder().parent(firstGrandChild)
+			.rightSibling(secondGrandGrandChild).value("I'm the first grand grand child").build();
+
+		secondGrandGrandChild = SimpleTreeNode.<String> builder().parent(firstGrandChild)
+			.leftMostChild(firstGrandGrandGrandChild).value("I'm the second grand grand child")
 			.build();
-		firstGrandGrandChild = SimpleTreeNode.<String> builder()
-			.parent(firstGrandChild).rightSibling(secondGrandGrandChild)
-			.value("I'm the first grand grand child").build();
-		secondGrandGrandChild = SimpleTreeNode.<String> builder()
-			.parent(firstGrandChild).leftMostChild(firstGrandGrandGrandChild)
-			.value("I'm the second grand grand child").build();
 
 		firstGrandGrandGrandChild = SimpleTreeNode.<String> builder().parent(secondGrandGrandChild)
-			.value("I'm the first grand grand grand child")
-			.build();
+			.value("I'm the first grand grand grand child").build();
+
 		secondGrandChild = SimpleTreeNode.<String> builder().parent(secondChild)
-			.rightSibling(thirdGrandChild).value("I'm the second grand child")
-			.build();
+			.rightSibling(thirdGrandChild).value("I'm the second grand child").build();
+
 		thirdGrandChild = SimpleTreeNode.<String> builder().parent(secondChild).value(null).build();
 
 		thirdChild = SimpleTreeNode.<String> builder().parent(root).leftMostChild(fourthGrandChild)
-			.value("I'm the third child")
-			.build();
+			.value("I'm the third child").build();
+
 		fourthGrandChild = SimpleTreeNode.<String> builder().parent(thirdChild)
 			.rightSibling(fifthGrandChild).value(null).build();
+
 		fifthGrandChild = SimpleTreeNode.<String> builder().parent(thirdChild)
-			.value("I'm the fifth grand child")
-			.build();
+			.value("I'm the fifth grand child").build();
+
 		// initialize left most child and right sibling
 
 		root.setLeftMostChild(firstChild);
+
 		firstChild.setRightSibling(secondChild);
 
 		secondChild.setLeftMostChild(firstGrandChild);
@@ -196,7 +195,7 @@ public class SimpleTreeNodeTest
 		assertEquals(allTreeNodes.size(), 12);
 
 		Set<SimpleTreeNode<String>> subTree = thirdChild.getSubTree();
-		assertEquals(subTree.size(), 3);
+		assertEquals(3, subTree.size());
 
 	}
 

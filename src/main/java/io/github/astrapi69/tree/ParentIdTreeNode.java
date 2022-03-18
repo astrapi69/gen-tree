@@ -25,7 +25,9 @@
 package io.github.astrapi69.tree;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -72,7 +74,7 @@ public class ParentIdTreeNode<T, K>
 	/** The children. */
 	@Setter
 	@Builder.Default
-	List<ParentIdTreeNode<T, K>> children = new ArrayList<>();
+	Set<ParentIdTreeNode<T, K>> children = new LinkedHashSet<>();
 
 	/** The optional display value. */
 	@Getter
@@ -101,11 +103,11 @@ public class ParentIdTreeNode<T, K>
 		setValue(value);
 	}
 
-	public List<ParentIdTreeNode<T, K>> getChildren()
+	public Set<ParentIdTreeNode<T, K>> getChildren()
 	{
 		if (this.children == null)
 		{
-			this.children = new ArrayList<>();
+			this.children = new LinkedHashSet<>();
 		}
 		return this.children;
 	}
@@ -124,30 +126,6 @@ public class ParentIdTreeNode<T, K>
 	}
 
 	/**
-	 * Adds the child.
-	 *
-	 * @param index
-	 *            the index
-	 * @param child
-	 *            the child
-	 * @throws IndexOutOfBoundsException
-	 *             the index out of bounds exception
-	 */
-	public void addChildAt(final int index, final ParentIdTreeNode<T, K> child)
-		throws IndexOutOfBoundsException
-	{
-		if (index < getChildren().size())
-		{
-			child.setParentId(this.id);
-			getChildren().add(index, child);
-		}
-		else
-		{
-			addChild(child);
-		}
-	}
-
-	/**
 	 * Gets the child count.
 	 *
 	 * @return the child count
@@ -155,34 +133,6 @@ public class ParentIdTreeNode<T, K>
 	public int getChildCount()
 	{
 		return getChildren().size();
-	}
-
-	/**
-	 * Gets the child from the given index.
-	 *
-	 * @param parent
-	 *            the parent
-	 * @param index
-	 *            the index
-	 * @return the child from the given index
-	 */
-	public ParentIdTreeNode<T, K> getChild(ParentIdTreeNode<T, K> parent, int index)
-	{
-		return parent.getChildren().get(index);
-	}
-
-	/**
-	 * Gets the index of the given child from the given parent.
-	 *
-	 * @param parent
-	 *            the parent
-	 * @param child
-	 *            the child
-	 * @return the index of the given child from the given parent
-	 */
-	public int getIndexOfChild(ParentIdTreeNode<T, K> parent, ParentIdTreeNode<T, K> child)
-	{
-		return parent.getChildren().indexOf(child);
 	}
 
 	/**
@@ -235,23 +185,6 @@ public class ParentIdTreeNode<T, K>
 	{
 		getChildren().remove(child);
 		child.setParentId(null);
-	}
-
-	/**
-	 * Removes the child.
-	 *
-	 * @param index
-	 *            the index
-	 * @throws IndexOutOfBoundsException
-	 *             the index out of bounds exception
-	 */
-	public void removeChildAt(final int index) throws IndexOutOfBoundsException
-	{
-		final ParentIdTreeNode<T, K> child = getChildren().remove(index);
-		if (child != null)
-		{
-			child.setParentId(null);
-		}
 	}
 
 	/**

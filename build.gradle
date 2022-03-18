@@ -29,12 +29,14 @@ apply plugin: "com.diffplug.spotless"
 dependencies {
     compileOnly("org.projectlombok:lombok:$lombokVersion")
     annotationProcessor("org.projectlombok:lombok:$lombokVersion")
+
     implementation("io.github.astrapi69:data-api:$dataApiVersion")
     implementation("io.github.astrapi69:id-generate:$idGenerateVersion")
+    implementation("io.github.astrapi69:visitor:$designPatternsVersion")
+
     testCompileOnly("org.projectlombok:lombok:$lombokVersion")
     testAnnotationProcessor("org.projectlombok:lombok:$lombokVersion")
 
-    testImplementation("io.github.astrapi69:visitor:$designPatternsVersion")
     testImplementation("org.meanbean:meanbean:$meanbeanVersion")
     testImplementation("io.github.astrapi69:test-objects:$testObjectsVersion")
     testImplementation("io.github.astrapi69:jobj-contract-verifier:$jobjContractVerifierVersion")

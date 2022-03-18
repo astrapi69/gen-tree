@@ -25,9 +25,10 @@
 package io.github.astrapi69.tree;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
-import io.github.astrapi69.id.generate.LongIdGenerator;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -37,10 +38,11 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
+import io.github.astrapi69.design.pattern.visitor.Acceptable;
+import io.github.astrapi69.design.pattern.visitor.Visitor;
 
 /**
- * The generic class {@link BaseTreeNode} provides the same functionality as {@link TreeNode}
- * without implementing an interface
+ * The generic class {@link BaseTreeNode} hold the children in a {@link Set}
  *
  * @param <T>
  *            the generic type of the value
@@ -50,20 +52,18 @@ import lombok.experimental.SuperBuilder;
 @ToString(exclude = { "children" })
 @SuperBuilder(toBuilder = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BaseTreeNode<T>
+public class BaseTreeNode<T> implements Acceptable<Visitor<BaseTreeNode<T>>>
 {
-
-	/** The constant for the id generator */
-	private final static LongIdGenerator LONG_ID_GENERATOR = LongIdGenerator.of(0L);
 
 	/** The id from this node. */
 	@Getter
+	@Setter
 	long id;
 
 	/** The children. */
 	@Getter
 	@Builder.Default
-	List<BaseTreeNode<T>> children = new ArrayList<>();
+	Set<BaseTreeNode<T>> children = new LinkedHashSet<>();
 
 	/** The optional display value. */
 	@Getter
@@ -84,10 +84,6 @@ public class BaseTreeNode<T>
 	@Getter
 	@Setter
 	boolean leaf;
-
-	{
-		id = LONG_ID_GENERATOR.getNextId();
-	}
 
 	/**
 	 * Instantiates a new tree node.
@@ -113,44 +109,21 @@ public class BaseTreeNode<T>
 	}
 
 	/**
-	 * Adds the child.
-	 *
-	 * @param index
-	 *            the index
-	 * @param child
-	 *            the child
-	 * @throws IndexOutOfBoundsException
-	 *             the index out of bounds exception
-	 */
-	public void addChildAt(final int index, final BaseTreeNode<T> child)
-		throws IndexOutOfBoundsException
-	{
-		if (index < getChildren().size())
-		{
-			getChildren().add(index, child);
-		}
-		else
-		{
-			addChild(child);
-		}
-	}
-
-	/**
 	 * Returns all siblings of this node in the parent's children list. Returns null if this node is
 	 * the root.
 	 *
 	 * @return Returns all siblings of this node or null if this node is the root.
 	 */
-	public List<BaseTreeNode<T>> getAllSiblings()
+	public Set<BaseTreeNode<T>> getAllSiblings()
 	{
 		final BaseTreeNode<T> parent = getParent();
 		if (parent == null)
 		{
-			return null;
+			return new LinkedHashSet<>();
 		}
-		final List<BaseTreeNode<T>> siblings = new ArrayList<>(parent.getChildren());
-		siblings.remove(this);
-		return siblings;
+		final Set<BaseTreeNode<T>> allSiblings = new LinkedHashSet<>(parent.getChildren());
+		allSiblings.remove(this);
+		return allSiblings;
 	}
 
 	/**
@@ -161,62 +134,6 @@ public class BaseTreeNode<T>
 	public int getChildCount()
 	{
 		return getChildren().size();
-	}
-
-	/**
-	 * Gets the child from the given index.
-	 *
-	 * @param parent
-	 *            the parent
-	 * @param index
-	 *            the index
-	 * @return the child from the given index
-	 */
-	public BaseTreeNode<T> getChild(BaseTreeNode<T> parent, int index)
-	{
-		return parent.getChildren().get(index);
-	}
-
-	/**
-	 * Gets the index of the given child from the given parent.
-	 *
-	 * @param parent
-	 *            the parent
-	 * @param child
-	 *            the child
-	 * @return the index of the given child from the given parent
-	 */
-	public int getIndexOfChild(BaseTreeNode<T> parent, BaseTreeNode<T> child)
-	{
-		return parent.getChildren().indexOf(child);
-	}
-
-	/**
-	 * Returns the depth of the tree beginning at this node Returns 0 if this node has no children.
-	 *
-	 * @return the depth of the tree beginning at this node.
-	 */
-	public int getDepth()
-	{
-		if (isLeaf() || getChildCount() == 0)
-		{
-			return 0;
-		}
-		int maxDepth = 1;
-		int currentDepth = 1;
-		for (BaseTreeNode<T> data : getChildren())
-		{
-			while (data.hasChildren())
-			{
-				currentDepth++;
-				data = data.getChildren().get(0);
-			}
-			if (maxDepth < currentDepth)
-			{
-				maxDepth = currentDepth;
-			}
-		}
-		return maxDepth;
 	}
 
 	/**
@@ -244,16 +161,25 @@ public class BaseTreeNode<T>
 	 */
 	public BaseTreeNode<T> getNextSibling()
 	{
+		BaseTreeNode<T> next = null;
 		if (getParent() == null)
 		{
-			return null;
+			return next;
 		}
-		final int index = getParent().getChildren().indexOf(this) + 1;
-		if (index == getParent().getChildCount())
+		boolean isNext = false;
+		for (BaseTreeNode<T> baseTreeNode : getParent().getChildren())
 		{
-			return null;
+			if (isNext)
+			{
+				next = baseTreeNode;
+				break;
+			}
+			if (baseTreeNode.equals(this))
+			{
+				isNext = true;
+			}
 		}
-		return getParent().getChildren().get(index);
+		return next;
 	}
 
 	/**
@@ -265,16 +191,20 @@ public class BaseTreeNode<T>
 	 */
 	public BaseTreeNode<T> getPreviousSibling()
 	{
+		BaseTreeNode<T> previous = null;
 		if (getParent() == null)
 		{
-			return null;
+			return previous;
 		}
-		final int index = getParent().getChildren().indexOf(this) - 1;
-		if (index < 0)
+		for (BaseTreeNode<T> baseTreeNode : getParent().getChildren())
 		{
-			return null;
+			if (baseTreeNode.equals(this))
+			{
+				break;
+			}
+			previous = baseTreeNode;
 		}
-		return getParent().getChildren().get(index);
+		return previous;
 	}
 
 	/**
@@ -347,49 +277,35 @@ public class BaseTreeNode<T>
 	}
 
 	/**
-	 * Removes the child.
-	 *
-	 * @param index
-	 *            the index
-	 * @throws IndexOutOfBoundsException
-	 *             the index out of bounds exception
-	 */
-	public void removeChildAt(final int index) throws IndexOutOfBoundsException
-	{
-		final BaseTreeNode<T> child = getChildren().remove(index);
-		if (child != null)
-		{
-			child.setParent(null);
-		}
-	}
-
-	/**
 	 * To list.
 	 *
 	 * @return the list
 	 */
 	public List<BaseTreeNode<T>> toList()
 	{
-		final List<BaseTreeNode<T>> list = new ArrayList<>();
-		traverse(this, list);
-		return list;
+		return new ArrayList<>(traverse());
 	}
 
 	/**
-	 * Traverse.
-	 *
-	 * @param node
-	 *            the node
-	 * @param list
-	 *            the list
+	 * Traverse this node and add all descendant with this included in to a {@link Set}
+	 * 
+	 * @return a {@link Set} with this node and add all descendant
 	 */
-	public void traverse(final BaseTreeNode<T> node, final List<BaseTreeNode<T>> list)
+	public Set<BaseTreeNode<T>> traverse()
 	{
-		list.add(node);
-		for (final BaseTreeNode<T> data : node.getChildren())
-		{
-			traverse(data, list);
-		}
+		final Set<BaseTreeNode<T>> allTreeNodes = new LinkedHashSet<>();
+		this.accept(acceptable -> allTreeNodes.add(acceptable));
+		return allTreeNodes;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void accept(Visitor<BaseTreeNode<T>> visitor)
+	{
+		visitor.visit(this);
+		getChildren().stream().forEach(child -> child.accept(visitor));
 	}
 
 }

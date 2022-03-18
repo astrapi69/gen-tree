@@ -1,17 +1,20 @@
 package io.github.astrapi69.tree;
 
-import lombok.Getter;
-
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class TraverseSimpleTreeNodeVisitor<T> implements Visitor<SimpleTreeNode<T>> {
+import lombok.Getter;
+import io.github.astrapi69.design.pattern.visitor.Visitor;
 
-    @Getter
-    final Set<SimpleTreeNode<T>> allTreeNodes = new LinkedHashSet<>();
+public class TraverseSimpleTreeNodeVisitor<T> implements Visitor<SimpleTreeNode<T>>
+{
 
-    @Override
-    public void visit(SimpleTreeNode<T> simpleTreeNode) {
-        allTreeNodes.add(simpleTreeNode);
-    }
+	@Getter
+	final Set<SimpleTreeNode<T>> allTreeNodes = new LinkedHashSet<>();
+
+	@Override
+	public void visit(SimpleTreeNode<T> simpleTreeNode)
+	{
+		allTreeNodes.add(simpleTreeNode);
+	}
 }

@@ -35,6 +35,8 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
+import io.github.astrapi69.design.pattern.visitor.Acceptable;
+import io.github.astrapi69.design.pattern.visitor.Visitor;
 
 @NoArgsConstructor
 @ToString(exclude = { "parent" })
@@ -211,18 +213,21 @@ public class SimpleTreeNode<T> implements Acceptable<Visitor<SimpleTreeNode<T>>>
 
 	public Set<SimpleTreeNode<T>> getSubTree()
 	{
-		TraverseSimpleTreeNodeVisitor<T> traverseVisitor = new TraverseSimpleTreeNodeVisitor<>();
-		this.accept(traverseVisitor);
-		return traverseVisitor.getAllTreeNodes();
+		final Set<SimpleTreeNode<T>> allTreeNodes = new LinkedHashSet<>();
+		this.accept(acceptable -> allTreeNodes.add(acceptable));
+		return allTreeNodes;
 	}
 
 	@Override
-	public void accept(Visitor<SimpleTreeNode<T>> visitor) {
+	public void accept(Visitor<SimpleTreeNode<T>> visitor)
+	{
 		visitor.visit(this);
-		if(hasLeftMostChild()) {
+		if (hasLeftMostChild())
+		{
 			getLeftMostChild().accept(visitor);
 		}
-		if(hasRightSibling()){
+		if (hasRightSibling())
+		{
 			getRightSibling().accept(visitor);
 		}
 	}
