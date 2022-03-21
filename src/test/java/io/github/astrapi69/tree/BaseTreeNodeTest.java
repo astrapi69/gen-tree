@@ -263,7 +263,6 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		assertEquals(expected, actual);
 
 		actual = secondChild.getLevel();
-		expected = 1;
 		assertEquals(expected, actual);
 
 		actual = firstGrandChild.getLevel();
@@ -275,7 +274,6 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		assertEquals(expected, actual);
 
 		actual = secondGrandGrandChild.getLevel();
-		expected = 3;
 		assertEquals(expected, actual);
 
 		actual = firstGrandGrandGrandChild.getLevel();
@@ -287,7 +285,6 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		assertEquals(expected, actual);
 
 		actual = thirdGrandChild.getLevel();
-		expected = 2;
 		assertEquals(expected, actual);
 
 		actual = thirdChild.getLevel();
@@ -299,7 +296,6 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		assertEquals(expected, actual);
 
 		actual = fifthGrandChild.getLevel();
-		expected = 2;
 		assertEquals(expected, actual);
 	}
 
