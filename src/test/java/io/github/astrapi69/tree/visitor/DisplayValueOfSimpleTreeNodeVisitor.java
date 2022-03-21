@@ -1,6 +1,7 @@
-package io.github.astrapi69.tree;
+package io.github.astrapi69.tree.visitor;
 
 import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.tree.SimpleTreeNode;
 
 public class DisplayValueOfSimpleTreeNodeVisitor<T> implements Visitor<SimpleTreeNode<T>>
 {

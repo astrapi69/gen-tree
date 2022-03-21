@@ -34,6 +34,9 @@ import java.util.Set;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import io.github.astrapi69.tree.visitor.DisplayValueOfSimpleTreeNodeVisitor;
+import io.github.astrapi69.tree.visitor.TraverseSimpleTreeNodeVisitor;
+
 public class SimpleTreeNodeTest
 {
 	SimpleTreeNode<String> root;
@@ -49,36 +52,10 @@ public class SimpleTreeNodeTest
 	SimpleTreeNode<String> fourthGrandChild;
 	SimpleTreeNode<String> fifthGrandChild;
 
-	@Test
-	public void testRightSilbing()
-	{
-		boolean hasRightSibling;
-		SimpleTreeNode<String> rightSibling;
-
-		rightSibling = root.getRightSibling();
-		assertNull(rightSibling);
-		assertFalse(root.hasRightSibling());
-
-		hasRightSibling = firstChild.hasRightSibling();
-		assertTrue(hasRightSibling);
-		rightSibling = firstChild.getRightSibling();
-		assertEquals(secondChild, rightSibling);
-
-		hasRightSibling = secondChild.hasRightSibling();
-		assertTrue(hasRightSibling);
-		rightSibling = secondChild.getRightSibling();
-		assertEquals(thirdChild, rightSibling);
-
-		hasRightSibling = thirdChild.hasRightSibling();
-		assertFalse(hasRightSibling);
-		rightSibling = thirdChild.getRightSibling();
-		assertNull(rightSibling);
-
-	}
-
 	/**
 	 * Set up the tree structure for the unit tests
-	 * @formatter:off
+	 * 
+	 * <pre>
 	 *   +- root("I'm root")
 	 *      +- firstChild("I'm the first child")
 	 *      +- secondChild("I'm the second child")
@@ -91,7 +68,7 @@ public class SimpleTreeNodeTest
 	 *      +- thirdChild("I'm the third child")
 	 *      |  +- fourthGrandChild(null)
 	 *      |  +- fifthGrandChild("I'm the fifth grand child")
-	 * @formatter:on
+	 * </pre>
 	 */
 	@BeforeMethod
 	public void setup()
@@ -181,6 +158,34 @@ public class SimpleTreeNodeTest
 		assertEquals(allRightSiblings.size(), 0);
 		allRightSiblings = secondChild.getAllLeftSiblings();
 		assertEquals(allRightSiblings.size(), 1);
+		allRightSiblings = firstChild.getAllLeftSiblings();
+		assertEquals(allRightSiblings.size(), 0);
+	}
+
+	@Test
+	public void testRightSilbing()
+	{
+		boolean hasRightSibling;
+		SimpleTreeNode<String> rightSibling;
+
+		rightSibling = root.getRightSibling();
+		assertNull(rightSibling);
+		assertFalse(root.hasRightSibling());
+
+		hasRightSibling = firstChild.hasRightSibling();
+		assertTrue(hasRightSibling);
+		rightSibling = firstChild.getRightSibling();
+		assertEquals(secondChild, rightSibling);
+
+		hasRightSibling = secondChild.hasRightSibling();
+		assertTrue(hasRightSibling);
+		rightSibling = secondChild.getRightSibling();
+		assertEquals(thirdChild, rightSibling);
+
+		hasRightSibling = thirdChild.hasRightSibling();
+		assertFalse(hasRightSibling);
+		rightSibling = thirdChild.getRightSibling();
+		assertNull(rightSibling);
 	}
 
 	@Test
@@ -194,9 +199,8 @@ public class SimpleTreeNodeTest
 		allTreeNodes = traverseVisitor.getAllTreeNodes();
 		assertEquals(allTreeNodes.size(), 12);
 
-		Set<SimpleTreeNode<String>> subTree = thirdChild.getSubTree();
+		Set<SimpleTreeNode<String>> subTree = thirdChild.traverse();
 		assertEquals(3, subTree.size());
-
 	}
 
 }

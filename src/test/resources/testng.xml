@@ -3,7 +3,7 @@
 <suite name="Suite">
     <test name="Test">
         <classes>
-            <class name="io.github.astrapi69.tree.TreeElementTest"/>
+            <class name="io.github.astrapi69.tree.element.TreeElementTest"/>
             <class name="io.github.astrapi69.tree.TreeNodeTest"/>
         </classes>
     </test> <!-- Test -->

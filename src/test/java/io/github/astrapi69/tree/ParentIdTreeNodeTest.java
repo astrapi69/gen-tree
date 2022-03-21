@@ -32,12 +32,17 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.Set;
 import java.util.UUID;
 
+import org.meanbean.lang.Factory;
+import org.meanbean.test.BeanTester;
+import org.meanbean.test.Configuration;
+import org.meanbean.test.ConfigurationBuilder;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import io.github.astrapi69.AbstractTestCase;
 import io.github.astrapi69.evaluate.object.evaluators.EqualsHashCodeAndToStringEvaluator;
+import io.github.astrapi69.tree.element.TreeElement;
 
 public class ParentIdTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 {
@@ -209,5 +214,27 @@ public class ParentIdTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		assertFalse(list.contains(firstChildTreeNode));
 	}
 
+
+	/**
+	 * Test method for {@link ParentIdTreeNode}
+	 */
+	@Test
+	public void testWithBeanTester()
+	{
+		final ParentIdTreeNode<String, Long> parentTreeNode = new ParentIdTreeNode<>("parent");
+		Configuration configuration = new ConfigurationBuilder()
+			.overrideFactory("parent", new Factory<ParentIdTreeNode<String, Long>>()
+			{
+				@Override
+				public ParentIdTreeNode<String, Long> create()
+				{
+					return parentTreeNode;
+				}
+
+			}).build();
+		final BeanTester beanTester = new BeanTester();
+		beanTester.addCustomConfiguration(ParentIdTreeNode.class, configuration);
+		beanTester.testBean(ParentIdTreeNode.class);
+	}
 }
 

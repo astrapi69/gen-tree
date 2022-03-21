@@ -8,10 +8,14 @@ ADDED:
 
 - new BaseTreeNode class provides the same functionality as TreeNode without implementing an interface
 - new class ParentIdTreeNode without direct parent reference, but therefore instead an id and parentId
+- new class SimpleTreeNode that represents the leftmost child to right sibling style
 
 CHANGED:
 
 - update of test dependency test-objects to new major version 6
+- moved tree element classes to its own package 'io.github.astrapi69.tree.element'
+- moved class GenericBinaryTree to its own package 'io.github.astrapi69.tree.binary'
+- removed unused class ChainableTreeNode and the corresponding interface IChainableTreeNode
 
 Version 5.3
 -------------

@@ -38,6 +38,13 @@ import lombok.experimental.SuperBuilder;
 import io.github.astrapi69.design.pattern.visitor.Acceptable;
 import io.github.astrapi69.design.pattern.visitor.Visitor;
 
+/**
+ * The generic class {@link SimpleTreeNode} holds only the parent, the left most child and the right
+ * sibling
+ *
+ * @param <T>
+ *            the generic type of the value
+ */
 @NoArgsConstructor
 @ToString(exclude = { "parent" })
 @SuperBuilder(toBuilder = true)
@@ -45,32 +52,47 @@ import io.github.astrapi69.design.pattern.visitor.Visitor;
 public class SimpleTreeNode<T> implements Acceptable<Visitor<SimpleTreeNode<T>>>
 {
 
+	/** The left most child */
 	@Getter
 	@Setter
-	/** The left most child */
 	SimpleTreeNode<T> parent;
+
 	/** The left most child */
 	@Getter
 	@Setter
 	SimpleTreeNode<T> leftMostChild;
+
 	/** The right sibling */
 	@Getter
 	@Setter
 	SimpleTreeNode<T> rightSibling;
+
 	/** The value */
 	@Getter
 	@Setter
 	T value;
+
 	/** The flag that indicates if this tree node is a leaf or a node */
 	@Getter
 	@Setter
 	boolean leaf;
 
+	/**
+	 * Instantiates a new {@link SimpleTreeNode} object
+	 *
+	 * @param value
+	 *            the value
+	 */
 	public SimpleTreeNode(T value)
 	{
 		this.value = value;
 	}
 
+	/**
+	 * Gets the root {@link SimpleTreeNode} object
+	 *
+	 * @return the root {@link SimpleTreeNode} object
+	 */
 	public SimpleTreeNode<T> getRoot()
 	{
 		SimpleTreeNode<T> root = this;
@@ -106,6 +128,11 @@ public class SimpleTreeNode<T> implements Acceptable<Visitor<SimpleTreeNode<T>>>
 		return !isLeaf();
 	}
 
+	/**
+	 * Gets all the siblings from this node
+	 *
+	 * @return all the siblings from this node
+	 */
 	public Set<SimpleTreeNode<T>> getAllSiblings()
 	{
 		Set<SimpleTreeNode<T>> allSiblings = new LinkedHashSet<>();
@@ -129,6 +156,11 @@ public class SimpleTreeNode<T> implements Acceptable<Visitor<SimpleTreeNode<T>>>
 		return allSiblings;
 	}
 
+	/**
+	 * Gets all the left siblings from this node
+	 *
+	 * @return all the left siblings from this node
+	 */
 	public Set<SimpleTreeNode<T>> getAllLeftSiblings()
 	{
 		Set<SimpleTreeNode<T>> allSiblings = new LinkedHashSet<>();
@@ -164,6 +196,11 @@ public class SimpleTreeNode<T> implements Acceptable<Visitor<SimpleTreeNode<T>>>
 		return allSiblings;
 	}
 
+	/**
+	 * Gets all the right siblings from this node
+	 * 
+	 * @return all the right siblings from this node
+	 */
 	public Set<SimpleTreeNode<T>> getAllRightSiblings()
 	{
 		Set<SimpleTreeNode<T>> allRightSiblings = new LinkedHashSet<>();
@@ -177,7 +214,6 @@ public class SimpleTreeNode<T> implements Acceptable<Visitor<SimpleTreeNode<T>>>
 			}
 			while (currentRightSibling.hasRightSibling());
 		}
-
 		return allRightSiblings;
 	}
 
@@ -211,13 +247,21 @@ public class SimpleTreeNode<T> implements Acceptable<Visitor<SimpleTreeNode<T>>>
 		return getLeftMostChild() != null;
 	}
 
-	public Set<SimpleTreeNode<T>> getSubTree()
+	/**
+	 * Traverse this node and add all descendant with this included in to a {@link Set}
+	 *
+	 * @return a {@link Set} with this node and add all descendant
+	 */
+	public Set<SimpleTreeNode<T>> traverse()
 	{
 		final Set<SimpleTreeNode<T>> allTreeNodes = new LinkedHashSet<>();
 		this.accept(acceptable -> allTreeNodes.add(acceptable));
 		return allTreeNodes;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void accept(Visitor<SimpleTreeNode<T>> visitor)
 	{

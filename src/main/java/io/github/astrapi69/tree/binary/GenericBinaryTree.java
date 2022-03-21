@@ -22,10 +22,11 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.tree;
+package io.github.astrapi69.tree.binary;
 
 import java.util.Objects;
 
+import io.github.astrapi69.tree.LinkedNode;
 import io.github.astrapi69.tree.api.ILinkedNode;
 
 /**
@@ -95,10 +96,6 @@ public abstract class GenericBinaryTree<T>
 			LinkedNode<T> previous = (LinkedNode<T>)linkedNode.getPrevious();
 			LinkedNode<T> previousLinkedNode = addRecursively(previous, value);
 			linkedNode.setPrevious(previousLinkedNode);
-		}
-		else
-		{
-			return linkedNode;
 		}
 		return linkedNode;
 	}

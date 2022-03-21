@@ -22,25 +22,42 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.tree;
+package io.github.astrapi69.tree.element;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
+import java.io.Serializable;
 
-import org.testng.annotations.Test;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 
-public class IntegerBinaryTreeTest
+/**
+ * The class {@link TreeElement} represents as the name already presume a tree element
+ */
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = { "parent" })
+@ToString(exclude = { "parent" })
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder(toBuilder = true)
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class TreeElement implements Serializable
 {
+	/** The serial Version UID */
+	private static final long serialVersionUID = 1L;
 
-	@Test
-	public void testGenericBinaryTreeWithInteger()
-	{
-		IntegerBinaryTree integerBinaryTree = new IntegerBinaryTree();
+	/** The name of this tree element. */
+	String name;
 
-		integerBinaryTree.add(5).add(3).add(7).add(2).add(4).add(6).add(8);
+	/** The flag that indicates if this tree element is a node. */
+	boolean node;
 
-		assertTrue(integerBinaryTree.contains(3));
-		assertTrue(integerBinaryTree.contains(5));
-		assertFalse(integerBinaryTree.contains(9));
-	}
+	/** The parent of this tree element. */
+	TreeElement parent;
 }

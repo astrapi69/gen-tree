@@ -39,6 +39,7 @@ import org.testng.annotations.Test;
 
 import io.github.astrapi69.AbstractTestCase;
 import io.github.astrapi69.tree.api.ILinkedNode;
+import io.github.astrapi69.tree.element.TreeElement;
 
 /**
  * The unit test class for the class {@link LinkedNode}

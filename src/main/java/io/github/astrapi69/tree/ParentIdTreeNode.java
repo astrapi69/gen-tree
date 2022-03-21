@@ -72,6 +72,7 @@ public class ParentIdTreeNode<T, K>
 	K parentId;
 
 	/** The children. */
+	@Getter
 	@Setter
 	@Builder.Default
 	Set<ParentIdTreeNode<T, K>> children = new LinkedHashSet<>();
@@ -102,16 +103,6 @@ public class ParentIdTreeNode<T, K>
 	{
 		setValue(value);
 	}
-
-	public Set<ParentIdTreeNode<T, K>> getChildren()
-	{
-		if (this.children == null)
-		{
-			this.children = new LinkedHashSet<>();
-		}
-		return this.children;
-	}
-
 
 	/**
 	 * Adds the child.

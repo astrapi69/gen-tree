@@ -86,7 +86,7 @@ public class BaseTreeNode<T> implements Acceptable<Visitor<BaseTreeNode<T>>>
 	boolean leaf;
 
 	/**
-	 * Instantiates a new tree node.
+	 * Instantiates a new {@link BaseTreeNode} object
 	 *
 	 * @param value
 	 *            the value
@@ -305,7 +305,7 @@ public class BaseTreeNode<T> implements Acceptable<Visitor<BaseTreeNode<T>>>
 	public void accept(Visitor<BaseTreeNode<T>> visitor)
 	{
 		visitor.visit(this);
-		getChildren().stream().forEach(child -> child.accept(visitor));
+		getChildren().forEach(child -> child.accept(visitor));
 	}
 
 }

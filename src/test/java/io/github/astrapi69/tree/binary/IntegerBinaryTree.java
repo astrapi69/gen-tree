@@ -22,42 +22,23 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.tree;
+package io.github.astrapi69.tree.binary;
 
-import java.io.Serializable;
+import io.github.astrapi69.tree.LinkedNode;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.experimental.FieldDefaults;
-import lombok.experimental.SuperBuilder;
-
-/**
- * The class {@link TreeElement} represents as the name already presume a tree element
- */
-@Getter
-@Setter
-@EqualsAndHashCode(exclude = { "parent" })
-@ToString(exclude = { "parent" })
-@NoArgsConstructor
-@AllArgsConstructor
-@SuperBuilder(toBuilder = true)
-@FieldDefaults(level = AccessLevel.PRIVATE)
-public class TreeElement implements Serializable
+public class IntegerBinaryTree extends GenericBinaryTree<Integer>
 {
-	/** The serial Version UID */
-	private static final long serialVersionUID = 1L;
 
-	/** The name of this tree element. */
-	String name;
+	@Override
+	public boolean isSmaller(LinkedNode<Integer> linkedNode, Integer value)
+	{
+		return value < linkedNode.getValue();
+	}
 
-	/** The flag that indicates if this tree element is a node. */
-	boolean node;
+	@Override
+	public boolean isGreater(LinkedNode<Integer> linkedNode, Integer value)
+	{
+		return value > linkedNode.getValue();
+	}
 
-	/** The parent of this tree element. */
-	TreeElement parent;
 }
