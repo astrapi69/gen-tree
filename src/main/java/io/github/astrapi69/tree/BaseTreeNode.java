@@ -249,7 +249,7 @@ public class BaseTreeNode<T> implements Acceptable<Visitor<BaseTreeNode<T>>>
 	 *
 	 * @return true, if this {@link BaseTreeNode} object is a node otherwise false
 	 */
-	boolean isNode()
+	public boolean isNode()
 	{
 		return !isLeaf();
 	}
