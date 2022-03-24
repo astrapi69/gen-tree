@@ -30,16 +30,16 @@ dependencies {
     compileOnly("org.projectlombok:lombok:$lombokVersion")
     annotationProcessor("org.projectlombok:lombok:$lombokVersion")
 
-    implementation("io.github.astrapi69:data-api:$dataApiVersion")
-    implementation("io.github.astrapi69:id-generate:$idGenerateVersion")
     implementation("io.github.astrapi69:visitor:$designPatternsVersion")
 
     testCompileOnly("org.projectlombok:lombok:$lombokVersion")
     testAnnotationProcessor("org.projectlombok:lombok:$lombokVersion")
 
-    testImplementation("org.meanbean:meanbean:$meanbeanVersion")
+    testImplementation("io.github.astrapi69:data-api:$dataApiVersion")
+    testImplementation("io.github.astrapi69:id-generate:$idGenerateVersion")
     testImplementation("io.github.astrapi69:test-objects:$testObjectsVersion")
     testImplementation("io.github.astrapi69:jobj-contract-verifier:$jobjContractVerifierVersion")
+    testImplementation("org.meanbean:meanbean:$meanbeanVersion")
     testImplementation("org.testng:testng:$testngVersion")
 }
 

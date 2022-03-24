@@ -4,7 +4,12 @@
 Version 5.5-SNAPSHOT
 -------------
 
+CHANGED:
 
+- the id field from the BaseTreeNode class has now a generic type
+- moved dependency data-api to a test-dependency
+- moved dependency id-generate to a test-dependency
+- method isNode in the BaseTreeNode class is now public
 
 Version 5.4
 -------------

@@ -46,24 +46,31 @@ import io.github.astrapi69.design.pattern.visitor.Visitor;
  *
  * @param <T>
  *            the generic type of the value
+ * @param <K>
+ *            the generic type of the id of the node
  */
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = { "children" })
 @ToString(exclude = { "children" })
 @SuperBuilder(toBuilder = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BaseTreeNode<T> implements Acceptable<Visitor<BaseTreeNode<T>>>
+public class BaseTreeNode<T, K> implements Acceptable<Visitor<BaseTreeNode<T, K>>>
 {
 
 	/** The id from this node. */
 	@Getter
 	@Setter
-	long id;
+	K id;
+
+	/** The value. */
+	@Getter
+	@Setter
+	T value;
 
 	/** The children. */
 	@Getter
 	@Builder.Default
-	Set<BaseTreeNode<T>> children = new LinkedHashSet<>();
+	Set<BaseTreeNode<T, K>> children = new LinkedHashSet<>();
 
 	/** The optional display value. */
 	@Getter
@@ -73,12 +80,7 @@ public class BaseTreeNode<T> implements Acceptable<Visitor<BaseTreeNode<T>>>
 	/** The parent from this node. If this is null it is the root. */
 	@Getter
 	@Setter
-	BaseTreeNode<T> parent;
-
-	/** The value. */
-	@Getter
-	@Setter
-	T value;
+	BaseTreeNode<T, K> parent;
 
 	/** The flag that indicates if this tree node is a leaf or a node */
 	@Getter
@@ -102,7 +104,7 @@ public class BaseTreeNode<T> implements Acceptable<Visitor<BaseTreeNode<T>>>
 	 * @param child
 	 *            the child
 	 */
-	public void addChild(final BaseTreeNode<T> child)
+	public void addChild(final BaseTreeNode<T, K> child)
 	{
 		child.setParent(this);
 		getChildren().add(child);
@@ -114,14 +116,14 @@ public class BaseTreeNode<T> implements Acceptable<Visitor<BaseTreeNode<T>>>
 	 *
 	 * @return Returns all siblings of this node or null if this node is the root.
 	 */
-	public Set<BaseTreeNode<T>> getAllSiblings()
+	public Set<BaseTreeNode<T, K>> getAllSiblings()
 	{
-		final BaseTreeNode<T> parent = getParent();
+		final BaseTreeNode<T, K> parent = getParent();
 		if (parent == null)
 		{
 			return new LinkedHashSet<>();
 		}
-		final Set<BaseTreeNode<T>> allSiblings = new LinkedHashSet<>(parent.getChildren());
+		final Set<BaseTreeNode<T, K>> allSiblings = new LinkedHashSet<>(parent.getChildren());
 		allSiblings.remove(this);
 		return allSiblings;
 	}
@@ -143,7 +145,7 @@ public class BaseTreeNode<T> implements Acceptable<Visitor<BaseTreeNode<T>>>
 	 */
 	public int getLevel()
 	{
-		BaseTreeNode<T> current = this;
+		BaseTreeNode<T, K> current = this;
 		int count = 0;
 		while ((current = current.getParent()) != null)
 		{
@@ -159,15 +161,15 @@ public class BaseTreeNode<T> implements Acceptable<Visitor<BaseTreeNode<T>>>
 	 * @return the next sibling of this node or null if this node is the root or is the parent's
 	 *         last child.
 	 */
-	public BaseTreeNode<T> getNextSibling()
+	public BaseTreeNode<T, K> getNextSibling()
 	{
-		BaseTreeNode<T> next = null;
+		BaseTreeNode<T, K> next = null;
 		if (getParent() == null)
 		{
 			return next;
 		}
 		boolean isNext = false;
-		for (BaseTreeNode<T> baseTreeNode : getParent().getChildren())
+		for (BaseTreeNode<T, K> baseTreeNode : getParent().getChildren())
 		{
 			if (isNext)
 			{
@@ -189,14 +191,14 @@ public class BaseTreeNode<T> implements Acceptable<Visitor<BaseTreeNode<T>>>
 	 * @return the next sibling of this node or null if this node is the root or is the parent's
 	 *         last child.
 	 */
-	public BaseTreeNode<T> getPreviousSibling()
+	public BaseTreeNode<T, K> getPreviousSibling()
 	{
-		BaseTreeNode<T> previous = null;
+		BaseTreeNode<T, K> previous = null;
 		if (getParent() == null)
 		{
 			return previous;
 		}
-		for (BaseTreeNode<T> baseTreeNode : getParent().getChildren())
+		for (BaseTreeNode<T, K> baseTreeNode : getParent().getChildren())
 		{
 			if (baseTreeNode.equals(this))
 			{
@@ -212,10 +214,10 @@ public class BaseTreeNode<T> implements Acceptable<Visitor<BaseTreeNode<T>>>
 	 *
 	 * @return the root {@link BaseTreeNode} object
 	 */
-	public BaseTreeNode<T> getRoot()
+	public BaseTreeNode<T, K> getRoot()
 	{
-		BaseTreeNode<T> root = this;
-		BaseTreeNode<T> parent = getParent();
+		BaseTreeNode<T, K> root = this;
+		BaseTreeNode<T, K> parent = getParent();
 		while (parent != null && !parent.isRoot())
 		{
 			parent = parent.getParent();
@@ -270,7 +272,7 @@ public class BaseTreeNode<T> implements Acceptable<Visitor<BaseTreeNode<T>>>
 	 * @param child
 	 *            the child
 	 */
-	public void removeChild(final BaseTreeNode<T> child)
+	public void removeChild(final BaseTreeNode<T, K> child)
 	{
 		getChildren().remove(child);
 		child.setParent(null);
@@ -281,7 +283,7 @@ public class BaseTreeNode<T> implements Acceptable<Visitor<BaseTreeNode<T>>>
 	 *
 	 * @return the list
 	 */
-	public List<BaseTreeNode<T>> toList()
+	public List<BaseTreeNode<T, K>> toList()
 	{
 		return new ArrayList<>(traverse());
 	}
@@ -291,10 +293,10 @@ public class BaseTreeNode<T> implements Acceptable<Visitor<BaseTreeNode<T>>>
 	 * 
 	 * @return a {@link Set} with this node and add all descendant
 	 */
-	public Set<BaseTreeNode<T>> traverse()
+	public Set<BaseTreeNode<T, K>> traverse()
 	{
-		final Set<BaseTreeNode<T>> allTreeNodes = new LinkedHashSet<>();
-		this.accept(acceptable -> allTreeNodes.add(acceptable));
+		final Set<BaseTreeNode<T, K>> allTreeNodes = new LinkedHashSet<>();
+		this.accept(allTreeNodes::add);
 		return allTreeNodes;
 	}
 
@@ -302,7 +304,7 @@ public class BaseTreeNode<T> implements Acceptable<Visitor<BaseTreeNode<T>>>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void accept(Visitor<BaseTreeNode<T>> visitor)
+	public void accept(Visitor<BaseTreeNode<T, K>> visitor)
 	{
 		visitor.visit(this);
 		getChildren().forEach(child -> child.accept(visitor));

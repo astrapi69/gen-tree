@@ -27,11 +27,13 @@ package io.github.astrapi69.tree;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.List;
 import java.util.Set;
 
+import io.github.astrapi69.id.generate.LongIdGenerator;
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
@@ -45,18 +47,18 @@ import io.github.astrapi69.tree.element.TreeElement;
 public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 {
 
-	BaseTreeNode<String> root;
-	BaseTreeNode<String> firstChild;
-	BaseTreeNode<String> secondChild;
-	BaseTreeNode<String> firstGrandChild;
-	BaseTreeNode<String> firstGrandGrandChild;
-	BaseTreeNode<String> secondGrandGrandChild;
-	BaseTreeNode<String> firstGrandGrandGrandChild;
-	BaseTreeNode<String> secondGrandChild;
-	BaseTreeNode<String> thirdGrandChild;
-	BaseTreeNode<String> thirdChild;
-	BaseTreeNode<String> fourthGrandChild;
-	BaseTreeNode<String> fifthGrandChild;
+	BaseTreeNode<String, Long> root;
+	BaseTreeNode<String, Long> firstChild;
+	BaseTreeNode<String, Long> secondChild;
+	BaseTreeNode<String, Long> firstGrandChild;
+	BaseTreeNode<String, Long> firstGrandGrandChild;
+	BaseTreeNode<String, Long> secondGrandGrandChild;
+	BaseTreeNode<String, Long> firstGrandGrandGrandChild;
+	BaseTreeNode<String, Long> secondGrandChild;
+	BaseTreeNode<String, Long> thirdGrandChild;
+	BaseTreeNode<String, Long> thirdChild;
+	BaseTreeNode<String, Long> fourthGrandChild;
+	BaseTreeNode<String, Long> fifthGrandChild;
 
 	/**
 	 * Set up the tree structure for the unit tests
@@ -79,39 +81,43 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@BeforeMethod
 	public void setup()
 	{
-		root = BaseTreeNode.<String> builder().id(0).value("I'm root").build();
+		LongIdGenerator idGenerator = LongIdGenerator.of(0L);
+		root = BaseTreeNode.<String, Long> builder().id(idGenerator.getNextId()).value("I'm root")
+			.build();
 
-		firstChild = BaseTreeNode.<String> builder().id(1).value("I'm the first child").build();
+		firstChild = BaseTreeNode.<String, Long> builder().id(idGenerator.getNextId())
+			.value("I'm the first child").build();
 
-		secondChild = BaseTreeNode.<String> builder().id(2).parent(root)
+		secondChild = BaseTreeNode.<String, Long> builder().id(idGenerator.getNextId()).parent(root)
 			.value("I'm the second child").build();
 
-		firstGrandChild = BaseTreeNode.<String> builder().id(3).parent(secondChild)
-			.value("I'm the first grand child").build();
+		firstGrandChild = BaseTreeNode.<String, Long> builder().id(idGenerator.getNextId())
+			.parent(secondChild).value("I'm the first grand child").build();
 
-		firstGrandGrandChild = BaseTreeNode.<String> builder().id(4).parent(firstGrandChild)
-			.value("I'm the first grand grand child").build();
+		firstGrandGrandChild = BaseTreeNode.<String, Long> builder().id(idGenerator.getNextId())
+			.parent(firstGrandChild).value("I'm the first grand grand child").build();
 
-		secondGrandGrandChild = BaseTreeNode.<String> builder().id(5).parent(firstGrandChild)
-			.value("I'm the second grand grand child").build();
+		secondGrandGrandChild = BaseTreeNode.<String, Long> builder().id(idGenerator.getNextId())
+			.parent(firstGrandChild).value("I'm the second grand grand child").build();
 
-		firstGrandGrandGrandChild = BaseTreeNode.<String> builder().id(6)
-			.parent(secondGrandGrandChild).value("I'm the first grand grand grand child").build();
+		firstGrandGrandGrandChild = BaseTreeNode.<String, Long> builder()
+			.id(idGenerator.getNextId()).parent(secondGrandGrandChild)
+			.value("I'm the first grand grand grand child").build();
 
-		secondGrandChild = BaseTreeNode.<String> builder().id(7).parent(secondChild)
-			.value("I'm the second grand child").build();
+		secondGrandChild = BaseTreeNode.<String, Long> builder().id(idGenerator.getNextId())
+			.parent(secondChild).value("I'm the second grand child").build();
 
-		thirdGrandChild = BaseTreeNode.<String> builder().id(8).parent(secondChild).value(null)
-			.build();
+		thirdGrandChild = BaseTreeNode.<String, Long> builder().id(idGenerator.getNextId())
+			.parent(secondChild).value(null).build();
 
-		thirdChild = BaseTreeNode.<String> builder().id(9).parent(root).value("I'm the third child")
-			.build();
+		thirdChild = BaseTreeNode.<String, Long> builder().id(idGenerator.getNextId()).parent(root)
+			.value("I'm the third child").build();
 
-		fourthGrandChild = BaseTreeNode.<String> builder().id(10).parent(thirdChild).value(null)
-			.build();
+		fourthGrandChild = BaseTreeNode.<String, Long> builder().id(idGenerator.getNextId())
+			.parent(thirdChild).value(null).build();
 
-		fifthGrandChild = BaseTreeNode.<String> builder().id(11).parent(thirdChild)
-			.value("I'm the fifth grand child").build();
+		fifthGrandChild = BaseTreeNode.<String, Long> builder().id(idGenerator.getNextId())
+			.parent(thirdChild).value("I'm the fifth grand child").build();
 
 		// initialize all children
 		root.addChild(firstChild);
@@ -138,17 +144,10 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public void testWithBeanTester()
 	{
-		final BaseTreeNode<String> parentTreeNode = new BaseTreeNode<>("parent");
+		final BaseTreeNode<String, Long> parentTreeNode = new BaseTreeNode<>("parent");
 		Configuration configuration = new ConfigurationBuilder()
-			.overrideFactory("parent", new Factory<BaseTreeNode<String>>()
-			{
-				@Override
-				public BaseTreeNode<String> create()
-				{
-					return parentTreeNode;
-				}
-
-			}).build();
+			.overrideFactory("parent", (Factory<BaseTreeNode<String, Long>>)() -> parentTreeNode)
+			.build();
 		final BeanTester beanTester = new BeanTester();
 		beanTester.addCustomConfiguration(BaseTreeNode.class, configuration);
 		beanTester.testBean(BaseTreeNode.class);
@@ -160,13 +159,14 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public final void testConstructors()
 	{
-		BaseTreeNode<String> parentTreeNode = new BaseTreeNode<>();
+		BaseTreeNode<String, Long> parentTreeNode = new BaseTreeNode<>();
 		assertNotNull(parentTreeNode);
 		assertNotNull(parentTreeNode.getChildren());
 		parentTreeNode.setValue("parent");
 		parentTreeNode = new BaseTreeNode<>("parent");
 		assertNotNull(parentTreeNode);
-		BaseTreeNode<TreeElement> treeNode = BaseTreeNode.<TreeElement> builder().build();
+		BaseTreeNode<TreeElement, Long> treeNode = BaseTreeNode.<TreeElement, Long> builder()
+			.build();
 		assertNotNull(treeNode);
 		assertTrue(treeNode.isNode());
 	}
@@ -177,7 +177,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public void testTraverse()
 	{
-		Set<BaseTreeNode<String>> subtree;
+		Set<BaseTreeNode<String, Long>> subtree;
 
 		subtree = root.traverse();
 		assertEquals(12, subtree.size());
@@ -222,7 +222,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public void testToList()
 	{
-		List<BaseTreeNode<String>> subtree;
+		List<BaseTreeNode<String, Long>> subtree;
 
 		subtree = root.toList();
 		assertEquals(12, subtree.size());
@@ -267,7 +267,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public void testGetAllSiblings()
 	{
-		Set<BaseTreeNode<String>> allSiblings;
+		Set<BaseTreeNode<String, Long>> allSiblings;
 
 		allSiblings = root.getAllSiblings();
 		assertEquals(0, allSiblings.size());
@@ -315,7 +315,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		int actual;
 		int expected;
 
-		Set<BaseTreeNode<String>> children = root.getChildren();
+		Set<BaseTreeNode<String, Long>> children = root.getChildren();
 
 		actual = root.getChildCount();
 		expected = children.size();
@@ -382,16 +382,15 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public void testGetNextSibling()
 	{
-		BaseTreeNode<String> actual;
-		BaseTreeNode<String> expected;
+		BaseTreeNode<String, Long> actual;
+		BaseTreeNode<String, Long> expected;
 
 		actual = firstChild.getNextSibling();
 		expected = secondChild;
 		assertEquals(expected, actual);
 
 		actual = root.getNextSibling();
-		expected = null;
-		assertEquals(expected, actual);
+		assertNull(actual);
 	}
 
 	/**
@@ -400,16 +399,15 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public void testGetPreviousSibling()
 	{
-		BaseTreeNode<String> actual;
-		BaseTreeNode<String> expected;
+		BaseTreeNode<String, Long> actual;
+		BaseTreeNode<String, Long> expected;
 
 		actual = secondChild.getPreviousSibling();
 		expected = firstChild;
 		assertEquals(expected, actual);
 
 		actual = root.getPreviousSibling();
-		expected = null;
-		assertEquals(expected, actual);
+		assertNull(actual);
 	}
 
 	/**
@@ -418,7 +416,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public void testGetRoot()
 	{
-		BaseTreeNode<String> currentRoot;
+		BaseTreeNode<String, Long> currentRoot;
 
 		currentRoot = root.getRoot();
 		assertEquals(currentRoot, root);
@@ -463,7 +461,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public void testRemoveChild()
 	{
-		Set<BaseTreeNode<String>> children;
+		Set<BaseTreeNode<String, Long>> children;
 
 		children = root.getChildren();
 		assertTrue(children.contains(firstChild));
