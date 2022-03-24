@@ -279,9 +279,9 @@ public class BaseTreeNode<T, K> implements Acceptable<Visitor<BaseTreeNode<T, K>
 	}
 
 	/**
-	 * To list.
+	 * Traverse this node and adds all descendant with this included in to a {@link List} object
 	 *
-	 * @return the list
+	 * @return a {@link List} object with this node and add all descendant
 	 */
 	public List<BaseTreeNode<T, K>> toList()
 	{
@@ -289,9 +289,9 @@ public class BaseTreeNode<T, K> implements Acceptable<Visitor<BaseTreeNode<T, K>
 	}
 
 	/**
-	 * Traverse this node and add all descendant with this included in to a {@link Set}
+	 * Traverse this node and adds all descendant with this included in to a {@link Set} object
 	 * 
-	 * @return a {@link Set} with this node and add all descendant
+	 * @return a {@link Set} object with this node and add all descendant
 	 */
 	public Set<BaseTreeNode<T, K>> traverse()
 	{

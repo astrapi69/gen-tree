@@ -307,7 +307,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#getChildCount()}.
+	 * Test method for {@link BaseTreeNode#getChildCount()}
 	 */
 	@Test
 	public void testGetChildCount()
@@ -323,7 +323,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#getLevel()}.
+	 * Test method for {@link BaseTreeNode#getLevel()}
 	 */
 	@Test
 	public void testGetLevel()
@@ -377,7 +377,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#getNextSibling()}.
+	 * Test method for {@link BaseTreeNode#getNextSibling()}
 	 */
 	@Test
 	public void testGetNextSibling()
@@ -394,7 +394,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#getPreviousSibling()}.
+	 * Test method for {@link BaseTreeNode#getPreviousSibling()}
 	 */
 	@Test
 	public void testGetPreviousSibling()
@@ -411,7 +411,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#getRoot()}.
+	 * Test method for {@link BaseTreeNode#getRoot()}
 	 */
 	@Test
 	public void testGetRoot()
@@ -426,7 +426,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#hasChildren()}.
+	 * Test method for {@link BaseTreeNode#hasChildren()}
 	 */
 	@Test
 	public void testHasChildren()
@@ -436,7 +436,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#hasParent()}.
+	 * Test method for {@link BaseTreeNode#hasParent()}
 	 */
 	@Test
 	public void testHasParent()
@@ -446,7 +446,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#isRoot()}.
+	 * Test method for {@link BaseTreeNode#isRoot()}
 	 */
 	@Test
 	public void testIsRoot()
@@ -456,7 +456,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#removeChild(BaseTreeNode)}.
+	 * Test method for {@link BaseTreeNode#removeChild(BaseTreeNode)}
 	 */
 	@Test
 	public void testRemoveChild()

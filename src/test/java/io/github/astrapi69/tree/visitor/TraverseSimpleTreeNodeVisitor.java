@@ -31,12 +31,24 @@ import lombok.Getter;
 import io.github.astrapi69.design.pattern.visitor.Visitor;
 import io.github.astrapi69.tree.SimpleTreeNode;
 
+/**
+ * This visitor visits all {@link SimpleTreeNode} objects and adds them to a {@link Set} object with
+ * all descendant
+ *
+ * @param <T>
+ *            the generic type of the value
+ */
 public class TraverseSimpleTreeNodeVisitor<T> implements Visitor<SimpleTreeNode<T>>
 {
-
+	/**
+	 * a {@link Set} object for store all {@link SimpleTreeNode} objects
+	 */
 	@Getter
-	final Set<SimpleTreeNode<T>> allTreeNodes = new LinkedHashSet<>();
+	private final Set<SimpleTreeNode<T>> allTreeNodes = new LinkedHashSet<>();
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void visit(SimpleTreeNode<T> simpleTreeNode)
 	{
