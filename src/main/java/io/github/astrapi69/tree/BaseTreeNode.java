@@ -29,6 +29,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import io.github.astrapi69.tree.api.ITreeNode;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -68,7 +69,6 @@ public class BaseTreeNode<T, K> implements Acceptable<Visitor<BaseTreeNode<T, K>
 	T value;
 
 	/** The children. */
-	@Getter
 	@Builder.Default
 	Set<BaseTreeNode<T, K>> children = new LinkedHashSet<>();
 
@@ -96,6 +96,20 @@ public class BaseTreeNode<T, K> implements Acceptable<Visitor<BaseTreeNode<T, K>
 	public BaseTreeNode(final T value)
 	{
 		setValue(value);
+	}
+
+	/**
+	 * Gets the children of this node
+	 *
+	 * @return the children
+	 */
+	public Set<BaseTreeNode<T, K>> getChildren()
+	{
+		if (this.children == null)
+		{
+			this.children = new LinkedHashSet<>();
+		}
+		return this.children;
 	}
 
 	/**
