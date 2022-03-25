@@ -7,6 +7,7 @@ Version 5.5-SNAPSHOT
 ADDED:
 
 - new generic id field in class SimpleTreeNode
+- new class TreeNodeTransformer that transforms between BaseTreeNode to TreeIdNode and back
 
 CHANGED:
 

@@ -1,3 +1,27 @@
+/**
+ * The MIT License
+ *
+ * Copyright (C) 2015 Asterios Raptis
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 package io.github.astrapi69.tree.convert;
 
 import java.util.LinkedHashMap;
@@ -22,7 +46,7 @@ public final class TreeNodeTransformer
 	/**
 	 * Transforms the given {@link BaseTreeNode} object to a {@link Map} object with the key and the
 	 * corresponding {@link TreeIdNode} objects
-	 * 
+	 *
 	 * @param root
 	 *            the {@link BaseTreeNode} object to transform
 	 * @param <T>
@@ -33,11 +57,33 @@ public final class TreeNodeTransformer
 	 */
 	public static <T, K> Map<K, TreeIdNode<T, K>> toKeyMap(@NonNull final BaseTreeNode<T, K> root)
 	{
-		return root.traverse().stream().collect(Collectors.toMap(element -> element.getId(), // keyMapper
-			element -> transform(element), // valueMapper
+		return root.traverse().stream().collect(Collectors.toMap(BaseTreeNode::getId, // keyMapper
+			TreeNodeTransformer::toTreeIdNode, // valueMapper
 			(first, second) -> first, // mergeFunction
 			LinkedHashMap::new // mapFactory
 		));
+	}
+
+	/**
+	 * Transforms the given {@link BaseTreeNode} object to a {@link TreeIdNode} object
+	 * 
+	 * @param baseTreeNode
+	 *            the {@link BaseTreeNode} object to convert
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param <K>
+	 *            the generic type of the id of the node
+	 * @return the new created {@link TreeIdNode} object
+	 */
+	public static <T, K> TreeIdNode<T, K> toTreeIdNode(
+		@NonNull final BaseTreeNode<T, K> baseTreeNode)
+	{
+		return TreeIdNode.<T, K> builder().id(baseTreeNode.getId())
+			.parentId(baseTreeNode.hasParent() ? baseTreeNode.getParent().getId() : null)
+			.value(baseTreeNode.getValue()).displayValue(baseTreeNode.getDisplayValue())
+			.leaf(baseTreeNode.isLeaf()).childrenIds(baseTreeNode.getChildren().stream()
+				.map(BaseTreeNode::getId).collect(Collectors.toSet()))
+			.build();
 	}
 
 	/**
@@ -55,42 +101,37 @@ public final class TreeNodeTransformer
 	public static <T, K> Map<K, BaseTreeNode<T, K>> toKeyBaseTreeNodeMap(
 		@NonNull final BaseTreeNode<T, K> root)
 	{
-		return root.traverse().stream().collect(Collectors.toMap(element -> element.getId(), // keyMapper
+		return root.traverse().stream().collect(Collectors.toMap(BaseTreeNode::getId, // keyMapper
 			element -> element, // valueMapper
 			(first, second) -> first, // mergeFunction
-			() -> new LinkedHashMap<>() // mapFactory
+			LinkedHashMap::new // mapFactory
 		));
 	}
 
 	/**
-	 * Transforms the given {@link BaseTreeNode} object to a {@link TreeIdNode} object
-	 * @param baseTreeNode
-	 *            the {@link BaseTreeNode} object to convert
+	 * Transforms the given {@link Map} object that contains {@link TreeIdNode} objects as values
+	 * and the id as key
+	 *
+	 * @param treeIdNodeMap
+	 *            the {@link Map} object with the {@link TreeIdNode} objects to transform
 	 * @param <T>
+	 *            the generic type of the value
 	 * @param <K>
-	 * @return
+	 *            the generic type of the id of the node
+	 * @return a {@link Map} object with the corresponding {@link BaseTreeNode} objects
 	 */
-	public static <T, K> TreeIdNode<T, K> transform(@NonNull final BaseTreeNode<T, K> baseTreeNode)
+	public static <T, K> Map<K, BaseTreeNode<T, K>> transform(
+		Map<K, TreeIdNode<T, K>> treeIdNodeMap)
 	{
-		return TreeIdNode.<T, K> builder().id(baseTreeNode.getId())
-			.parentId(baseTreeNode.hasParent() ? baseTreeNode.getParent().getId() : null)
-			.value(baseTreeNode.getValue()).displayValue(baseTreeNode.getDisplayValue())
-			.leaf(baseTreeNode.isLeaf()).childrenIds(baseTreeNode.getChildren().stream()
-				.map(child -> child.getId()).collect(Collectors.toSet()))
-			.build();
-	}
-
-	public static <T, K> Map<K, BaseTreeNode<T, K>> toKeyBaseTreeNodeMap(Map<K, TreeIdNode<T, K>> treeIdNodeMap)
-	{
-		Map<K, BaseTreeNode<T, K>> baseTreeNodeMap = new LinkedHashMap<>(treeIdNodeMap.size());
-		for (Map.Entry<K, TreeIdNode<T, K>> entry : treeIdNodeMap.entrySet())
-		{
-			K key = entry.getKey();
-			TreeIdNode<T, K> treeIdNode = entry.getValue();
-			baseTreeNodeMap.put(key,
-				BaseTreeNode.<T, K> builder().id(treeIdNode.getId()).value(treeIdNode.getValue())
-					.displayValue(treeIdNode.getDisplayValue()).leaf(treeIdNode.isLeaf()).build());
-		}
+		final Map<K, BaseTreeNode<T, K>> baseTreeNodeMap = treeIdNodeMap.entrySet().stream()
+			.collect(Collectors.toMap(Map.Entry::getKey, // keyMapper
+				entry -> BaseTreeNode.<T, K> builder().id(entry.getValue().getId())
+					.value(entry.getValue().getValue())
+					.displayValue(entry.getValue().getDisplayValue())
+					.leaf(entry.getValue().isLeaf()).build(), // valueMapper
+				(first, second) -> first, // mergeFunction
+				LinkedHashMap::new // mapFactory
+			));
 		for (Map.Entry<K, TreeIdNode<T, K>> entry : treeIdNodeMap.entrySet())
 		{
 			K key = entry.getKey();
@@ -101,7 +142,7 @@ public final class TreeNodeTransformer
 				: null;
 			baseTreeNode.setParent(parent);
 			Set<BaseTreeNode<T, K>> children = treeIdNode.getChildrenIds().stream()
-				.map(id -> baseTreeNodeMap.get(id)).collect(Collectors.toSet());
+				.map(baseTreeNodeMap::get).collect(Collectors.toSet());
 		}
 		return baseTreeNodeMap;
 	}
