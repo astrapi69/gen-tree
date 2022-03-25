@@ -16,6 +16,8 @@ CHANGED:
 - moved dependency id-generate to a test-dependency
 - method isNode in the BaseTreeNode class is now public
 - rename of class ParentIdTreeNode to TreeIdNode
+- tagged interface ILinkedNode as deprecated
+- moved LinkedNode to package 'io.github.astrapi69.tree.binary'
 
 Version 5.4
 -------------

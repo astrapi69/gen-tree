@@ -24,7 +24,6 @@
  */
 package io.github.astrapi69.tree.binary;
 
-import io.github.astrapi69.tree.LinkedNode;
 
 public class IntegerBinaryTree extends GenericBinaryTree<Integer>
 {

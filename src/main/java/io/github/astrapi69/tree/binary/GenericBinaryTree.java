@@ -26,9 +26,6 @@ package io.github.astrapi69.tree.binary;
 
 import java.util.Objects;
 
-import io.github.astrapi69.tree.LinkedNode;
-import io.github.astrapi69.tree.api.ILinkedNode;
-
 /**
  * The abstract class {@link GenericBinaryTree} represents a generic binary tree. A binary tree is a
  * recursive data structure where a binary tree node can have only 2 children. For an example see
@@ -41,30 +38,30 @@ public abstract class GenericBinaryTree<T>
 {
 
 	/**
-	 * the first {@link ILinkedNode} object is also the root object
+	 * the first {@link LinkedNode} object is also the root object
 	 */
 	protected LinkedNode<T> first;
 
 	/**
-	 * Checks if the given value is smaller than the value of the given {@link ILinkedNode} object
+	 * Checks if the given value is smaller than the value of the given {@link LinkedNode} object
 	 * 
 	 * @param linkedNode
-	 *            the {@link ILinkedNode} object
+	 *            the {@link LinkedNode} object
 	 * @param value
 	 *            the value
-	 * @return true if the given value is smaller than the value of the given {@link ILinkedNode}
+	 * @return true if the given value is smaller than the value of the given {@link LinkedNode}
 	 *         object otherwise false
 	 */
 	public abstract boolean isSmaller(LinkedNode<T> linkedNode, T value);
 
 	/**
-	 * Checks if the given value is greater than the value of the given {@link ILinkedNode} object
+	 * Checks if the given value is greater than the value of the given {@link LinkedNode} object
 	 *
 	 * @param linkedNode
-	 *            the {@link ILinkedNode} object
+	 *            the {@link LinkedNode} object
 	 * @param value
 	 *            the value
-	 * @return true if the given value is greater than the value of the given {@link ILinkedNode}
+	 * @return true if the given value is greater than the value of the given {@link LinkedNode}
 	 *         object otherwise false
 	 */
 	public abstract boolean isGreater(LinkedNode<T> linkedNode, T value);
@@ -73,10 +70,10 @@ public abstract class GenericBinaryTree<T>
 	 * Adds the given value to the binary tree at the right position
 	 * 
 	 * @param linkedNode
-	 *            the {@link ILinkedNode} object
+	 *            the {@link LinkedNode} object
 	 * @param value
 	 *            the value
-	 * @return the added {@link ILinkedNode} object
+	 * @return the added {@link LinkedNode} object
 	 */
 	protected LinkedNode<T> addRecursively(LinkedNode<T> linkedNode, T value)
 	{
@@ -117,7 +114,7 @@ public abstract class GenericBinaryTree<T>
 	 * Checks recursively if the given value exists in this binary tree object
 	 * 
 	 * @param linkedNode
-	 *            the {@link ILinkedNode} object
+	 *            the {@link LinkedNode} object
 	 * @param value
 	 *            the value
 	 * @return true if the given value exists in this binary tree object otherwise false

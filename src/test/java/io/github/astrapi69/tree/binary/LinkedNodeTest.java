@@ -22,13 +22,14 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.tree;
+package io.github.astrapi69.tree.binary;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
 import java.util.List;
 
+import io.github.astrapi69.tree.binary.LinkedNode;
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
@@ -38,7 +39,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import io.github.astrapi69.AbstractTestCase;
-import io.github.astrapi69.tree.api.ILinkedNode;
 import io.github.astrapi69.tree.element.TreeElement;
 
 /**
@@ -138,7 +138,7 @@ public class LinkedNodeTest extends AbstractTestCase<Boolean, Boolean>
 	{
 		int actual;
 		int expected;
-		List<ILinkedNode<TreeElement>> list = firstTreeNode.toList();
+		List<LinkedNode<TreeElement>> list = firstTreeNode.toList();
 		assertNotNull(list);
 		actual = list.size();
 		expected = 5;

@@ -32,6 +32,9 @@ import java.util.List;
  *
  * @param <T>
  *            the generic type of the value
+ * @deprecated use instead the class <code>LinkedNode</code> from the package
+ *             'io.github.astrapi69.tree'<br>
+ *             Note: will be removed in next minor version
  */
 public interface ILinkedNode<T>
 {
