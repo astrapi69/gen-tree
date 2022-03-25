@@ -31,7 +31,6 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.Set;
 
-import io.github.astrapi69.id.generate.LongIdGenerator;
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
@@ -39,6 +38,7 @@ import org.meanbean.test.ConfigurationBuilder;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import io.github.astrapi69.id.generate.LongIdGenerator;
 import io.github.astrapi69.tree.visitor.DisplayValueOfSimpleTreeNodeVisitor;
 import io.github.astrapi69.tree.visitor.TraverseSimpleTreeNodeVisitor;
 
