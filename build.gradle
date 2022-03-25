@@ -35,6 +35,7 @@ dependencies {
     testCompileOnly("org.projectlombok:lombok:$lombokVersion")
     testAnnotationProcessor("org.projectlombok:lombok:$lombokVersion")
 
+    testImplementation("io.github.astrapi69:silly-collections:$sillyCollectionsVersion")
     testImplementation("io.github.astrapi69:data-api:$dataApiVersion")
     testImplementation("io.github.astrapi69:id-generate:$idGenerateVersion")
     testImplementation("io.github.astrapi69:test-objects:$testObjectsVersion")
