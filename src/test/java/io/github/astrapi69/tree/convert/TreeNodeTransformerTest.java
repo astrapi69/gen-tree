@@ -26,11 +26,9 @@ package io.github.astrapi69.tree.convert;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
 
 import java.util.Map;
 
-import io.github.astrapi69.tree.element.TreeElement;
 import org.meanbean.test.BeanTester;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -185,7 +183,6 @@ public class TreeNodeTransformerTest
 		assertEquals(convert, longBaseTreeNodeMap);
 	}
 
-
 	/**
 	 * Test method for {@link TreeNodeTransformer}
 	 */
@@ -195,4 +192,5 @@ public class TreeNodeTransformerTest
 		final BeanTester beanTester = new BeanTester();
 		beanTester.testBean(TreeNodeTransformer.class);
 	}
+
 }
