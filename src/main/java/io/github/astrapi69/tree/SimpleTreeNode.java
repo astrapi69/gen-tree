@@ -49,23 +49,28 @@ import io.github.astrapi69.design.pattern.visitor.Visitor;
 @ToString(exclude = { "parent" })
 @SuperBuilder(toBuilder = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SimpleTreeNode<T> implements Acceptable<Visitor<SimpleTreeNode<T>>>
+public class SimpleTreeNode<T, K> implements Acceptable<Visitor<SimpleTreeNode<T, K>>>
 {
 
-	/** The left most child */
+	/** The id from this node. */
 	@Getter
 	@Setter
-	SimpleTreeNode<T> parent;
+	K id;
 
 	/** The left most child */
 	@Getter
 	@Setter
-	SimpleTreeNode<T> leftMostChild;
+	SimpleTreeNode<T, K> parent;
+
+	/** The left most child */
+	@Getter
+	@Setter
+	SimpleTreeNode<T, K> leftMostChild;
 
 	/** The right sibling */
 	@Getter
 	@Setter
-	SimpleTreeNode<T> rightSibling;
+	SimpleTreeNode<T, K> rightSibling;
 
 	/** The value */
 	@Getter
@@ -89,13 +94,29 @@ public class SimpleTreeNode<T> implements Acceptable<Visitor<SimpleTreeNode<T>>>
 	}
 
 	/**
+	 * Returns the distance from the root to this node. Returns 0 if this node is the root.
+	 *
+	 * @return the level from this node.
+	 */
+	public int getLevel()
+	{
+		SimpleTreeNode<T, K> current = this;
+		int count = 0;
+		while ((current = current.getParent()) != null)
+		{
+			count++;
+		}
+		return count;
+	}
+
+	/**
 	 * Gets the root {@link SimpleTreeNode} object
 	 *
 	 * @return the root {@link SimpleTreeNode} object
 	 */
-	public SimpleTreeNode<T> getRoot()
+	public SimpleTreeNode<T, K> getRoot()
 	{
-		SimpleTreeNode<T> root = this;
+		SimpleTreeNode<T, K> root = this;
 		if (isRoot())
 		{
 			return root;
@@ -104,7 +125,7 @@ public class SimpleTreeNode<T> implements Acceptable<Visitor<SimpleTreeNode<T>>>
 		{
 			root = root.getParent();
 		}
-		while (!isRoot());
+		while (root != null && !root.isRoot());
 		return root;
 	}
 
@@ -133,17 +154,17 @@ public class SimpleTreeNode<T> implements Acceptable<Visitor<SimpleTreeNode<T>>>
 	 *
 	 * @return all the siblings from this node
 	 */
-	public Set<SimpleTreeNode<T>> getAllSiblings()
+	public Set<SimpleTreeNode<T, K>> getAllSiblings()
 	{
-		Set<SimpleTreeNode<T>> allSiblings = new LinkedHashSet<>();
+		Set<SimpleTreeNode<T, K>> allSiblings = new LinkedHashSet<>();
 		if (hasParent())
 		{
-			SimpleTreeNode<T> parent = getParent();
-			SimpleTreeNode<T> leftMostChild = parent.getLeftMostChild();
+			SimpleTreeNode<T, K> parent = getParent();
+			SimpleTreeNode<T, K> leftMostChild = parent.getLeftMostChild();
 			allSiblings.add(leftMostChild);
 			if (leftMostChild.hasRightSibling())
 			{
-				SimpleTreeNode<T> currentRightSibling = leftMostChild.getRightSibling();
+				SimpleTreeNode<T, K> currentRightSibling = leftMostChild.getRightSibling();
 				allSiblings.add(currentRightSibling);
 				do
 				{
@@ -161,13 +182,13 @@ public class SimpleTreeNode<T> implements Acceptable<Visitor<SimpleTreeNode<T>>>
 	 *
 	 * @return all the left siblings from this node
 	 */
-	public Set<SimpleTreeNode<T>> getAllLeftSiblings()
+	public Set<SimpleTreeNode<T, K>> getAllLeftSiblings()
 	{
-		Set<SimpleTreeNode<T>> allSiblings = new LinkedHashSet<>();
+		Set<SimpleTreeNode<T, K>> allSiblings = new LinkedHashSet<>();
 		if (hasParent())
 		{
-			SimpleTreeNode<T> parent = getParent();
-			SimpleTreeNode<T> leftMostChild = parent.getLeftMostChild();
+			SimpleTreeNode<T, K> parent = getParent();
+			SimpleTreeNode<T, K> leftMostChild = parent.getLeftMostChild();
 			if (leftMostChild.equals(this))
 			{
 				return allSiblings;
@@ -175,7 +196,7 @@ public class SimpleTreeNode<T> implements Acceptable<Visitor<SimpleTreeNode<T>>>
 			allSiblings.add(leftMostChild);
 			if (leftMostChild.hasRightSibling())
 			{
-				SimpleTreeNode<T> currentRightSibling = leftMostChild.getRightSibling();
+				SimpleTreeNode<T, K> currentRightSibling = leftMostChild.getRightSibling();
 				if (currentRightSibling.equals(this))
 				{
 					return allSiblings;
@@ -201,12 +222,12 @@ public class SimpleTreeNode<T> implements Acceptable<Visitor<SimpleTreeNode<T>>>
 	 * 
 	 * @return all the right siblings from this node
 	 */
-	public Set<SimpleTreeNode<T>> getAllRightSiblings()
+	public Set<SimpleTreeNode<T, K>> getAllRightSiblings()
 	{
-		Set<SimpleTreeNode<T>> allRightSiblings = new LinkedHashSet<>();
+		Set<SimpleTreeNode<T, K>> allRightSiblings = new LinkedHashSet<>();
 		if (hasRightSibling())
 		{
-			SimpleTreeNode<T> currentRightSibling;
+			SimpleTreeNode<T, K> currentRightSibling;
 			do
 			{
 				currentRightSibling = getRightSibling();
@@ -252,9 +273,9 @@ public class SimpleTreeNode<T> implements Acceptable<Visitor<SimpleTreeNode<T>>>
 	 *
 	 * @return a {@link Set} with this node and add all descendant
 	 */
-	public Set<SimpleTreeNode<T>> traverse()
+	public Set<SimpleTreeNode<T, K>> traverse()
 	{
-		final Set<SimpleTreeNode<T>> allTreeNodes = new LinkedHashSet<>();
+		final Set<SimpleTreeNode<T, K>> allTreeNodes = new LinkedHashSet<>();
 		this.accept(acceptable -> allTreeNodes.add(acceptable));
 		return allTreeNodes;
 	}
@@ -263,7 +284,7 @@ public class SimpleTreeNode<T> implements Acceptable<Visitor<SimpleTreeNode<T>>>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void accept(Visitor<SimpleTreeNode<T>> visitor)
+	public void accept(Visitor<SimpleTreeNode<T, K>> visitor)
 	{
 		visitor.visit(this);
 		if (hasLeftMostChild())

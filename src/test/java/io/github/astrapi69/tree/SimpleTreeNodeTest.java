@@ -31,6 +31,11 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.Set;
 
+import io.github.astrapi69.id.generate.LongIdGenerator;
+import org.meanbean.lang.Factory;
+import org.meanbean.test.BeanTester;
+import org.meanbean.test.Configuration;
+import org.meanbean.test.ConfigurationBuilder;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -39,18 +44,18 @@ import io.github.astrapi69.tree.visitor.TraverseSimpleTreeNodeVisitor;
 
 public class SimpleTreeNodeTest
 {
-	SimpleTreeNode<String> root;
-	SimpleTreeNode<String> firstChild;
-	SimpleTreeNode<String> secondChild;
-	SimpleTreeNode<String> firstGrandChild;
-	SimpleTreeNode<String> firstGrandGrandChild;
-	SimpleTreeNode<String> secondGrandGrandChild;
-	SimpleTreeNode<String> firstGrandGrandGrandChild;
-	SimpleTreeNode<String> secondGrandChild;
-	SimpleTreeNode<String> thirdGrandChild;
-	SimpleTreeNode<String> thirdChild;
-	SimpleTreeNode<String> fourthGrandChild;
-	SimpleTreeNode<String> fifthGrandChild;
+	SimpleTreeNode<String, Long> root;
+	SimpleTreeNode<String, Long> firstChild;
+	SimpleTreeNode<String, Long> secondChild;
+	SimpleTreeNode<String, Long> firstGrandChild;
+	SimpleTreeNode<String, Long> firstGrandGrandChild;
+	SimpleTreeNode<String, Long> secondGrandGrandChild;
+	SimpleTreeNode<String, Long> firstGrandGrandGrandChild;
+	SimpleTreeNode<String, Long> secondGrandChild;
+	SimpleTreeNode<String, Long> thirdGrandChild;
+	SimpleTreeNode<String, Long> thirdChild;
+	SimpleTreeNode<String, Long> fourthGrandChild;
+	SimpleTreeNode<String, Long> fifthGrandChild;
 
 	/**
 	 * Set up the tree structure for the unit tests
@@ -73,45 +78,51 @@ public class SimpleTreeNodeTest
 	@BeforeMethod
 	public void setup()
 	{
-		root = SimpleTreeNode.<String> builder().leftMostChild(firstChild).value("I'm root")
-			.build();
+		LongIdGenerator idGenerator = LongIdGenerator.of(0L);
+		root = SimpleTreeNode.<String, Long> builder().leftMostChild(firstChild).value("I'm root")
+			.id(idGenerator.getNextId()).build();
 
-		firstChild = SimpleTreeNode.<String> builder().parent(root).rightSibling(secondChild)
-			.value("I'm the first child").build();
+		firstChild = SimpleTreeNode.<String, Long> builder().parent(root).rightSibling(secondChild)
+			.id(idGenerator.getNextId()).value("I'm the first child").build();
 
-		secondChild = SimpleTreeNode.<String> builder().parent(root).leftMostChild(firstGrandChild)
-			.rightSibling(thirdChild).value("I'm the second child").build();
+		secondChild = SimpleTreeNode.<String, Long> builder().parent(root)
+			.id(idGenerator.getNextId()).leftMostChild(firstGrandChild).rightSibling(thirdChild)
+			.value("I'm the second child").build();
 
-		firstGrandChild = SimpleTreeNode.<String> builder().parent(secondChild)
-			.leftMostChild(firstGrandGrandChild).rightSibling(secondGrandChild)
-			.value("I'm the first grand child").build();
+		firstGrandChild = SimpleTreeNode.<String, Long> builder().parent(secondChild)
+			.id(idGenerator.getNextId()).leftMostChild(firstGrandGrandChild)
+			.rightSibling(secondGrandChild).value("I'm the first grand child").build();
 
-		firstGrandGrandChild = SimpleTreeNode.<String> builder().parent(firstGrandChild)
-			.rightSibling(secondGrandGrandChild).value("I'm the first grand grand child").build();
+		firstGrandGrandChild = SimpleTreeNode.<String, Long> builder().parent(firstGrandChild)
+			.id(idGenerator.getNextId()).rightSibling(secondGrandGrandChild)
+			.value("I'm the first grand grand child").build();
 
-		secondGrandGrandChild = SimpleTreeNode.<String> builder().parent(firstGrandChild)
-			.leftMostChild(firstGrandGrandGrandChild).value("I'm the second grand grand child")
-			.build();
+		secondGrandGrandChild = SimpleTreeNode.<String, Long> builder().parent(firstGrandChild)
+			.id(idGenerator.getNextId()).leftMostChild(firstGrandGrandGrandChild)
+			.value("I'm the second grand grand child").build();
 
-		firstGrandGrandGrandChild = SimpleTreeNode.<String> builder().parent(secondGrandGrandChild)
+		firstGrandGrandGrandChild = SimpleTreeNode.<String, Long> builder()
+			.id(idGenerator.getNextId()).parent(secondGrandGrandChild)
 			.value("I'm the first grand grand grand child").build();
 
-		secondGrandChild = SimpleTreeNode.<String> builder().parent(secondChild)
-			.rightSibling(thirdGrandChild).value("I'm the second grand child").build();
+		secondGrandChild = SimpleTreeNode.<String, Long> builder().parent(secondChild)
+			.id(idGenerator.getNextId()).rightSibling(thirdGrandChild)
+			.value("I'm the second grand child").build();
 
-		thirdGrandChild = SimpleTreeNode.<String> builder().parent(secondChild).value(null).build();
+		thirdGrandChild = SimpleTreeNode.<String, Long> builder().parent(secondChild).value(null)
+			.id(idGenerator.getNextId()).build();
 
-		thirdChild = SimpleTreeNode.<String> builder().parent(root).leftMostChild(fourthGrandChild)
+		thirdChild = SimpleTreeNode.<String, Long> builder().parent(root)
+			.id(idGenerator.getNextId()).leftMostChild(fourthGrandChild)
 			.value("I'm the third child").build();
 
-		fourthGrandChild = SimpleTreeNode.<String> builder().parent(thirdChild)
-			.rightSibling(fifthGrandChild).value(null).build();
+		fourthGrandChild = SimpleTreeNode.<String, Long> builder().parent(thirdChild)
+			.id(idGenerator.getNextId()).rightSibling(fifthGrandChild).value(null).build();
 
-		fifthGrandChild = SimpleTreeNode.<String> builder().parent(thirdChild)
-			.value("I'm the fifth grand child").build();
+		fifthGrandChild = SimpleTreeNode.<String, Long> builder().parent(thirdChild)
+			.id(idGenerator.getNextId()).value("I'm the fifth grand child").build();
 
 		// initialize left most child and right sibling
-
 		root.setLeftMostChild(firstChild);
 
 		firstChild.setRightSibling(secondChild);
@@ -136,7 +147,7 @@ public class SimpleTreeNodeTest
 	@Test
 	public void testGetAllSilbings()
 	{
-		Set<SimpleTreeNode<String>> allSiblings = root.getAllSiblings();
+		Set<SimpleTreeNode<String, Long>> allSiblings = root.getAllSiblings();
 		assertEquals(allSiblings.size(), 0);
 		allSiblings = secondChild.getAllSiblings();
 		assertEquals(allSiblings.size(), 3);
@@ -145,7 +156,7 @@ public class SimpleTreeNodeTest
 	@Test
 	public void testGetAllRightSiblings()
 	{
-		Set<SimpleTreeNode<String>> allRightSiblings = root.getAllSiblings();
+		Set<SimpleTreeNode<String, Long>> allRightSiblings = root.getAllSiblings();
 		assertEquals(allRightSiblings.size(), 0);
 		allRightSiblings = secondChild.getAllRightSiblings();
 		assertEquals(allRightSiblings.size(), 1);
@@ -154,7 +165,7 @@ public class SimpleTreeNodeTest
 	@Test
 	public void testGetAllLeftSiblings()
 	{
-		Set<SimpleTreeNode<String>> allRightSiblings = root.getAllSiblings();
+		Set<SimpleTreeNode<String, Long>> allRightSiblings = root.getAllSiblings();
 		assertEquals(allRightSiblings.size(), 0);
 		allRightSiblings = secondChild.getAllLeftSiblings();
 		assertEquals(allRightSiblings.size(), 1);
@@ -166,7 +177,7 @@ public class SimpleTreeNodeTest
 	public void testRightSilbing()
 	{
 		boolean hasRightSibling;
-		SimpleTreeNode<String> rightSibling;
+		SimpleTreeNode<String, Long> rightSibling;
 
 		rightSibling = root.getRightSibling();
 		assertNull(rightSibling);
@@ -188,19 +199,103 @@ public class SimpleTreeNodeTest
 		assertNull(rightSibling);
 	}
 
+	/**
+	 * Test method for {@link SimpleTreeNode#getRoot()}
+	 */
+	@Test
+	public void testGetRoot()
+	{
+		SimpleTreeNode<String, Long> currentRoot;
+
+		currentRoot = root.getRoot();
+		assertEquals(currentRoot, root);
+
+		currentRoot = firstGrandGrandGrandChild.getRoot();
+		assertEquals(currentRoot, root);
+	}
+
+	/**
+	 * Test method for {@link BaseTreeNode#getLevel()}
+	 */
+	@Test
+	public void testGetLevel()
+	{
+		int actual;
+		int expected;
+
+		actual = root.getLevel();
+		expected = 0;
+		assertEquals(expected, actual);
+
+		actual = firstChild.getLevel();
+		expected = 1;
+		assertEquals(expected, actual);
+
+		actual = secondChild.getLevel();
+		assertEquals(expected, actual);
+
+		actual = firstGrandChild.getLevel();
+		expected = 2;
+		assertEquals(expected, actual);
+
+		actual = firstGrandGrandChild.getLevel();
+		expected = 3;
+		assertEquals(expected, actual);
+
+		actual = secondGrandGrandChild.getLevel();
+		assertEquals(expected, actual);
+
+		actual = firstGrandGrandGrandChild.getLevel();
+		expected = 4;
+		assertEquals(expected, actual);
+
+		actual = secondGrandChild.getLevel();
+		expected = 2;
+		assertEquals(expected, actual);
+
+		actual = thirdGrandChild.getLevel();
+		assertEquals(expected, actual);
+
+		actual = thirdChild.getLevel();
+		expected = 1;
+		assertEquals(expected, actual);
+
+		actual = fourthGrandChild.getLevel();
+		expected = 2;
+		assertEquals(expected, actual);
+
+		actual = fifthGrandChild.getLevel();
+		assertEquals(expected, actual);
+	}
+
 	@Test
 	public void testVisitor()
 	{
 		root.accept(new DisplayValueOfSimpleTreeNodeVisitor<>());
-		TraverseSimpleTreeNodeVisitor<String> traverseVisitor;
-		Set<SimpleTreeNode<String>> allTreeNodes;
+		TraverseSimpleTreeNodeVisitor<String, Long> traverseVisitor;
+		Set<SimpleTreeNode<String, Long>> allTreeNodes;
 		traverseVisitor = new TraverseSimpleTreeNodeVisitor<>();
 		root.accept(traverseVisitor);
 		allTreeNodes = traverseVisitor.getAllTreeNodes();
 		assertEquals(allTreeNodes.size(), 12);
 
-		Set<SimpleTreeNode<String>> subTree = thirdChild.traverse();
+		Set<SimpleTreeNode<String, Long>> subTree = thirdChild.traverse();
 		assertEquals(3, subTree.size());
+	}
+
+	/**
+	 * Test method for {@link SimpleTreeNode}
+	 */
+	@Test
+	public void testWithBeanTester()
+	{
+		final SimpleTreeNode<String, Long> parentTreeNode = new SimpleTreeNode<>("parent");
+		Configuration configuration = new ConfigurationBuilder()
+			.overrideFactory("parent", (Factory<SimpleTreeNode<String, Long>>)() -> parentTreeNode)
+			.build();
+		final BeanTester beanTester = new BeanTester();
+		beanTester.addCustomConfiguration(SimpleTreeNode.class, configuration);
+		beanTester.testBean(SimpleTreeNode.class);
 	}
 
 }

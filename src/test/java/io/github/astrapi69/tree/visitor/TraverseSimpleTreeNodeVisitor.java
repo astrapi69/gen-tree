@@ -38,19 +38,19 @@ import io.github.astrapi69.tree.SimpleTreeNode;
  * @param <T>
  *            the generic type of the value
  */
-public class TraverseSimpleTreeNodeVisitor<T> implements Visitor<SimpleTreeNode<T>>
+public class TraverseSimpleTreeNodeVisitor<T, K> implements Visitor<SimpleTreeNode<T, K>>
 {
 	/**
 	 * a {@link Set} object for store all {@link SimpleTreeNode} objects
 	 */
 	@Getter
-	private final Set<SimpleTreeNode<T>> allTreeNodes = new LinkedHashSet<>();
+	private final Set<SimpleTreeNode<T, K>> allTreeNodes = new LinkedHashSet<>();
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void visit(SimpleTreeNode<T> simpleTreeNode)
+	public void visit(SimpleTreeNode<T, K> simpleTreeNode)
 	{
 		allTreeNodes.add(simpleTreeNode);
 	}

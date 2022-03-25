@@ -34,14 +34,14 @@ import io.github.astrapi69.tree.SimpleTreeNode;
  * @param <T>
  *            the generic type of the value
  */
-public class DisplayValueOfSimpleTreeNodeVisitor<T> implements Visitor<SimpleTreeNode<T>>
+public class DisplayValueOfSimpleTreeNodeVisitor<T, K> implements Visitor<SimpleTreeNode<T, K>>
 {
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void visit(SimpleTreeNode<T> simpleTreeNode)
+	public void visit(SimpleTreeNode<T, K> simpleTreeNode)
 	{
 		System.err.println(simpleTreeNode.getValue());
 	}

@@ -24,9 +24,7 @@
  */
 package io.github.astrapi69.tree;
 
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 import lombok.AccessLevel;
@@ -40,8 +38,8 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
 /**
- * The generic class {@link ParentIdTreeNode} provides the same functionality as {@link TreeNode}
- * without implementing an interface
+ * The generic class {@link TreeIdNode} keeps no references to the parent or the children, only the
+ * id's are kept.
  *
  * @param <T>
  *            the generic type of the value
@@ -49,11 +47,11 @@ import lombok.experimental.SuperBuilder;
  *            the generic type of the id of the node
  */
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = { "children" })
-@ToString(exclude = { "children" })
+@EqualsAndHashCode
+@ToString
 @SuperBuilder(toBuilder = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ParentIdTreeNode<T, K>
+public class TreeIdNode<T, K>
 {
 
 	/**
@@ -61,45 +59,44 @@ public class ParentIdTreeNode<T, K>
 	 */
 	private static final long serialVersionUID = 1L;
 
-	/** The id from this node. */
+	/** The id from this node */
 	@Getter
 	@Setter
 	K id;
 
-	/** The parent id from this node. If parentId is null this tree node is the root. */
+	/** The parent id from this node. If parentId is null this tree node is the root */
 	@Getter
 	@Setter
 	K parentId;
 
-	/** The children. */
+	/** All ids from the children */
 	@Getter
 	@Setter
 	@Builder.Default
-	Set<ParentIdTreeNode<T, K>> children = new LinkedHashSet<>();
+	Set<K> childrenIds = new LinkedHashSet<>();
 
-	/** The optional display value. */
+	/** The optional display value */
 	@Getter
 	@Setter
 	String displayValue;
 
-	/** The value. */
+	/** The value */
 	@Getter
 	@Setter
 	T value;
 
-	/** The flag that indicates if this tree node is a node or a leaf */
+	/** The flag that indicates if this tree node is a leaf or a node */
 	@Getter
 	@Setter
-	@Builder.Default
-	boolean node = true;
+	boolean leaf;
 
 	/**
-	 * Instantiates a new tree node.
+	 * Instantiates a new {@link TreeIdNode} object
 	 *
 	 * @param value
 	 *            the value
 	 */
-	public ParentIdTreeNode(final T value)
+	public TreeIdNode(final T value)
 	{
 		setValue(value);
 	}
@@ -110,10 +107,10 @@ public class ParentIdTreeNode<T, K>
 	 * @param child
 	 *            the child
 	 */
-	public void addChild(final ParentIdTreeNode<T, K> child)
+	public void addChild(final TreeIdNode<T, K> child)
 	{
 		child.setParentId(this.id);
-		getChildren().add(child);
+		this.getChildrenIds().add(child.getId());
 	}
 
 	/**
@@ -123,7 +120,7 @@ public class ParentIdTreeNode<T, K>
 	 */
 	public int getChildCount()
 	{
-		return getChildren().size();
+		return this.getChildrenIds().size();
 	}
 
 	/**
@@ -133,7 +130,7 @@ public class ParentIdTreeNode<T, K>
 	 */
 	public boolean hasChildren()
 	{
-		return getChildren() != null && !getChildren().isEmpty();
+		return this.getChildrenIds() != null && !this.getChildrenIds().isEmpty();
 	}
 
 	/**
@@ -147,19 +144,19 @@ public class ParentIdTreeNode<T, K>
 	}
 
 	/**
-	 * Checks if is leaf.
+	 * Checks if this {@link TreeIdNode} object is a node
 	 *
-	 * @return true, if is leaf
+	 * @return true, if this {@link TreeIdNode} object is a node otherwise false
 	 */
-	public boolean isLeaf()
+	public boolean isNode()
 	{
-		return !isNode();
+		return !isLeaf();
 	}
 
 	/**
-	 * Checks if this {@link ParentIdTreeNode} is the root {@link ParentIdTreeNode} object
+	 * Checks if this {@link TreeIdNode} is the root {@link TreeIdNode} object
 	 *
-	 * @return true, if this {@link ParentIdTreeNode} is the root {@link ParentIdTreeNode} object
+	 * @return true, if this {@link TreeIdNode} is the root {@link TreeIdNode} object
 	 */
 	public boolean isRoot()
 	{
@@ -172,39 +169,10 @@ public class ParentIdTreeNode<T, K>
 	 * @param child
 	 *            the child
 	 */
-	public void removeChild(final ParentIdTreeNode<T, K> child)
+	public void removeChild(final TreeIdNode<T, K> child)
 	{
-		getChildren().remove(child);
+		this.getChildrenIds().remove(child.getId());
 		child.setParentId(null);
-	}
-
-	/**
-	 * To list.
-	 *
-	 * @return the list
-	 */
-	public List<ParentIdTreeNode<T, K>> toList()
-	{
-		final List<ParentIdTreeNode<T, K>> list = new ArrayList<>();
-		traverse(this, list);
-		return list;
-	}
-
-	/**
-	 * Traverse.
-	 *
-	 * @param node
-	 *            the node
-	 * @param list
-	 *            the list
-	 */
-	public void traverse(final ParentIdTreeNode<T, K> node, final List<ParentIdTreeNode<T, K>> list)
-	{
-		list.add(node);
-		for (final ParentIdTreeNode<T, K> data : node.getChildren())
-		{
-			traverse(data, list);
-		}
 	}
 
 }
