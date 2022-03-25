@@ -29,7 +29,6 @@ import static org.testng.AssertJUnit.assertNotNull;
 
 import java.util.List;
 
-import io.github.astrapi69.tree.binary.LinkedNode;
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
@@ -97,7 +96,7 @@ public class LinkedNodeTest extends AbstractTestCase<Boolean, Boolean>
 		super.tearDown();
 	}
 
-	@Test(enabled = true)
+	@Test
 	public void testConcatenate()
 	{
 		String actual;
@@ -110,7 +109,7 @@ public class LinkedNodeTest extends AbstractTestCase<Boolean, Boolean>
 		{
 			current = currentTreeNode.getValue();
 			sb.append(current.getName());
-			currentNext = (LinkedNode<TreeElement>)currentTreeNode.getNext();
+			currentNext = currentTreeNode.getNext();
 			currentTreeNode = currentNext;
 		}
 		while (currentNext != null);
