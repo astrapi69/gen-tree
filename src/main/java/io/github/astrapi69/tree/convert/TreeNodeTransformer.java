@@ -30,9 +30,9 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
+import lombok.NonNull;
 import io.github.astrapi69.tree.BaseTreeNode;
 import io.github.astrapi69.tree.TreeIdNode;
-import lombok.NonNull;
 
 /**
  * The class {@link TreeNodeTransformer} provides algorithms for convert and transform between the
