@@ -31,8 +31,10 @@ Version 5.4
 
 ADDED:
 
-- new BaseTreeNode class provides the same functionality as TreeNode without implementing an interface
-- new class ParentIdTreeNode without direct parent reference, but therefore instead an id and parentId
+- new BaseTreeNode class provides the same functionality as TreeNode without implementing an
+  interface
+- new class ParentIdTreeNode without direct parent reference, but therefore instead an id and
+  parentId
 - new class SimpleTreeNode that represents the leftmost child to right sibling style
 
 CHANGED:
@@ -48,15 +50,18 @@ Version 5.3
 ADDED:
 
 - new abstract class GenericBinaryTree that represents a generic binary tree
-- new gradle-plugin dependency of 'com.diffplug.spotless:spotless-plugin-gradle' in version 6.3.0 for formatting source code
-- new gradle-plugin dependency of 'org.ajoberstar.grgit:grgit-gradle' in version 4.4.1 for create git release tags
+- new gradle-plugin dependency of 'com.diffplug.spotless:spotless-plugin-gradle' in version 6.3.0
+  for formatting source code
+- new gradle-plugin dependency of 'org.ajoberstar.grgit:grgit-gradle' in version 4.4.1 for create
+  git release tags
 - new workflow github-action for 'Java CI with Gradle' with codecov-action
 
 CHANGED:
 
 - update gradle to new version 7.4
 - update of lombok version to 1.18.22
-- improve gradle build performance by adding new gradle parameters for caching, parallel, configure on demand and file watch
+- improve gradle build performance by adding new gradle parameters for caching, parallel, configure
+  on demand and file watch
 - update of com.github.ben-manes.versions.gradle.plugin to new version 0.42.0
 - update of test dependency test-objects version to 5.7
 - update of test dependency testng version to 7.5

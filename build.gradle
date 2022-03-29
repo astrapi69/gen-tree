@@ -56,7 +56,7 @@ spotless {
         endWithNewline()
     }
     java {
-        eclipse("4.19.0").configFile("src/main/resources/alpharo-formatter.xml")
+        eclipse("4.19.0").configFile("src/test/resources/alpharo-formatter.xml")
     }
 }
 
@@ -105,7 +105,7 @@ task javadocJar(type: Jar) {
 
 javadoc {
     failOnError = false
-    if(JavaVersion.current().isJava9Compatible()) {
+    if (JavaVersion.current().isJava9Compatible()) {
         options.addBooleanOption("html5", true)
     }
 }

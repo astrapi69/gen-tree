@@ -24,7 +24,8 @@ The gen-tree repository holds a generic model for simple and binary tree objects
 
 ## License
 
-The source code comes under the liberal MIT License, making gen-tree great for all types of applications.
+The source code comes under the liberal MIT License, making gen-tree great for all types of
+applications.
 
 ## gradle dependency
 
