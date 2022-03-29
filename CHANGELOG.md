@@ -8,6 +8,10 @@ ADDED:
 
 - new method that gets the root from a map of TreeIdNode objects
 
+CHANGED:
+
+- moved configuration file for formatting to src/test/resources directory
+
 Version 5.5
 -------------
 
