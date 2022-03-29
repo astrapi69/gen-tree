@@ -27,11 +27,12 @@ package io.github.astrapi69.tree.convert;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
-import lombok.NonNull;
 import io.github.astrapi69.tree.BaseTreeNode;
 import io.github.astrapi69.tree.TreeIdNode;
+import lombok.NonNull;
 
 /**
  * The class {@link TreeNodeTransformer} provides algorithms for convert and transform between the
@@ -145,5 +146,31 @@ public final class TreeNodeTransformer
 				.map(baseTreeNodeMap::get).collect(Collectors.toSet());
 		}
 		return baseTreeNodeMap;
+	}
+
+	/**
+	 * Retrieves the root {@link BaseTreeNode} object from the given @link Map} object that contains
+	 * {@link TreeIdNode} objects as values and the id as key
+	 *
+	 * @param treeIdNodeMap
+	 *            the {@link Map} object with the {@link TreeIdNode} objects to transform
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param <K>
+	 *            the generic type of the id of the node
+	 * @return the root {@link BaseTreeNode} object or null if not found
+	 */
+	public static <T, K> BaseTreeNode<T, K> getRoot(
+		final @NonNull Map<K, TreeIdNode<T, K>> treeIdNodeMap)
+	{
+		AtomicReference<BaseTreeNode<T, K>> root = new AtomicReference<>();
+		if (treeIdNodeMap.isEmpty())
+		{
+			return root.get();
+		}
+		transform(treeIdNodeMap).entrySet().stream().findAny().ifPresent(entry -> {
+			root.set(entry.getValue().getRoot());
+		});
+		return root.get();
 	}
 }

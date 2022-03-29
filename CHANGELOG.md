@@ -4,7 +4,9 @@
 Version 6-SNAPSHOT
 -------------
 
+ADDED:
 
+- new method that gets the root from a map of TreeIdNode objects
 
 Version 5.5
 -------------

@@ -27,6 +27,7 @@ package io.github.astrapi69.tree.convert;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.meanbean.test.BeanTester;
@@ -146,6 +147,25 @@ public class TreeNodeTransformerTest
 		actual = TreeNodeTransformer.toKeyMap(root);
 		assertNotNull(actual);
 		assertEquals(actual.size(), 12);
+	}
+
+	/**
+	 * Test method for {@link TreeNodeTransformer#toKeyMap(BaseTreeNode)}
+	 */
+	@Test
+	public void testGetRoot()
+	{
+		BaseTreeNode<String, Long> actual;
+		BaseTreeNode<String, Long> expected;
+
+		actual = TreeNodeTransformer.getRoot(TreeNodeTransformer.toKeyMap(root));
+		expected = root;
+		assertEquals(actual, expected);
+
+		Map<Long, TreeIdNode<String, Long>> emptyMap = new LinkedHashMap<>();
+		actual = TreeNodeTransformer.getRoot(emptyMap);
+		expected = null;
+		assertEquals(actual, expected);
 	}
 
 	/**
