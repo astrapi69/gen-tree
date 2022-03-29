@@ -56,7 +56,7 @@ public final class TreeNodeTransformer
 	 *            the generic type of the id of the node
 	 * @return a {@link Map} object with the corresponding {@link TreeIdNode} objects
 	 */
-	public static <T, K> Map<K, TreeIdNode<T, K>> toKeyMap(@NonNull final BaseTreeNode<T, K> root)
+	public static <T, K> Map<K, TreeIdNode<T, K>> toKeyMap(final @NonNull BaseTreeNode<T, K> root)
 	{
 		return root.traverse().stream().collect(Collectors.toMap(BaseTreeNode::getId, // keyMapper
 			TreeNodeTransformer::toTreeIdNode, // valueMapper
@@ -77,7 +77,7 @@ public final class TreeNodeTransformer
 	 * @return the new created {@link TreeIdNode} object
 	 */
 	public static <T, K> TreeIdNode<T, K> toTreeIdNode(
-		@NonNull final BaseTreeNode<T, K> baseTreeNode)
+		final @NonNull BaseTreeNode<T, K> baseTreeNode)
 	{
 		return TreeIdNode.<T, K> builder().id(baseTreeNode.getId())
 			.parentId(baseTreeNode.hasParent() ? baseTreeNode.getParent().getId() : null)
@@ -100,7 +100,7 @@ public final class TreeNodeTransformer
 	 * @return a {@link Map} object with the corresponding {@link BaseTreeNode} objects
 	 */
 	public static <T, K> Map<K, BaseTreeNode<T, K>> toKeyBaseTreeNodeMap(
-		@NonNull final BaseTreeNode<T, K> root)
+		final @NonNull BaseTreeNode<T, K> root)
 	{
 		return root.traverse().stream().collect(Collectors.toMap(BaseTreeNode::getId, // keyMapper
 			element -> element, // valueMapper
@@ -122,7 +122,7 @@ public final class TreeNodeTransformer
 	 * @return a {@link Map} object with the corresponding {@link BaseTreeNode} objects
 	 */
 	public static <T, K> Map<K, BaseTreeNode<T, K>> transform(
-		Map<K, TreeIdNode<T, K>> treeIdNodeMap)
+		final @NonNull Map<K, TreeIdNode<T, K>> treeIdNodeMap)
 	{
 		final Map<K, BaseTreeNode<T, K>> baseTreeNodeMap = treeIdNodeMap.entrySet().stream()
 			.collect(Collectors.toMap(Map.Entry::getKey, // keyMapper

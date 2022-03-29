@@ -11,6 +11,7 @@ ADDED:
 CHANGED:
 
 - moved configuration file for formatting to src/test/resources directory
+- removed deprecated interface ILinkedNode
 
 Version 5.5
 -------------
