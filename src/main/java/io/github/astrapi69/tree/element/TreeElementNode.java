@@ -76,7 +76,7 @@ public class TreeElementNode extends TreeNode<TreeElement>
 		super.setValue(value);
 		if (value != null)
 		{
-			setNode(value.isNode());
+			setLeaf(!value.isNode());
 			setDisplayValue(value.getName());
 		}
 	}

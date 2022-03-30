@@ -8,6 +8,7 @@ ADDED:
 
 - new method that gets the root from a map of TreeIdNode objects
 - ITreeNode extends now interface Acceptable for accepting Visitor objects
+- new default method to interface ITreeNode that add a collection of children
 
 CHANGED:
 
@@ -16,6 +17,7 @@ CHANGED:
 - update of gradle-plugin dependency 'spotless-plugin-gradle' to new minor version 6.4.0
 - ITreeNode children from List to more abstract Collection interface
 - removed List related methods from interface ITreeNode
+- replaced node flag with leaf flag in interface ITreeNode
 
 Version 5.5
 -------------

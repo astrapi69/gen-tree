@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import lombok.NonNull;
 import io.github.astrapi69.design.pattern.visitor.Acceptable;
 import io.github.astrapi69.design.pattern.visitor.Visitor;
 
@@ -42,7 +43,7 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 {
 
 	/**
-	 * Adds the child.
+	 * Adds the given child
 	 *
 	 * @param child
 	 *            the child
@@ -51,6 +52,18 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	{
 		child.setParent(this);
 		getChildren().add(child);
+	}
+
+	/**
+	 * Adds all the given children
+	 *
+	 * @param children
+	 *            the children to add
+	 */
+	default void addChildren(final @NonNull Collection<ITreeNode<T>> children)
+	{
+		getChildren().addAll(children);
+		children.forEach(child -> child.setParent(this));
 	}
 
 	/**
@@ -229,26 +242,26 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 */
 	default boolean isLeaf()
 	{
-		return !isNode();
-	}
-
-	/**
-	 * Checks if is node. Overwrite this method if this node is a leaf
-	 *
-	 * @return true, if is node
-	 */
-	default boolean isNode()
-	{
-		return true;
+		return false;
 	}
 
 	/**
 	 * Sets the flag that indicates if this tree node is a node or a leaf
 	 *
-	 * @param node
+	 * @param leaf
 	 *            The flag to set that indicates if this tree node is a node or a leaf
 	 */
-	void setNode(boolean node);
+	void setLeaf(boolean leaf);
+
+	/**
+	 * Checks if is node.
+	 *
+	 * @return true, if is node
+	 */
+	default boolean isNode()
+	{
+		return !isLeaf();
+	}
 
 	/**
 	 * Checks if this {@link ITreeNode} is the root {@link ITreeNode} object

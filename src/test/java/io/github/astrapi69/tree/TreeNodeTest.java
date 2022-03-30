@@ -78,7 +78,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 			.parent(firstGrandChild).node(true).build();
 		secondChild = TreeElement.builder().name("secondChild").parent(parent).node(true).build();
 
-		parentTreeNode = TreeNode.<TreeElement> builder().value(parent).node(true).build();
+		parentTreeNode = TreeNode.<TreeElement> builder().value(parent).build();
 
 		firstChildTreeNode = TreeNode.<TreeElement> builder().value(firstChild)
 			.parent(parentTreeNode).build();
@@ -91,6 +91,18 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 
 		firstGrandGrandChildTreeNode = TreeNode.<TreeElement> builder().value(firstGrandGrandChild)
 			.parent(firstChildTreeNode).build();
+	}
+
+	/**
+	 * Test method for {@link TreeNode#addChildren(Collection)}
+	 */
+	@Test
+	public void testAddChildren()
+	{
+		Collection<ITreeNode<String>> children;
+
+		TreeNode root = TreeNode.<String> builder().value("root").build();
+
 	}
 
 	@AfterMethod

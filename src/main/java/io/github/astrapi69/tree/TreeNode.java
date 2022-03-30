@@ -77,11 +77,10 @@ public class TreeNode<T> implements ITreeNode<T>
 	@Setter
 	T value;
 
-	/** The flag that indicates if this tree node is a node or a leaf */
+	/** The flag that indicates if this tree node is a leaf or a node */
 	@Getter
 	@Setter
-	@Builder.Default
-	boolean node = true;
+	boolean leaf;
 
 	/**
 	 * Instantiates a new tree node.
