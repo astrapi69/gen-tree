@@ -25,7 +25,7 @@
 package io.github.astrapi69.tree;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -60,7 +60,7 @@ public class TreeNode<T> implements ITreeNode<T>
 	/** The children. */
 	@Setter
 	@Builder.Default
-	List<ITreeNode<T>> children = new ArrayList<>();
+	Collection<ITreeNode<T>> children = new ArrayList<>();
 
 	/** The optional display value. */
 	@Getter
@@ -98,13 +98,20 @@ public class TreeNode<T> implements ITreeNode<T>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List<ITreeNode<T>> getChildren()
+	public Collection<ITreeNode<T>> getChildren()
 	{
 		if (this.children == null)
 		{
 			this.children = new ArrayList<>();
 		}
 		return this.children;
+	}
+
+	public Collection<ITreeNode<T>> traverse()
+	{
+		Collection<ITreeNode<T>> descendant = new ArrayList<>();
+		this.accept(descendant::add);
+		return descendant;
 	}
 
 }

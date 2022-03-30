@@ -31,6 +31,7 @@ import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.meanbean.lang.Factory;
@@ -58,7 +59,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	ITreeNode<TreeElement> firstGrandChildTreeNode;
 	TreeElement firstGrandGrandChild;
 	ITreeNode<TreeElement> firstGrandGrandChildTreeNode;
-	List<ITreeNode<TreeElement>> list;
+	Collection<ITreeNode<TreeElement>> list;
 	TreeElement parent;
 	ITreeNode<TreeElement> parentTreeNode;
 	TreeElement secondChild;
@@ -109,24 +110,6 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link TreeNode#addChildAt(int, ITreeNode)}.
-	 */
-	@Test
-	public void testAddChildAt()
-	{
-		parentTreeNode.addChild(firstChildTreeNode);
-		parentTreeNode.addChildAt(0, secondChildTreeNode);
-		parentTreeNode.addChildAt(4, firstGrandChildTreeNode);
-
-		list = parentTreeNode.getChildren();
-
-		assertTrue(list.size() == 3);
-		assertEquals(list.get(0), secondChildTreeNode);
-		assertEquals(list.get(1), firstChildTreeNode);
-		assertEquals(list.get(2), firstGrandChildTreeNode);
-	}
-
-	/**
 	 * Test method for {@link TreeNode} constructors and builders
 	 */
 	@Test
@@ -170,11 +153,11 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		parentTreeNode.addChild(secondChildTreeNode);
 		parentTreeNode.addChild(firstGrandChildTreeNode);
 
-		list = firstChildTreeNode.getAllSiblings();
+		List<ITreeNode<TreeElement>> allSiblings = firstChildTreeNode.getAllSiblings();
 
-		assertTrue(list.size() == 2);
-		assertEquals(list.get(0), secondChildTreeNode);
-		assertEquals(list.get(1), firstGrandChildTreeNode);
+		assertTrue(allSiblings.size() == 2);
+		assertEquals(allSiblings.get(0), secondChildTreeNode);
+		assertEquals(allSiblings.get(1), firstGrandChildTreeNode);
 
 		list = parentTreeNode.getAllSiblings();
 		assertNull(list);
@@ -266,59 +249,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		assertEquals(expected, actual);
 	}
 
-	/**
-	 * Test method for {@link TreeNode#getNextSibling()}.
-	 */
 	@Test
-	public void testGetNextSibling()
-	{
-		ITreeNode<TreeElement> actual;
-		ITreeNode<TreeElement> expected;
-
-		actual = firstChildTreeNode.getNextSibling();
-		expected = null;
-		assertEquals(expected, actual);
-
-		parentTreeNode.addChild(firstChildTreeNode);
-
-		actual = firstChildTreeNode.getNextSibling();
-		expected = null;
-		assertEquals(expected, actual);
-
-		parentTreeNode.addChild(secondChildTreeNode);
-
-		actual = firstChildTreeNode.getNextSibling();
-		expected = secondChildTreeNode;
-		assertEquals(expected, actual);
-	}
-
-	/**
-	 * Test method for {@link TreeNode#getPreviousSibling()}.
-	 */
-	@Test
-	public void testGetPreviousSibling()
-	{
-		ITreeNode<TreeElement> actual;
-		ITreeNode<TreeElement> expected;
-
-		actual = firstChildTreeNode.getPreviousSibling();
-		expected = null;
-		assertEquals(expected, actual);
-
-		parentTreeNode.addChild(firstChildTreeNode);
-
-		actual = firstChildTreeNode.getPreviousSibling();
-		expected = null;
-		assertEquals(expected, actual);
-
-		parentTreeNode.addChild(secondChildTreeNode);
-
-		actual = secondChildTreeNode.getPreviousSibling();
-		expected = firstChildTreeNode;
-		assertEquals(expected, actual);
-	}
-
-	@Test(enabled = true)
 	public void testGetRoot()
 	{
 		ITreeNode<TreeElement> root;
@@ -382,24 +313,6 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link TreeNode#removeChildAt(int)}.
-	 */
-	@Test
-	public void testRemoveChildAt()
-	{
-		parentTreeNode.addChild(firstChildTreeNode);
-		parentTreeNode.addChild(secondChildTreeNode);
-
-		list = parentTreeNode.getChildren();
-		assertTrue(list.contains(firstChildTreeNode));
-
-		parentTreeNode.removeChildAt(0);
-
-		list = parentTreeNode.getChildren();
-		assertFalse(list.contains(firstChildTreeNode));
-	}
-
-	/**
 	 * Test method for {@link TreeNode#toList()}.
 	 */
 	@Test
@@ -409,28 +322,28 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		parentTreeNode.addChild(secondChildTreeNode);
 		parentTreeNode.addChild(firstGrandChildTreeNode);
 
-		list = parentTreeNode.toList();
+		List<ITreeNode<TreeElement>> treeNodes = parentTreeNode.toList();
 
-		assertTrue(list.size() == 4);
-		assertEquals(list.get(0), parentTreeNode);
-		assertEquals(list.get(1), firstChildTreeNode);
-		assertEquals(list.get(2), secondChildTreeNode);
-		assertEquals(list.get(3), firstGrandChildTreeNode);
+		assertTrue(treeNodes.size() == 4);
+		assertEquals(treeNodes.get(0), parentTreeNode);
+		assertEquals(treeNodes.get(1), firstChildTreeNode);
+		assertEquals(treeNodes.get(2), secondChildTreeNode);
+		assertEquals(treeNodes.get(3), firstGrandChildTreeNode);
 	}
 
 	/**
-	 * Test method for {@link TreeNode#traverse(ITreeNode, List)}
+	 * Test method for {@link TreeNode#traverse()}
 	 */
-	@Test(enabled = true)
+	@Test
 	public void testTraverse()
 	{
 		parentTreeNode.addChild(firstChildTreeNode);
 		parentTreeNode.addChild(secondChildTreeNode);
 		firstChildTreeNode.addChild(firstGrandChildTreeNode);
 
-		list = new ArrayList<>();
-		parentTreeNode.traverse(parentTreeNode, list);
-		assertTrue(list.size() == 4);
+		Collection<ITreeNode<TreeElement>> traverse = parentTreeNode.traverse();
+		assertTrue(traverse.size() == 4);
+		ArrayList<ITreeNode<TreeElement>> list = (ArrayList<ITreeNode<TreeElement>>)traverse;
 		assertEquals(list.get(0), parentTreeNode);
 		assertEquals(list.get(1), firstChildTreeNode);
 		assertEquals(list.get(2), firstGrandChildTreeNode);

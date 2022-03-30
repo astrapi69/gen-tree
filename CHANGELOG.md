@@ -7,11 +7,15 @@ Version 6-SNAPSHOT
 ADDED:
 
 - new method that gets the root from a map of TreeIdNode objects
+- ITreeNode extends now interface Acceptable for accepting Visitor objects
 
 CHANGED:
 
 - moved configuration file for formatting to src/test/resources directory
 - removed deprecated interface ILinkedNode
+- update of gradle-plugin dependency 'spotless-plugin-gradle' to new minor version 6.4.0
+- ITreeNode children from List to more abstract Collection interface
+- removed List related methods from interface ITreeNode
 
 Version 5.5
 -------------

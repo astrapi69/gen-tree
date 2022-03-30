@@ -26,7 +26,11 @@ package io.github.astrapi69.tree.api;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import io.github.astrapi69.design.pattern.visitor.Acceptable;
+import io.github.astrapi69.design.pattern.visitor.Visitor;
 
 /**
  * The Interface ITreeNode.
@@ -34,7 +38,7 @@ import java.util.List;
  * @param <T>
  *            the generic type of the value
  */
-public interface ITreeNode<T> extends Serializable
+public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode<T>>>
 {
 
 	/**
@@ -47,29 +51,6 @@ public interface ITreeNode<T> extends Serializable
 	{
 		child.setParent(this);
 		getChildren().add(child);
-	}
-
-	/**
-	 * Adds the child.
-	 *
-	 * @param index
-	 *            the index
-	 * @param child
-	 *            the child
-	 * @throws IndexOutOfBoundsException
-	 *             the index out of bounds exception
-	 */
-	default void addChildAt(final int index, final ITreeNode<T> child)
-		throws IndexOutOfBoundsException
-	{
-		if (index < getChildren().size())
-		{
-			getChildren().add(index, child);
-		}
-		else
-		{
-			addChild(child);
-		}
 	}
 
 	/**
@@ -105,7 +86,7 @@ public interface ITreeNode<T> extends Serializable
 	 *
 	 * @return the children
 	 */
-	List<ITreeNode<T>> getChildren();
+	Collection<ITreeNode<T>> getChildren();
 
 	/**
 	 * Sets the children.
@@ -113,35 +94,7 @@ public interface ITreeNode<T> extends Serializable
 	 * @param children
 	 *            the new children
 	 */
-	void setChildren(final List<ITreeNode<T>> children);
-
-	/**
-	 * Gets the child from the given index.
-	 *
-	 * @param parent
-	 *            the parent
-	 * @param index
-	 *            the index
-	 * @return the child from the given index
-	 */
-	default ITreeNode<T> getChild(ITreeNode<T> parent, int index)
-	{
-		return parent.getChildren().get(index);
-	}
-
-	/**
-	 * Gets the index of the given child from the given parent.
-	 *
-	 * @param parent
-	 *            the parent
-	 * @param child
-	 *            the child
-	 * @return the index of the given child from the given parent
-	 */
-	default int getIndexOfChild(ITreeNode<T> parent, ITreeNode<T> child)
-	{
-		return parent.getChildren().indexOf(child);
-	}
+	void setChildren(final Collection<ITreeNode<T>> children);
 
 	/**
 	 * Returns the depth of the tree beginning at this node Returns 0 if this node has no children.
@@ -161,7 +114,7 @@ public interface ITreeNode<T> extends Serializable
 			while (data.hasChildren())
 			{
 				currentDepth++;
-				data = data.getChildren().get(0);
+				data = data.getChildren().stream().findFirst().get();
 			}
 			if (maxDepth < currentDepth)
 			{
@@ -203,27 +156,6 @@ public interface ITreeNode<T> extends Serializable
 	}
 
 	/**
-	 * Returns the next sibling of this node in the parent's children list. Returns null if this
-	 * node is the root or is the parent's last child.
-	 *
-	 * @return the next sibling of this node or null if this node is the root or is the parent's
-	 *         last child.
-	 */
-	default ITreeNode<T> getNextSibling()
-	{
-		if (getParent() == null)
-		{
-			return null;
-		}
-		final int index = getParent().getChildren().indexOf(this) + 1;
-		if (index == getParent().getChildCount())
-		{
-			return null;
-		}
-		return getParent().getChildren().get(index);
-	}
-
-	/**
 	 * Gets the parent.
 	 *
 	 * @return the parent
@@ -237,27 +169,6 @@ public interface ITreeNode<T> extends Serializable
 	 *            the new parent
 	 */
 	void setParent(final ITreeNode<T> parent);
-
-	/**
-	 * Returns the previous sibling of this node in the parent's children list. Returns null if this
-	 * node is the root or is the parent's first child.
-	 *
-	 * @return the next sibling of this node or null if this node is the root or is the parent's
-	 *         last child.
-	 */
-	default ITreeNode<T> getPreviousSibling()
-	{
-		if (getParent() == null)
-		{
-			return null;
-		}
-		final int index = getParent().getChildren().indexOf(this) - 1;
-		if (index < 0)
-		{
-			return null;
-		}
-		return getParent().getChildren().get(index);
-	}
 
 	/**
 	 * Gets the root {@link ITreeNode} object
@@ -362,49 +273,30 @@ public interface ITreeNode<T> extends Serializable
 	}
 
 	/**
-	 * Removes the child.
-	 *
-	 * @param index
-	 *            the index
-	 * @throws IndexOutOfBoundsException
-	 *             the index out of bounds exception
+	 * {@inheritDoc}
 	 */
-	default void removeChildAt(final int index) throws IndexOutOfBoundsException
+	default void accept(Visitor<ITreeNode<T>> visitor)
 	{
-		final ITreeNode<T> child = getChildren().remove(index);
-		if (child != null)
-		{
-			child.setParent(null);
-		}
+		visitor.visit(this);
+		getChildren().forEach(child -> child.accept(visitor));
 	}
 
 	/**
-	 * To list.
+	 * Traverse this node and adds all descendant with this included in to a {@link List} object
 	 *
-	 * @return the list
+	 * @return a {@link List} object with this node and add all descendant
 	 */
 	default List<ITreeNode<T>> toList()
 	{
-		final List<ITreeNode<T>> list = new ArrayList<>();
-		traverse(this, list);
-		return list;
+		return new ArrayList<>(traverse());
 	}
 
 	/**
-	 * Traverse.
+	 * Traverse this node and adds all descendant with this included in to a {@link Collection}
+	 * object
 	 *
-	 * @param node
-	 *            the node
-	 * @param list
-	 *            the list
+	 * @return a {@link Collection} object with this node and add all descendant
 	 */
-	default void traverse(final ITreeNode<T> node, final List<ITreeNode<T>> list)
-	{
-		list.add(node);
-		for (final ITreeNode<T> data : node.getChildren())
-		{
-			traverse(data, list);
-		}
-	}
+	Collection<ITreeNode<T>> traverse();
 
 }
