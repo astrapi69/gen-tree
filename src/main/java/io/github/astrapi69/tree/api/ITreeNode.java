@@ -34,7 +34,7 @@ import io.github.astrapi69.design.pattern.visitor.Acceptable;
 import io.github.astrapi69.design.pattern.visitor.Visitor;
 
 /**
- * The Interface ITreeNode.
+ * The Interface {@link ITreeNode} holds the children in a {@link Collection} object
  *
  * @param <T>
  *            the generic type of the value

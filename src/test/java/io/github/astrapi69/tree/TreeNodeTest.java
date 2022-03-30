@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import io.github.astrapi69.collections.set.SetFactory;
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
@@ -100,9 +101,21 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	public void testAddChildren()
 	{
 		Collection<ITreeNode<String>> children;
+		TreeNode<String> root;
+		TreeNode<String> firstChild;
+		TreeNode<String> secondChild;
 
-		TreeNode root = TreeNode.<String> builder().value("root").build();
+		root = TreeNode.<String> builder().value("root").build();
+		firstChild = TreeNode.<String> builder().value("firstChild").build();
+		secondChild = TreeNode.<String> builder().value("secondChild").build();
 
+		children = SetFactory.newLinkedHashSet(firstChild, secondChild);
+
+		root.addChildren(children);
+
+		Collection<ITreeNode<String>> rootChildren = root.getChildren();
+		assertTrue(rootChildren.contains(firstChild));
+		assertTrue(rootChildren.contains(secondChild));
 	}
 
 	@AfterMethod
@@ -167,7 +180,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 
 		List<ITreeNode<TreeElement>> allSiblings = firstChildTreeNode.getAllSiblings();
 
-		assertTrue(allSiblings.size() == 2);
+		assertEquals(allSiblings.size(), 2);
 		assertEquals(allSiblings.get(0), secondChildTreeNode);
 		assertEquals(allSiblings.get(1), firstGrandChildTreeNode);
 
@@ -336,7 +349,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 
 		List<ITreeNode<TreeElement>> treeNodes = parentTreeNode.toList();
 
-		assertTrue(treeNodes.size() == 4);
+		assertEquals(treeNodes.size(), 4);
 		assertEquals(treeNodes.get(0), parentTreeNode);
 		assertEquals(treeNodes.get(1), firstChildTreeNode);
 		assertEquals(treeNodes.get(2), secondChildTreeNode);
@@ -354,7 +367,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		firstChildTreeNode.addChild(firstGrandChildTreeNode);
 
 		Collection<ITreeNode<TreeElement>> traverse = parentTreeNode.traverse();
-		assertTrue(traverse.size() == 4);
+		assertEquals(traverse.size(), 4);
 		ArrayList<ITreeNode<TreeElement>> list = (ArrayList<ITreeNode<TreeElement>>)traverse;
 		assertEquals(list.get(0), parentTreeNode);
 		assertEquals(list.get(1), firstChildTreeNode);
