@@ -144,6 +144,7 @@ public final class TreeNodeTransformer
 			baseTreeNode.setParent(parent);
 			Set<BaseTreeNode<T, K>> children = treeIdNode.getChildrenIds().stream()
 				.map(baseTreeNodeMap::get).collect(Collectors.toSet());
+			baseTreeNode.setChildren(children);
 		}
 		return baseTreeNodeMap;
 	}

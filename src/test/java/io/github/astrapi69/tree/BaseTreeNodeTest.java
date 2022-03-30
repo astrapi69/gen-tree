@@ -41,6 +41,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import io.github.astrapi69.AbstractTestCase;
+import io.github.astrapi69.collections.set.SetFactory;
 import io.github.astrapi69.id.generate.LongIdGenerator;
 import io.github.astrapi69.tree.element.TreeElement;
 
@@ -59,6 +60,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	BaseTreeNode<String, Long> thirdChild;
 	BaseTreeNode<String, Long> fourthGrandChild;
 	BaseTreeNode<String, Long> fifthGrandChild;
+	LongIdGenerator idGenerator;
 
 	/**
 	 * Set up the tree structure for the unit tests
@@ -81,11 +83,11 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@BeforeMethod
 	public void setup()
 	{
-		LongIdGenerator idGenerator = LongIdGenerator.of(0L);
+		idGenerator = LongIdGenerator.of(0L);
 		root = BaseTreeNode.<String, Long> builder().id(idGenerator.getNextId()).value("I'm root")
 			.build();
 
-		firstChild = BaseTreeNode.<String, Long> builder().id(idGenerator.getNextId())
+		firstChild = BaseTreeNode.<String, Long> builder().id(idGenerator.getNextId()).parent(root)
 			.value("I'm the first child").build();
 
 		secondChild = BaseTreeNode.<String, Long> builder().id(idGenerator.getNextId()).parent(root)
@@ -470,6 +472,28 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 
 		children = root.getChildren();
 		assertFalse(children.contains(firstChild));
+	}
+
+	/**
+	 * Test method for {@link BaseTreeNode#addChildren(Set)}
+	 */
+	@Test
+	public void testAddChildren()
+	{
+		Set<BaseTreeNode<String, Long>> children;
+		BaseTreeNode<String, Long> fourthChild;
+		BaseTreeNode<String, Long> fifthChild;
+
+		fourthChild = BaseTreeNode.<String, Long> builder().id(idGenerator.getNextId()).parent(root)
+			.value("I'm the first child").build();
+
+		fifthChild = BaseTreeNode.<String, Long> builder().id(idGenerator.getNextId()).parent(root)
+			.value("I'm the second child").build();
+		children = SetFactory.newLinkedHashSet(fourthChild, fifthChild);
+		root.addChildren(children);
+		Set<BaseTreeNode<String, Long>> rootChildren = root.getChildren();
+		assertTrue(rootChildren.contains(fourthChild));
+		assertTrue(rootChildren.contains(fifthChild));
 	}
 
 }

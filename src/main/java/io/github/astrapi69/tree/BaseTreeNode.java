@@ -34,6 +34,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
@@ -68,6 +69,7 @@ public class BaseTreeNode<T, K> implements Acceptable<Visitor<BaseTreeNode<T, K>
 	T value;
 
 	/** The children. */
+	@Setter
 	@Builder.Default
 	Set<BaseTreeNode<T, K>> children = new LinkedHashSet<>();
 
@@ -121,6 +123,18 @@ public class BaseTreeNode<T, K> implements Acceptable<Visitor<BaseTreeNode<T, K>
 	{
 		child.setParent(this);
 		getChildren().add(child);
+	}
+
+	/**
+	 * Adds all the given children
+	 *
+	 * @param children
+	 *            the children to add
+	 */
+	public void addChildren(final @NonNull Set<BaseTreeNode<T, K>> children)
+	{
+		getChildren().addAll(children);
+		children.stream().forEach(child -> child.setParent(this));
 	}
 
 	/**
