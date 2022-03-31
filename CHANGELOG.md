@@ -27,6 +27,7 @@ ADDED:
 
 CHANGED:
 
+- update gradle to new version 7.4.2
 - moved configuration file for formatting to src/test/resources directory
 - removed deprecated interface ILinkedNode
 - update of gradle-plugin dependency 'spotless-plugin-gradle' to new minor version 6.4.1
