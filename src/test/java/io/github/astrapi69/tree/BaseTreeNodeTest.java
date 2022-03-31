@@ -30,6 +30,7 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -60,6 +61,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	BaseTreeNode<String, Long> thirdChild;
 	BaseTreeNode<String, Long> fourthGrandChild;
 	BaseTreeNode<String, Long> fifthGrandChild;
+	String fifthGrandChildValue;
 	LongIdGenerator idGenerator;
 
 	/**
@@ -117,9 +119,9 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 
 		fourthGrandChild = BaseTreeNode.<String, Long> builder().id(idGenerator.getNextId())
 			.parent(thirdChild).value(null).build();
-
+		fifthGrandChildValue = "I'm the fifth grand child";
 		fifthGrandChild = BaseTreeNode.<String, Long> builder().id(idGenerator.getNextId())
-			.parent(thirdChild).value("I'm the fifth grand child").build();
+			.parent(thirdChild).value(fifthGrandChildValue).build();
 
 		// initialize all children
 		root.addChild(firstChild);
@@ -138,6 +140,64 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 
 		thirdChild.addChild(fourthGrandChild);
 		thirdChild.addChild(fifthGrandChild);
+	}
+
+	/**
+	 * Test method for {@link BaseTreeNode#findAllByValue(Object)}
+	 */
+	@Test
+	public void testFindAllByValue()
+	{
+		Collection<BaseTreeNode<String, Long>> actual;
+		Collection<BaseTreeNode<String, Long>> expected;
+
+		BaseTreeNode<String, Long> treeNode = BaseTreeNode.<String, Long> builder()
+			.id(idGenerator.getNextId()).parent(thirdChild).value(fifthGrandChildValue).build();
+		thirdChild.addChild(treeNode);
+
+		actual = root.findAllByValue(fifthGrandChildValue);
+		expected = SetFactory.newLinkedHashSet(fifthGrandChild, treeNode);
+		assertEquals(actual, expected);
+	}
+
+
+	/**
+	 * Test method for {@link BaseTreeNode#clearAll()}
+	 */
+	@Test
+	public void testClearAll()
+	{
+		root.clearAll();
+		assertEquals(root.getChildren().size(), 0);
+	}
+
+
+	/**
+	 * Test method for {@link BaseTreeNode#clearChildren()}
+	 */
+	@Test
+	public void testClearChildren()
+	{
+		root.clearChildren();
+		assertEquals(root.getChildren().size(), 0);
+	}
+
+	/**
+	 * Test method for {@link BaseTreeNode#findByValue(Object)}
+	 */
+	@Test
+	public void testFindByValue()
+	{
+		BaseTreeNode<String, Long> actual;
+		BaseTreeNode<String, Long> expected;
+
+		BaseTreeNode<String, Long> treeNode = BaseTreeNode.<String, Long> builder()
+			.id(idGenerator.getNextId()).parent(thirdChild).value(fifthGrandChildValue).build();
+		thirdChild.addChild(treeNode);
+
+		actual = root.findByValue(fifthGrandChildValue);
+		expected = fifthGrandChild;
+		assertEquals(actual, expected);
 	}
 
 	/**
@@ -179,7 +239,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public void testTraverse()
 	{
-		Set<BaseTreeNode<String, Long>> subtree;
+		Collection<BaseTreeNode<String, Long>> subtree;
 
 		subtree = root.traverse();
 		assertEquals(12, subtree.size());
@@ -269,7 +329,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public void testGetAllSiblings()
 	{
-		Set<BaseTreeNode<String, Long>> allSiblings;
+		Collection<BaseTreeNode<String, Long>> allSiblings;
 
 		allSiblings = root.getAllSiblings();
 		assertEquals(0, allSiblings.size());
@@ -317,7 +377,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		int actual;
 		int expected;
 
-		Set<BaseTreeNode<String, Long>> children = root.getChildren();
+		Collection<BaseTreeNode<String, Long>> children = root.getChildren();
 
 		actual = root.getChildCount();
 		expected = children.size();
@@ -463,7 +523,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public void testRemoveChild()
 	{
-		Set<BaseTreeNode<String, Long>> children;
+		Collection<BaseTreeNode<String, Long>> children;
 
 		children = root.getChildren();
 		assertTrue(children.contains(firstChild));
@@ -474,8 +534,45 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		assertFalse(children.contains(firstChild));
 	}
 
+
 	/**
-	 * Test method for {@link BaseTreeNode#addChildren(Set)}
+	 * Test method for {@link BaseTreeNode#containsAll(Collection)}
+	 */
+	@Test
+	public void testContainsAll()
+	{
+
+		boolean actual;
+		boolean expected;
+		Collection<BaseTreeNode<String, Long>> children;
+
+		children = secondChild.getChildren();
+
+		actual = root.containsAll(children);
+		expected = true;
+		assertEquals(actual, expected);
+	}
+
+	/**
+	 * Test method for {@link BaseTreeNode#contains(BaseTreeNode)}
+	 */
+	@Test
+	public void testContains()
+	{
+		boolean actual;
+		boolean expected;
+
+		actual = root.contains(firstGrandGrandGrandChild);
+		expected = true;
+		assertEquals(actual, expected);
+
+		actual = firstGrandGrandGrandChild.contains(root);
+		expected = false;
+		assertEquals(actual, expected);
+	}
+
+	/**
+	 * Test method for {@link BaseTreeNode#addChildren(Collection)}
 	 */
 	@Test
 	public void testAddChildren()
@@ -491,7 +588,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 			.value("I'm the second child").build();
 		children = SetFactory.newLinkedHashSet(fourthChild, fifthChild);
 		root.addChildren(children);
-		Set<BaseTreeNode<String, Long>> rootChildren = root.getChildren();
+		Collection<BaseTreeNode<String, Long>> rootChildren = root.getChildren();
 		assertTrue(rootChildren.contains(fourthChild));
 		assertTrue(rootChildren.contains(fifthChild));
 	}

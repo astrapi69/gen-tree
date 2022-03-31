@@ -9,12 +9,27 @@ ADDED:
 - new method that gets the root from a map of TreeIdNode objects
 - ITreeNode extends now interface Acceptable for accepting Visitor objects
 - new default method to interface ITreeNode that add a collection of children
+- new visitor class FindValuesBaseTreeNodeVisitor that can find BaseTreeNode with the same value
+- new method clearChildren in class BaseTreeNode that removes all children from the tree node
+- new method clearAll in class BaseTreeNode that removes all descendants from the tree node
+- new method removeChildren in class BaseTreeNode that removes the given collection from the tree node
+- new method findAllByValue in class BaseTreeNode that finds all BaseTreeNode objects that have the same value as the given value
+- new method findByValue in class BaseTreeNode that finds the first occurrence of BaseTreeNode object that have the same value as the given value
+- new method contains in class BaseTreeNode that checks if the given BaseTreeNode object is a descendant of the tree node
+- new method containsAll in class BaseTreeNode that checks if the given collection of BaseTreeNode objects are descendants of the tree node
+- new method clearChildren in class ITreeNode that removes all children from the tree node
+- new method clearAll in class ITreeNode that removes all descendants from the tree node
+- new method removeChildren in class ITreeNode that removes the given collection from the tree node
+- new method findAllByValue in class ITreeNode that finds all ITreeNode objects that have the same value as the given value
+- new method findByValue in class ITreeNode that finds the first occurrence of ITreeNode object that have the same value as the given value
+- new method contains in class ITreeNode that checks if the given ITreeNode object is a descendant of the tree node
+- new method containsAll in class ITreeNode that checks if the given collection of ITreeNode objects are descendants of the tree node
 
 CHANGED:
 
 - moved configuration file for formatting to src/test/resources directory
 - removed deprecated interface ILinkedNode
-- update of gradle-plugin dependency 'spotless-plugin-gradle' to new minor version 6.4.0
+- update of gradle-plugin dependency 'spotless-plugin-gradle' to new minor version 6.4.1
 - ITreeNode children from List to more abstract Collection interface
 - removed List related methods from interface ITreeNode
 - replaced node flag with leaf flag in interface ITreeNode

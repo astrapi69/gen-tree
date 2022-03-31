@@ -34,7 +34,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import io.github.astrapi69.collections.set.SetFactory;
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
@@ -44,6 +43,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import io.github.astrapi69.AbstractTestCase;
+import io.github.astrapi69.collections.set.SetFactory;
 import io.github.astrapi69.evaluate.object.evaluators.EqualsHashCodeAndToStringEvaluator;
 import io.github.astrapi69.tree.api.ITreeNode;
 import io.github.astrapi69.tree.element.TreeElement;
@@ -350,10 +350,10 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		List<ITreeNode<TreeElement>> treeNodes = parentTreeNode.toList();
 
 		assertEquals(treeNodes.size(), 4);
-		assertEquals(treeNodes.get(0), parentTreeNode);
-		assertEquals(treeNodes.get(1), firstChildTreeNode);
-		assertEquals(treeNodes.get(2), secondChildTreeNode);
-		assertEquals(treeNodes.get(3), firstGrandChildTreeNode);
+		assertTrue(treeNodes.contains(parentTreeNode));
+		assertTrue(treeNodes.contains(firstChildTreeNode));
+		assertTrue(treeNodes.contains(firstGrandChildTreeNode));
+		assertTrue(treeNodes.contains(secondChildTreeNode));
 	}
 
 	/**
@@ -369,10 +369,10 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		Collection<ITreeNode<TreeElement>> traverse = parentTreeNode.traverse();
 		assertEquals(traverse.size(), 4);
 		ArrayList<ITreeNode<TreeElement>> list = (ArrayList<ITreeNode<TreeElement>>)traverse;
-		assertEquals(list.get(0), parentTreeNode);
-		assertEquals(list.get(1), firstChildTreeNode);
-		assertEquals(list.get(2), firstGrandChildTreeNode);
-		assertEquals(list.get(3), secondChildTreeNode);
+		assertTrue(list.contains(parentTreeNode));
+		assertTrue(list.contains(firstChildTreeNode));
+		assertTrue(list.contains(firstGrandChildTreeNode));
+		assertTrue(list.contains(secondChildTreeNode));
 	}
 
 	/**

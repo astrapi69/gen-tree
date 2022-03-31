@@ -170,7 +170,9 @@ public final class TreeNodeTransformer
 			return root.get();
 		}
 		transform(treeIdNodeMap).entrySet().stream().findAny().ifPresent(entry -> {
-			root.set(entry.getValue().getRoot());
+			BaseTreeNode<T, K> any = entry.getValue();
+			BaseTreeNode<T, K> treeNode = any.getRoot();
+			root.set(treeNode);
 		});
 		return root.get();
 	}

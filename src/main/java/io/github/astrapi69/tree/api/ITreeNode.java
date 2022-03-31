@@ -27,7 +27,9 @@ package io.github.astrapi69.tree.api;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import lombok.NonNull;
 import io.github.astrapi69.design.pattern.visitor.Acceptable;
@@ -50,8 +52,11 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 */
 	default void addChild(final ITreeNode<T> child)
 	{
-		child.setParent(this);
-		getChildren().add(child);
+		if (child != null)
+		{
+			child.setParent(this);
+			getChildren().add(child);
+		}
 	}
 
 	/**
@@ -62,8 +67,7 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 */
 	default void addChildren(final @NonNull Collection<ITreeNode<T>> children)
 	{
-		getChildren().addAll(children);
-		children.forEach(child -> child.setParent(this));
+		children.forEach(this::addChild);
 	}
 
 	/**
@@ -190,8 +194,16 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 */
 	default ITreeNode<T> getRoot()
 	{
+		if (this.isRoot())
+		{
+			return this;
+		}
+		ITreeNode<T> parent = this.getParent();
+		if (parent.isRoot())
+		{
+			return parent;
+		}
 		ITreeNode<T> root = this;
-		ITreeNode<T> parent = getParent();
 		while (parent != null && !parent.isRoot())
 		{
 			parent = parent.getParent();
@@ -281,17 +293,120 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 */
 	default void removeChild(final ITreeNode<T> child)
 	{
-		getChildren().remove(child);
-		child.setParent(null);
+		if (child != null)
+		{
+			getChildren().remove(child);
+			child.setParent(null);
+			child.getChildren().clear();
+		}
+	}
+
+	/**
+	 * Removes all the children
+	 */
+	default void clearChildren()
+	{
+		removeChildren(new ArrayList<>(this.getChildren()));
+	}
+
+	/**
+	 * Removes all the descendants
+	 */
+	default void clearAll()
+	{
+		this.accept(treeNode -> treeNode.clearChildren());
+	}
+
+	/**
+	 * Removes all the children
+	 */
+	default void removeAllChildren()
+	{
+		getChildren().clear();
+	}
+
+	/**
+	 * Removes all the given children
+	 *
+	 * @param children
+	 *            the children to remove
+	 */
+	default void removeChildren(final @NonNull Collection<ITreeNode<T>> children)
+	{
+		children.forEach(this::removeChild);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	default void accept(Visitor<ITreeNode<T>> visitor)
+	default void accept(final @NonNull Visitor<ITreeNode<T>> visitor)
 	{
-		visitor.visit(this);
 		getChildren().forEach(child -> child.accept(visitor));
+		visitor.visit(this);
+	}
+
+	/**
+	 * Find all {@link ITreeNode} objects that have the same value as the given value
+	 *
+	 * @param value
+	 *            the value for the search process
+	 * @return a {@link Collection} object with all found occurrences that have the same value as
+	 *         the given value
+	 */
+	default Collection<ITreeNode<T>> findAllByValue(final @NonNull T value)
+	{
+		final Collection<ITreeNode<T>> foundTreeNodes = new LinkedHashSet<>();
+		this.accept(acceptable -> {
+			if (value.equals(acceptable.getValue()))
+			{
+				foundTreeNodes.add(acceptable);
+			}
+		});
+		return foundTreeNodes;
+	}
+
+	/**
+	 * Find all {@link ITreeNode} objects that have the same value as the given value
+	 *
+	 * @param value
+	 *            the value for the search process
+	 * @return a {@link Collection} object with all found occurrences that have the same value as
+	 *         the given value
+	 */
+	default ITreeNode<T> findByValue(final @NonNull T value)
+	{
+		final AtomicReference<ITreeNode<T>> found = new AtomicReference<>();
+		findAllByValue(value).stream().findFirst().ifPresent(treeNode -> {
+			found.set(treeNode);
+		});
+		return found.get();
+	}
+
+	/**
+	 * Checks if the given {@link ITreeNode} object is a descendant of this tree node
+	 *
+	 * @param treeNode
+	 *            the tree node to check
+	 * @return true if the given {@link ITreeNode} object is a descendant of this tree node
+	 *         otherwise false
+	 */
+	default boolean contains(ITreeNode<T> treeNode)
+	{
+		return traverse().contains(treeNode);
+	}
+
+	/**
+	 * Checks if the given {@link Collection} object of {@link ITreeNode} objects are descendants of
+	 * this tree node
+	 *
+	 * @param treeNodes
+	 *            the children to add
+	 * @return true if the given {@link Collection} object of {@link ITreeNode} objects are
+	 *         descendants of this tree node otherwise false
+	 */
+	default boolean containsAll(final @NonNull Collection<ITreeNode<T>> treeNodes)
+	{
+		return traverse().containsAll(treeNodes);
 	}
 
 	/**

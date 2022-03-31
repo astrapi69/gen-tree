@@ -158,7 +158,8 @@ public class TreeNodeTransformerTest
 		BaseTreeNode<String, Long> actual;
 		BaseTreeNode<String, Long> expected;
 
-		actual = TreeNodeTransformer.getRoot(TreeNodeTransformer.toKeyMap(root));
+		Map<Long, TreeIdNode<String, Long>> longTreeIdNodeMap = TreeNodeTransformer.toKeyMap(root);
+		actual = TreeNodeTransformer.getRoot(longTreeIdNodeMap);
 		expected = root;
 		assertEquals(actual, expected);
 

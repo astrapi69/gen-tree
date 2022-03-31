@@ -25,9 +25,10 @@
 package io.github.astrapi69.tree;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -41,9 +42,10 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import io.github.astrapi69.design.pattern.visitor.Acceptable;
 import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.tree.visitor.FindValuesBaseTreeNodeVisitor;
 
 /**
- * The generic class {@link BaseTreeNode} hold the children in a {@link Set}
+ * The generic class {@link BaseTreeNode} have a generic id and value object
  *
  * @param <T>
  *            the generic type of the value
@@ -71,7 +73,7 @@ public class BaseTreeNode<T, K> implements Acceptable<Visitor<BaseTreeNode<T, K>
 	/** The children. */
 	@Setter
 	@Builder.Default
-	Set<BaseTreeNode<T, K>> children = new LinkedHashSet<>();
+	Collection<BaseTreeNode<T, K>> children = new LinkedHashSet<>();
 
 	/** The optional display value. */
 	@Getter
@@ -104,12 +106,8 @@ public class BaseTreeNode<T, K> implements Acceptable<Visitor<BaseTreeNode<T, K>
 	 *
 	 * @return the children
 	 */
-	public Set<BaseTreeNode<T, K>> getChildren()
+	public Collection<BaseTreeNode<T, K>> getChildren()
 	{
-		if (this.children == null)
-		{
-			this.children = new LinkedHashSet<>();
-		}
 		return this.children;
 	}
 
@@ -121,8 +119,11 @@ public class BaseTreeNode<T, K> implements Acceptable<Visitor<BaseTreeNode<T, K>
 	 */
 	public void addChild(final BaseTreeNode<T, K> child)
 	{
-		child.setParent(this);
-		getChildren().add(child);
+		if (child != null)
+		{
+			child.setParent(this);
+			getChildren().add(child);
+		}
 	}
 
 	/**
@@ -131,10 +132,9 @@ public class BaseTreeNode<T, K> implements Acceptable<Visitor<BaseTreeNode<T, K>
 	 * @param children
 	 *            the children to add
 	 */
-	public void addChildren(final @NonNull Set<BaseTreeNode<T, K>> children)
+	public void addChildren(final @NonNull Collection<BaseTreeNode<T, K>> children)
 	{
-		getChildren().addAll(children);
-		children.stream().forEach(child -> child.setParent(this));
+		children.forEach(this::addChild);
 	}
 
 	/**
@@ -143,14 +143,15 @@ public class BaseTreeNode<T, K> implements Acceptable<Visitor<BaseTreeNode<T, K>
 	 *
 	 * @return Returns all siblings of this node or null if this node is the root.
 	 */
-	public Set<BaseTreeNode<T, K>> getAllSiblings()
+	public Collection<BaseTreeNode<T, K>> getAllSiblings()
 	{
 		final BaseTreeNode<T, K> parent = getParent();
 		if (parent == null)
 		{
 			return new LinkedHashSet<>();
 		}
-		final Set<BaseTreeNode<T, K>> allSiblings = new LinkedHashSet<>(parent.getChildren());
+		final Collection<BaseTreeNode<T, K>> allSiblings = new LinkedHashSet<>(
+			parent.getChildren());
 		allSiblings.remove(this);
 		return allSiblings;
 	}
@@ -243,8 +244,16 @@ public class BaseTreeNode<T, K> implements Acceptable<Visitor<BaseTreeNode<T, K>
 	 */
 	public BaseTreeNode<T, K> getRoot()
 	{
+		if (this.isRoot())
+		{
+			return this;
+		}
+		BaseTreeNode<T, K> parent = this.getParent();
+		if (parent.isRoot())
+		{
+			return parent;
+		}
 		BaseTreeNode<T, K> root = this;
-		BaseTreeNode<T, K> parent = getParent();
 		while (parent != null && !parent.isRoot())
 		{
 			parent = parent.getParent();
@@ -301,8 +310,39 @@ public class BaseTreeNode<T, K> implements Acceptable<Visitor<BaseTreeNode<T, K>
 	 */
 	public void removeChild(final BaseTreeNode<T, K> child)
 	{
-		getChildren().remove(child);
-		child.setParent(null);
+		if (child != null)
+		{
+			getChildren().remove(child);
+			child.setParent(null);
+			child.clearChildren();
+		}
+	}
+
+	/**
+	 * Removes all the children
+	 */
+	public void clearChildren()
+	{
+		removeChildren(new ArrayList<>(this.getChildren()));
+	}
+
+	/**
+	 * Removes all the descendants
+	 */
+	public void clearAll()
+	{
+		this.accept(treeNode -> treeNode.clearChildren());
+	}
+
+	/**
+	 * Removes all the given children
+	 *
+	 * @param children
+	 *            the children to remove
+	 */
+	public void removeChildren(final @NonNull Collection<BaseTreeNode<T, K>> children)
+	{
+		children.forEach(this::removeChild);
 	}
 
 	/**
@@ -316,13 +356,14 @@ public class BaseTreeNode<T, K> implements Acceptable<Visitor<BaseTreeNode<T, K>
 	}
 
 	/**
-	 * Traverse this node and adds all descendant with this included in to a {@link Set} object
+	 * Traverse this node and adds all descendant with this included in to a {@link Collection}
+	 * object
 	 * 
-	 * @return a {@link Set} object with this node and add all descendant
+	 * @return a {@link Collection} object with this node and add all descendant
 	 */
-	public Set<BaseTreeNode<T, K>> traverse()
+	public Collection<BaseTreeNode<T, K>> traverse()
 	{
-		final Set<BaseTreeNode<T, K>> allTreeNodes = new LinkedHashSet<>();
+		final Collection<BaseTreeNode<T, K>> allTreeNodes = new LinkedHashSet<>();
 		this.accept(allTreeNodes::add);
 		return allTreeNodes;
 	}
@@ -331,10 +372,70 @@ public class BaseTreeNode<T, K> implements Acceptable<Visitor<BaseTreeNode<T, K>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void accept(Visitor<BaseTreeNode<T, K>> visitor)
+	public void accept(final @NonNull Visitor<BaseTreeNode<T, K>> visitor)
 	{
-		visitor.visit(this);
 		getChildren().forEach(child -> child.accept(visitor));
+		visitor.visit(this);
+	}
+
+	/**
+	 * Find all {@link BaseTreeNode} objects that have the same value as the given value
+	 *
+	 * @param value
+	 *            the value for the search process
+	 * @return a {@link Collection} object with all found occurrences that have the same value as
+	 *         the given value
+	 */
+	public Collection<BaseTreeNode<T, K>> findAllByValue(T value)
+	{
+		FindValuesBaseTreeNodeVisitor<T, K> visitor = new FindValuesBaseTreeNodeVisitor<>(value);
+		this.accept(visitor);
+		return visitor.getFoundTreeNodes().get();
+	}
+
+	/**
+	 * Find the first occurrence of {@link BaseTreeNode} object that have the same value as the
+	 * given value
+	 *
+	 * @param value
+	 *            the value for the search process
+	 * @return the first occurrence of {@link BaseTreeNode} object that have the same value as the
+	 *         given value
+	 */
+	public BaseTreeNode<T, K> findByValue(T value)
+	{
+		final AtomicReference<BaseTreeNode<T, K>> found = new AtomicReference<>();
+		findAllByValue(value).stream().findFirst().ifPresent(baseTreeNode -> {
+			found.set(baseTreeNode);
+		});
+		return found.get();
+	}
+
+	/**
+	 * Checks if the given {@link BaseTreeNode} object is a descendant of this tree node
+	 * 
+	 * @param baseTreeNode
+	 *            the tree node to check
+	 * @return true if the given {@link BaseTreeNode} object is a descendant of this tree node
+	 *         otherwise false
+	 */
+	public boolean contains(BaseTreeNode<T, K> baseTreeNode)
+	{
+		return traverse().contains(baseTreeNode);
+	}
+
+	/**
+	 * Checks if the given {@link Collection} object of {@link BaseTreeNode} objects are descendants
+	 * of this tree node
+	 * 
+	 * @param baseTreeNodes
+	 *            the children to add
+	 * @return true if the given {@link Collection} object of {@link BaseTreeNode} objects are
+	 *         descendants of this tree node otherwise false
+	 */
+	public boolean containsAll(final @NonNull Collection<BaseTreeNode<T, K>> baseTreeNodes)
+	{
+		return traverse().containsAll(baseTreeNodes);
 	}
 
 }
