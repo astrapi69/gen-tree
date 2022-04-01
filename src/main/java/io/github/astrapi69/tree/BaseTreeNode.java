@@ -54,7 +54,7 @@ import io.github.astrapi69.tree.visitor.FindValuesBaseTreeNodeVisitor;
  */
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = { "children" })
-@ToString(exclude = { "children" })
+@ToString(exclude = { "children", "parent" })
 @SuperBuilder(toBuilder = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BaseTreeNode<T, K> implements Acceptable<Visitor<BaseTreeNode<T, K>>>
@@ -244,21 +244,16 @@ public class BaseTreeNode<T, K> implements Acceptable<Visitor<BaseTreeNode<T, K>
 	 */
 	public BaseTreeNode<T, K> getRoot()
 	{
+		BaseTreeNode<T, K> root = this;
 		if (this.isRoot())
 		{
-			return this;
+			return root;
 		}
-		BaseTreeNode<T, K> parent = this.getParent();
-		if (parent.isRoot())
+		do
 		{
-			return parent;
+			root = root.getParent();
 		}
-		BaseTreeNode<T, K> root = this;
-		while (parent != null && !parent.isRoot())
-		{
-			parent = parent.getParent();
-			root = parent;
-		}
+		while (root != null && !root.isRoot());
 		return root;
 	}
 
