@@ -4,7 +4,9 @@
 Version 6.1-SNAPSHOT
 -------------
 
+ADDED:
 
+- new extension class BaseTreeNodeHandlerExtensions for BaseTreeNode
 
 Version 6
 -------------

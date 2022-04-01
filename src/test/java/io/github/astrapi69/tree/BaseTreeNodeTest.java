@@ -34,6 +34,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import io.github.astrapi69.tree.handler.BaseTreeNodeHandlerExtensions;
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
@@ -324,47 +325,47 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#getAllSiblings()}.
+	 * Test method for {@link BaseTreeNodeHandlerExtensions#getAllSiblings(BaseTreeNode)} 
 	 */
 	@Test
 	public void testGetAllSiblings()
 	{
 		Collection<BaseTreeNode<String, Long>> allSiblings;
 
-		allSiblings = root.getAllSiblings();
+		allSiblings = BaseTreeNodeHandlerExtensions.getAllSiblings(root);
 		assertEquals(0, allSiblings.size());
 
-		allSiblings = firstChild.getAllSiblings();
+		allSiblings = BaseTreeNodeHandlerExtensions.getAllSiblings(firstChild);
 		assertEquals(2, allSiblings.size());
 
-		allSiblings = secondChild.getAllSiblings();
+		allSiblings = BaseTreeNodeHandlerExtensions.getAllSiblings(secondChild);
 		assertEquals(2, allSiblings.size());
 
-		allSiblings = thirdChild.getAllSiblings();
+		allSiblings = BaseTreeNodeHandlerExtensions.getAllSiblings(thirdChild);
 		assertEquals(2, allSiblings.size());
 
-		allSiblings = firstGrandChild.getAllSiblings();
+		allSiblings = BaseTreeNodeHandlerExtensions.getAllSiblings(firstGrandChild);
 		assertEquals(2, allSiblings.size());
 
-		allSiblings = firstGrandGrandChild.getAllSiblings();
+		allSiblings = BaseTreeNodeHandlerExtensions.getAllSiblings(firstGrandGrandChild);
 		assertEquals(1, allSiblings.size());
 
-		allSiblings = secondGrandGrandChild.getAllSiblings();
+		allSiblings = BaseTreeNodeHandlerExtensions.getAllSiblings(secondGrandGrandChild);
 		assertEquals(1, allSiblings.size());
 
-		allSiblings = firstGrandGrandGrandChild.getAllSiblings();
+		allSiblings = BaseTreeNodeHandlerExtensions.getAllSiblings(firstGrandGrandGrandChild);
 		assertEquals(0, allSiblings.size());
 
-		allSiblings = secondGrandChild.getAllSiblings();
+		allSiblings = BaseTreeNodeHandlerExtensions.getAllSiblings(secondGrandChild);
 		assertEquals(2, allSiblings.size());
 
-		allSiblings = thirdGrandChild.getAllSiblings();
+		allSiblings = BaseTreeNodeHandlerExtensions.getAllSiblings(thirdGrandChild);
 		assertEquals(2, allSiblings.size());
 
-		allSiblings = fourthGrandChild.getAllSiblings();
+		allSiblings = BaseTreeNodeHandlerExtensions.getAllSiblings(fourthGrandChild);
 		assertEquals(1, allSiblings.size());
 
-		allSiblings = fifthGrandChild.getAllSiblings();
+		allSiblings = BaseTreeNodeHandlerExtensions.getAllSiblings(fifthGrandChild);
 		assertEquals(1, allSiblings.size());
 	}
 

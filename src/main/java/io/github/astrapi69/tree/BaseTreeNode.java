@@ -53,7 +53,7 @@ import io.github.astrapi69.tree.visitor.FindValuesBaseTreeNodeVisitor;
  *            the generic type of the id of the node
  */
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = { "children" })
+@EqualsAndHashCode(exclude = { "children", "parent" })
 @ToString(exclude = { "children", "parent" })
 @SuperBuilder(toBuilder = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -135,25 +135,6 @@ public class BaseTreeNode<T, K> implements Acceptable<Visitor<BaseTreeNode<T, K>
 	public void addChildren(final @NonNull Collection<BaseTreeNode<T, K>> children)
 	{
 		children.forEach(this::addChild);
-	}
-
-	/**
-	 * Returns all siblings of this node in the parent's children list. Returns null if this node is
-	 * the root.
-	 *
-	 * @return Returns all siblings of this node or null if this node is the root.
-	 */
-	public Collection<BaseTreeNode<T, K>> getAllSiblings()
-	{
-		final BaseTreeNode<T, K> parent = getParent();
-		if (parent == null)
-		{
-			return new LinkedHashSet<>();
-		}
-		final Collection<BaseTreeNode<T, K>> allSiblings = new LinkedHashSet<>(
-			parent.getChildren());
-		allSiblings.remove(this);
-		return allSiblings;
 	}
 
 	/**
@@ -253,7 +234,7 @@ public class BaseTreeNode<T, K> implements Acceptable<Visitor<BaseTreeNode<T, K>
 		{
 			root = root.getParent();
 		}
-		while (root != null && !root.isRoot());
+		while (root != this && !root.isRoot());
 		return root;
 	}
 
