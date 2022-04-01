@@ -325,7 +325,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNodeHandlerExtensions#getAllSiblings(BaseTreeNode)} 
+	 * Test method for {@link BaseTreeNodeHandlerExtensions#getAllSiblings(BaseTreeNode)}
 	 */
 	@Test
 	public void testGetAllSiblings()
