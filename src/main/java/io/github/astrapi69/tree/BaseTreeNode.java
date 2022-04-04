@@ -42,6 +42,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import io.github.astrapi69.design.pattern.visitor.Acceptable;
 import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.tree.handler.BaseTreeNodeHandlerExtensions;
 import io.github.astrapi69.tree.visitor.FindValuesBaseTreeNodeVisitor;
 
 /**
@@ -154,13 +155,7 @@ public class BaseTreeNode<T, K> implements Acceptable<Visitor<BaseTreeNode<T, K>
 	 */
 	public int getLevel()
 	{
-		BaseTreeNode<T, K> current = this;
-		int count = 0;
-		while ((current = current.getParent()) != null)
-		{
-			count++;
-		}
-		return count;
+		return BaseTreeNodeHandlerExtensions.getLevel(this);
 	}
 
 	/**
@@ -172,25 +167,7 @@ public class BaseTreeNode<T, K> implements Acceptable<Visitor<BaseTreeNode<T, K>
 	 */
 	public BaseTreeNode<T, K> getNextSibling()
 	{
-		BaseTreeNode<T, K> next = null;
-		if (getParent() == null)
-		{
-			return next;
-		}
-		boolean isNext = false;
-		for (BaseTreeNode<T, K> baseTreeNode : getParent().getChildren())
-		{
-			if (isNext)
-			{
-				next = baseTreeNode;
-				break;
-			}
-			if (baseTreeNode.equals(this))
-			{
-				isNext = true;
-			}
-		}
-		return next;
+		return BaseTreeNodeHandlerExtensions.getNextSibling(this);
 	}
 
 	/**
@@ -202,20 +179,7 @@ public class BaseTreeNode<T, K> implements Acceptable<Visitor<BaseTreeNode<T, K>
 	 */
 	public BaseTreeNode<T, K> getPreviousSibling()
 	{
-		BaseTreeNode<T, K> previous = null;
-		if (getParent() == null)
-		{
-			return previous;
-		}
-		for (BaseTreeNode<T, K> baseTreeNode : getParent().getChildren())
-		{
-			if (baseTreeNode.equals(this))
-			{
-				break;
-			}
-			previous = baseTreeNode;
-		}
-		return previous;
+		return BaseTreeNodeHandlerExtensions.getPreviousSibling(this);
 	}
 
 	/**
@@ -225,17 +189,7 @@ public class BaseTreeNode<T, K> implements Acceptable<Visitor<BaseTreeNode<T, K>
 	 */
 	public BaseTreeNode<T, K> getRoot()
 	{
-		BaseTreeNode<T, K> root = this;
-		if (this.isRoot())
-		{
-			return root;
-		}
-		do
-		{
-			root = root.getParent();
-		}
-		while (root != this && !root.isRoot());
-		return root;
+		return BaseTreeNodeHandlerExtensions.getRoot(this);
 	}
 
 	/**

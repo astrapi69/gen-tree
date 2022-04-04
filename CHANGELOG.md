@@ -8,6 +8,10 @@ ADDED:
 
 - new extension class BaseTreeNodeHandlerExtensions for BaseTreeNode
 
+CHANGED:
+
+- rename of TreeNodeTransformer to BaseTreeNodeTransformer
+
 Version 6
 -------------
 

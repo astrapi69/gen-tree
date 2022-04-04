@@ -40,9 +40,9 @@ import io.github.astrapi69.tree.BaseTreeNode;
 import io.github.astrapi69.tree.TreeIdNode;
 
 /**
- * The unit test class for the class {@link TreeNodeTransformer}
+ * The unit test class for the class {@link BaseTreeNodeTransformer}
  */
-public class TreeNodeTransformerTest
+public class BaseTreeNodeTransformerTest
 {
 
 	BaseTreeNode<String, Long> root;
@@ -137,20 +137,20 @@ public class TreeNodeTransformerTest
 	}
 
 	/**
-	 * Test method for {@link TreeNodeTransformer#toKeyMap(BaseTreeNode)}
+	 * Test method for {@link BaseTreeNodeTransformer#toKeyMap(BaseTreeNode)}
 	 */
 	@Test
 	public void testToKeyMap()
 	{
 		Map<Long, TreeIdNode<String, Long>> actual;
 
-		actual = TreeNodeTransformer.toKeyMap(root);
+		actual = BaseTreeNodeTransformer.toKeyMap(root);
 		assertNotNull(actual);
 		assertEquals(actual.size(), 12);
 	}
 
 	/**
-	 * Test method for {@link TreeNodeTransformer#toKeyMap(BaseTreeNode)}
+	 * Test method for {@link BaseTreeNodeTransformer#toKeyMap(BaseTreeNode)}
 	 */
 	@Test
 	public void testGetRoot()
@@ -158,19 +158,20 @@ public class TreeNodeTransformerTest
 		BaseTreeNode<String, Long> actual;
 		BaseTreeNode<String, Long> expected;
 
-		Map<Long, TreeIdNode<String, Long>> longTreeIdNodeMap = TreeNodeTransformer.toKeyMap(root);
-		actual = TreeNodeTransformer.getRoot(longTreeIdNodeMap);
+		Map<Long, TreeIdNode<String, Long>> longTreeIdNodeMap = BaseTreeNodeTransformer
+			.toKeyMap(root);
+		actual = BaseTreeNodeTransformer.getRoot(longTreeIdNodeMap);
 		expected = root;
 		assertEquals(actual, expected);
 
 		Map<Long, TreeIdNode<String, Long>> emptyMap = new LinkedHashMap<>();
-		actual = TreeNodeTransformer.getRoot(emptyMap);
+		actual = BaseTreeNodeTransformer.getRoot(emptyMap);
 		expected = null;
 		assertEquals(actual, expected);
 	}
 
 	/**
-	 * Test method for {@link TreeNodeTransformer#toTreeIdNode(BaseTreeNode)}
+	 * Test method for {@link BaseTreeNodeTransformer#toTreeIdNode(BaseTreeNode)}
 	 */
 	@Test
 	public void testToTreeIdNode()
@@ -178,40 +179,40 @@ public class TreeNodeTransformerTest
 		TreeIdNode<String, Long> actual;
 		TreeIdNode<String, Long> expected;
 
-		actual = TreeNodeTransformer.toTreeIdNode(root);
+		actual = BaseTreeNodeTransformer.toTreeIdNode(root);
 		expected = TreeIdNode.<String, Long> builder().id(root.getId()).leaf(root.isLeaf())
 			.childrenIds(SetFactory.newLinkedHashSet(1L, 2L, 9L)).value(root.getValue()).build();
 		assertEquals(actual, expected);
 	}
 
 	/**
-	 * Test method for {@link TreeNodeTransformer#transform(Map)}
+	 * Test method for {@link BaseTreeNodeTransformer#transform(Map)}
 	 */
 	@Test
 	public void testTransform()
 	{
 		Map<Long, TreeIdNode<String, Long>> actual;
 
-		actual = TreeNodeTransformer.toKeyMap(root);
+		actual = BaseTreeNodeTransformer.toKeyMap(root);
 		assertNotNull(actual);
 		assertEquals(actual.size(), 12);
-		Map<Long, BaseTreeNode<String, Long>> convert = TreeNodeTransformer.transform(actual);
+		Map<Long, BaseTreeNode<String, Long>> convert = BaseTreeNodeTransformer.transform(actual);
 
 		assertEquals(convert.size(), 12);
 
-		Map<Long, BaseTreeNode<String, Long>> longBaseTreeNodeMap = TreeNodeTransformer
+		Map<Long, BaseTreeNode<String, Long>> longBaseTreeNodeMap = BaseTreeNodeTransformer
 			.toKeyBaseTreeNodeMap(root);
 		assertEquals(convert, longBaseTreeNodeMap);
 	}
 
 	/**
-	 * Test method for {@link TreeNodeTransformer}
+	 * Test method for {@link BaseTreeNodeTransformer}
 	 */
 	@Test
 	public void testWithBeanTester()
 	{
 		final BeanTester beanTester = new BeanTester();
-		beanTester.testBean(TreeNodeTransformer.class);
+		beanTester.testBean(BaseTreeNodeTransformer.class);
 	}
 
 }

@@ -35,12 +35,12 @@ import io.github.astrapi69.tree.BaseTreeNode;
 import io.github.astrapi69.tree.TreeIdNode;
 
 /**
- * The class {@link TreeNodeTransformer} provides algorithms for convert and transform between the
- * {@link BaseTreeNode} objects and {@link TreeIdNode} objects
+ * The class {@link BaseTreeNodeTransformer} provides algorithms for convert and transform between
+ * the {@link BaseTreeNode} objects and {@link TreeIdNode} objects
  */
-public final class TreeNodeTransformer
+public final class BaseTreeNodeTransformer
 {
-	private TreeNodeTransformer()
+	private BaseTreeNodeTransformer()
 	{
 	}
 
@@ -59,7 +59,7 @@ public final class TreeNodeTransformer
 	public static <T, K> Map<K, TreeIdNode<T, K>> toKeyMap(final @NonNull BaseTreeNode<T, K> root)
 	{
 		return root.traverse().stream().collect(Collectors.toMap(BaseTreeNode::getId, // keyMapper
-			TreeNodeTransformer::toTreeIdNode, // valueMapper
+			BaseTreeNodeTransformer::toTreeIdNode, // valueMapper
 			(first, second) -> first, // mergeFunction
 			LinkedHashMap::new // mapFactory
 		));

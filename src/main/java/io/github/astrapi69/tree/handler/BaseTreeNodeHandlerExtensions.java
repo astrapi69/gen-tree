@@ -27,6 +27,7 @@ package io.github.astrapi69.tree.handler;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
+import lombok.NonNull;
 import io.github.astrapi69.tree.BaseTreeNode;
 
 /**
@@ -48,7 +49,7 @@ public class BaseTreeNodeHandlerExtensions
 	 * @return Returns all siblings of this node
 	 */
 	public static <T, K> Collection<BaseTreeNode<T, K>> getAllSiblings(
-		BaseTreeNode<T, K> baseTreeNode)
+		final @NonNull BaseTreeNode<T, K> baseTreeNode)
 	{
 		final BaseTreeNode<T, K> parent = baseTreeNode.getParent();
 		if (parent == null)
@@ -59,5 +60,106 @@ public class BaseTreeNodeHandlerExtensions
 			parent.getChildren());
 		allSiblings.remove(baseTreeNode);
 		return allSiblings;
+	}
+
+	/**
+	 * Gets the root {@link BaseTreeNode} object
+	 *
+	 * @param baseTreeNode
+	 *            the tree node
+	 * @return the root {@link BaseTreeNode} object
+	 */
+	public static <T, K> BaseTreeNode<T, K> getRoot(final @NonNull BaseTreeNode<T, K> baseTreeNode)
+	{
+		BaseTreeNode<T, K> root = baseTreeNode;
+		if (root.isRoot())
+		{
+			return root;
+		}
+		do
+		{
+			root = root.getParent();
+		}
+		while (root != null && !root.isRoot());
+		return root;
+	}
+
+	/**
+	 * Returns the next sibling of this node in the parent's children list. Returns null if this
+	 * node is the root or is the parent's last child.
+	 *
+	 * @param currentTreeNode
+	 *            the tree node
+	 * @return the next sibling of this node or null if this node is the root or is the parent's
+	 *         last child.
+	 */
+	public static <T, K> BaseTreeNode<T, K> getNextSibling(
+		final @NonNull BaseTreeNode<T, K> currentTreeNode)
+	{
+		BaseTreeNode<T, K> next = null;
+		if (currentTreeNode.getParent() == null)
+		{
+			return next;
+		}
+		boolean isNext = false;
+		for (BaseTreeNode<T, K> baseTreeNode : currentTreeNode.getParent().getChildren())
+		{
+			if (isNext)
+			{
+				next = baseTreeNode;
+				break;
+			}
+			if (baseTreeNode.equals(currentTreeNode))
+			{
+				isNext = true;
+			}
+		}
+		return next;
+	}
+
+	/**
+	 * Returns the previous sibling of this node in the parent's children list. Returns null if this
+	 * node is the root or is the parent's first child.
+	 *
+	 * @param currentTreeNode
+	 *            the tree node
+	 * @return the next sibling of this node or null if this node is the root or is the parent's
+	 *         last child.
+	 */
+	public static <T, K> BaseTreeNode<T, K> getPreviousSibling(
+		final @NonNull BaseTreeNode<T, K> currentTreeNode)
+	{
+		BaseTreeNode<T, K> previous = null;
+		if (currentTreeNode.getParent() == null)
+		{
+			return previous;
+		}
+		for (BaseTreeNode<T, K> baseTreeNode : currentTreeNode.getParent().getChildren())
+		{
+			if (baseTreeNode.equals(currentTreeNode))
+			{
+				break;
+			}
+			previous = baseTreeNode;
+		}
+		return previous;
+	}
+
+	/**
+	 * Returns the distance from the root to this node. Returns 0 if this node is the root.
+	 *
+	 * @param treeNode
+	 *            the tree node
+	 * @return the level from this node.
+	 */
+	public static <T, K> int getLevel(final @NonNull BaseTreeNode<T, K> treeNode)
+	{
+		BaseTreeNode<T, K> currentTreeNode = treeNode;
+		int count = 0;
+		while ((currentTreeNode = currentTreeNode.getParent()) != null)
+		{
+			count++;
+		}
+		return count;
 	}
 }
