@@ -65,6 +65,10 @@ public class BaseTreeNodeHandlerExtensions
 	/**
 	 * Gets the root {@link BaseTreeNode} object
 	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param <K>
+	 *            the generic type of the id of the node
 	 * @param baseTreeNode
 	 *            the tree node
 	 * @return the root {@link BaseTreeNode} object
@@ -88,6 +92,10 @@ public class BaseTreeNodeHandlerExtensions
 	 * Returns the next sibling of this node in the parent's children list. Returns null if this
 	 * node is the root or is the parent's last child.
 	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param <K>
+	 *            the generic type of the id of the node
 	 * @param currentTreeNode
 	 *            the tree node
 	 * @return the next sibling of this node or null if this node is the root or is the parent's
@@ -121,6 +129,11 @@ public class BaseTreeNodeHandlerExtensions
 	 * Returns the previous sibling of this node in the parent's children list. Returns null if this
 	 * node is the root or is the parent's first child.
 	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param <K>
+	 *            the generic type of the id of the node
+	 *
 	 * @param currentTreeNode
 	 *            the tree node
 	 * @return the next sibling of this node or null if this node is the root or is the parent's
@@ -147,6 +160,11 @@ public class BaseTreeNodeHandlerExtensions
 
 	/**
 	 * Returns the distance from the root to this node. Returns 0 if this node is the root.
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param <K>
+	 *            the generic type of the id of the node
 	 *
 	 * @param treeNode
 	 *            the tree node
