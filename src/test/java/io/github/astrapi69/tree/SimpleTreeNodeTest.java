@@ -35,13 +35,18 @@ import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
 import org.meanbean.test.ConfigurationBuilder;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import io.github.astrapi69.design.pattern.visitor.Visitor;
 import io.github.astrapi69.id.generate.LongIdGenerator;
 import io.github.astrapi69.tree.visitor.DisplayValueOfSimpleTreeNodeVisitor;
 import io.github.astrapi69.tree.visitor.TraverseSimpleTreeNodeVisitor;
 
+/**
+ * The unit test class for the class {@link SimpleTreeNode}
+ */
 public class SimpleTreeNodeTest
 {
 	SimpleTreeNode<String, Long> root;
@@ -144,6 +149,29 @@ public class SimpleTreeNodeTest
 		fourthGrandChild.setRightSibling(fifthGrandChild);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@AfterMethod
+	protected void tearDown()
+	{
+		root = null;
+		firstChild = null;
+		secondChild = null;
+		firstGrandChild = null;
+		firstGrandGrandChild = null;
+		secondGrandGrandChild = null;
+		firstGrandGrandGrandChild = null;
+		secondGrandChild = null;
+		thirdGrandChild = null;
+		thirdChild = null;
+		fourthGrandChild = null;
+		fifthGrandChild = null;
+	}
+
+	/**
+	 * Test method for {@link SimpleTreeNode#getAllSiblings()}
+	 */
 	@Test
 	public void testGetAllSilbings()
 	{
@@ -153,6 +181,9 @@ public class SimpleTreeNodeTest
 		assertEquals(allSiblings.size(), 3);
 	}
 
+	/**
+	 * Test method for {@link SimpleTreeNode#getAllRightSiblings()}
+	 */
 	@Test
 	public void testGetAllRightSiblings()
 	{
@@ -162,6 +193,9 @@ public class SimpleTreeNodeTest
 		assertEquals(allRightSiblings.size(), 1);
 	}
 
+	/**
+	 * Test method for {@link SimpleTreeNode#getAllLeftSiblings()}
+	 */
 	@Test
 	public void testGetAllLeftSiblings()
 	{
@@ -173,6 +207,9 @@ public class SimpleTreeNodeTest
 		assertEquals(allRightSiblings.size(), 0);
 	}
 
+	/**
+	 * Test method for {@link SimpleTreeNode#getRightSibling()}
+	 */
 	@Test
 	public void testRightSilbing()
 	{
@@ -215,7 +252,7 @@ public class SimpleTreeNodeTest
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#getLevel()}
+	 * Test method for {@link SimpleTreeNode#getLevel()}
 	 */
 	@Test
 	public void testGetLevel()
@@ -268,6 +305,9 @@ public class SimpleTreeNodeTest
 		assertEquals(expected, actual);
 	}
 
+	/**
+	 * Test method for {@link SimpleTreeNode#accept(Visitor)}
+	 */
 	@Test
 	public void testVisitor()
 	{

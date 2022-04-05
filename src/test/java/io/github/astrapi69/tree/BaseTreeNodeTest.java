@@ -30,6 +30,7 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -38,6 +39,7 @@ import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
 import org.meanbean.test.ConfigurationBuilder;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -47,6 +49,9 @@ import io.github.astrapi69.id.generate.LongIdGenerator;
 import io.github.astrapi69.tree.element.TreeElement;
 import io.github.astrapi69.tree.handler.BaseTreeNodeHandlerExtensions;
 
+/**
+ * The unit test class for the class {@link BaseTreeNode}
+ */
 public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 {
 
@@ -144,6 +149,30 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	@AfterMethod
+	@Override
+	protected void tearDown() throws Exception
+	{
+		super.tearDown();
+		root = null;
+		firstChild = null;
+		secondChild = null;
+		firstGrandChild = null;
+		firstGrandGrandChild = null;
+		secondGrandGrandChild = null;
+		firstGrandGrandGrandChild = null;
+		secondGrandChild = null;
+		thirdGrandChild = null;
+		thirdChild = null;
+		fourthGrandChild = null;
+		fifthGrandChild = null;
+		fifthGrandChildValue = null;
+		idGenerator = null;
+	}
+
+	/**
 	 * Test method for {@link BaseTreeNode#findAllByValue(Object)}
 	 */
 	@Test
@@ -161,7 +190,6 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		assertEquals(actual, expected);
 	}
 
-
 	/**
 	 * Test method for {@link BaseTreeNode#clearAll()}
 	 */
@@ -171,7 +199,6 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		root.clearAll();
 		assertEquals(root.getChildren().size(), 0);
 	}
-
 
 	/**
 	 * Test method for {@link BaseTreeNode#clearChildren()}
@@ -535,6 +562,28 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		assertFalse(children.contains(firstChild));
 	}
 
+	/**
+	 * Test method for {@link BaseTreeNode#removeChildren(Collection)}
+	 */
+	@Test
+	public void testRemoveChildren()
+	{
+		Collection<BaseTreeNode<String, Long>> children;
+		children = root.getChildren();
+		assertEquals(3, children.size());
+
+		children = new ArrayList<>();
+		children.add(firstChild);
+		children.add(secondChild);
+
+		root.removeChildren(children);
+
+		children = root.getChildren();
+		assertEquals(1, children.size());
+		assertFalse(children.contains(firstChild));
+		assertFalse(children.contains(secondChild));
+		assertTrue(children.contains(thirdChild));
+	}
 
 	/**
 	 * Test method for {@link BaseTreeNode#containsAll(Collection)}

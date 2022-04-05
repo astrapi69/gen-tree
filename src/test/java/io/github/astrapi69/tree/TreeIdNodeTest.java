@@ -32,6 +32,9 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.Set;
 import java.util.UUID;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
+
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
@@ -42,83 +45,134 @@ import org.testng.annotations.Test;
 
 import io.github.astrapi69.AbstractTestCase;
 import io.github.astrapi69.evaluate.object.evaluators.EqualsHashCodeAndToStringEvaluator;
+import io.github.astrapi69.id.generate.LongIdGenerator;
 import io.github.astrapi69.tree.element.TreeElement;
 
+/**
+ * The unit test class for the class {@link TreeIdNode}
+ */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class TreeIdNodeTest extends AbstractTestCase<Boolean, Boolean>
 {
 
-	TreeElement firstChild;
-	TreeIdNode<TreeElement, UUID> firstChildTreeNode;
-	TreeElement firstGrandChild;
-	TreeIdNode<TreeElement, UUID> firstGrandChildTreeNode;
-	TreeElement firstGrandGrandChild;
-	TreeIdNode<TreeElement, UUID> firstGrandGrandChildTreeNode;
-	Set<UUID> list;
+	TreeIdNode<String, Long> root;
+	TreeIdNode<String, Long> firstChild;
+	TreeIdNode<String, Long> secondChild;
+	TreeIdNode<String, Long> firstGrandChild;
+	TreeIdNode<String, Long> firstGrandGrandChild;
+	TreeIdNode<String, Long> secondGrandGrandChild;
+	TreeIdNode<String, Long> firstGrandGrandGrandChild;
+	TreeIdNode<String, Long> secondGrandChild;
+	TreeIdNode<String, Long> thirdGrandChild;
+	TreeIdNode<String, Long> thirdChild;
+	TreeIdNode<String, Long> fourthGrandChild;
+	TreeIdNode<String, Long> fifthGrandChild;
+	String fifthGrandChildValue;
+	LongIdGenerator idGenerator;
 	TreeElement parent;
-	TreeIdNode<TreeElement, UUID> parentTreeNode;
-	TreeElement secondChild;
-	TreeIdNode<TreeElement, UUID> secondChildTreeNode;
 
+	/**
+	 * Set up the tree structure for the unit tests
+	 *
+	 * <pre>
+	 *   +- root("I'm root")
+	 *      +- firstChild("I'm the first child")
+	 *      +- secondChild("I'm the second child")
+	 *      |  +- firstGrandChild("I'm the first grand child")
+	 *      |  |  +- firstGrandGrandChild("I'm the first grand grand child")
+	 *      |  |  +- secondGrandGrandChild("I'm the second grand grand child)
+	 *      |  |  |  +- firstGrandGrandGrandChild ("I'm the first grand grand grand child")
+	 *      |  +- secondGrandChild("I'm the second grand child")
+	 *      |  +- thirdGrandChild(null)
+	 *      +- thirdChild("I'm the third child")
+	 *      |  +- fourthGrandChild(null)
+	 *      |  +- fifthGrandChild("I'm the fifth grand child")
+	 * </pre>
+	 */
 	@BeforeMethod
-	@Override
-	protected void setUp() throws Exception
+	public void setup()
 	{
-		super.setUp();
 		parent = TreeElement.builder().name("parent").parent(null).node(true).build();
-		firstChild = TreeElement.builder().name("firstChild").parent(parent).node(true).build();
-		firstGrandChild = TreeElement.builder().name("firstGrandChild").parent(firstChild)
-			.node(true).build();
-		firstGrandGrandChild = TreeElement.builder().name("firstGrandGrandChild")
-			.parent(firstGrandChild).node(true).build();
-		secondChild = TreeElement.builder().name("secondChild").parent(parent).node(true).build();
 
-		parentTreeNode = TreeIdNode.<TreeElement, UUID> builder().id(UUID.randomUUID())
-			.value(parent).build();
+		idGenerator = LongIdGenerator.of(0L);
+		root = TreeIdNode.<String, Long> builder().id(idGenerator.getNextId()).value("I'm root")
+			.build();
 
-		firstChildTreeNode = TreeIdNode.<TreeElement, UUID> builder().value(firstChild)
-			.id(UUID.randomUUID()).parentId(parentTreeNode.getParentId()).build();
+		firstChild = TreeIdNode.<String, Long> builder().id(idGenerator.getNextId())
+			.parentId(root.getId()).value("I'm the first child").build();
 
-		secondChildTreeNode = TreeIdNode.<TreeElement, UUID> builder().value(secondChild)
-			.id(UUID.randomUUID()).parentId(parentTreeNode.getParentId()).build();
+		secondChild = TreeIdNode.<String, Long> builder().id(idGenerator.getNextId())
+			.parentId(root.getId()).value("I'm the second child").build();
 
-		firstGrandChildTreeNode = TreeIdNode.<TreeElement, UUID> builder().value(firstGrandChild)
-			.id(UUID.randomUUID()).parentId(firstChildTreeNode.getParentId()).build();
+		firstGrandChild = TreeIdNode.<String, Long> builder().id(idGenerator.getNextId())
+			.parentId(secondChild.getId()).value("I'm the first grand child").build();
 
-		firstGrandGrandChildTreeNode = TreeIdNode.<TreeElement, UUID> builder()
-			.id(UUID.randomUUID()).value(firstGrandGrandChild)
-			.parentId(firstChildTreeNode.getParentId()).build();
+		firstGrandGrandChild = TreeIdNode.<String, Long> builder().id(idGenerator.getNextId())
+			.parentId(firstGrandChild.getId()).value("I'm the first grand grand child").build();
+
+		secondGrandGrandChild = TreeIdNode.<String, Long> builder().id(idGenerator.getNextId())
+			.parentId(firstGrandChild.getId()).value("I'm the second grand grand child").build();
+
+		firstGrandGrandGrandChild = TreeIdNode.<String, Long> builder().id(idGenerator.getNextId())
+			.parentId(secondGrandGrandChild.getId()).value("I'm the first grand grand grand child")
+			.build();
+
+		secondGrandChild = TreeIdNode.<String, Long> builder().id(idGenerator.getNextId())
+			.parentId(secondChild.getId()).value("I'm the second grand child").build();
+
+		thirdGrandChild = TreeIdNode.<String, Long> builder().id(idGenerator.getNextId())
+			.parentId(secondChild.getId()).value(null).build();
+
+		thirdChild = TreeIdNode.<String, Long> builder().id(idGenerator.getNextId())
+			.parentId(root.getId()).value("I'm the third child").build();
+
+		fourthGrandChild = TreeIdNode.<String, Long> builder().id(idGenerator.getNextId())
+			.parentId(thirdChild.getId()).value(null).build();
+		fifthGrandChildValue = "I'm the fifth grand child";
+		fifthGrandChild = TreeIdNode.<String, Long> builder().id(idGenerator.getNextId())
+			.parentId(thirdChild.getId()).value(fifthGrandChildValue).build();
+
+		// initialize all children
+		root.addChild(firstChild);
+		root.addChild(secondChild);
+		root.addChild(thirdChild);
+
+		secondChild.addChild(firstGrandChild);
+
+		firstGrandChild.addChild(firstGrandGrandChild);
+		firstGrandChild.addChild(secondGrandGrandChild);
+
+		secondGrandGrandChild.addChild(firstGrandGrandGrandChild);
+
+		secondChild.addChild(secondGrandChild);
+		secondChild.addChild(thirdGrandChild);
+
+		thirdChild.addChild(fourthGrandChild);
+		thirdChild.addChild(fifthGrandChild);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@AfterMethod
 	@Override
 	protected void tearDown() throws Exception
 	{
 		super.tearDown();
-		list = null;
-		parent = null;
+		root = null;
 		firstChild = null;
-		firstGrandChild = null;
 		secondChild = null;
-		parentTreeNode = null;
-		firstChildTreeNode = null;
-		secondChildTreeNode = null;
-		firstGrandChildTreeNode = null;
-	}
-
-	/**
-	 * Test method for {@link TreeIdNode} constructors and builders
-	 */
-	@Test
-	public final void testConstructors()
-	{
-		TreeIdNode<TreeElement, UUID> parentTreeNode = new TreeIdNode<>();
-		assertNotNull(parentTreeNode);
-		parentTreeNode.setValue(parent);
-		parentTreeNode = new TreeIdNode<>(parent);
-		assertNotNull(parentTreeNode);
-		TreeIdNode<TreeElement, UUID> treeNode = TreeIdNode.<TreeElement, UUID> builder().build();
-		assertNotNull(treeNode);
-		assertTrue(treeNode.isNode());
+		firstGrandChild = null;
+		firstGrandGrandChild = null;
+		secondGrandGrandChild = null;
+		firstGrandGrandGrandChild = null;
+		secondGrandChild = null;
+		thirdGrandChild = null;
+		thirdChild = null;
+		fourthGrandChild = null;
+		fifthGrandChild = null;
+		fifthGrandChildValue = null;
+		idGenerator = null;
 	}
 
 	/**
@@ -139,79 +193,86 @@ public class TreeIdNodeTest extends AbstractTestCase<Boolean, Boolean>
 		assertEquals(expected, actual);
 	}
 
-	// ========================================================
+	/**
+	 * Test method for {@link TreeIdNode} constructors and builders
+	 */
+	@Test
+	public final void testConstructors()
+	{
+		TreeElement parent = TreeElement.builder().name("parent").parent(null).node(true).build();
+		TreeIdNode<TreeElement, UUID> parentTreeNode = new TreeIdNode<>();
+		assertNotNull(parentTreeNode);
+		parentTreeNode.setValue(parent);
+		parentTreeNode = new TreeIdNode<>(parent);
+		assertNotNull(parentTreeNode);
+		TreeIdNode<TreeElement, UUID> treeNode = TreeIdNode.<TreeElement, UUID> builder().build();
+		assertNotNull(treeNode);
+		assertTrue(treeNode.isNode());
+	}
 
 	/**
-	 * Test method for {@link TreeIdNode#getChildCount()}.
+	 * Test method for {@link TreeIdNode#getChildCount()}
 	 */
 	@Test
 	public void testGetChildCount()
 	{
 		int actual;
 		int expected;
-		parentTreeNode.addChild(firstChildTreeNode);
-		parentTreeNode.addChild(secondChildTreeNode);
-		parentTreeNode.addChild(firstGrandChildTreeNode);
 
-		list = parentTreeNode.getChildrenIds();
+		Set<Long> childrenIds = root.getChildrenIds();
 
-		actual = parentTreeNode.getChildCount();
-		expected = list.size();
+		actual = root.getChildCount();
+		expected = childrenIds.size();
 		assertEquals(expected, actual);
-
 	}
 
 	/**
-	 * Test method for {@link TreeIdNode#hasChildren()}.
+	 * Test method for {@link TreeIdNode#hasChildren()}
 	 */
 	@Test
 	public void testHasChildren()
 	{
-		assertFalse(parentTreeNode.hasChildren());
-		parentTreeNode.addChild(firstChildTreeNode);
-		assertTrue(parentTreeNode.hasChildren());
+		assertFalse(firstGrandGrandGrandChild.hasChildren());
+		assertTrue(root.hasChildren());
 	}
 
 	/**
-	 * Test method for {@link TreeIdNode#hasParent()}.
+	 * Test method for {@link TreeIdNode#hasParent()}
 	 */
 	@Test
 	public void testHasParent()
 	{
-		assertFalse(parentTreeNode.hasParent());
-		parentTreeNode.addChild(firstChildTreeNode);
-		assertTrue(firstChildTreeNode.hasParent());
+		assertFalse(root.hasParent());
+		assertTrue(firstGrandGrandGrandChild.hasParent());
 	}
 
 	/**
-	 * Test method for {@link TreeIdNode#isRoot()}.
+	 * Test method for {@link TreeIdNode#isRoot()}
 	 */
 	@Test
 	public void testIsRoot()
 	{
-		assertTrue(parentTreeNode.isRoot());
-		parentTreeNode.addChild(firstChildTreeNode);
-		assertFalse(firstChildTreeNode.isRoot());
+		assertTrue(root.isRoot());
+		assertFalse(firstChild.isRoot());
 	}
 
 	/**
-	 * Test method for {@link TreeIdNode#removeChild(TreeIdNode)}.
+	 * Test method for {@link TreeIdNode#removeChild(TreeIdNode)}
 	 */
 	@Test
 	public void testRemoveChild()
 	{
-		parentTreeNode.addChild(firstChildTreeNode);
-		parentTreeNode.addChild(secondChildTreeNode);
-		parentTreeNode.addChild(firstGrandChildTreeNode);
+		Set<TreeIdNode<String, Long>> children;
+		Set<Long> childrenIds;
 
-		list = parentTreeNode.getChildrenIds();
-		assertTrue(list.contains(firstChildTreeNode.getId()));
+		childrenIds = root.getChildrenIds();
+		assertTrue(childrenIds.contains(firstChild.getId()));
 
-		parentTreeNode.removeChild(firstChildTreeNode);
-		list = parentTreeNode.getChildrenIds();
-		assertFalse(list.contains(firstChildTreeNode.getId()));
+		root.removeChild(firstChild);
+
+		childrenIds = root.getChildrenIds();
+		assertFalse(childrenIds.contains(firstChild.getId()));
 	}
-
 
 	/**
 	 * Test method for {@link TreeIdNode}
@@ -227,5 +288,6 @@ public class TreeIdNodeTest extends AbstractTestCase<Boolean, Boolean>
 		beanTester.addCustomConfiguration(TreeIdNode.class, configuration);
 		beanTester.testBean(TreeIdNode.class);
 	}
+
 }
 

@@ -81,11 +81,67 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 		final ITreeNode<T> parent = getParent();
 		if (parent == null)
 		{
-			return null;
+			return new ArrayList<>();
 		}
 		final List<ITreeNode<T>> siblings = new ArrayList<>(parent.getChildren());
 		siblings.remove(this);
 		return siblings;
+	}
+
+	/**
+	 * Returns the previous sibling of this node in the parent's children list. Returns null if this
+	 * node is the root or is the parent's first child.
+	 *
+	 * @return the next sibling of this node or null if this node is the root or is the parent's
+	 *         last child.
+	 */
+	default ITreeNode<T> getPreviousSibling()
+	{
+		ITreeNode<T> previous = null;
+		if (this.getParent() == null)
+		{
+			return previous;
+		}
+		boolean isNext = false;
+		for (ITreeNode<T> treeNode : this.getParent().getChildren())
+		{
+			if (treeNode.equals(this))
+			{
+				break;
+			}
+			previous = treeNode;
+		}
+		return previous;
+	}
+
+	/**
+	 * Returns the next sibling of this node in the parent's children list. Returns null if this
+	 * node is the root or is the parent's last child.
+	 *
+	 * @return the next sibling of this node or null if this node is the root or is the parent's
+	 *         last child.
+	 */
+	default ITreeNode<T> getNextSibling()
+	{
+		ITreeNode<T> next = null;
+		if (this.getParent() == null)
+		{
+			return next;
+		}
+		boolean isNext = false;
+		for (ITreeNode<T> treeNode : this.getParent().getChildren())
+		{
+			if (isNext)
+			{
+				next = treeNode;
+				break;
+			}
+			if (treeNode.equals(this))
+			{
+				isNext = true;
+			}
+		}
+		return next;
 	}
 
 	/**

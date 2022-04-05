@@ -7,6 +7,7 @@ Version 6.1-SNAPSHOT
 ADDED:
 
 - new extension class BaseTreeNodeHandlerExtensions for BaseTreeNode
+- all relevant methods from class BaseTreeNode to new extension class BaseTreeNodeHandlerExtensions
 
 CHANGED:
 
