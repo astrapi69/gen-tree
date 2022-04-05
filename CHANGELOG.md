@@ -15,6 +15,7 @@ ADDED:
 CHANGED:
 
 - rename of TreeNodeTransformer to BaseTreeNodeTransformer
+- update of test dependency silly-collections to new minor version 18.1
 
 Version 6
 -------------
