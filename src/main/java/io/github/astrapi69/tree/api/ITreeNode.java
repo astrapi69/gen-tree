@@ -25,15 +25,13 @@
 package io.github.astrapi69.tree.api;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 import lombok.NonNull;
 import io.github.astrapi69.design.pattern.visitor.Acceptable;
 import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.tree.handler.ITreeNodeHandlerExtensions;
 
 /**
  * The Interface {@link ITreeNode} holds the children in a {@link Collection} object
@@ -52,11 +50,7 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 */
 	default void addChild(final ITreeNode<T> child)
 	{
-		if (child != null)
-		{
-			child.setParent(this);
-			getChildren().add(child);
-		}
+		ITreeNodeHandlerExtensions.addChild(this, child);
 	}
 
 	/**
@@ -67,7 +61,7 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 */
 	default void addChildren(final @NonNull Collection<ITreeNode<T>> children)
 	{
-		children.forEach(this::addChild);
+		ITreeNodeHandlerExtensions.addChildren(this, children);
 	}
 
 	/**
@@ -76,16 +70,9 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 *
 	 * @return Returns all siblings of this node or null if this node is the root.
 	 */
-	default List<ITreeNode<T>> getAllSiblings()
+	default Collection<ITreeNode<T>> getAllSiblings()
 	{
-		final ITreeNode<T> parent = getParent();
-		if (parent == null)
-		{
-			return new ArrayList<>();
-		}
-		final List<ITreeNode<T>> siblings = new ArrayList<>(parent.getChildren());
-		siblings.remove(this);
-		return siblings;
+		return ITreeNodeHandlerExtensions.getAllSiblings(this);
 	}
 
 	/**
@@ -97,21 +84,7 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 */
 	default ITreeNode<T> getPreviousSibling()
 	{
-		ITreeNode<T> previous = null;
-		if (this.getParent() == null)
-		{
-			return previous;
-		}
-		boolean isNext = false;
-		for (ITreeNode<T> treeNode : this.getParent().getChildren())
-		{
-			if (treeNode.equals(this))
-			{
-				break;
-			}
-			previous = treeNode;
-		}
-		return previous;
+		return ITreeNodeHandlerExtensions.getPreviousSibling(this);
 	}
 
 	/**
@@ -123,25 +96,7 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 */
 	default ITreeNode<T> getNextSibling()
 	{
-		ITreeNode<T> next = null;
-		if (this.getParent() == null)
-		{
-			return next;
-		}
-		boolean isNext = false;
-		for (ITreeNode<T> treeNode : this.getParent().getChildren())
-		{
-			if (isNext)
-			{
-				next = treeNode;
-				break;
-			}
-			if (treeNode.equals(this))
-			{
-				isNext = true;
-			}
-		}
-		return next;
+		return ITreeNodeHandlerExtensions.getNextSibling(this);
 	}
 
 	/**
@@ -170,34 +125,6 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	void setChildren(final Collection<ITreeNode<T>> children);
 
 	/**
-	 * Returns the depth of the tree beginning at this node Returns 0 if this node has no children.
-	 *
-	 * @return the depth of the tree beginning at this node.
-	 */
-	default int getDepth()
-	{
-		if (isLeaf() || getChildCount() == 0)
-		{
-			return 0;
-		}
-		int maxDepth = 1;
-		int currentDepth = 1;
-		for (ITreeNode<T> data : getChildren())
-		{
-			while (data.hasChildren())
-			{
-				currentDepth++;
-				data = data.getChildren().stream().findFirst().get();
-			}
-			if (maxDepth < currentDepth)
-			{
-				maxDepth = currentDepth;
-			}
-		}
-		return maxDepth;
-	}
-
-	/**
 	 * Gets the optional display value.
 	 *
 	 * @return the display value
@@ -219,13 +146,7 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 */
 	default int getLevel()
 	{
-		ITreeNode<T> current = this;
-		int count = 0;
-		while ((current = current.getParent()) != null)
-		{
-			count++;
-		}
-		return count;
+		return ITreeNodeHandlerExtensions.getLevel(this);
 	}
 
 	/**
@@ -250,22 +171,7 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 */
 	default ITreeNode<T> getRoot()
 	{
-		if (this.isRoot())
-		{
-			return this;
-		}
-		ITreeNode<T> parent = this.getParent();
-		if (parent.isRoot())
-		{
-			return parent;
-		}
-		ITreeNode<T> root = this;
-		while (parent != null && !parent.isRoot())
-		{
-			parent = parent.getParent();
-			root = parent;
-		}
-		return root;
+		return ITreeNodeHandlerExtensions.getRoot(this);
 	}
 
 	/**
@@ -290,7 +196,7 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 */
 	default boolean hasChildren()
 	{
-		return getChildren() != null && !getChildren().isEmpty();
+		return ITreeNodeHandlerExtensions.hasChildren(this);
 	}
 
 	/**
@@ -300,7 +206,7 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 */
 	default boolean hasParent()
 	{
-		return getParent() != null;
+		return ITreeNodeHandlerExtensions.hasParent(this);
 	}
 
 	/**
@@ -338,7 +244,7 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 */
 	default boolean isRoot()
 	{
-		return !hasParent();
+		return ITreeNodeHandlerExtensions.isRoot(this);
 	}
 
 	/**
@@ -349,12 +255,7 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 */
 	default void removeChild(final ITreeNode<T> child)
 	{
-		if (child != null)
-		{
-			getChildren().remove(child);
-			child.setParent(null);
-			child.getChildren().clear();
-		}
+		ITreeNodeHandlerExtensions.removeChild(this, child);
 	}
 
 	/**
@@ -362,7 +263,7 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 */
 	default void clearChildren()
 	{
-		removeChildren(new ArrayList<>(this.getChildren()));
+		ITreeNodeHandlerExtensions.clearChildren(this);
 	}
 
 	/**
@@ -370,15 +271,15 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 */
 	default void clearAll()
 	{
-		this.accept(treeNode -> treeNode.clearChildren());
+		ITreeNodeHandlerExtensions.clearAll(this);
 	}
 
 	/**
 	 * Removes all the children
 	 */
-	default void removeAllChildren()
+	default void removeChildren()
 	{
-		getChildren().clear();
+		ITreeNodeHandlerExtensions.removeChildren(this);
 	}
 
 	/**
@@ -389,7 +290,7 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 */
 	default void removeChildren(final @NonNull Collection<ITreeNode<T>> children)
 	{
-		children.forEach(this::removeChild);
+		ITreeNodeHandlerExtensions.removeChildren(this, children);
 	}
 
 	/**
@@ -397,8 +298,7 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 */
 	default void accept(final @NonNull Visitor<ITreeNode<T>> visitor)
 	{
-		getChildren().forEach(child -> child.accept(visitor));
-		visitor.visit(this);
+		ITreeNodeHandlerExtensions.accept(this, visitor);
 	}
 
 	/**
@@ -411,14 +311,7 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 */
 	default Collection<ITreeNode<T>> findAllByValue(final @NonNull T value)
 	{
-		final Collection<ITreeNode<T>> foundTreeNodes = new LinkedHashSet<>();
-		this.accept(acceptable -> {
-			if (value.equals(acceptable.getValue()))
-			{
-				foundTreeNodes.add(acceptable);
-			}
-		});
-		return foundTreeNodes;
+		return ITreeNodeHandlerExtensions.findAllByValue(this, value);
 	}
 
 	/**
@@ -431,11 +324,7 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 */
 	default ITreeNode<T> findByValue(final @NonNull T value)
 	{
-		final AtomicReference<ITreeNode<T>> found = new AtomicReference<>();
-		findAllByValue(value).stream().findFirst().ifPresent(treeNode -> {
-			found.set(treeNode);
-		});
-		return found.get();
+		return ITreeNodeHandlerExtensions.findByValue(this, value);
 	}
 
 	/**
@@ -448,7 +337,7 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 */
 	default boolean contains(ITreeNode<T> treeNode)
 	{
-		return traverse().contains(treeNode);
+		return ITreeNodeHandlerExtensions.contains(this, treeNode);
 	}
 
 	/**
@@ -462,7 +351,7 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 */
 	default boolean containsAll(final @NonNull Collection<ITreeNode<T>> treeNodes)
 	{
-		return traverse().containsAll(treeNodes);
+		return ITreeNodeHandlerExtensions.containsAll(this, treeNodes);
 	}
 
 	/**
@@ -472,7 +361,7 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 */
 	default List<ITreeNode<T>> toList()
 	{
-		return new ArrayList<>(traverse());
+		return ITreeNodeHandlerExtensions.toList(this);
 	}
 
 	/**
@@ -481,6 +370,9 @@ public interface ITreeNode<T> extends Serializable, Acceptable<Visitor<ITreeNode
 	 *
 	 * @return a {@link Collection} object with this node and add all descendant
 	 */
-	Collection<ITreeNode<T>> traverse();
+	default Collection<ITreeNode<T>> traverse()
+	{
+		return ITreeNodeHandlerExtensions.traverse(this);
+	}
 
 }

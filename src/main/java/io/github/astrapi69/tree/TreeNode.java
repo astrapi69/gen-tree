@@ -106,11 +106,4 @@ public class TreeNode<T> implements ITreeNode<T>
 		return this.children;
 	}
 
-	public Collection<ITreeNode<T>> traverse()
-	{
-		Collection<ITreeNode<T>> descendant = new ArrayList<>();
-		this.accept(descendant::add);
-		return descendant;
-	}
-
 }

@@ -264,6 +264,14 @@ public class BaseTreeNode<T, K> implements Acceptable<Visitor<BaseTreeNode<T, K>
 	}
 
 	/**
+	 * Removes all the children
+	 */
+	public void removeChildren()
+	{
+		BaseTreeNodeHandlerExtensions.removeChildren(this);
+	}
+
+	/**
 	 * Traverse this node and adds all descendant with this included in to a {@link List} object
 	 *
 	 * @return a {@link List} object with this node and add all descendant

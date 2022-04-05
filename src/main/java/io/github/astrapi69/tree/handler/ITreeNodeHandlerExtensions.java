@@ -1,0 +1,588 @@
+/**
+ * The MIT License
+ *
+ * Copyright (C) 2015 Asterios Raptis
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+package io.github.astrapi69.tree.handler;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+
+import lombok.NonNull;
+import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.tree.api.ITreeNode;
+
+/**
+ * The class {@link ITreeNodeHandlerExtensions} provides handler methods for the class
+ * {@link ITreeNode}
+ */
+public class ITreeNodeHandlerExtensions
+{
+
+
+	/**
+	 * Removes all children from the given {@link ITreeNode} object
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param parentTreeNode
+	 *            the parent tree node
+	 */
+	public static <T> void removeChildren(final @NonNull ITreeNode<T> parentTreeNode)
+	{
+		ITreeNodeHandlerExtensions.removeChildren(parentTreeNode,
+			new ArrayList<>(parentTreeNode.getChildren()));
+	}
+
+	/**
+	 * Returns all siblings of the given {@link ITreeNode} object in the parent's children list
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param baseTreeNode
+	 *            the tree node
+	 * @return Returns all siblings of the given {@link ITreeNode} object
+	 */
+	public static <T> Collection<ITreeNode<T>> getAllSiblings(
+		final @NonNull ITreeNode<T> baseTreeNode)
+	{
+		final ITreeNode<T> parent = baseTreeNode.getParent();
+		if (parent == null)
+		{
+			return new LinkedHashSet<>();
+		}
+		final Collection<ITreeNode<T>> allSiblings = new LinkedHashSet<>(parent.getChildren());
+		allSiblings.remove(baseTreeNode);
+		return allSiblings;
+	}
+
+	/**
+	 * Gets the root from the given {@link ITreeNode} object
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param baseTreeNode
+	 *            the tree node
+	 * @return the root from the given {@link ITreeNode} object
+	 */
+	public static <T> ITreeNode<T> getRoot(final @NonNull ITreeNode<T> baseTreeNode)
+	{
+		ITreeNode<T> root = baseTreeNode;
+		if (root.isRoot())
+		{
+			return root;
+		}
+		do
+		{
+			root = root.getParent();
+		}
+		while (root != null && !root.isRoot());
+		return root;
+	}
+
+	/**
+	 * Returns the next sibling of the given {@link ITreeNode} object in the parent's children list.
+	 * Returns null if the given {@link ITreeNode} object is the root or is the parent's last child
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param currentTreeNode
+	 *            the tree node
+	 * @return the next sibling of the given {@link ITreeNode} object or null if the given
+	 *         {@link ITreeNode} object is the root or is the parent's last child
+	 */
+	public static <T> ITreeNode<T> getNextSibling(final @NonNull ITreeNode<T> currentTreeNode)
+	{
+		ITreeNode<T> next = null;
+		if (currentTreeNode.getParent() == null)
+		{
+			return next;
+		}
+		boolean isNext = false;
+		for (ITreeNode<T> baseTreeNode : currentTreeNode.getParent().getChildren())
+		{
+			if (isNext)
+			{
+				next = baseTreeNode;
+				break;
+			}
+			if (baseTreeNode.equals(currentTreeNode))
+			{
+				isNext = true;
+			}
+		}
+		return next;
+	}
+
+	/**
+	 * Returns the previous sibling of the given {@link ITreeNode} object in the parent's children
+	 * list. Returns null if the given {@link ITreeNode} object is the root or is the parent's first
+	 * child.
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 *
+	 * @param currentTreeNode
+	 *            the tree node
+	 * @return the next sibling of the given {@link ITreeNode} object or null if the given
+	 *         {@link ITreeNode} object is the root or is the parent's last child.
+	 */
+	public static <T> ITreeNode<T> getPreviousSibling(final @NonNull ITreeNode<T> currentTreeNode)
+	{
+		ITreeNode<T> previous = null;
+		if (currentTreeNode.getParent() == null)
+		{
+			return previous;
+		}
+		for (ITreeNode<T> baseTreeNode : currentTreeNode.getParent().getChildren())
+		{
+			if (baseTreeNode.equals(currentTreeNode))
+			{
+				break;
+			}
+			previous = baseTreeNode;
+		}
+		return previous;
+	}
+
+	/**
+	 * Returns the distance from the root to the given {@link ITreeNode} object. Returns 0 if the
+	 * given {@link ITreeNode} object is the root {@link ITreeNode} object
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 *
+	 * @param treeNode
+	 *            the tree node
+	 * @return the level from the given {@link ITreeNode} object
+	 */
+	public static <T> int getLevel(final @NonNull ITreeNode<T> treeNode)
+	{
+		ITreeNode<T> currentTreeNode = treeNode;
+		int count = 0;
+		while ((currentTreeNode = currentTreeNode.getParent()) != null)
+		{
+			count++;
+		}
+		return count;
+	}
+
+	/**
+	 * Removes the given child from the given first {@link ITreeNode}
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param parentTreeNode
+	 *            the parent tree node
+	 * @param child
+	 *            the child tree node
+	 */
+	public static <T> void removeChild(final @NonNull ITreeNode<T> parentTreeNode,
+		final ITreeNode<T> child)
+	{
+		if (child != null)
+		{
+			if (isChildOf(parentTreeNode, child))
+			{
+				parentTreeNode.getChildren().remove(child);
+				child.setParent(null);
+				child.clearChildren();
+			}
+		}
+	}
+
+	/**
+	 * Checks if the second given {@link ITreeNode} object is a child of the first {@link ITreeNode}
+	 * object
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param parentTreeNode
+	 *            the parent tree node
+	 * @param child
+	 *            the child
+	 * @return true, if the second given {@link ITreeNode} object is a child of the first
+	 *         {@link ITreeNode} object otherwise false
+	 */
+	public static <T> boolean isChildOf(final @NonNull ITreeNode<T> parentTreeNode,
+		final @NonNull ITreeNode<T> child)
+	{
+		return parentTreeNode.getChildren().contains(child);
+	}
+
+	/**
+	 * Checks if the first given {@link ITreeNode} object is the parent of the second
+	 * {@link ITreeNode} object
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param parentTreeNode
+	 *            the parent tree node
+	 * @param child
+	 *            the child
+	 * @return true, if the first given {@link ITreeNode} object is the parent of the second given
+	 *         {@link ITreeNode} object otherwise false
+	 */
+	public static <T> boolean isParentOf(final @NonNull ITreeNode<T> parentTreeNode,
+		final @NonNull ITreeNode<T> child)
+	{
+		return child.getParent().equals(parentTreeNode);
+	}
+
+	/**
+	 * Removes all the given children from the first given {@link ITreeNode} object
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param parentTreeNode
+	 *            the parent tree node
+	 * @param children
+	 *            the children to remove
+	 */
+	public static <T> void removeChildren(final @NonNull ITreeNode<T> parentTreeNode,
+		final @NonNull Collection<ITreeNode<T>> children)
+	{
+		children.forEach(child -> ITreeNodeHandlerExtensions.removeChild(parentTreeNode, child));
+	}
+
+	/**
+	 * Checks if the given {@link ITreeNode} is the root {@link ITreeNode} object
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param baseTreeNode
+	 *            the tree node
+	 * @return true, if the given {@link ITreeNode} is the root {@link ITreeNode} object
+	 */
+	public static <T> boolean isRoot(final @NonNull ITreeNode<T> baseTreeNode)
+	{
+		return !ITreeNodeHandlerExtensions.hasParent(baseTreeNode);
+	}
+
+	/**
+	 * Checks if the given {@link ITreeNode} object has a parent {@link ITreeNode} object
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param baseTreeNode
+	 *            the tree node
+	 * @return true, if the given {@link ITreeNode} object has a parent {@link ITreeNode} object
+	 *         otherwise false
+	 */
+	public static <T> boolean hasParent(final @NonNull ITreeNode<T> baseTreeNode)
+	{
+		return baseTreeNode.getParent() != null;
+	}
+
+	/**
+	 * Checks if the given {@link ITreeNode} object is a node
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param baseTreeNode
+	 *            the tree node
+	 * @return true, if the given {@link ITreeNode} object is a node otherwise false
+	 */
+	public static <T> boolean isNode(final @NonNull ITreeNode<T> baseTreeNode)
+	{
+		return !baseTreeNode.isLeaf();
+	}
+
+	/**
+	 * Removes all the descendants from the given {@link ITreeNode} object
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param baseTreeNode
+	 *            the tree node
+	 */
+	public static <T> void clearAll(final @NonNull ITreeNode<T> baseTreeNode)
+	{
+		baseTreeNode.accept(treeNode -> treeNode.clearChildren());
+	}
+
+	/**
+	 * Removes all the children from the given {@link ITreeNode} object
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param baseTreeNode
+	 *            the tree node
+	 */
+	public static <T> void clearChildren(final @NonNull ITreeNode<T> baseTreeNode)
+	{
+		ITreeNodeHandlerExtensions.removeChildren(baseTreeNode,
+			new ArrayList<>(baseTreeNode.getChildren()));
+	}
+
+	/**
+	 * Adds the given child {@link ITreeNode} object to the first given parent {@link ITreeNode}
+	 * object
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param parentTreeNode
+	 *            the parent tree node
+	 * @param child
+	 *            the child
+	 */
+	public static <T> void addChild(final @NonNull ITreeNode<T> parentTreeNode,
+		final ITreeNode<T> child)
+	{
+		if (child != null)
+		{
+			child.setParent(parentTreeNode);
+			parentTreeNode.getChildren().add(child);
+		}
+	}
+
+	/**
+	 * Adds all the given children from the first given parent {@link ITreeNode} object
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param parentTreeNode
+	 *            the parent tree node
+	 * @param children
+	 *            the children to add
+	 */
+	public static <T> void addChildren(final @NonNull ITreeNode<T> parentTreeNode,
+		final @NonNull Collection<ITreeNode<T>> children)
+	{
+		children.forEach(child -> ITreeNodeHandlerExtensions.addChild(parentTreeNode, child));
+	}
+
+	/**
+	 * Gets the child count from the given {@link ITreeNode} object
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param baseTreeNode
+	 *            the tree node
+	 * @return the child count
+	 */
+	public static <T> int getChildCount(final @NonNull ITreeNode<T> baseTreeNode)
+	{
+		return baseTreeNode.getChildren().size();
+	}
+
+	/**
+	 * Checks if the given {@link ITreeNode} object has children
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param baseTreeNode
+	 *            the tree node
+	 * @return true, if the given {@link ITreeNode} object has children otherwise false
+	 */
+	public static <T> boolean hasChildren(final @NonNull ITreeNode<T> baseTreeNode)
+	{
+		return baseTreeNode.getChildren() != null && !baseTreeNode.getChildren().isEmpty();
+	}
+
+	/**
+	 * Traverse the given {@link ITreeNode} object and add all descendants with the given
+	 * {@link ITreeNode} object included in to the returned {@link Collection} object
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param baseTreeNode
+	 *            the tree node
+	 *
+	 * @return a {@link Collection} object with the given {@link ITreeNode} object and add all
+	 *         descendants
+	 */
+	public static <T> Collection<ITreeNode<T>> traverse(final @NonNull ITreeNode<T> baseTreeNode)
+	{
+		final Collection<ITreeNode<T>> allTreeNodes = new LinkedHashSet<>();
+		baseTreeNode.accept(allTreeNodes::add);
+		return allTreeNodes;
+	}
+
+	/**
+	 * Accepts the given visitor that provides a custom algorithm for processing all elements
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param baseTreeNode
+	 *            the tree node
+	 * @param visitor
+	 *            the visitor
+	 */
+	public static <T> void accept(final @NonNull ITreeNode<T> baseTreeNode,
+		final @NonNull Visitor<ITreeNode<T>> visitor)
+	{
+		ITreeNodeHandlerExtensions.accept(baseTreeNode, visitor, false);
+	}
+
+	/**
+	 * Accepts the given visitor that provides a custom algorithm for processing all elements
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param baseTreeNode
+	 *            the tree node
+	 * @param visitor
+	 *            the visitor
+	 * @param visitBefore
+	 *            the flag if this flag is true the visit of the given {@link ITreeNode} object is
+	 *            before visit the children otherwise the visit is after visit the children
+	 */
+	public static <T> void accept(final @NonNull ITreeNode<T> baseTreeNode,
+		final @NonNull Visitor<ITreeNode<T>> visitor, final boolean visitBefore)
+	{
+		boolean visitAfter = !visitBefore;
+		if (visitBefore)
+		{
+			visitor.visit(baseTreeNode);
+		}
+		baseTreeNode.getChildren()
+			.forEach(child -> ITreeNodeHandlerExtensions.accept(child, visitor, visitBefore));
+		if (visitAfter)
+		{
+			visitor.visit(baseTreeNode);
+		}
+	}
+
+	/**
+	 * Find all {@link ITreeNode} objects from the first given {@link ITreeNode} object that serves
+	 * as the search target, that have the same value as the given value
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param treeNode
+	 *            the tree node
+	 * @param value
+	 *            the value for the search process
+	 * @return a {@link Collection} object with all found occurrences that have the same value as
+	 *         the given value
+	 */
+	public static <T> Collection<ITreeNode<T>> findAllByValue(final @NonNull ITreeNode<T> treeNode,
+		final T value)
+	{
+		AtomicReference<Collection<ITreeNode<T>>> foundTreeNodes = new AtomicReference<>(
+			new LinkedHashSet<>());
+		treeNode.accept(currentTreeNode -> {
+			if (value == null)
+			{
+				if (currentTreeNode != null && currentTreeNode.getValue() == null)
+				{
+					foundTreeNodes.get().add(currentTreeNode);
+				}
+			}
+			else
+			{
+				if (value.equals(currentTreeNode.getValue()))
+				{
+					foundTreeNodes.get().add(currentTreeNode);
+				}
+			}
+		});
+		return foundTreeNodes.get();
+	}
+
+	/**
+	 * Find the first occurrence of {@link ITreeNode} object from the first given {@link ITreeNode}
+	 * object that serves as the search target, that have the same value as the given value
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param baseTreeNode
+	 *            the tree node
+	 * @param value
+	 *            the value for the search process
+	 * @return the first occurrence of {@link ITreeNode} object that have the same value as the
+	 *         given value
+	 */
+	public static <T> ITreeNode<T> findByValue(final @NonNull ITreeNode<T> baseTreeNode,
+		final T value)
+	{
+		final AtomicReference<ITreeNode<T>> found = new AtomicReference<>();
+		ITreeNodeHandlerExtensions.findAllByValue(baseTreeNode, value).stream().findFirst()
+			.ifPresent(treeNode -> {
+				found.set(treeNode);
+			});
+		return found.get();
+	}
+
+	/**
+	 * Checks if the second given {@link ITreeNode} object is a descendant of the first given
+	 * {@link ITreeNode} object
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param baseTreeNode
+	 *            the tree node
+	 * @param descendantCandidate
+	 *            the tree node to check
+	 * @return true if the given {@link ITreeNode} object is a descendant of the first given
+	 *         {@link ITreeNode} object otherwise false
+	 */
+	public static <T> boolean contains(final @NonNull ITreeNode<T> baseTreeNode,
+		final ITreeNode<T> descendantCandidate)
+	{
+		if (descendantCandidate == null)
+		{
+			return false;
+		}
+		return ITreeNodeHandlerExtensions.traverse(baseTreeNode).contains(descendantCandidate);
+	}
+
+	/**
+	 * Checks if the given {@link Collection} object of {@link ITreeNode} objects are descendants of
+	 * the first given {@link ITreeNode} object
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param baseTreeNode
+	 *            the tree node
+	 * @param baseTreeNodes
+	 *            the collection of the tree nodes to check
+	 * @return true if the given {@link Collection} object of {@link ITreeNode} objects are
+	 *         descendants of the first given {@link ITreeNode} object otherwise false
+	 */
+	public static <T> boolean containsAll(final @NonNull ITreeNode<T> baseTreeNode,
+		final @NonNull Collection<ITreeNode<T>> baseTreeNodes)
+	{
+		return ITreeNodeHandlerExtensions.traverse(baseTreeNode).containsAll(baseTreeNodes);
+	}
+
+	/**
+	 * Traverse the given {@link ITreeNode} object and adds all descendant with it self-included in
+	 * to a {@link List} object
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param baseTreeNode
+	 *            the tree node
+	 *
+	 * @return a {@link List} object with the given {@link ITreeNode} object and all descendants
+	 */
+	public static <T> List<ITreeNode<T>> toList(final @NonNull ITreeNode<T> baseTreeNode)
+	{
+		return new ArrayList<>(ITreeNodeHandlerExtensions.traverse(baseTreeNode));
+	}
+
+}

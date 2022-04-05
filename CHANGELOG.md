@@ -6,8 +6,11 @@ Version 6.1-SNAPSHOT
 
 ADDED:
 
-- new extension class BaseTreeNodeHandlerExtensions for BaseTreeNode
-- all relevant methods from class BaseTreeNode to new extension class BaseTreeNodeHandlerExtensions
+- new extension class BaseTreeNodeHandlerExtensions for handling BaseTreeNode objects
+- new extension class ITreeNodeHandlerExtensions for handling ITreeNode objects
+- new extension class SimpleTreeNodeHandlerExtensions for handling SimpleTreeNode objects
+- all relevant methods from class BaseTreeNode are now decorated with the new extension class BaseTreeNodeHandlerExtensions
+- all relevant default methods from interface ITreeNode are now decorated with the new extension class ITreeNodeHandlerExtensions
 
 CHANGED:
 

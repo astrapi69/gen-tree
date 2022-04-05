@@ -586,6 +586,22 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
+	 * Test method for {@link BaseTreeNode#removeChildren()}
+	 */
+	@Test
+	public void testRemoveAllChildren()
+	{
+		Collection<BaseTreeNode<String, Long>> children;
+		children = root.getChildren();
+		assertEquals(3, children.size());
+
+		root.removeChildren();
+
+		children = root.getChildren();
+		assertEquals(0, children.size());
+	}
+
+	/**
 	 * Test method for {@link BaseTreeNode#containsAll(Collection)}
 	 */
 	@Test

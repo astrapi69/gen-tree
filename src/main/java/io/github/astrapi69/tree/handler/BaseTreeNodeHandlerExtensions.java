@@ -276,6 +276,22 @@ public class BaseTreeNodeHandlerExtensions
 	}
 
 	/**
+	 * Removes all children from the given {@link BaseTreeNode} object
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param <K>
+	 *            the generic type of the id of the node
+	 * @param parentTreeNode
+	 *            the parent tree node
+	 */
+	public static <T, K> void removeChildren(final @NonNull BaseTreeNode<T, K> parentTreeNode)
+	{
+		BaseTreeNodeHandlerExtensions.removeChildren(parentTreeNode,
+			new ArrayList<>(parentTreeNode.getChildren()));
+	}
+
+	/**
 	 * Checks if the given {@link BaseTreeNode} is the root {@link BaseTreeNode} object
 	 *
 	 * @param <T>

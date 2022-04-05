@@ -29,7 +29,6 @@ import java.util.LinkedHashSet;
 import java.util.concurrent.atomic.AtomicReference;
 
 import lombok.Getter;
-import lombok.NonNull;
 import io.github.astrapi69.design.pattern.visitor.Visitor;
 import io.github.astrapi69.tree.BaseTreeNode;
 
@@ -61,7 +60,7 @@ public class FindValuesBaseTreeNodeVisitor<T, K> implements Visitor<BaseTreeNode
 	 * @param value
 	 *            the value
 	 */
-	public FindValuesBaseTreeNodeVisitor(final @NonNull T value)
+	public FindValuesBaseTreeNodeVisitor(final T value)
 	{
 		this.value = value;
 	}
@@ -72,9 +71,19 @@ public class FindValuesBaseTreeNodeVisitor<T, K> implements Visitor<BaseTreeNode
 	@Override
 	public void visit(BaseTreeNode<T, K> treeNode)
 	{
-		if (getValue().equals(treeNode.getValue()))
+		if (this.value == null)
 		{
-			foundTreeNodes.get().add(treeNode);
+			if (treeNode != null && treeNode.getValue() == null)
+			{
+				foundTreeNodes.get().add(treeNode);
+			}
+		}
+		else
+		{
+			if (this.value.equals(treeNode.getValue()))
+			{
+				foundTreeNodes.get().add(treeNode);
+			}
 		}
 	}
 }

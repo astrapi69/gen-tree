@@ -29,7 +29,7 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
@@ -175,7 +175,7 @@ public class SimpleTreeNodeTest
 	@Test
 	public void testGetAllSilbings()
 	{
-		Set<SimpleTreeNode<String, Long>> allSiblings = root.getAllSiblings();
+		Collection<SimpleTreeNode<String, Long>> allSiblings = root.getAllSiblings();
 		assertEquals(allSiblings.size(), 0);
 		allSiblings = secondChild.getAllSiblings();
 		assertEquals(allSiblings.size(), 3);
@@ -187,7 +187,7 @@ public class SimpleTreeNodeTest
 	@Test
 	public void testGetAllRightSiblings()
 	{
-		Set<SimpleTreeNode<String, Long>> allRightSiblings = root.getAllSiblings();
+		Collection<SimpleTreeNode<String, Long>> allRightSiblings = root.getAllSiblings();
 		assertEquals(allRightSiblings.size(), 0);
 		allRightSiblings = secondChild.getAllRightSiblings();
 		assertEquals(allRightSiblings.size(), 1);
@@ -199,7 +199,7 @@ public class SimpleTreeNodeTest
 	@Test
 	public void testGetAllLeftSiblings()
 	{
-		Set<SimpleTreeNode<String, Long>> allRightSiblings = root.getAllSiblings();
+		Collection<SimpleTreeNode<String, Long>> allRightSiblings = root.getAllSiblings();
 		assertEquals(allRightSiblings.size(), 0);
 		allRightSiblings = secondChild.getAllLeftSiblings();
 		assertEquals(allRightSiblings.size(), 1);
@@ -313,13 +313,13 @@ public class SimpleTreeNodeTest
 	{
 		root.accept(new DisplayValueOfSimpleTreeNodeVisitor<>());
 		TraverseSimpleTreeNodeVisitor<String, Long> traverseVisitor;
-		Set<SimpleTreeNode<String, Long>> allTreeNodes;
+		Collection<SimpleTreeNode<String, Long>> allTreeNodes;
 		traverseVisitor = new TraverseSimpleTreeNodeVisitor<>();
 		root.accept(traverseVisitor);
 		allTreeNodes = traverseVisitor.getAllTreeNodes();
 		assertEquals(allTreeNodes.size(), 12);
 
-		Set<SimpleTreeNode<String, Long>> subTree = thirdChild.traverse();
+		Collection<SimpleTreeNode<String, Long>> subTree = thirdChild.traverse();
 		assertEquals(3, subTree.size());
 	}
 

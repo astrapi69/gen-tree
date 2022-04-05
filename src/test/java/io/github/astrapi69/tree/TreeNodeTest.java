@@ -47,7 +47,6 @@ import io.github.astrapi69.collections.set.SetFactory;
 import io.github.astrapi69.id.generate.LongIdGenerator;
 import io.github.astrapi69.tree.api.ITreeNode;
 import io.github.astrapi69.tree.element.TreeElement;
-import io.github.astrapi69.tree.handler.BaseTreeNodeHandlerExtensions;
 
 /**
  * The unit test class for the class {@link TreeNode}
@@ -143,7 +142,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#findAllByValue(Object)}
+	 * Test method for {@link TreeNode#findAllByValue(Object)}
 	 */
 	@Test
 	public void testFindAllByValue()
@@ -161,7 +160,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#clearAll()}
+	 * Test method for {@link TreeNode#clearAll()}
 	 */
 	@Test
 	public void testClearAll()
@@ -171,7 +170,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#clearChildren()}
+	 * Test method for {@link TreeNode#clearChildren()}
 	 */
 	@Test
 	public void testClearChildren()
@@ -181,7 +180,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#findByValue(Object)}
+	 * Test method for {@link TreeNode#findByValue(Object)}
 	 */
 	@Test
 	public void testFindByValue()
@@ -240,7 +239,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#traverse()}
+	 * Test method for {@link TreeNode#traverse()}
 	 */
 	@Test
 	public void testTraverse()
@@ -285,7 +284,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#toList()}
+	 * Test method for {@link TreeNode#toList()}
 	 */
 	@Test
 	public void testToList()
@@ -330,7 +329,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNodeHandlerExtensions#getAllSiblings(BaseTreeNode)}
+	 * Test method for {@link TreeNode#getAllSiblings()}
 	 */
 	@Test
 	public void testGetAllSiblings()
@@ -375,7 +374,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#getChildCount()}
+	 * Test method for {@link TreeNode#getChildCount()}
 	 */
 	@Test
 	public void testGetChildCount()
@@ -391,7 +390,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#getLevel()}
+	 * Test method for {@link TreeNode#getLevel()}
 	 */
 	@Test
 	public void testGetLevel()
@@ -445,7 +444,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#getNextSibling()}
+	 * Test method for {@link TreeNode#getNextSibling()}
 	 */
 	@Test
 	public void testGetNextSibling()
@@ -462,7 +461,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#getPreviousSibling()}
+	 * Test method for {@link TreeNode#getPreviousSibling()}
 	 */
 	@Test
 	public void testGetPreviousSibling()
@@ -479,7 +478,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#getRoot()}
+	 * Test method for {@link TreeNode#getRoot()}
 	 */
 	@Test
 	public void testGetRoot()
@@ -494,7 +493,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#hasChildren()}
+	 * Test method for {@link TreeNode#hasChildren()}
 	 */
 	@Test
 	public void testHasChildren()
@@ -504,7 +503,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#hasParent()}
+	 * Test method for {@link TreeNode#hasParent()}
 	 */
 	@Test
 	public void testHasParent()
@@ -514,7 +513,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#isRoot()}
+	 * Test method for {@link TreeNode#isRoot()}
 	 */
 	@Test
 	public void testIsRoot()
@@ -524,7 +523,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#removeChild(BaseTreeNode)}
+	 * Test method for {@link TreeNode#removeChild(ITreeNode)}
 	 */
 	@Test
 	public void testRemoveChild()
@@ -541,7 +540,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#removeChildren(Collection)}
+	 * Test method for {@link TreeNode#removeChildren(Collection)}
 	 */
 	@Test
 	public void testRemoveChildren()
@@ -563,8 +562,26 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		assertTrue(children.contains(thirdChild));
 	}
 
+
 	/**
-	 * Test method for {@link BaseTreeNode#containsAll(Collection)}
+	 * Test method for {@link TreeNode#removeChildren()}
+	 */
+	@Test
+	public void testRemoveAllChildren()
+	{
+		Collection<ITreeNode<String>> children;
+
+		children = root.getChildren();
+		assertEquals(3, children.size());
+
+		root.removeChildren();
+
+		children = root.getChildren();
+		assertEquals(0, children.size());
+	}
+
+	/**
+	 * Test method for {@link TreeNode#containsAll(Collection)}
 	 */
 	@Test
 	public void testContainsAll()
@@ -581,7 +598,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#contains(BaseTreeNode)}
+	 * Test method for {@link TreeNode#contains(ITreeNode)}
 	 */
 	@Test
 	public void testContains()
@@ -599,7 +616,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#addChildren(Collection)}
+	 * Test method for {@link TreeNode#addChildren(Collection)}
 	 */
 	@Test
 	public void testAddChildren()
