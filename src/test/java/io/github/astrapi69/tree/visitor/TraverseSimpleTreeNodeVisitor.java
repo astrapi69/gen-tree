@@ -26,7 +26,6 @@ package io.github.astrapi69.tree.visitor;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
-import java.util.Set;
 
 import lombok.Getter;
 import io.github.astrapi69.design.pattern.visitor.Visitor;

@@ -35,7 +35,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import io.github.astrapi69.tree.api.ITreeNode;
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
@@ -47,6 +46,7 @@ import org.testng.annotations.Test;
 import io.github.astrapi69.AbstractTestCase;
 import io.github.astrapi69.collections.set.SetFactory;
 import io.github.astrapi69.id.generate.LongIdGenerator;
+import io.github.astrapi69.tree.api.ITreeNode;
 import io.github.astrapi69.tree.element.TreeElement;
 
 /**

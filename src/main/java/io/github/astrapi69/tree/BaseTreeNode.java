@@ -27,7 +27,6 @@ package io.github.astrapi69.tree;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
-import io.github.astrapi69.tree.api.IBaseTreeNode;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -39,6 +38,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import io.github.astrapi69.design.pattern.visitor.Acceptable;
 import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.tree.api.IBaseTreeNode;
 
 /**
  * The generic class {@link BaseTreeNode} have a generic id and value object
