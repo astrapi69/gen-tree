@@ -129,7 +129,7 @@ public class TreeIdNodeTest extends AbstractTestCase<Boolean, Boolean>
 		fourthGrandChild = TreeIdNode.<String, Long> builder().id(idGenerator.getNextId())
 			.parentId(thirdChild.getId()).value(null).build();
 		fifthGrandChildValue = "I'm the fifth grand child";
-		fifthGrandChild = TreeIdNode.<String, Long> builder().id(idGenerator.getNextId())
+		fifthGrandChild = TreeIdNode.<String, Long> builder().id(idGenerator.getNextId()).leaf(true)
 			.parentId(thirdChild.getId()).value(fifthGrandChildValue).build();
 
 		// initialize all children

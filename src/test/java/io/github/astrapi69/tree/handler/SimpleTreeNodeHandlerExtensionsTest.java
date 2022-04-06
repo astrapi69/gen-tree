@@ -22,33 +22,26 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.tree;
+package io.github.astrapi69.tree.handler;
 
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.Collection;
 
-import org.meanbean.lang.Factory;
-import org.meanbean.test.BeanTester;
-import org.meanbean.test.Configuration;
-import org.meanbean.test.ConfigurationBuilder;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.collections.set.SetFactory;
 import io.github.astrapi69.id.generate.LongIdGenerator;
-import io.github.astrapi69.tree.visitor.DisplayValueOfSimpleTreeNodeVisitor;
-import io.github.astrapi69.tree.visitor.TraverseSimpleTreeNodeVisitor;
+import io.github.astrapi69.tree.SimpleTreeNode;
 
 /**
- * The unit test class for the class {@link SimpleTreeNode}
+ * The unit test class for the class {@link SimpleTreeNodeHandlerExtensions}
  */
-public class SimpleTreeNodeTest
+public class SimpleTreeNodeHandlerExtensionsTest
 {
+
 	SimpleTreeNode<String, Long> root;
 	SimpleTreeNode<String, Long> firstChild;
 	SimpleTreeNode<String, Long> secondChild;
@@ -64,7 +57,7 @@ public class SimpleTreeNodeTest
 
 	/**
 	 * Set up the tree structure for the unit tests
-	 * 
+	 *
 	 * <pre>
 	 *   +- root("I'm root")
 	 *      +- firstChild("I'm the first child")
@@ -170,172 +163,57 @@ public class SimpleTreeNodeTest
 	}
 
 	/**
-	 * Test method for {@link SimpleTreeNode#getAllSiblings()}
+	 * Test method for {@link SimpleTreeNodeHandlerExtensions#getChildren(SimpleTreeNode)}
 	 */
 	@Test
-	public void testGetAllSilbings()
+	public void testGetChildren()
 	{
-		Collection<SimpleTreeNode<String, Long>> allSiblings = root.getAllSiblings();
-		assertEquals(allSiblings.size(), 0);
-		allSiblings = secondChild.getAllSiblings();
-		assertEquals(allSiblings.size(), 3);
+		Collection<SimpleTreeNode<String, Long>> actual;
+		Collection<SimpleTreeNode<String, Long>> expected;
+		// new scenario ...
+		actual = SimpleTreeNodeHandlerExtensions.getChildren(root);
+		expected = SetFactory.newLinkedHashSet(firstChild, secondChild, thirdChild);
+		assertEquals(expected, actual);
+		// new scenario ...
+		actual = SimpleTreeNodeHandlerExtensions.getChildren(fifthGrandChild);
+		expected = SetFactory.newLinkedHashSet();
+		assertEquals(expected, actual);
+
 	}
 
 	/**
-	 * Test method for {@link SimpleTreeNode#getAllRightSiblings()}
+	 * Test method for {@link SimpleTreeNodeHandlerExtensions#getNextSibling(SimpleTreeNode)}
 	 */
 	@Test
-	public void testGetAllRightSiblings()
+	public void testGetNextSibling()
 	{
-		Collection<SimpleTreeNode<String, Long>> allRightSiblings = root.getAllSiblings();
-		assertEquals(allRightSiblings.size(), 0);
-		allRightSiblings = secondChild.getAllRightSiblings();
-		assertEquals(allRightSiblings.size(), 1);
-	}
-
-	/**
-	 * Test method for {@link SimpleTreeNode#getAllLeftSiblings()}
-	 */
-	@Test
-	public void testGetAllLeftSiblings()
-	{
-		Collection<SimpleTreeNode<String, Long>> allRightSiblings = root.getAllSiblings();
-		assertEquals(allRightSiblings.size(), 0);
-		allRightSiblings = secondChild.getAllLeftSiblings();
-		assertEquals(allRightSiblings.size(), 1);
-		allRightSiblings = firstChild.getAllLeftSiblings();
-		assertEquals(allRightSiblings.size(), 0);
-	}
-
-	/**
-	 * Test method for {@link SimpleTreeNode#getRightSibling()}
-	 */
-	@Test
-	public void testRightSilbing()
-	{
-		boolean hasRightSibling;
-		SimpleTreeNode<String, Long> rightSibling;
-
-		rightSibling = root.getRightSibling();
-		assertNull(rightSibling);
-		assertFalse(root.hasRightSibling());
-
-		hasRightSibling = firstChild.hasRightSibling();
-		assertTrue(hasRightSibling);
-		rightSibling = firstChild.getRightSibling();
-		assertEquals(secondChild, rightSibling);
-
-		hasRightSibling = secondChild.hasRightSibling();
-		assertTrue(hasRightSibling);
-		rightSibling = secondChild.getRightSibling();
-		assertEquals(thirdChild, rightSibling);
-
-		hasRightSibling = thirdChild.hasRightSibling();
-		assertFalse(hasRightSibling);
-		rightSibling = thirdChild.getRightSibling();
-		assertNull(rightSibling);
-	}
-
-	/**
-	 * Test method for {@link SimpleTreeNode#getRoot()}
-	 */
-	@Test
-	public void testGetRoot()
-	{
-		SimpleTreeNode<String, Long> currentRoot;
-
-		currentRoot = root.getRoot();
-		assertEquals(currentRoot, root);
-
-		currentRoot = firstGrandGrandGrandChild.getRoot();
-		assertEquals(currentRoot, root);
-	}
-
-	/**
-	 * Test method for {@link SimpleTreeNode#getLevel()}
-	 */
-	@Test
-	public void testGetLevel()
-	{
-		int actual;
-		int expected;
-
-		actual = root.getLevel();
-		expected = 0;
+		SimpleTreeNode<String, Long> actual;
+		SimpleTreeNode<String, Long> expected;
+		// new scenario ...
+		actual = SimpleTreeNodeHandlerExtensions.getNextSibling(root);
+		expected = null;
 		assertEquals(expected, actual);
-
-		actual = firstChild.getLevel();
-		expected = 1;
-		assertEquals(expected, actual);
-
-		actual = secondChild.getLevel();
-		assertEquals(expected, actual);
-
-		actual = firstGrandChild.getLevel();
-		expected = 2;
-		assertEquals(expected, actual);
-
-		actual = firstGrandGrandChild.getLevel();
-		expected = 3;
-		assertEquals(expected, actual);
-
-		actual = secondGrandGrandChild.getLevel();
-		assertEquals(expected, actual);
-
-		actual = firstGrandGrandGrandChild.getLevel();
-		expected = 4;
-		assertEquals(expected, actual);
-
-		actual = secondGrandChild.getLevel();
-		expected = 2;
-		assertEquals(expected, actual);
-
-		actual = thirdGrandChild.getLevel();
-		assertEquals(expected, actual);
-
-		actual = thirdChild.getLevel();
-		expected = 1;
-		assertEquals(expected, actual);
-
-		actual = fourthGrandChild.getLevel();
-		expected = 2;
-		assertEquals(expected, actual);
-
-		actual = fifthGrandChild.getLevel();
+		// new scenario ...
+		actual = SimpleTreeNodeHandlerExtensions.getNextSibling(firstChild);
+		expected = secondChild;
 		assertEquals(expected, actual);
 	}
 
 	/**
-	 * Test method for {@link SimpleTreeNode#accept(Visitor)}
+	 * Test method for {@link SimpleTreeNodeHandlerExtensions#getPreviousSibling(SimpleTreeNode)}
 	 */
 	@Test
-	public void testVisitor()
+	public void testGetPreviousSibling()
 	{
-		root.accept(new DisplayValueOfSimpleTreeNodeVisitor<>());
-		TraverseSimpleTreeNodeVisitor<String, Long> traverseVisitor;
-		Collection<SimpleTreeNode<String, Long>> allTreeNodes;
-		traverseVisitor = new TraverseSimpleTreeNodeVisitor<>();
-		root.accept(traverseVisitor);
-		allTreeNodes = traverseVisitor.getAllTreeNodes();
-		assertEquals(allTreeNodes.size(), 12);
-
-		Collection<SimpleTreeNode<String, Long>> subTree = thirdChild.traverse();
-		assertEquals(3, subTree.size());
+		SimpleTreeNode<String, Long> actual;
+		SimpleTreeNode<String, Long> expected;
+		// new scenario ...
+		actual = SimpleTreeNodeHandlerExtensions.getNextSibling(root);
+		expected = null;
+		assertEquals(expected, actual);
+		// new scenario ...
+		actual = SimpleTreeNodeHandlerExtensions.getNextSibling(firstChild);
+		expected = secondChild;
+		assertEquals(expected, actual);
 	}
-
-	/**
-	 * Test method for {@link SimpleTreeNode}
-	 */
-	@Test
-	public void testWithBeanTester()
-	{
-		final SimpleTreeNode<String, Long> parentTreeNode = new SimpleTreeNode<>("parent");
-		Configuration configuration = new ConfigurationBuilder()
-			.overrideFactory("parent", (Factory<SimpleTreeNode<String, Long>>)() -> parentTreeNode)
-			.build();
-		final BeanTester beanTester = new BeanTester();
-		beanTester.addCustomConfiguration(SimpleTreeNode.class, configuration);
-		beanTester.testBean(SimpleTreeNode.class);
-	}
-
 }

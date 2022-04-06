@@ -39,13 +39,13 @@ import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
 import org.meanbean.test.ConfigurationBuilder;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import io.github.astrapi69.AbstractTestCase;
 import io.github.astrapi69.collections.set.SetFactory;
 import io.github.astrapi69.id.generate.LongIdGenerator;
-import io.github.astrapi69.tree.api.ITreeNode;
 import io.github.astrapi69.tree.element.TreeElement;
 
 /**
@@ -54,18 +54,18 @@ import io.github.astrapi69.tree.element.TreeElement;
 public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 {
 
-	ITreeNode<String> root;
-	ITreeNode<String> firstChild;
-	ITreeNode<String> secondChild;
-	ITreeNode<String> firstGrandChild;
-	ITreeNode<String> firstGrandGrandChild;
-	ITreeNode<String> secondGrandGrandChild;
-	ITreeNode<String> firstGrandGrandGrandChild;
-	ITreeNode<String> secondGrandChild;
-	ITreeNode<String> thirdGrandChild;
-	ITreeNode<String> thirdChild;
-	ITreeNode<String> fourthGrandChild;
-	ITreeNode<String> fifthGrandChild;
+	TreeNode<String> root;
+	TreeNode<String> firstChild;
+	TreeNode<String> secondChild;
+	TreeNode<String> firstGrandChild;
+	TreeNode<String> firstGrandGrandChild;
+	TreeNode<String> secondGrandGrandChild;
+	TreeNode<String> firstGrandGrandGrandChild;
+	TreeNode<String> secondGrandChild;
+	TreeNode<String> thirdGrandChild;
+	TreeNode<String> thirdChild;
+	TreeNode<String> fourthGrandChild;
+	TreeNode<String> fifthGrandChild;
 	String fifthGrandChildValue;
 	LongIdGenerator idGenerator;
 
@@ -119,8 +119,8 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 
 		fourthGrandChild = TreeNode.<String> builder().parent(thirdChild).value(null).build();
 		fifthGrandChildValue = "I'm the fifth grand child";
-		fifthGrandChild = TreeNode.<String> builder().parent(thirdChild).value(fifthGrandChildValue)
-			.build();
+		fifthGrandChild = TreeNode.<String> builder().parent(thirdChild).leaf(true)
+			.value(fifthGrandChildValue).build();
 
 		// initialize all children
 		root.addChild(firstChild);
@@ -142,20 +142,68 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	@AfterMethod
+	@Override
+	protected void tearDown() throws Exception
+	{
+		super.tearDown();
+		root = null;
+		firstChild = null;
+		secondChild = null;
+		firstGrandChild = null;
+		firstGrandGrandChild = null;
+		secondGrandGrandChild = null;
+		firstGrandGrandGrandChild = null;
+		secondGrandChild = null;
+		thirdGrandChild = null;
+		thirdChild = null;
+		fourthGrandChild = null;
+		fifthGrandChild = null;
+		fifthGrandChildValue = null;
+		idGenerator = null;
+	}
+
+	/**
+	 * Test method for {@link TreeNode#isLeaf()}
+	 */
+	@Test
+	public void testIsLeaf()
+	{
+		assertFalse(root.isLeaf());
+		assertTrue(fifthGrandChild.isLeaf());
+	}
+
+	/**
+	 * Test method for {@link TreeNode#isNode()}
+	 */
+	@Test
+	public void testIsNode()
+	{
+		assertTrue(root.isNode());
+		assertFalse(fifthGrandChild.isNode());
+	}
+
+	/**
 	 * Test method for {@link TreeNode#findAllByValue(Object)}
 	 */
 	@Test
 	public void testFindAllByValue()
 	{
-		Collection<ITreeNode<String>> actual;
-		Collection<ITreeNode<String>> expected;
+		Collection<TreeNode<String>> actual;
+		Collection<TreeNode<String>> expected;
 
-		ITreeNode<String> treeNode = TreeNode.<String> builder().parent(thirdChild)
+		TreeNode<String> treeNode = TreeNode.<String> builder().parent(thirdChild)
 			.value(fifthGrandChildValue).build();
 		thirdChild.addChild(treeNode);
 
 		actual = root.findAllByValue(fifthGrandChildValue);
 		expected = SetFactory.newLinkedHashSet(fifthGrandChild, treeNode);
+		assertEquals(actual, expected);
+
+		actual = root.findAllByValue(null);
+		expected = SetFactory.newLinkedHashSet(thirdGrandChild, fourthGrandChild);
 		assertEquals(actual, expected);
 	}
 
@@ -185,10 +233,10 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public void testFindByValue()
 	{
-		ITreeNode<String> actual;
-		ITreeNode<String> expected;
+		TreeNode<String> actual;
+		TreeNode<String> expected;
 
-		ITreeNode<String> treeNode = TreeNode.<String> builder().parent(thirdChild)
+		TreeNode<String> treeNode = TreeNode.<String> builder().parent(thirdChild)
 			.value(fifthGrandChildValue).build();
 		thirdChild.addChild(treeNode);
 
@@ -226,7 +274,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public final void testConstructors()
 	{
-		ITreeNode<String> parentTreeNode = new TreeNode<>();
+		TreeNode<String> parentTreeNode = new TreeNode<>();
 		assertNotNull(parentTreeNode);
 		assertNotNull(parentTreeNode.getChildren());
 		parentTreeNode.setValue("parent");
@@ -244,7 +292,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public void testTraverse()
 	{
-		Collection<ITreeNode<String>> subtree;
+		Collection<TreeNode<String>> subtree;
 
 		subtree = root.traverse();
 		assertEquals(12, subtree.size());
@@ -289,7 +337,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public void testToList()
 	{
-		List<ITreeNode<String>> subtree;
+		List<TreeNode<String>> subtree;
 
 		subtree = root.toList();
 		assertEquals(12, subtree.size());
@@ -334,7 +382,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public void testGetAllSiblings()
 	{
-		Collection<ITreeNode<String>> allSiblings;
+		Collection<TreeNode<String>> allSiblings;
 
 		allSiblings = root.getAllSiblings();
 		assertEquals(0, allSiblings.size());
@@ -382,7 +430,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		int actual;
 		int expected;
 
-		Collection<ITreeNode<String>> children = root.getChildren();
+		Collection<TreeNode<String>> children = root.getChildren();
 
 		actual = root.getChildCount();
 		expected = children.size();
@@ -449,8 +497,8 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public void testGetNextSibling()
 	{
-		ITreeNode<String> actual;
-		ITreeNode<String> expected;
+		TreeNode<String> actual;
+		TreeNode<String> expected;
 
 		actual = firstChild.getNextSibling();
 		expected = secondChild;
@@ -466,8 +514,8 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public void testGetPreviousSibling()
 	{
-		ITreeNode<String> actual;
-		ITreeNode<String> expected;
+		TreeNode<String> actual;
+		TreeNode<String> expected;
 
 		actual = secondChild.getPreviousSibling();
 		expected = firstChild;
@@ -483,7 +531,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public void testGetRoot()
 	{
-		ITreeNode<String> currentRoot;
+		TreeNode<String> currentRoot;
 
 		currentRoot = root.getRoot();
 		assertEquals(currentRoot, root);
@@ -523,12 +571,12 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link TreeNode#removeChild(ITreeNode)}
+	 * Test method for {@link TreeNode#removeChild(TreeNode)}
 	 */
 	@Test
 	public void testRemoveChild()
 	{
-		Collection<ITreeNode<String>> children;
+		Collection<TreeNode<String>> children;
 
 		children = root.getChildren();
 		assertTrue(children.contains(firstChild));
@@ -545,7 +593,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public void testRemoveChildren()
 	{
-		Collection<ITreeNode<String>> children;
+		Collection<TreeNode<String>> children;
 		children = root.getChildren();
 		assertEquals(3, children.size());
 
@@ -569,7 +617,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public void testRemoveAllChildren()
 	{
-		Collection<ITreeNode<String>> children;
+		Collection<TreeNode<String>> children;
 
 		children = root.getChildren();
 		assertEquals(3, children.size());
@@ -588,7 +636,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	{
 		boolean actual;
 		boolean expected;
-		Collection<ITreeNode<String>> children;
+		Collection<TreeNode<String>> children;
 
 		children = secondChild.getChildren();
 
@@ -598,7 +646,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link TreeNode#contains(ITreeNode)}
+	 * Test method for {@link TreeNode#contains(TreeNode)}
 	 */
 	@Test
 	public void testContains()
@@ -621,16 +669,16 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public void testAddChildren()
 	{
-		Set<ITreeNode<String>> children;
-		ITreeNode<String> fourthChild;
-		ITreeNode<String> fifthChild;
+		Set<TreeNode<String>> children;
+		TreeNode<String> fourthChild;
+		TreeNode<String> fifthChild;
 
 		fourthChild = TreeNode.<String> builder().parent(root).value("I'm the first child").build();
 
 		fifthChild = TreeNode.<String> builder().parent(root).value("I'm the second child").build();
 		children = SetFactory.newLinkedHashSet(fourthChild, fifthChild);
 		root.addChildren(children);
-		Collection<ITreeNode<String>> rootChildren = root.getChildren();
+		Collection<TreeNode<String>> rootChildren = root.getChildren();
 		assertTrue(rootChildren.contains(fourthChild));
 		assertTrue(rootChildren.contains(fifthChild));
 	}

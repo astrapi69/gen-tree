@@ -6,16 +6,18 @@ Version 6.1-SNAPSHOT
 
 ADDED:
 
-- new extension class BaseTreeNodeHandlerExtensions for handling BaseTreeNode objects
+- new interface IBaseTreeNode that extends ITreeNode and provides an id field
 - new extension class ITreeNodeHandlerExtensions for handling ITreeNode objects
 - new extension class SimpleTreeNodeHandlerExtensions for handling SimpleTreeNode objects
-- all relevant methods from class BaseTreeNode are now decorated with the new extension class BaseTreeNodeHandlerExtensions
 - all relevant default methods from interface ITreeNode are now decorated with the new extension class ITreeNodeHandlerExtensions
 
 CHANGED:
 
 - rename of TreeNodeTransformer to BaseTreeNodeTransformer
 - update of test dependency silly-collections to new minor version 18.1
+- generified the concrete subclass in interface ITreeNode
+- BaseTreeNode implements now the new interface IBaseTreeNode
+- unit tests extended
 
 Version 6
 -------------

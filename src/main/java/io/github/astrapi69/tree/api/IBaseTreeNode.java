@@ -22,37 +22,35 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.tree.visitor;
-
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
-import lombok.Getter;
-import io.github.astrapi69.design.pattern.visitor.Visitor;
-import io.github.astrapi69.tree.SimpleTreeNode;
+package io.github.astrapi69.tree.api;
 
 /**
- * This visitor visits all {@link SimpleTreeNode} objects and adds them to a {@link Collection}
- * object with all descendant
+ * The Interface {@link IBaseTreeNode} extends {@link ITreeNode} and provides an additional id field
+ * that can be used as key
  *
- * @param <T>
+ * @param <V>
  *            the generic type of the value
+ * @param <K>
+ *            the generic type of the id of the node
+ * @param <T>
+ *            the generic type of the concrete tree node
  */
-public class TraverseSimpleTreeNodeVisitor<T, K> implements Visitor<SimpleTreeNode<T, K>>
+public interface IBaseTreeNode<V, K, T extends IBaseTreeNode<V, K, T>> extends ITreeNode<V, T>
 {
-	/**
-	 * a {@link Collection} object for store all {@link SimpleTreeNode} objects
-	 */
-	@Getter
-	private final Collection<SimpleTreeNode<T, K>> allTreeNodes = new LinkedHashSet<>();
 
 	/**
-	 * {@inheritDoc}
+	 * Gets the id
+	 *
+	 * @return the id
 	 */
-	@Override
-	public void visit(SimpleTreeNode<T, K> simpleTreeNode)
-	{
-		allTreeNodes.add(simpleTreeNode);
-	}
+	K getId();
+
+	/**
+	 * Sets the id
+	 *
+	 * @param id
+	 *            the id
+	 */
+	void setId(K id);
+
 }

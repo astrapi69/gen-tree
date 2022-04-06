@@ -49,7 +49,7 @@ import io.github.astrapi69.tree.api.ITreeNode;
 @ToString(exclude = { "children" })
 @SuperBuilder(toBuilder = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class TreeNode<T> implements ITreeNode<T>
+public class TreeNode<T> implements ITreeNode<T, TreeNode<T>>
 {
 
 	/**
@@ -60,7 +60,7 @@ public class TreeNode<T> implements ITreeNode<T>
 	/** The children. */
 	@Setter
 	@Builder.Default
-	Collection<ITreeNode<T>> children = new ArrayList<>();
+	Collection<TreeNode<T>> children = new ArrayList<>();
 
 	/** The optional display value. */
 	@Getter
@@ -70,7 +70,7 @@ public class TreeNode<T> implements ITreeNode<T>
 	/** The parent from this node. If this is null it is the root. */
 	@Getter
 	@Setter
-	ITreeNode<T> parent;
+	TreeNode<T> parent;
 
 	/** The value. */
 	@Getter
@@ -97,7 +97,7 @@ public class TreeNode<T> implements ITreeNode<T>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Collection<ITreeNode<T>> getChildren()
+	public Collection<TreeNode<T>> getChildren()
 	{
 		if (this.children == null)
 		{
@@ -106,4 +106,30 @@ public class TreeNode<T> implements ITreeNode<T>
 		return this.children;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void addChild(TreeNode<T> child)
+	{
+		ITreeNode.super.addChild(child);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void removeChild(TreeNode<T> child)
+	{
+		ITreeNode.super.removeChild(child);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean contains(TreeNode<T> treeNode)
+	{
+		return ITreeNode.super.contains(treeNode);
+	}
 }

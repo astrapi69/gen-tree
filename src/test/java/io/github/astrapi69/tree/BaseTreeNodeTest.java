@@ -35,6 +35,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import io.github.astrapi69.tree.api.ITreeNode;
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
@@ -47,7 +48,6 @@ import io.github.astrapi69.AbstractTestCase;
 import io.github.astrapi69.collections.set.SetFactory;
 import io.github.astrapi69.id.generate.LongIdGenerator;
 import io.github.astrapi69.tree.element.TreeElement;
-import io.github.astrapi69.tree.handler.BaseTreeNodeHandlerExtensions;
 
 /**
  * The unit test class for the class {@link BaseTreeNode}
@@ -127,7 +127,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 			.parent(thirdChild).value(null).build();
 		fifthGrandChildValue = "I'm the fifth grand child";
 		fifthGrandChild = BaseTreeNode.<String, Long> builder().id(idGenerator.getNextId())
-			.parent(thirdChild).value(fifthGrandChildValue).build();
+			.parent(thirdChild).leaf(true).value(fifthGrandChildValue).build();
 
 		// initialize all children
 		root.addChild(firstChild);
@@ -352,47 +352,47 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNodeHandlerExtensions#getAllSiblings(BaseTreeNode)}
+	 * Test method for {@link BaseTreeNode#getAllSiblings()}
 	 */
 	@Test
 	public void testGetAllSiblings()
 	{
 		Collection<BaseTreeNode<String, Long>> allSiblings;
 
-		allSiblings = BaseTreeNodeHandlerExtensions.getAllSiblings(root);
+		allSiblings = root.getAllSiblings();
 		assertEquals(0, allSiblings.size());
 
-		allSiblings = BaseTreeNodeHandlerExtensions.getAllSiblings(firstChild);
+		allSiblings = firstChild.getAllSiblings();
 		assertEquals(2, allSiblings.size());
 
-		allSiblings = BaseTreeNodeHandlerExtensions.getAllSiblings(secondChild);
+		allSiblings = secondChild.getAllSiblings();
 		assertEquals(2, allSiblings.size());
 
-		allSiblings = BaseTreeNodeHandlerExtensions.getAllSiblings(thirdChild);
+		allSiblings = thirdChild.getAllSiblings();
 		assertEquals(2, allSiblings.size());
 
-		allSiblings = BaseTreeNodeHandlerExtensions.getAllSiblings(firstGrandChild);
+		allSiblings = firstGrandChild.getAllSiblings();
 		assertEquals(2, allSiblings.size());
 
-		allSiblings = BaseTreeNodeHandlerExtensions.getAllSiblings(firstGrandGrandChild);
+		allSiblings = firstGrandGrandChild.getAllSiblings();
 		assertEquals(1, allSiblings.size());
 
-		allSiblings = BaseTreeNodeHandlerExtensions.getAllSiblings(secondGrandGrandChild);
+		allSiblings = secondGrandGrandChild.getAllSiblings();
 		assertEquals(1, allSiblings.size());
 
-		allSiblings = BaseTreeNodeHandlerExtensions.getAllSiblings(firstGrandGrandGrandChild);
+		allSiblings = firstGrandGrandGrandChild.getAllSiblings();
 		assertEquals(0, allSiblings.size());
 
-		allSiblings = BaseTreeNodeHandlerExtensions.getAllSiblings(secondGrandChild);
+		allSiblings = secondGrandChild.getAllSiblings();
 		assertEquals(2, allSiblings.size());
 
-		allSiblings = BaseTreeNodeHandlerExtensions.getAllSiblings(thirdGrandChild);
+		allSiblings = thirdGrandChild.getAllSiblings();
 		assertEquals(2, allSiblings.size());
 
-		allSiblings = BaseTreeNodeHandlerExtensions.getAllSiblings(fourthGrandChild);
+		allSiblings = fourthGrandChild.getAllSiblings();
 		assertEquals(1, allSiblings.size());
 
-		allSiblings = BaseTreeNodeHandlerExtensions.getAllSiblings(fifthGrandChild);
+		allSiblings = fifthGrandChild.getAllSiblings();
 		assertEquals(1, allSiblings.size());
 	}
 
@@ -546,7 +546,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#removeChild(BaseTreeNode)}
+	 * Test method for {@link BaseTreeNode#removeChild(ITreeNode)}
 	 */
 	@Test
 	public void testRemoveChild()
@@ -620,7 +620,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link BaseTreeNode#contains(BaseTreeNode)}
+	 * Test method for {@link BaseTreeNode#contains(ITreeNode)}
 	 */
 	@Test
 	public void testContains()
