@@ -44,23 +44,23 @@ public class ITreeNodeHandlerExtensions
 	/**
 	 * Returns all siblings of the given {@link ITreeNode} object in the parent's children list
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 * @param treeNode
 	 *            the tree node
 	 * @return Returns all siblings of the given {@link ITreeNode} object
 	 */
-	public static <T, K extends ITreeNode<T, K>> Collection<K> getAllSiblings(
-		final @NonNull K treeNode)
+	public static <V, T extends ITreeNode<V, T>> Collection<T> getAllSiblings(
+		final @NonNull T treeNode)
 	{
-		final K parent = treeNode.getParent();
+		final T parent = treeNode.getParent();
 		if (parent == null)
 		{
 			return new LinkedHashSet<>();
 		}
-		final Collection<K> allSiblings = new LinkedHashSet<>(parent.getChildren());
+		final Collection<T> allSiblings = new LinkedHashSet<>(parent.getChildren());
 		allSiblings.remove(treeNode);
 		return allSiblings;
 	}
@@ -68,17 +68,17 @@ public class ITreeNodeHandlerExtensions
 	/**
 	 * Gets the root from the given {@link ITreeNode} object
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 * @param treeNode
 	 *            the tree node
 	 * @return the root from the given {@link ITreeNode} object
 	 */
-	public static <T, K extends ITreeNode<T, K>> K getRoot(final @NonNull K treeNode)
+	public static <V, T extends ITreeNode<V, T>> T getRoot(final @NonNull T treeNode)
 	{
-		K root = treeNode;
+		T root = treeNode;
 		if (root.isRoot())
 		{
 			return root;
@@ -95,24 +95,24 @@ public class ITreeNodeHandlerExtensions
 	 * Returns the next sibling of the given {@link ITreeNode} object in the parent's children list.
 	 * Returns null if the given {@link ITreeNode} object is the root or is the parent's last child
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 * @param currentTreeNode
 	 *            the tree node
 	 * @return the next sibling of the given {@link ITreeNode} object or null if the given
 	 *         {@link ITreeNode} object is the root or is the parent's last child
 	 */
-	public static <T, K extends ITreeNode<T, K>> K getNextSibling(final @NonNull K currentTreeNode)
+	public static <V, T extends ITreeNode<V, T>> T getNextSibling(final @NonNull T currentTreeNode)
 	{
-		K next = null;
+		T next = null;
 		if (currentTreeNode.getParent() == null)
 		{
 			return next;
 		}
 		boolean isNext = false;
-		for (K treeNode : currentTreeNode.getParent().getChildren())
+		for (T treeNode : currentTreeNode.getParent().getChildren())
 		{
 			if (isNext)
 			{
@@ -132,9 +132,9 @@ public class ITreeNodeHandlerExtensions
 	 * list. Returns null if the given {@link ITreeNode} object is the root or is the parent's first
 	 * child.
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 *
 	 * @param currentTreeNode
@@ -142,15 +142,15 @@ public class ITreeNodeHandlerExtensions
 	 * @return the next sibling of the given {@link ITreeNode} object or null if the given
 	 *         {@link ITreeNode} object is the root or is the parent's last child.
 	 */
-	public static <T, K extends ITreeNode<T, K>> K getPreviousSibling(
-		final @NonNull K currentTreeNode)
+	public static <V, T extends ITreeNode<V, T>> T getPreviousSibling(
+		final @NonNull T currentTreeNode)
 	{
-		K previous = null;
+		T previous = null;
 		if (currentTreeNode.getParent() == null)
 		{
 			return previous;
 		}
-		for (K treeNode : currentTreeNode.getParent().getChildren())
+		for (T treeNode : currentTreeNode.getParent().getChildren())
 		{
 			if (treeNode.equals(currentTreeNode))
 			{
@@ -165,18 +165,18 @@ public class ITreeNodeHandlerExtensions
 	 * Returns the distance from the root to the given {@link ITreeNode} object. Returns 0 if the
 	 * given {@link ITreeNode} object is the root {@link ITreeNode} object
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 *
 	 * @param treeNode
 	 *            the tree node
 	 * @return the level from the given {@link ITreeNode} object
 	 */
-	public static <T, K extends ITreeNode<T, K>> int getLevel(final @NonNull K treeNode)
+	public static <V, T extends ITreeNode<V, T>> int getLevel(final @NonNull T treeNode)
 	{
-		K currentTreeNode = treeNode;
+		T currentTreeNode = treeNode;
 		int count = 0;
 		while ((currentTreeNode = currentTreeNode.getParent()) != null)
 		{
@@ -188,17 +188,17 @@ public class ITreeNodeHandlerExtensions
 	/**
 	 * Removes the given child from the given first {@link ITreeNode}
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 * @param parentTreeNode
 	 *            the parent tree node
 	 * @param child
 	 *            the child tree node
 	 */
-	public static <T, K extends ITreeNode<T, K>> void removeChild(final @NonNull K parentTreeNode,
-		final K child)
+	public static <V, T extends ITreeNode<V, T>> void removeChild(final @NonNull T parentTreeNode,
+		final T child)
 	{
 		if (child != null)
 		{
@@ -215,9 +215,9 @@ public class ITreeNodeHandlerExtensions
 	 * Checks if the second given {@link ITreeNode} object is a child of the first {@link ITreeNode}
 	 * object
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 * @param parentTreeNode
 	 *            the parent tree node
@@ -226,8 +226,8 @@ public class ITreeNodeHandlerExtensions
 	 * @return true, if the second given {@link ITreeNode} object is a child of the first
 	 *         {@link ITreeNode} object otherwise false
 	 */
-	public static <T, K extends ITreeNode<T, K>> boolean isChildOf(final @NonNull K parentTreeNode,
-		final @NonNull K child)
+	public static <V, T extends ITreeNode<V, T>> boolean isChildOf(final @NonNull T parentTreeNode,
+		final @NonNull T child)
 	{
 		return parentTreeNode.getChildren().contains(child);
 	}
@@ -236,9 +236,9 @@ public class ITreeNodeHandlerExtensions
 	 * Checks if the first given {@link ITreeNode} object is the parent of the second
 	 * {@link ITreeNode} object
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 * @param parentTreeNode
 	 *            the parent tree node
@@ -247,8 +247,8 @@ public class ITreeNodeHandlerExtensions
 	 * @return true, if the first given {@link ITreeNode} object is the parent of the second given
 	 *         {@link ITreeNode} object otherwise false
 	 */
-	public static <T, K extends ITreeNode<T, K>> boolean isParentOf(final @NonNull K parentTreeNode,
-		final @NonNull K child)
+	public static <V, T extends ITreeNode<V, T>> boolean isParentOf(final @NonNull T parentTreeNode,
+		final @NonNull T child)
 	{
 		return child.getParent().equals(parentTreeNode);
 	}
@@ -256,17 +256,17 @@ public class ITreeNodeHandlerExtensions
 	/**
 	 * Removes all the given children from the first given {@link ITreeNode} object
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 * @param parentTreeNode
 	 *            the parent tree node
 	 * @param children
 	 *            the children to remove
 	 */
-	public static <T, K extends ITreeNode<T, K>> void removeChildren(
-		final @NonNull K parentTreeNode, final @NonNull Collection<K> children)
+	public static <V, T extends ITreeNode<V, T>> void removeChildren(
+		final @NonNull T parentTreeNode, final @NonNull Collection<T> children)
 	{
 		children.forEach(child -> ITreeNodeHandlerExtensions.removeChild(parentTreeNode, child));
 	}
@@ -274,15 +274,15 @@ public class ITreeNodeHandlerExtensions
 	/**
 	 * Removes all children from the given {@link ITreeNode} object
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 * @param parentTreeNode
 	 *            the parent tree node
 	 */
-	public static <T, K extends ITreeNode<T, K>> void removeChildren(
-		final @NonNull K parentTreeNode)
+	public static <V, T extends ITreeNode<V, T>> void removeChildren(
+		final @NonNull T parentTreeNode)
 	{
 		ITreeNodeHandlerExtensions.removeChildren(parentTreeNode,
 			new ArrayList<>(parentTreeNode.getChildren()));
@@ -291,15 +291,15 @@ public class ITreeNodeHandlerExtensions
 	/**
 	 * Checks if the given {@link ITreeNode} is the root {@link ITreeNode} object
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 * @param treeNode
 	 *            the tree node
 	 * @return true, if the given {@link ITreeNode} is the root {@link ITreeNode} object
 	 */
-	public static <T, K extends ITreeNode<T, K>> boolean isRoot(final @NonNull K treeNode)
+	public static <V, T extends ITreeNode<V, T>> boolean isRoot(final @NonNull T treeNode)
 	{
 		return !ITreeNodeHandlerExtensions.hasParent(treeNode);
 	}
@@ -307,16 +307,16 @@ public class ITreeNodeHandlerExtensions
 	/**
 	 * Checks if the given {@link ITreeNode} object has a parent {@link ITreeNode} object
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 * @param treeNode
 	 *            the tree node
 	 * @return true, if the given {@link ITreeNode} object has a parent {@link ITreeNode} object
 	 *         otherwise false
 	 */
-	public static <T, K extends ITreeNode<T, K>> boolean hasParent(final @NonNull K treeNode)
+	public static <V, T extends ITreeNode<V, T>> boolean hasParent(final @NonNull T treeNode)
 	{
 		return treeNode.getParent() != null;
 	}
@@ -324,15 +324,15 @@ public class ITreeNodeHandlerExtensions
 	/**
 	 * Checks if the given {@link ITreeNode} object is a node
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 * @param treeNode
 	 *            the tree node
 	 * @return true, if the given {@link ITreeNode} object is a node otherwise false
 	 */
-	public static <T, K extends ITreeNode<T, K>> boolean isNode(final @NonNull K treeNode)
+	public static <V, T extends ITreeNode<V, T>> boolean isNode(final @NonNull T treeNode)
 	{
 		return !treeNode.isLeaf();
 	}
@@ -340,14 +340,14 @@ public class ITreeNodeHandlerExtensions
 	/**
 	 * Removes all the descendants from the given {@link ITreeNode} object
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 * @param treeNode
 	 *            the tree node
 	 */
-	public static <T, K extends ITreeNode<T, K>> void clearAll(final @NonNull K treeNode)
+	public static <V, T extends ITreeNode<V, T>> void clearAll(final @NonNull T treeNode)
 	{
 		treeNode.accept(currentTreeNode -> currentTreeNode.clearChildren());
 	}
@@ -355,14 +355,14 @@ public class ITreeNodeHandlerExtensions
 	/**
 	 * Removes all the children from the given {@link ITreeNode} object
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 * @param treeNode
 	 *            the tree node
 	 */
-	public static <T, K extends ITreeNode<T, K>> void clearChildren(final @NonNull K treeNode)
+	public static <V, T extends ITreeNode<V, T>> void clearChildren(final @NonNull T treeNode)
 	{
 		ITreeNodeHandlerExtensions.removeChildren(treeNode,
 			new ArrayList<>(treeNode.getChildren()));
@@ -372,17 +372,17 @@ public class ITreeNodeHandlerExtensions
 	 * Adds the given child {@link ITreeNode} object to the first given parent {@link ITreeNode}
 	 * object
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 * @param parentTreeNode
 	 *            the parent tree node
 	 * @param child
 	 *            the child
 	 */
-	public static <T, K extends ITreeNode<T, K>> void addChild(final @NonNull K parentTreeNode,
-		final K child)
+	public static <V, T extends ITreeNode<V, T>> void addChild(final @NonNull T parentTreeNode,
+		final T child)
 	{
 		if (child != null)
 		{
@@ -394,17 +394,17 @@ public class ITreeNodeHandlerExtensions
 	/**
 	 * Adds all the given children from the first given parent {@link ITreeNode} object
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 * @param parentTreeNode
 	 *            the parent tree node
 	 * @param children
 	 *            the children to add
 	 */
-	public static <T, K extends ITreeNode<T, K>> void addChildren(final @NonNull K parentTreeNode,
-		final @NonNull Collection<K> children)
+	public static <V, T extends ITreeNode<V, T>> void addChildren(final @NonNull T parentTreeNode,
+		final @NonNull Collection<T> children)
 	{
 		children.forEach(child -> ITreeNodeHandlerExtensions.addChild(parentTreeNode, child));
 	}
@@ -412,15 +412,15 @@ public class ITreeNodeHandlerExtensions
 	/**
 	 * Gets the child count from the given {@link ITreeNode} object
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 * @param treeNode
 	 *            the tree node
 	 * @return the child count
 	 */
-	public static <T, K extends ITreeNode<T, K>> int getChildCount(final @NonNull K treeNode)
+	public static <V, T extends ITreeNode<V, T>> int getChildCount(final @NonNull T treeNode)
 	{
 		return treeNode.getChildren().size();
 	}
@@ -428,15 +428,15 @@ public class ITreeNodeHandlerExtensions
 	/**
 	 * Checks if the given {@link ITreeNode} object has children
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 * @param treeNode
 	 *            the tree node
 	 * @return true, if the given {@link ITreeNode} object has children otherwise false
 	 */
-	public static <T, K extends ITreeNode<T, K>> boolean hasChildren(final @NonNull K treeNode)
+	public static <V, T extends ITreeNode<V, T>> boolean hasChildren(final @NonNull T treeNode)
 	{
 		return treeNode.getChildren() != null && !treeNode.getChildren().isEmpty();
 	}
@@ -445,9 +445,9 @@ public class ITreeNodeHandlerExtensions
 	 * Traverse the given {@link ITreeNode} object and add all descendants with the given
 	 * {@link ITreeNode} object included in to the returned {@link Collection} object
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 * @param treeNode
 	 *            the tree node
@@ -455,9 +455,9 @@ public class ITreeNodeHandlerExtensions
 	 * @return a {@link Collection} object with the given {@link ITreeNode} object and add all
 	 *         descendants
 	 */
-	public static <T, K extends ITreeNode<T, K>> Collection<K> traverse(final @NonNull K treeNode)
+	public static <V, T extends ITreeNode<V, T>> Collection<T> traverse(final @NonNull T treeNode)
 	{
-		final Collection<K> allTreeNodes = new LinkedHashSet<>();
+		final Collection<T> allTreeNodes = new LinkedHashSet<>();
 		treeNode.accept(allTreeNodes::add);
 		return allTreeNodes;
 	}
@@ -465,17 +465,17 @@ public class ITreeNodeHandlerExtensions
 	/**
 	 * Accepts the given visitor that provides a custom algorithm for processing all elements
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 * @param treeNode
 	 *            the tree node
 	 * @param visitor
 	 *            the visitor
 	 */
-	public static <T, K extends ITreeNode<T, K>> void accept(final @NonNull K treeNode,
-		final @NonNull Visitor<K> visitor)
+	public static <V, T extends ITreeNode<V, T>> void accept(final @NonNull T treeNode,
+		final @NonNull Visitor<T> visitor)
 	{
 		ITreeNodeHandlerExtensions.accept(treeNode, visitor, false);
 	}
@@ -483,9 +483,9 @@ public class ITreeNodeHandlerExtensions
 	/**
 	 * Accepts the given visitor that provides a custom algorithm for processing all elements
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 * @param treeNode
 	 *            the tree node
@@ -495,8 +495,8 @@ public class ITreeNodeHandlerExtensions
 	 *            the flag if this flag is true the visit of the given {@link ITreeNode} object is
 	 *            before visit the children otherwise the visit is after visit the children
 	 */
-	public static <T, K extends ITreeNode<T, K>> void accept(final @NonNull K treeNode,
-		final @NonNull Visitor<K> visitor, final boolean visitBefore)
+	public static <V, T extends ITreeNode<V, T>> void accept(final @NonNull T treeNode,
+		final @NonNull Visitor<T> visitor, final boolean visitBefore)
 	{
 		boolean visitAfter = !visitBefore;
 		if (visitBefore)
@@ -515,9 +515,9 @@ public class ITreeNodeHandlerExtensions
 	 * Find all {@link ITreeNode} objects from the first given {@link ITreeNode} object that serves
 	 * as the search target, that have the same value as the given value
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 * @param treeNode
 	 *            the tree node
@@ -526,11 +526,11 @@ public class ITreeNodeHandlerExtensions
 	 * @return a {@link Collection} object with all found occurrences that have the same value as
 	 *         the given value
 	 */
-	public static <T, K extends ITreeNode<T, K>> Collection<K> findAllByValue(
-		final @NonNull K treeNode, final T value)
+	public static <V, T extends ITreeNode<V, T>> Collection<T> findAllByValue(
+		final @NonNull T treeNode, final V value)
 	{
 
-		AtomicReference<Collection<K>> foundTreeNodes = new AtomicReference<>(
+		AtomicReference<Collection<T>> foundTreeNodes = new AtomicReference<>(
 			new LinkedHashSet<>());
 		treeNode.accept(currentTreeNode -> {
 			if (value == null)
@@ -555,9 +555,9 @@ public class ITreeNodeHandlerExtensions
 	 * Find the first occurrence of {@link ITreeNode} object from the first given {@link ITreeNode}
 	 * object that serves as the search target, that have the same value as the given value
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 * @param treeNode
 	 *            the tree node
@@ -566,10 +566,10 @@ public class ITreeNodeHandlerExtensions
 	 * @return the first occurrence of {@link ITreeNode} object that have the same value as the
 	 *         given value
 	 */
-	public static <T, K extends ITreeNode<T, K>> K findByValue(final @NonNull K treeNode,
-		final T value)
+	public static <V, T extends ITreeNode<V, T>> T findByValue(final @NonNull T treeNode,
+		final V value)
 	{
-		final AtomicReference<K> found = new AtomicReference<>();
+		final AtomicReference<T> found = new AtomicReference<>();
 		ITreeNodeHandlerExtensions.findAllByValue(treeNode, value).stream().findFirst()
 			.ifPresent(currentTreeNode -> {
 				found.set(currentTreeNode);
@@ -581,9 +581,9 @@ public class ITreeNodeHandlerExtensions
 	 * Checks if the second given {@link ITreeNode} object is a descendant of the first given
 	 * {@link ITreeNode} object
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 * @param treeNode
 	 *            the tree node
@@ -592,8 +592,8 @@ public class ITreeNodeHandlerExtensions
 	 * @return true if the given {@link ITreeNode} object is a descendant of the first given
 	 *         {@link ITreeNode} object otherwise false
 	 */
-	public static <T, K extends ITreeNode<T, K>> boolean contains(final @NonNull K treeNode,
-		final K descendantCandidate)
+	public static <V, T extends ITreeNode<V, T>> boolean contains(final @NonNull T treeNode,
+		final T descendantCandidate)
 	{
 		if (descendantCandidate == null)
 		{
@@ -606,9 +606,9 @@ public class ITreeNodeHandlerExtensions
 	 * Checks if the given {@link Collection} object of {@link ITreeNode} objects are descendants of
 	 * the first given {@link ITreeNode} object
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 * @param treeNode
 	 *            the tree node
@@ -617,8 +617,8 @@ public class ITreeNodeHandlerExtensions
 	 * @return true if the given {@link Collection} object of {@link ITreeNode} objects are
 	 *         descendants of the first given {@link ITreeNode} object otherwise false
 	 */
-	public static <T, K extends ITreeNode<T, K>> boolean containsAll(final @NonNull K treeNode,
-		final @NonNull Collection<K> treeNodes)
+	public static <V, T extends ITreeNode<V, T>> boolean containsAll(final @NonNull T treeNode,
+		final @NonNull Collection<T> treeNodes)
 	{
 		return ITreeNodeHandlerExtensions.traverse(treeNode).containsAll(treeNodes);
 	}
@@ -627,16 +627,16 @@ public class ITreeNodeHandlerExtensions
 	 * Traverse the given {@link ITreeNode} object and adds all descendant with it self-included in
 	 * to a {@link List} object
 	 *
-	 * @param <T>
+	 * @param <V>
 	 *            the generic type of the value
-	 * @param <K>
+	 * @param <T>
 	 *            the generic type of the id of the node
 	 * @param treeNode
 	 *            the tree node
 	 *
 	 * @return a {@link List} object with the given {@link ITreeNode} object and all descendants
 	 */
-	public static <T, K extends ITreeNode<T, K>> List<K> toList(final @NonNull K treeNode)
+	public static <V, T extends ITreeNode<V, T>> List<T> toList(final @NonNull T treeNode)
 	{
 		return new ArrayList<>(ITreeNodeHandlerExtensions.traverse(treeNode));
 	}
