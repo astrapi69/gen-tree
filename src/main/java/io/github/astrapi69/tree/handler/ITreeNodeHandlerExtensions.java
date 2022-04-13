@@ -349,7 +349,7 @@ public class ITreeNodeHandlerExtensions
 	 */
 	public static <V, T extends ITreeNode<V, T>> void clearAll(final @NonNull T treeNode)
 	{
-		treeNode.accept(currentTreeNode -> currentTreeNode.clearChildren());
+		treeNode.accept(ITreeNode::clearChildren);
 	}
 
 	/**
@@ -571,9 +571,7 @@ public class ITreeNodeHandlerExtensions
 	{
 		final AtomicReference<T> found = new AtomicReference<>();
 		ITreeNodeHandlerExtensions.findAllByValue(treeNode, value).stream().findFirst()
-			.ifPresent(currentTreeNode -> {
-				found.set(currentTreeNode);
-			});
+			.ifPresent(found::set);
 		return found.get();
 	}
 
