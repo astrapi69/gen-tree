@@ -92,7 +92,7 @@ public class TreeIdNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@BeforeMethod
 	public void setup()
 	{
-		parent = TreeElement.builder().name("parent").parent(null).node(true).build();
+		parent = TreeElement.builder().name("parent").build();
 
 		idGenerator = LongIdGenerator.of(0L);
 		root = TreeIdNode.<String, Long> builder().id(idGenerator.getNextId()).value("I'm root")
@@ -199,7 +199,7 @@ public class TreeIdNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public final void testConstructors()
 	{
-		TreeElement parent = TreeElement.builder().name("parent").parent(null).node(true).build();
+		TreeElement parent = TreeElement.builder().name("parent").build();
 		TreeIdNode<TreeElement, UUID> parentTreeNode = new TreeIdNode<>();
 		assertNotNull(parentTreeNode);
 		parentTreeNode.setValue(parent);

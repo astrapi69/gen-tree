@@ -65,11 +65,11 @@ public class LinkedNodeTest extends AbstractTestCase<Boolean, Boolean>
 	protected void setUp() throws Exception
 	{
 		super.setUp();
-		firstElement = TreeElement.builder().name("first ").parent(null).build();
-		secondElement = TreeElement.builder().name("second ").parent(firstElement).build();
-		thirdElement = TreeElement.builder().name("third ").parent(secondElement).build();
-		fourthElement = TreeElement.builder().name("fourth ").parent(thirdElement).build();
-		fifthElement = TreeElement.builder().name("fifth.").parent(fourthElement).build();
+		firstElement = TreeElement.builder().name("first ").build();
+		secondElement = TreeElement.builder().name("second ").build();
+		thirdElement = TreeElement.builder().name("third ").build();
+		fourthElement = TreeElement.builder().name("fourth ").build();
+		fifthElement = TreeElement.builder().name("fifth.").build();
 		firstTreeNode = LinkedNode.<TreeElement> builder().value(firstElement).build();
 		secondTreeNode = LinkedNode.<TreeElement> builder().value(secondElement)
 			.previous(firstTreeNode).build();

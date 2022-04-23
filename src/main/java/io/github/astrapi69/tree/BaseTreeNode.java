@@ -70,6 +70,7 @@ public class BaseTreeNode<T, K>
 	T value;
 
 	/** The children. */
+	@Getter
 	@Setter
 	@Builder.Default
 	Collection<BaseTreeNode<T, K>> children = new LinkedHashSet<>();
@@ -98,16 +99,6 @@ public class BaseTreeNode<T, K>
 	public BaseTreeNode(final T value)
 	{
 		setValue(value);
-	}
-
-	/**
-	 * Gets the children of this node
-	 *
-	 * @return the children
-	 */
-	public Collection<BaseTreeNode<T, K>> getChildren()
-	{
-		return this.children;
 	}
 
 }

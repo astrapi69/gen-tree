@@ -49,7 +49,7 @@ public class TreeElementTest
 	{
 		TreeElement model = new TreeElement();
 		assertNotNull(model);
-		model = new TreeElement("name", false, null);
+		model = new TreeElement("name");
 		assertNotNull(model);
 		model = TreeElement.builder().build();
 		assertNotNull(model);

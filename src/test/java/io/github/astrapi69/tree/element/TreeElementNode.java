@@ -24,34 +24,60 @@
  */
 package io.github.astrapi69.tree.element;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.NonNull;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import io.github.astrapi69.tree.TreeNode;
 
 /**
- * The class {@link LazyTreeElement} represents a lazy tree element that does not know about the
- * parent or children
- *
- * @param <T>
- *            the generic type of the value
+ * The concreted class {@link TreeElementNode}
  */
-@Getter
-@Setter
-@EqualsAndHashCode
-@ToString
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder(toBuilder = true)
-public class LazyTreeElement<T>
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+@SuperBuilder
+public class TreeElementNode extends TreeNode<TreeElement>
 {
 
-	/** The value. */
-	private T value;
+	/**
+	 * Instantiates a new {@link TreeElementNode}
+	 *
+	 * @param value
+	 *            the value
+	 */
+	public TreeElementNode(final @NonNull TreeElement value)
+	{
+		this(value, null);
+	}
 
-	/** The flag that indicates if this tree element is a leaf. */
-	private boolean leaf;
+	/**
+	 * Instantiates a new {@link TreeElementNode}
+	 *
+	 * @param value
+	 *            the value
+	 * @param parentTreeNode
+	 *            the parent tree node
+	 */
+	public TreeElementNode(final @NonNull TreeElement value,
+		final TreeNode<TreeElement> parentTreeNode)
+	{
+		super(value);
+		setParent(parentTreeNode);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setValue(final TreeElement value)
+	{
+		super.setValue(value);
+		if (value != null)
+		{
+			setDisplayValue(value.getName());
+		}
+	}
+
 }

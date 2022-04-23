@@ -4,7 +4,11 @@
 Version 6.2-SNAPSHOT
 -------------
 
+CHANGED:
 
+- update of lombok version to 1.18.24
+- update of gradle-plugin dependency 'spotless-plugin-gradle' to new minor version 6.5.0
+- moved element classes to test module because there was only for presentation purposes
 
 Version 6.1
 -------------

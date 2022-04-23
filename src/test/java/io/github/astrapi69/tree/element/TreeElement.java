@@ -24,61 +24,35 @@
  */
 package io.github.astrapi69.tree.element;
 
+import java.io.Serializable;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import io.github.astrapi69.tree.TreeNode;
 
 /**
- * The concreted class {@link TreeElementNode}
+ * The class {@link TreeElement} represents as the name already presume a tree element
  */
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@ToString(callSuper = true)
-@SuperBuilder
-public class TreeElementNode extends TreeNode<TreeElement>
+@AllArgsConstructor
+@SuperBuilder(toBuilder = true)
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class TreeElement implements Serializable
 {
+	/** The serial Version UID */
+	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Instantiates a new {@link TreeElementNode}
-	 *
-	 * @param value
-	 *            the value
-	 */
-	public TreeElementNode(final @NonNull TreeElement value)
-	{
-		this(value, null);
-	}
-
-	/**
-	 * Instantiates a new {@link TreeElementNode}
-	 *
-	 * @param value
-	 *            the value
-	 * @param parentTreeNode
-	 *            the parent tree node
-	 */
-	public TreeElementNode(final @NonNull TreeElement value,
-		final TreeNode<TreeElement> parentTreeNode)
-	{
-		super(value);
-		setParent(parentTreeNode);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setValue(final TreeElement value)
-	{
-		super.setValue(value);
-		if (value != null)
-		{
-			setLeaf(!value.isNode());
-			setDisplayValue(value.getName());
-		}
-	}
+	/** The name of this tree element. */
+	String name;
 
 }

@@ -42,7 +42,7 @@ public class LazyTreeElementTest
 	{
 		LazyTreeElement<String> model = new LazyTreeElement<>();
 		assertNotNull(model);
-		model = new LazyTreeElement<>("value", false);
+		model = new LazyTreeElement<>("value");
 		assertNotNull(model);
 		model = LazyTreeElement.<String> builder().build();
 		assertNotNull(model);

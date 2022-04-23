@@ -24,40 +24,30 @@
  */
 package io.github.astrapi69.tree.element;
 
-import java.io.Serializable;
-
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.experimental.FieldDefaults;
-import lombok.experimental.SuperBuilder;
 
 /**
- * The class {@link TreeElement} represents as the name already presume a tree element
+ * The class {@link LazyTreeElement} represents a lazy tree element that does not know about the
+ * parent or children
+ *
+ * @param <T>
+ *            the generic type of the value
  */
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = { "parent" })
-@ToString(exclude = { "parent" })
+@EqualsAndHashCode
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder(toBuilder = true)
-@FieldDefaults(level = AccessLevel.PRIVATE)
-public class TreeElement implements Serializable
+@Builder(toBuilder = true)
+public class LazyTreeElement<T>
 {
-	/** The serial Version UID */
-	private static final long serialVersionUID = 1L;
-
-	/** The name of this tree element. */
-	String name;
-
-	/** The flag that indicates if this tree element is a node. */
-	boolean node;
-
-	/** The parent of this tree element. */
-	TreeElement parent;
+	/** The value. */
+	private T value;
 }
