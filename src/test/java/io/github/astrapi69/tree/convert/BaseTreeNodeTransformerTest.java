@@ -27,7 +27,9 @@ package io.github.astrapi69.tree.convert;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.meanbean.test.BeanTester;
@@ -38,6 +40,8 @@ import io.github.astrapi69.collections.set.SetFactory;
 import io.github.astrapi69.id.generate.LongIdGenerator;
 import io.github.astrapi69.tree.BaseTreeNode;
 import io.github.astrapi69.tree.TreeIdNode;
+import io.github.astrapi69.tree.element.GenericTreeElement;
+import io.github.astrapi69.tree.element.MysticCryptEntryModelBean;
 
 /**
  * The unit test class for the class {@link BaseTreeNodeTransformer}
@@ -168,6 +172,37 @@ public class BaseTreeNodeTransformerTest
 		actual = BaseTreeNodeTransformer.getRoot(emptyMap);
 		expected = null;
 		assertEquals(actual, expected);
+		// =========================================================================================
+		BaseTreeNode<GenericTreeElement<List<MysticCryptEntryModelBean>>, Long> rootTreeNode;
+		Map<Long, TreeIdNode<GenericTreeElement<List<MysticCryptEntryModelBean>>, Long>> rootTreeAsMap;
+
+		LongIdGenerator idGenerator = LongIdGenerator.of(0L);
+		GenericTreeElement<List<MysticCryptEntryModelBean>> parent = GenericTreeElement
+			.<List<MysticCryptEntryModelBean>> builder().name("root")
+			.iconPath("io/github/astrapi69/silk/icons/book.png").withText(true).build()
+			.setDefaultContent(new ArrayList<>());
+
+		GenericTreeElement<List<MysticCryptEntryModelBean>> firstChild = GenericTreeElement
+			.<List<MysticCryptEntryModelBean>> builder().name("mykeys")
+			.iconPath("io/github/astrapi69/silk/icons/folder.png").withText(true).build()
+			.setDefaultContent(new ArrayList<>());
+		rootTreeNode = BaseTreeNodeFactory.initializeTreeNodeWithTreeElement(parent, null,
+			idGenerator);
+		BaseTreeNodeFactory.initializeTreeNodeWithTreeElement(firstChild, rootTreeNode,
+			idGenerator);
+
+		rootTreeAsMap = BaseTreeNodeTransformer.toKeyMap(rootTreeNode);
+
+		rootTreeNode = BaseTreeNodeTransformer.getRoot(rootTreeAsMap);
+		assertNotNull(rootTreeNode);
+
+		GenericTreeElement<List<MysticCryptEntryModelBean>> treeElement = GenericTreeElement
+			.<List<MysticCryptEntryModelBean>> builder().name("foo").leaf(true).build();
+		BaseTreeNode<GenericTreeElement<List<MysticCryptEntryModelBean>>, Long> newTreeNode = BaseTreeNode
+			.<GenericTreeElement<List<MysticCryptEntryModelBean>>, Long> builder()
+			.id(idGenerator.getNextId()).value(treeElement).parent(rootTreeNode)
+			.displayValue(treeElement.getName()).leaf(treeElement.isLeaf()).build();
+		rootTreeNode.addChild(newTreeNode);
 	}
 
 	/**
