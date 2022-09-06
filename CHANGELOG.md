@@ -1,14 +1,28 @@
 ## Change log
 ----------------------
 
-Version 6.2-SNAPSHOT
+Version 7-SNAPSHOT
 -------------
+
+ADDED:
+
+- new module-info.java file with definition of required modules and packages to export
+- extracted sections from build.gradle to its own gradle files for clearness
 
 CHANGED:
 
+- update to jdk version 11
+- update gradle to new version 7.5.1
 - update of lombok version to 1.18.24
-- update of gradle-plugin dependency 'spotless-plugin-gradle' to new minor version 6.5.0
+- update of gradle-plugin dependency 'spotless-plugin-gradle' to new minor version 6.10.0
+- update of gradle-plugin dependency 'grgit-gradle' to new minor version 5.0.0
 - moved element classes to test module because there was only for presentation purposes
+- replaced obsolete package.html with package-info.java files
+- update of dependency visitor to new major version 6
+- update of test dependency silly-collection to new major version 20
+- update of test dependency test-object to new minor version 7.1
+- update of test dependency testng to new patch version 7.6.1
+- update of test dependency jobj-contract-verifier to new major version 4
 
 Version 6.1
 -------------

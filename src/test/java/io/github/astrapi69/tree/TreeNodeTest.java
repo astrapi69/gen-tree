@@ -44,7 +44,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import io.github.astrapi69.AbstractTestCase;
-import io.github.astrapi69.collections.set.SetFactory;
+import io.github.astrapi69.collection.set.SetFactory;
 import io.github.astrapi69.id.generate.LongIdGenerator;
 import io.github.astrapi69.tree.element.TreeElement;
 

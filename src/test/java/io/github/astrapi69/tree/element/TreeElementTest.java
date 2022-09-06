@@ -27,13 +27,10 @@ package io.github.astrapi69.tree.element;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-
 import org.meanbean.test.BeanTester;
 import org.testng.annotations.Test;
 
-import io.github.astrapi69.evaluate.object.evaluators.EqualsHashCodeAndToStringEvaluator;
+import io.github.astrapi69.evaluate.object.evaluator.EqualsHashCodeAndToStringEvaluator;
 
 /**
  * The unit test class for the class {@link TreeElement}
@@ -58,31 +55,14 @@ public class TreeElementTest
 	/**
 	 * Test method for {@link TreeElement#equals(Object)} , {@link TreeElement#hashCode()} and
 	 * {@link TreeElement#toString()}
-	 *
-	 * @throws IllegalAccessException
-	 *             if the caller does not have access to the property accessor method
-	 * @throws InstantiationException
-	 *             if a new instance of the bean's class cannot be instantiated
-	 * @throws InvocationTargetException
-	 *             if the property accessor method throws an exception
-	 * @throws NoSuchMethodException
-	 *             if an accessor method for this property cannot be found
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 * @throws ClassNotFoundException
-	 *             occurs if a given class cannot be located by the specified class loader
-	 * @throws NoSuchFieldException
-	 *             is thrown if no such field exists
 	 */
 	@Test
 	public void testEqualsHashcodeAndToStringWithClassSilently()
-		throws NoSuchMethodException, IllegalAccessException, InvocationTargetException,
-		InstantiationException, ClassNotFoundException, IOException, NoSuchFieldException
 	{
 		boolean expected;
 		boolean actual;
 		actual = EqualsHashCodeAndToStringEvaluator
-			.evaluateEqualsHashcodeAndToString(TreeElement.class);
+			.evaluateEqualsHashcodeAndToString(TreeElement.builder().build());
 		expected = true;
 		assertEquals(expected, actual);
 	}
