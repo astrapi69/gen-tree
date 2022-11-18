@@ -48,6 +48,8 @@ import io.github.astrapi69.tree.api.IBaseTreeNode;
  * @param <K>
  *            the generic type of the id of the node
  */
+@Getter
+@Setter
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = { "children", "parent" })
 @ToString(exclude = { "children", "parent" })
@@ -60,34 +62,22 @@ public class BaseTreeNode<T, K>
 {
 
 	/** The id from this node. */
-	@Getter
-	@Setter
 	K id;
 
 	/** The value. */
-	@Getter
-	@Setter
 	T value;
 
 	/** The children. */
-	@Getter
-	@Setter
 	@Builder.Default
 	Collection<BaseTreeNode<T, K>> children = new LinkedHashSet<>();
 
 	/** The optional display value. */
-	@Getter
-	@Setter
 	String displayValue;
 
 	/** The parent from this node. If this is null it is the root. */
-	@Getter
-	@Setter
 	BaseTreeNode<T, K> parent;
 
 	/** The flag that indicates if this tree node is a leaf or a node */
-	@Getter
-	@Setter
 	boolean leaf;
 
 	/**
