@@ -24,19 +24,22 @@
  */
 package io.github.astrapi69.tree.convert;
 
+import io.github.astrapi69.tree.BaseTreeNode;
+import io.github.astrapi69.tree.TreeIdNode;
+import lombok.NonNull;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
-import lombok.NonNull;
-import io.github.astrapi69.tree.BaseTreeNode;
-import io.github.astrapi69.tree.TreeIdNode;
-
 /**
- * The class {@link BaseTreeNodeTransformer} provides algorithms for convert and transform between
- * the {@link BaseTreeNode} objects and {@link TreeIdNode} objects
+ * The class {@link BaseTreeNodeTransformer} provides algorithms for converting between the
+ * {@link BaseTreeNode} objects and {@link TreeIdNode} objects. This is useful if you want to save
+ * {@link BaseTreeNode} objects in a store, you have first to transform the {@link BaseTreeNode}
+ * objects (you want to store) to {@link TreeIdNode} objects and save them. The {@link BaseTreeNode}
+ * object is not be stored.
  */
 public final class BaseTreeNodeTransformer
 {
@@ -48,12 +51,12 @@ public final class BaseTreeNodeTransformer
 	 * Transforms the given {@link BaseTreeNode} object to a {@link Map} object with the key and the
 	 * corresponding {@link TreeIdNode} objects
 	 *
-	 * @param root
-	 *            the {@link BaseTreeNode} object to transform
 	 * @param <T>
 	 *            the generic type of the value
 	 * @param <K>
 	 *            the generic type of the id of the node
+	 * @param root
+	 *            the {@link BaseTreeNode} object to transform
 	 * @return a {@link Map} object with the corresponding {@link TreeIdNode} objects
 	 */
 	public static <T, K> Map<K, TreeIdNode<T, K>> toKeyMap(final @NonNull BaseTreeNode<T, K> root)
@@ -67,13 +70,13 @@ public final class BaseTreeNodeTransformer
 
 	/**
 	 * Transforms the given {@link BaseTreeNode} object to a {@link TreeIdNode} object
-	 * 
-	 * @param baseTreeNode
-	 *            the {@link BaseTreeNode} object to convert
+	 *
 	 * @param <T>
 	 *            the generic type of the value
 	 * @param <K>
 	 *            the generic type of the id of the node
+	 * @param baseTreeNode
+	 *            the {@link BaseTreeNode} object to convert
 	 * @return the new created {@link TreeIdNode} object
 	 */
 	public static <T, K> TreeIdNode<T, K> toTreeIdNode(
@@ -91,12 +94,12 @@ public final class BaseTreeNodeTransformer
 	 * Transforms the given {@link BaseTreeNode} object to a {@link Map} object with the key and the
 	 * corresponding {@link BaseTreeNode} objects
 	 *
-	 * @param root
-	 *            the {@link BaseTreeNode} object to transform
 	 * @param <T>
 	 *            the generic type of the value
 	 * @param <K>
 	 *            the generic type of the id of the node
+	 * @param root
+	 *            the {@link BaseTreeNode} object to transform
 	 * @return a {@link Map} object with the corresponding {@link BaseTreeNode} objects
 	 */
 	public static <T, K> Map<K, BaseTreeNode<T, K>> toKeyBaseTreeNodeMap(
@@ -113,12 +116,12 @@ public final class BaseTreeNodeTransformer
 	 * Transforms the given {@link Map} object that contains {@link TreeIdNode} objects as values
 	 * and the id as key
 	 *
-	 * @param treeIdNodeMap
-	 *            the {@link Map} object with the {@link TreeIdNode} objects to transform
 	 * @param <T>
 	 *            the generic type of the value
 	 * @param <K>
 	 *            the generic type of the id of the node
+	 * @param treeIdNodeMap
+	 *            the {@link Map} object with the {@link TreeIdNode} objects to transform
 	 * @return a {@link Map} object with the corresponding {@link BaseTreeNode} objects
 	 */
 	public static <T, K> Map<K, BaseTreeNode<T, K>> transform(
@@ -153,12 +156,12 @@ public final class BaseTreeNodeTransformer
 	 * Retrieves the root {@link BaseTreeNode} object from the given @link Map} object that contains
 	 * {@link TreeIdNode} objects as values and the id as key
 	 *
-	 * @param treeIdNodeMap
-	 *            the {@link Map} object with the {@link TreeIdNode} objects to transform
 	 * @param <T>
 	 *            the generic type of the value
 	 * @param <K>
 	 *            the generic type of the id of the node
+	 * @param treeIdNodeMap
+	 *            the {@link Map} object with the {@link TreeIdNode} objects to transform
 	 * @return the root {@link BaseTreeNode} object or null if not found
 	 */
 	public static <T, K> BaseTreeNode<T, K> getRoot(
