@@ -44,7 +44,8 @@ ADDED:
 - new interface IBaseTreeNode that extends ITreeNode and provides an id field
 - new extension class ITreeNodeHandlerExtensions for handling ITreeNode objects
 - new extension class SimpleTreeNodeHandlerExtensions for handling SimpleTreeNode objects
-- all relevant default methods from interface ITreeNode are now decorated with the new extension class ITreeNodeHandlerExtensions
+- all relevant default methods from interface ITreeNode are now decorated with the new extension class
+  ITreeNodeHandlerExtensions
 
 CHANGED:
 
@@ -66,17 +67,24 @@ ADDED:
 - new method clearChildren in class BaseTreeNode that removes all children from the tree node
 - new method clearAll in class BaseTreeNode that removes all descendants from the tree node
 - new method removeChildren in class BaseTreeNode that removes the given collection from the tree node
-- new method findAllByValue in class BaseTreeNode that finds all BaseTreeNode objects that have the same value as the given value
-- new method findByValue in class BaseTreeNode that finds the first occurrence of BaseTreeNode object that have the same value as the given value
-- new method contains in class BaseTreeNode that checks if the given BaseTreeNode object is a descendant of the tree node
-- new method containsAll in class BaseTreeNode that checks if the given collection of BaseTreeNode objects are descendants of the tree node
+- new method findAllByValue in class BaseTreeNode that finds all BaseTreeNode objects that have the same value as the
+  given value
+- new method findByValue in class BaseTreeNode that finds the first occurrence of BaseTreeNode object that have the same
+  value as the given value
+- new method contains in class BaseTreeNode that checks if the given BaseTreeNode object is a descendant of the tree
+  node
+- new method containsAll in class BaseTreeNode that checks if the given collection of BaseTreeNode objects are
+  descendants of the tree node
 - new method clearChildren in class ITreeNode that removes all children from the tree node
 - new method clearAll in class ITreeNode that removes all descendants from the tree node
 - new method removeChildren in class ITreeNode that removes the given collection from the tree node
-- new method findAllByValue in class ITreeNode that finds all ITreeNode objects that have the same value as the given value
-- new method findByValue in class ITreeNode that finds the first occurrence of ITreeNode object that have the same value as the given value
+- new method findAllByValue in class ITreeNode that finds all ITreeNode objects that have the same value as the given
+  value
+- new method findByValue in class ITreeNode that finds the first occurrence of ITreeNode object that have the same value
+  as the given value
 - new method contains in class ITreeNode that checks if the given ITreeNode object is a descendant of the tree node
-- new method containsAll in class ITreeNode that checks if the given collection of ITreeNode objects are descendants of the tree node
+- new method containsAll in class ITreeNode that checks if the given collection of ITreeNode objects are descendants of
+  the tree node
 
 CHANGED:
 

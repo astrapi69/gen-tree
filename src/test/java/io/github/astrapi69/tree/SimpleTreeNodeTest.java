@@ -1,8 +1,8 @@
 /**
  * The MIT License
- *
+ * <p>
  * Copyright (C) 2015 Asterios Raptis
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
  * "Software"), to deal in the Software without restriction, including
@@ -10,10 +10,10 @@
  * distribute, sublicense, and/or sell copies of the Software, and to
  * permit persons to whom the Software is furnished to do so, subject to
  * the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -24,13 +24,10 @@
  */
 package io.github.astrapi69.tree;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
-import java.util.Collection;
-
+import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.id.generate.LongIdGenerator;
+import io.github.astrapi69.tree.visitor.DisplayValueOfSimpleTreeNodeVisitor;
+import io.github.astrapi69.tree.visitor.TraverseSimpleTreeNodeVisitor;
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
@@ -39,10 +36,9 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import io.github.astrapi69.design.pattern.visitor.Visitor;
-import io.github.astrapi69.id.generate.LongIdGenerator;
-import io.github.astrapi69.tree.visitor.DisplayValueOfSimpleTreeNodeVisitor;
-import io.github.astrapi69.tree.visitor.TraverseSimpleTreeNodeVisitor;
+import java.util.Collection;
+
+import static org.testng.AssertJUnit.*;
 
 /**
  * The unit test class for the class {@link SimpleTreeNode}
@@ -64,7 +60,7 @@ public class SimpleTreeNodeTest
 
 	/**
 	 * Set up the tree structure for the unit tests
-	 * 
+	 *
 	 * <pre>
 	 *   +- root("I'm root")
 	 *      +- firstChild("I'm the first child")

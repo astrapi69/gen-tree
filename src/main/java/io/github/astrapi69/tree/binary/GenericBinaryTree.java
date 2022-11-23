@@ -1,8 +1,8 @@
 /**
  * The MIT License
- *
+ * <p>
  * Copyright (C) 2015 Asterios Raptis
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
  * "Software"), to deal in the Software without restriction, including
@@ -10,10 +10,10 @@
  * distribute, sublicense, and/or sell copies of the Software, and to
  * permit persons to whom the Software is furnished to do so, subject to
  * the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -44,7 +44,7 @@ public abstract class GenericBinaryTree<T>
 
 	/**
 	 * Checks if the given value is smaller than the value of the given {@link LinkedNode} object
-	 * 
+	 *
 	 * @param linkedNode
 	 *            the {@link LinkedNode} object
 	 * @param value
@@ -68,7 +68,7 @@ public abstract class GenericBinaryTree<T>
 
 	/**
 	 * Adds the given value to the binary tree at the right position
-	 * 
+	 *
 	 * @param linkedNode
 	 *            the {@link LinkedNode} object
 	 * @param value
@@ -99,7 +99,7 @@ public abstract class GenericBinaryTree<T>
 
 	/**
 	 * Adds the given value to the binary tree at the right position
-	 * 
+	 *
 	 * @param value
 	 *            the value
 	 * @return this binary tree object so you can chain
@@ -112,7 +112,7 @@ public abstract class GenericBinaryTree<T>
 
 	/**
 	 * Checks recursively if the given value exists in this binary tree object
-	 * 
+	 *
 	 * @param linkedNode
 	 *            the {@link LinkedNode} object
 	 * @param value
@@ -136,7 +136,7 @@ public abstract class GenericBinaryTree<T>
 
 	/**
 	 * Checks if the given value exists in this binary tree object
-	 * 
+	 *
 	 * @param value
 	 *            the value
 	 * @return true if the given value exists in this binary tree object otherwise false
