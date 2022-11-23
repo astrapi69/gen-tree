@@ -6,12 +6,13 @@ Version 7.1-SNAPSHOT
 
 CHANGED:
 
-- update gradle to new version 7.6-rc-3
+- update gradle to new version 7.6-rc-4
 - update of gradle-plugin dependency 'com.github.ben-manes.versions.gradle.plugin' to new version 0.44.0
 - update of gradle-plugin dependency 'spotless-plugin-gradle' to new minor version 6.11.0
 - update of test dependency silly-collection to new minor version 20.1
 - update of test dependency test-object to new minor version 7.2
 - update of test dependency data-api to new major version 4
+- update of test dependency id-generate to new minor version 1.1
 
 Version 7
 -------------
