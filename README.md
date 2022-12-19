@@ -37,13 +37,13 @@ your project `build.gradle` if you want to import the core functionality of sill
 define version in file gradle.properties
 
 ```
-genTreeVersion=7
+genTreeVersion=7.1
 ```
 
 or in build.gradle ext area
 
 ```
-    genTreeVersion = "7"
+    genTreeVersion = "7.1"
 ```
 
 and than add the dependency to the dependencies area
@@ -66,7 +66,7 @@ Than you can add the dependency to your dependencies:
     <properties>
             ...
         <!-- GEN-TREE version -->
-        <gen-tree.version>7</gen-tree.version>
+        <gen-tree.version>7.1</gen-tree.version>
             ...
     </properties>
             ...
