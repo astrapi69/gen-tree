@@ -384,7 +384,7 @@ public class ITreeNodeHandlerExtensions
 	public static <V, T extends ITreeNode<V, T>> void addChild(final @NonNull T parentTreeNode,
 		final T child)
 	{
-		if (child != null)
+		if (child != null && parentTreeNode.isNode())
 		{
 			child.setParent(parentTreeNode);
 			parentTreeNode.getChildren().add(child);
@@ -406,7 +406,10 @@ public class ITreeNodeHandlerExtensions
 	public static <V, T extends ITreeNode<V, T>> void addChildren(final @NonNull T parentTreeNode,
 		final @NonNull Collection<T> children)
 	{
-		children.forEach(child -> ITreeNodeHandlerExtensions.addChild(parentTreeNode, child));
+		if (parentTreeNode.isNode())
+		{
+			children.forEach(child -> ITreeNodeHandlerExtensions.addChild(parentTreeNode, child));
+		}
 	}
 
 	/**

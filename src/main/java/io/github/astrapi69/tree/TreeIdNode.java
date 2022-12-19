@@ -109,8 +109,11 @@ public class TreeIdNode<T, K>
 	 */
 	public void addChild(final TreeIdNode<T, K> child)
 	{
-		child.setParentId(this.id);
-		this.getChildrenIds().add(child.getId());
+		if (child != null && this.isNode())
+		{
+			child.setParentId(this.id);
+			this.getChildrenIds().add(child.getId());
+		}
 	}
 
 	/**

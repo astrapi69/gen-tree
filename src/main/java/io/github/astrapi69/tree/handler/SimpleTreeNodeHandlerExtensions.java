@@ -402,7 +402,7 @@ public class SimpleTreeNodeHandlerExtensions
 	public static <T, K> void addChild(final @NonNull SimpleTreeNode<T, K> parentTreeNode,
 		final SimpleTreeNode<T, K> child)
 	{
-		if (child != null)
+		if (child != null && parentTreeNode.isNode())
 		{
 			child.setParent(parentTreeNode);
 			parentTreeNode.getChildren().add(child);
@@ -424,7 +424,11 @@ public class SimpleTreeNodeHandlerExtensions
 	public static <T, K> void addChildren(final @NonNull SimpleTreeNode<T, K> parentTreeNode,
 		final @NonNull Collection<SimpleTreeNode<T, K>> children)
 	{
-		children.forEach(child -> SimpleTreeNodeHandlerExtensions.addChild(parentTreeNode, child));
+		if (parentTreeNode.isNode())
+		{
+			children
+				.forEach(child -> SimpleTreeNodeHandlerExtensions.addChild(parentTreeNode, child));
+		}
 	}
 
 	/**

@@ -128,7 +128,7 @@ public class SimpleTreeNode<T, K> implements Acceptable<Visitor<SimpleTreeNode<T
 	 *
 	 * @return true, if this {@link SimpleTreeNode} object is a node otherwise false
 	 */
-	boolean isNode()
+	public boolean isNode()
 	{
 		return !isLeaf();
 	}
