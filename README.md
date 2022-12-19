@@ -16,11 +16,13 @@
 The gen-tree repository holds a generic model for simple and binary tree objects
 
 > Please support this project by simply putting a Github <!-- Place this tag where you want the button to render. -->
-<a class="github-button" href="https://github.com/lightblueseas/gen-tree" data-icon="octicon-star" aria-label="Star lightblueseas/gen-tree on GitHub">Star ⭐</a>
+<a class="github-button" href="https://github.com/lightblueseas/gen-tree" data-icon="octicon-star" aria-label="Star lightblueseas/gen-tree on GitHub">
+> Star ⭐</a>
 >
 > Share this library with friends on Twitter and everywhere else you can
 >
-> If you love this project [![donation](https://img.shields.io/badge/donate-❤-ff2244.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GVBTWLRAZ7HB8)
+> If you love this
+> project [![donation](https://img.shields.io/badge/donate-❤-ff2244.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GVBTWLRAZ7HB8)
 
 ## License
 

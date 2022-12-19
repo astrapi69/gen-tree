@@ -1,8 +1,8 @@
 /**
  * The MIT License
- *
+ * <p>
  * Copyright (C) 2015 Asterios Raptis
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
  * "Software"), to deal in the Software without restriction, including
@@ -10,10 +10,10 @@
  * distribute, sublicense, and/or sell copies of the Software, and to
  * permit persons to whom the Software is furnished to do so, subject to
  * the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -24,13 +24,13 @@
  */
 package io.github.astrapi69.tree.visitor;
 
+import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.tree.BaseTreeNode;
+import lombok.Getter;
+
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.concurrent.atomic.AtomicReference;
-
-import lombok.Getter;
-import io.github.astrapi69.design.pattern.visitor.Visitor;
-import io.github.astrapi69.tree.BaseTreeNode;
 
 /**
  * This visitor visits all {@link BaseTreeNode} objects and checks if the value equals with the
