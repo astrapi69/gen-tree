@@ -600,7 +600,7 @@ public class ITreeNodeHandlerExtensions
 		{
 			return false;
 		}
-		return ITreeNodeHandlerExtensions.traverse(treeNode).contains(descendantCandidate);
+		return TreeNodeVisitorHandlerExtensions.traverse(treeNode).contains(descendantCandidate);
 	}
 
 	/**
@@ -621,7 +621,7 @@ public class ITreeNodeHandlerExtensions
 	public static <V, T extends ITreeNode<V, T>> boolean containsAll(final @NonNull T treeNode,
 		final @NonNull Collection<T> treeNodes)
 	{
-		return ITreeNodeHandlerExtensions.traverse(treeNode).containsAll(treeNodes);
+		return TreeNodeVisitorHandlerExtensions.traverse(treeNode).containsAll(treeNodes);
 	}
 
 	/**
@@ -639,7 +639,7 @@ public class ITreeNodeHandlerExtensions
 	 */
 	public static <V, T extends ITreeNode<V, T>> List<T> toList(final @NonNull T treeNode)
 	{
-		return new ArrayList<>(ITreeNodeHandlerExtensions.traverse(treeNode));
+		return new ArrayList<>(TreeNodeVisitorHandlerExtensions.traverse(treeNode));
 	}
 
 }

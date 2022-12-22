@@ -100,30 +100,4 @@ public class TreeNode<T> implements ITreeNode<T, TreeNode<T>>
 		return this.children;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void addChild(TreeNode<T> child)
-	{
-		ITreeNode.super.addChild(child);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void removeChild(TreeNode<T> child)
-	{
-		ITreeNode.super.removeChild(child);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean contains(TreeNode<T> treeNode)
-	{
-		return ITreeNode.super.contains(treeNode);
-	}
 }

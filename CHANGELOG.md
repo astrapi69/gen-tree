@@ -4,6 +4,10 @@
 Version 7.2-SNAPSHOT
 -------------
 
+ADDED:
+
+- new interface ITree that defines only abstract methods for the tree nodes
+- new handler extension class TreeNodeVisitorHandlerExtensions created that handles only visitor issues for tree nodes
 
 Version 7.1
 -------------
