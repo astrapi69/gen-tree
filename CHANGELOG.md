@@ -1,13 +1,17 @@
 ## Change log
 ----------------------
 
-Version 7.2-SNAPSHOT
+Version 7.2
 -------------
 
 ADDED:
 
 - new interface ITree that defines only the abstract methods for the tree and the tree nodes
 - new handler extension class TreeNodeVisitorHandlerExtensions created that handles only visitor issues for tree nodes
+
+CHANGED:
+
+- ownership from organization lightblueseas to github user ported
 
 Version 7.1
 -------------

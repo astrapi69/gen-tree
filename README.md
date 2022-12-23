@@ -2,21 +2,21 @@
 
 <div style="text-align: center">
 
-[![Java CI with Gradle](https://github.com/lightblueseas/gen-tree/actions/workflows/gradle.yml/badge.svg)](https://github.com/lightblueseas/gen-tree/actions/workflows/gradle.yml)
-[![Coverage Status](https://codecov.io/gh/lightblueseas/gen-tree/branch/develop/graph/badge.svg)](https://codecov.io/gh/lightblueseas/gen-tree)
-[![Open Issues](https://img.shields.io/github/issues/lightblueseas/gen-tree.svg?style=flat)](https://github.com/lightblueseas/gen-tree/issues)
+[![Java CI with Gradle](https://github.com/astrapi69/gen-tree/actions/workflows/gradle.yml/badge.svg)](https://github.com/astrapi69/gen-tree/actions/workflows/gradle.yml)
+[![Coverage Status](https://codecov.io/gh/astrapi69/gen-tree/branch/develop/graph/badge.svg)](https://codecov.io/gh/astrapi69/gen-tree)
+[![Open Issues](https://img.shields.io/github/issues/astrapi69/gen-tree.svg?style=flat)](https://github.com/astrapi69/gen-tree/issues)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/gen-tree/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/gen-tree)
 [![Javadocs](http://www.javadoc.io/badge/io.github.astrapi69/gen-tree.svg)](http://www.javadoc.io/doc/io.github.astrapi69/gen-tree)
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](http://opensource.org/licenses/MIT)
 [![Donate](https://img.shields.io/badge/donate-❤-ff2244.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GVBTWLRAZ7HB8)
-[![Hits Of Code](https://hitsofcode.com/github/lightblueseas/gen-tree?branch=develop)](https://hitsofcode.com/github/lightblueseas/gen-tree/view?branch=develop)
+[![Hits Of Code](https://hitsofcode.com/github/astrapi69/gen-tree?branch=develop)](https://hitsofcode.com/github/astrapi69/gen-tree/view?branch=develop)
 
 </div>
 
 The gen-tree repository holds a generic model for simple and binary tree objects
 
 > Please support this project by simply putting a Github <!-- Place this tag where you want the button to render. -->
-<a class="github-button" href="https://github.com/lightblueseas/gen-tree" data-icon="octicon-star" aria-label="Star lightblueseas/gen-tree on GitHub">
+<a class="github-button" href="https://github.com/astrapi69/gen-tree" data-icon="octicon-star" aria-label="Star astrapi69/gen-tree on GitHub">
 > Star ⭐</a>
 >
 > Share this library with friends on Twitter and everywhere else you can
@@ -37,13 +37,13 @@ your project `build.gradle` if you want to import the core functionality of sill
 define version in file gradle.properties
 
 ```
-genTreeVersion=7.1
+genTreeVersion=7.2
 ```
 
 or in build.gradle ext area
 
 ```
-    genTreeVersion = "7.1"
+    genTreeVersion = "7.2"
 ```
 
 and than add the dependency to the dependencies area
@@ -66,7 +66,7 @@ Than you can add the dependency to your dependencies:
     <properties>
             ...
         <!-- GEN-TREE version -->
-        <gen-tree.version>7.1</gen-tree.version>
+        <gen-tree.version>7.2</gen-tree.version>
             ...
     </properties>
             ...
@@ -97,10 +97,10 @@ the [wiki page](https://github.com/lightblueseas/mvn-parent-projects/wiki/Semant
 The source code for gen-tree are on GitHub. Please feel free to fork and send pull requests!
 
 Create your own fork
-of [lightblueseas/gen-tree/fork](https://github.com/lightblueseas/gen-tree/fork)
+of [astrapi69/gen-tree/fork](https://github.com/astrapi69/gen-tree/fork)
 
 To share your
-changes, [submit a pull request](https://github.com/lightblueseas/gen-tree/pull/new/develop).
+changes, [submit a pull request](https://github.com/astrapi69/gen-tree/pull/new/develop).
 
 Don't forget to add new units tests on your changes.
 
@@ -110,7 +110,7 @@ Do not hesitate to contact the gen-tree developers with your questions, concerns
 reports, or feature requests.
 
 - Feature requests, questions and bug reports can be reported at
-  the [issues page](https://github.com/lightblueseas/gen-tree/issues).
+  the [issues page](https://github.com/astrapi69/gen-tree/issues).
 
 ## Note
 
@@ -175,7 +175,7 @@ src="https://github.com/astrapi69/jgeohash/blob/master/src/main/resources/img/49
 alt="Donation Monero Wallet" width="250"/>
 
 or over flattr:
-<a href="https://flattr.com/submit/auto?fid=r7vp62&url=https%3A%2F%2Fgithub.com%2Flightblueseas%2Fgen-tree" target="_blank">
+<a href="https://flattr.com/submit/auto?fid=r7vp62&url=https%3A%2F%2Fgithub.com%2Fastrapi69%2Fgen-tree" target="_blank">
 <img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" style="border: none" />
 </a>
 
@@ -197,7 +197,7 @@ or over flattr:
 
 |**codecov.io**|
 |     :---:      |
-|[![Coverage Status](https://codecov.io/gh/lightblueseas/gen-tree/branch/develop/graph/badge.svg)](https://codecov.io/gh/lightblueseas/gen-tree)|
+|[![Coverage Status](https://codecov.io/gh/astrapi69/gen-tree/branch/develop/graph/badge.svg)](https://codecov.io/gh/astrapi69/gen-tree)|
 |Special thanks to [codecov.io](https://codecov.io) for providing a free code coverage for open source projects|
 |     <img width=1000/>     |
 
