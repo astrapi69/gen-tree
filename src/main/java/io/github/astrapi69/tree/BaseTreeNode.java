@@ -49,10 +49,7 @@ import java.util.LinkedHashSet;
 @ToString(exclude = { "children", "parent" })
 @SuperBuilder(toBuilder = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BaseTreeNode<T, K>
-	implements
-		Acceptable<Visitor<BaseTreeNode<T, K>>>,
-		IBaseTreeNode<T, K, BaseTreeNode<T, K>>
+public class BaseTreeNode<T, K> implements IBaseTreeNode<T, K, BaseTreeNode<T, K>>
 {
 
 	/** The id from this node. */
