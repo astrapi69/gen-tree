@@ -1,7 +1,7 @@
 ## Change log
 ----------------------
 
-Version 7.3-SNAPSHOT
+Version 7.3
 -------------
 
 ADDED:
@@ -11,6 +11,7 @@ ADDED:
 CHANGED:
 
 - move all classes to new base package io.github.astrapi69.gen.tree.*
+- move of interface ITree to it own module tree-api
 
 Version 7.2
 -------------
