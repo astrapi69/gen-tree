@@ -22,15 +22,14 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.tree.convert;
+package io.github.astrapi69.gen.tree.convert;
 
 import io.github.astrapi69.collection.set.SetFactory;
-import io.github.astrapi69.gen.tree.convert.BaseTreeNodeTransformer;
 import io.github.astrapi69.id.generate.LongIdGenerator;
 import io.github.astrapi69.gen.tree.BaseTreeNode;
 import io.github.astrapi69.gen.tree.TreeIdNode;
-import io.github.astrapi69.tree.element.GenericTreeElement;
-import io.github.astrapi69.tree.element.MysticCryptEntryModelBean;
+import io.github.astrapi69.gen.tree.element.GenericTreeElement;
+import io.github.astrapi69.gen.tree.element.MysticCryptEntryModelBean;
 import org.meanbean.test.BeanTester;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

@@ -22,35 +22,36 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.tree.visitor;
+package io.github.astrapi69.gen.tree.visitor;
 
 import io.github.astrapi69.design.pattern.visitor.Visitor;
 import io.github.astrapi69.gen.tree.SimpleTreeNode;
+import io.github.astrapi69.gen.tree.api.ITreeNode;
 import lombok.Getter;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
 /**
- * This visitor visits all {@link SimpleTreeNode} objects and adds them to a {@link Collection}
- * object with all descendant
+ * This visitor visits all {@link ITreeNode} objects and adds them to a {@link Collection} object
+ * with all descendant
  *
  * @param <T>
  *            the generic type of the value
  */
-public class TraverseSimpleTreeNodeVisitor<T, K> implements Visitor<SimpleTreeNode<T, K>>
+public class TraverseTreeNodeVisitor<T, K extends ITreeNode<T, K>> implements Visitor<K>
 {
 	/**
 	 * a {@link Collection} object for store all {@link SimpleTreeNode} objects
 	 */
 	@Getter
-	private final Collection<SimpleTreeNode<T, K>> allTreeNodes = new LinkedHashSet<>();
+	private final Collection<K> allTreeNodes = new LinkedHashSet<>();
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void visit(SimpleTreeNode<T, K> simpleTreeNode)
+	public void visit(K simpleTreeNode)
 	{
 		allTreeNodes.add(simpleTreeNode);
 	}

@@ -22,13 +22,13 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.tree.handler;
+package io.github.astrapi69.gen.tree.handler;
 
-import io.github.astrapi69.gen.tree.handler.ITreeNodeHandlerExtensions;
+import io.github.astrapi69.design.pattern.visitor.Visitor;
 import io.github.astrapi69.id.generate.LongIdGenerator;
-import io.github.astrapi69.tree.TreeNode;
+import io.github.astrapi69.gen.tree.TreeNode;
 import io.github.astrapi69.gen.tree.api.ITreeNode;
-import org.testng.annotations.AfterMethod;
+import io.github.astrapi69.gen.tree.visitor.TraverseTreeNodeVisitor;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -36,11 +36,9 @@ import java.util.Collection;
 
 import static org.testng.AssertJUnit.assertEquals;
 
-/**
- * The unit test class for the class {@link ITreeNodeHandlerExtensions}
- */
-public class ITreeNodeHandlerExtensionsTest
+public class TreeNodeVisitorHandlerExtensionsTest
 {
+
 
 	TreeNode<String> root;
 	TreeNode<String> firstChild;
@@ -130,96 +128,14 @@ public class ITreeNodeHandlerExtensionsTest
 	}
 
 	/**
-	 * This method will be invoked after every unit test method for clear any test instances
-	 */
-	@AfterMethod
-	protected void tearDown()
-	{
-		root = null;
-		firstChild = null;
-		secondChild = null;
-		firstGrandChild = null;
-		firstGrandGrandChild = null;
-		secondGrandGrandChild = null;
-		firstGrandGrandGrandChild = null;
-		secondGrandChild = null;
-		thirdGrandChild = null;
-		thirdChild = null;
-		fourthGrandChild = null;
-		fifthGrandChild = null;
-		fifthGrandChildValue = null;
-		idGenerator = null;
-	}
-
-	/**
-	 * Test method for {@link ITreeNodeHandlerExtensions#isParentOf(ITreeNode, ITreeNode)}
+	 * Test method for {@link TreeNodeVisitorHandlerExtensions#accept(ITreeNode, Visitor, boolean)}
 	 */
 	@Test
-	public void testIsParentOf()
+	public void testAccept()
 	{
-		boolean actual;
-		boolean expected;
-		actual = ITreeNodeHandlerExtensions.isParentOf(root, firstChild);
-		expected = true;
-		assertEquals(expected, actual);
-
-		actual = ITreeNodeHandlerExtensions.isParentOf(root, fifthGrandChild);
-		expected = false;
-		assertEquals(expected, actual);
+		TraverseTreeNodeVisitor<String, TreeNode<String>> visitor = new TraverseTreeNodeVisitor<>();
+		TreeNodeVisitorHandlerExtensions.accept(root, visitor, true);
+		Collection<TreeNode<String>> baseTreeNodes = visitor.getAllTreeNodes();
+		assertEquals(12, baseTreeNodes.size());
 	}
-
-	/**
-	 * Test method for {@link ITreeNodeHandlerExtensions#isNode(ITreeNode)}
-	 */
-	@Test
-	public void testIsNode()
-	{
-		boolean actual;
-		boolean expected;
-		actual = ITreeNodeHandlerExtensions.isNode(root);
-		expected = true;
-		assertEquals(expected, actual);
-
-		actual = ITreeNodeHandlerExtensions.isNode(fifthGrandChild);
-		expected = false;
-		assertEquals(expected, actual);
-	}
-
-	/**
-	 * Test method for {@link ITreeNodeHandlerExtensions#getChildCount(ITreeNode)}
-	 */
-	@Test
-	public void testGetChildCount()
-	{
-		int actual;
-		int expected;
-
-		Collection<TreeNode<String>> children = root.getChildren();
-
-		actual = ITreeNodeHandlerExtensions.getChildCount(root);
-		expected = children.size();
-		assertEquals(expected, actual);
-	}
-
-	/**
-	 * Test method for {@link ITreeNodeHandlerExtensions#contains(ITreeNode, ITreeNode)}
-	 */
-	@Test
-	public void testContains()
-	{
-		boolean actual;
-		boolean expected;
-
-		actual = ITreeNodeHandlerExtensions.contains(root, firstGrandGrandGrandChild);
-		expected = true;
-		assertEquals(actual, expected);
-
-		actual = ITreeNodeHandlerExtensions.contains(firstGrandGrandGrandChild, root);
-		expected = false;
-		assertEquals(actual, expected);
-
-		actual = ITreeNodeHandlerExtensions.contains(root, null);
-		assertEquals(actual, expected);
-	}
-
 }

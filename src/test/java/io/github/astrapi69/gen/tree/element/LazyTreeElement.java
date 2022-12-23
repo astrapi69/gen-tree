@@ -22,37 +22,26 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.tree.visitor;
+package io.github.astrapi69.gen.tree.element;
 
-import io.github.astrapi69.design.pattern.visitor.Visitor;
-import io.github.astrapi69.gen.tree.SimpleTreeNode;
-import io.github.astrapi69.gen.tree.api.ITreeNode;
-import lombok.Getter;
-
-import java.util.Collection;
-import java.util.LinkedHashSet;
+import lombok.*;
 
 /**
- * This visitor visits all {@link ITreeNode} objects and adds them to a {@link Collection} object
- * with all descendant
+ * The class {@link LazyTreeElement} represents a lazy tree element that does not know about the
+ * parent or children
  *
  * @param <T>
  *            the generic type of the value
  */
-public class TraverseTreeNodeVisitor<T, K extends ITreeNode<T, K>> implements Visitor<K>
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(toBuilder = true)
+public class LazyTreeElement<T>
 {
-	/**
-	 * a {@link Collection} object for store all {@link SimpleTreeNode} objects
-	 */
-	@Getter
-	private final Collection<K> allTreeNodes = new LinkedHashSet<>();
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void visit(K simpleTreeNode)
-	{
-		allTreeNodes.add(simpleTreeNode);
-	}
+	/** The value. */
+	private T value;
 }

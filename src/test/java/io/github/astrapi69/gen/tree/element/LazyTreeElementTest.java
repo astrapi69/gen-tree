@@ -22,25 +22,30 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.tree.binary;
+package io.github.astrapi69.gen.tree.element;
 
 import org.testng.annotations.Test;
 
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertNotNull;
 
-public class IntegerBinaryTreeTest
+/**
+ * The unit test class for the class {@link TreeElement}
+ */
+public class LazyTreeElementTest
 {
 
+	/**
+	 * Test method for {@link LazyTreeElement} constructors and builders
+	 */
 	@Test
-	public void testGenericBinaryTreeWithInteger()
+	public final void testConstructors()
 	{
-		IntegerBinaryTree integerBinaryTree = new IntegerBinaryTree();
-
-		integerBinaryTree.add(5).add(3).add(7).add(2).add(4).add(6).add(8);
-
-		assertTrue(integerBinaryTree.contains(3));
-		assertTrue(integerBinaryTree.contains(5));
-		assertFalse(integerBinaryTree.contains(9));
+		LazyTreeElement<String> model = new LazyTreeElement<>();
+		assertNotNull(model);
+		model = new LazyTreeElement<>("value");
+		assertNotNull(model);
+		model = LazyTreeElement.<String> builder().build();
+		assertNotNull(model);
 	}
+
 }

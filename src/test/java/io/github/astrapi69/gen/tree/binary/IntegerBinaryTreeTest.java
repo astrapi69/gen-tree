@@ -22,29 +22,25 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.tree.element;
+package io.github.astrapi69.gen.tree.binary;
 
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-import lombok.experimental.SuperBuilder;
+import org.testng.annotations.Test;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@SuperBuilder(toBuilder = true)
-@FieldDefaults(level = AccessLevel.PRIVATE)
-public class MysticCryptEntryModelBean
+public class IntegerBinaryTreeTest
 {
-	/** The map with optional properties */
-	@Builder.Default
-	final Map<String, Object> properties = new LinkedHashMap<>();
-	String title;
-	String userName;
-	char[] password;
-	char[] repeat;
-	String url;
-	String notes;
+
+	@Test
+	public void testGenericBinaryTreeWithInteger()
+	{
+		IntegerBinaryTree integerBinaryTree = new IntegerBinaryTree();
+
+		integerBinaryTree.add(5).add(3).add(7).add(2).add(4).add(6).add(8);
+
+		assertTrue(integerBinaryTree.contains(3));
+		assertTrue(integerBinaryTree.contains(5));
+		assertFalse(integerBinaryTree.contains(9));
+	}
 }

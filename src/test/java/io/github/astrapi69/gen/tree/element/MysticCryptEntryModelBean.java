@@ -22,27 +22,29 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.tree.visitor;
+package io.github.astrapi69.gen.tree.element;
 
-import io.github.astrapi69.design.pattern.visitor.Visitor;
-import io.github.astrapi69.gen.tree.SimpleTreeNode;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 
-/**
- * This visitor visits all {@link SimpleTreeNode} objects and prints the values in the system error
- * stream
- *
- * @param <T>
- *            the generic type of the value
- */
-public class DisplayValueOfSimpleTreeNodeVisitor<T, K> implements Visitor<SimpleTreeNode<T, K>>
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder(toBuilder = true)
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class MysticCryptEntryModelBean
 {
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void visit(SimpleTreeNode<T, K> simpleTreeNode)
-	{
-		System.err.println(simpleTreeNode.getValue());
-	}
+	/** The map with optional properties */
+	@Builder.Default
+	final Map<String, Object> properties = new LinkedHashMap<>();
+	String title;
+	String userName;
+	char[] password;
+	char[] repeat;
+	String url;
+	String notes;
 }

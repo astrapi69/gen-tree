@@ -22,12 +22,12 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.tree.convert;
+package io.github.astrapi69.gen.tree.convert;
 
 import io.github.astrapi69.data.identifiable.IdGenerator;
 import io.github.astrapi69.gen.tree.BaseTreeNode;
-import io.github.astrapi69.tree.element.GenericTreeElement;
-import io.github.astrapi69.tree.element.TreeElement;
+import io.github.astrapi69.gen.tree.element.GenericTreeElement;
+import io.github.astrapi69.gen.tree.element.TreeElement;
 import lombok.NonNull;
 
 import javax.swing.tree.DefaultMutableTreeNode;

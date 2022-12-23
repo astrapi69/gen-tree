@@ -22,14 +22,13 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.tree;
+package io.github.astrapi69.gen.tree;
 
 import io.github.astrapi69.AbstractTestCase;
 import io.github.astrapi69.collection.set.SetFactory;
-import io.github.astrapi69.gen.tree.BaseTreeNode;
 import io.github.astrapi69.id.generate.LongIdGenerator;
 import io.github.astrapi69.gen.tree.api.ITreeNode;
-import io.github.astrapi69.tree.element.TreeElement;
+import io.github.astrapi69.gen.tree.element.TreeElement;
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;

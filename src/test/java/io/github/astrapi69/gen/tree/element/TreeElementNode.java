@@ -22,9 +22,9 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.tree.element;
+package io.github.astrapi69.gen.tree.element;
 
-import io.github.astrapi69.tree.TreeNode;
+import io.github.astrapi69.gen.tree.TreeNode;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;

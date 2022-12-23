@@ -22,63 +22,58 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.tree.element;
+package io.github.astrapi69.gen.tree.element;
 
-import io.github.astrapi69.tree.TreeNode;
-import org.meanbean.lang.Factory;
+import io.github.astrapi69.evaluate.object.evaluator.EqualsHashCodeAndToStringEvaluator;
 import org.meanbean.test.BeanTester;
-import org.meanbean.test.Configuration;
-import org.meanbean.test.ConfigurationBuilder;
 import org.testng.annotations.Test;
 
+import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
 /**
- * The unit test class for the class {@link TreeElementNode}
+ * The unit test class for the class {@link TreeElement}
  */
-public class TreeElementNodeTest
+public class TreeElementTest
 {
 
 	/**
-	 * Test method for {@link TreeElementNode} constructors
+	 * Test method for {@link TreeElement} constructors and builders
 	 */
 	@Test
 	public final void testConstructors()
 	{
-		TreeElement model;
-		TreeElementNode treeElementNode;
-
+		TreeElement model = new TreeElement();
+		assertNotNull(model);
 		model = new TreeElement("name");
 		assertNotNull(model);
 		model = TreeElement.builder().build();
 		assertNotNull(model);
-		treeElementNode = new TreeElementNode(model);
-		assertNotNull(treeElementNode);
-
-		treeElementNode = TreeElementNode.builder().build();
-		assertNotNull(treeElementNode);
 	}
 
 	/**
-	 * Test method for {@link TreeElementNode}
+	 * Test method for {@link TreeElement#equals(Object)} , {@link TreeElement#hashCode()} and
+	 * {@link TreeElement#toString()}
+	 */
+	@Test
+	public void testEqualsHashcodeAndToStringWithClassSilently()
+	{
+		boolean expected;
+		boolean actual;
+		actual = EqualsHashCodeAndToStringEvaluator
+			.evaluateEqualsHashcodeAndToString(TreeElement.builder().build());
+		expected = true;
+		assertEquals(expected, actual);
+	}
+
+	/**
+	 * Test method for {@link TreeElement}
 	 */
 	@Test
 	public void testWithBeanTester()
 	{
-		final TreeElementNode parentTreeNode = new TreeElementNode();
-		Configuration configuration = new ConfigurationBuilder()
-			.overrideFactory("parent", new Factory<TreeElementNode>()
-			{
-
-				@Override
-				public TreeElementNode create()
-				{
-					return parentTreeNode;
-				}
-
-			}).build();
 		final BeanTester beanTester = new BeanTester();
-		beanTester.addCustomConfiguration(TreeNode.class, configuration);
-		beanTester.testBean(TreeNode.class);
+		beanTester.testBean(TreeElement.class);
 	}
+
 }

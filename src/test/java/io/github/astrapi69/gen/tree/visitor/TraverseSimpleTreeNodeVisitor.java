@@ -22,30 +22,36 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.tree.element;
+package io.github.astrapi69.gen.tree.visitor;
 
-import org.testng.annotations.Test;
+import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.gen.tree.SimpleTreeNode;
+import lombok.Getter;
 
-import static org.testng.AssertJUnit.assertNotNull;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 
 /**
- * The unit test class for the class {@link TreeElement}
+ * This visitor visits all {@link SimpleTreeNode} objects and adds them to a {@link Collection}
+ * object with all descendant
+ *
+ * @param <T>
+ *            the generic type of the value
  */
-public class LazyTreeElementTest
+public class TraverseSimpleTreeNodeVisitor<T, K> implements Visitor<SimpleTreeNode<T, K>>
 {
+	/**
+	 * a {@link Collection} object for store all {@link SimpleTreeNode} objects
+	 */
+	@Getter
+	private final Collection<SimpleTreeNode<T, K>> allTreeNodes = new LinkedHashSet<>();
 
 	/**
-	 * Test method for {@link LazyTreeElement} constructors and builders
+	 * {@inheritDoc}
 	 */
-	@Test
-	public final void testConstructors()
+	@Override
+	public void visit(SimpleTreeNode<T, K> simpleTreeNode)
 	{
-		LazyTreeElement<String> model = new LazyTreeElement<>();
-		assertNotNull(model);
-		model = new LazyTreeElement<>("value");
-		assertNotNull(model);
-		model = LazyTreeElement.<String> builder().build();
-		assertNotNull(model);
+		allTreeNodes.add(simpleTreeNode);
 	}
-
 }
