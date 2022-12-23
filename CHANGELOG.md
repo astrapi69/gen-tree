@@ -4,7 +4,13 @@
 Version 7.3-SNAPSHOT
 -------------
 
+ADDED:
 
+- new dependency tree-api in minor version 1.1
+
+CHANGED:
+
+- move all classes to new base package io.github.astrapi69.gen.tree.*
 
 Version 7.2
 -------------
