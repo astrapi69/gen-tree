@@ -26,6 +26,7 @@ package io.github.astrapi69.tree;
 
 import io.github.astrapi69.AbstractTestCase;
 import io.github.astrapi69.evaluate.object.evaluator.EqualsHashCodeAndToStringEvaluator;
+import io.github.astrapi69.gen.tree.TreeIdNode;
 import io.github.astrapi69.id.generate.LongIdGenerator;
 import io.github.astrapi69.tree.element.TreeElement;
 import lombok.AccessLevel;

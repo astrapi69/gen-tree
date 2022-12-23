@@ -25,7 +25,7 @@
 package io.github.astrapi69.tree.convert;
 
 import io.github.astrapi69.data.identifiable.IdGenerator;
-import io.github.astrapi69.tree.BaseTreeNode;
+import io.github.astrapi69.gen.tree.BaseTreeNode;
 import io.github.astrapi69.tree.element.GenericTreeElement;
 import io.github.astrapi69.tree.element.TreeElement;
 import lombok.NonNull;

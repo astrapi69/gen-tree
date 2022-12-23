@@ -25,9 +25,10 @@
 package io.github.astrapi69.tree.convert;
 
 import io.github.astrapi69.collection.set.SetFactory;
+import io.github.astrapi69.gen.tree.convert.BaseTreeNodeTransformer;
 import io.github.astrapi69.id.generate.LongIdGenerator;
-import io.github.astrapi69.tree.BaseTreeNode;
-import io.github.astrapi69.tree.TreeIdNode;
+import io.github.astrapi69.gen.tree.BaseTreeNode;
+import io.github.astrapi69.gen.tree.TreeIdNode;
 import io.github.astrapi69.tree.element.GenericTreeElement;
 import io.github.astrapi69.tree.element.MysticCryptEntryModelBean;
 import org.meanbean.test.BeanTester;

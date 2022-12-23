@@ -22,25 +22,27 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.tree.api;
+package io.github.astrapi69.gen.tree.api;
 
-import java.io.Serializable;
+import io.github.astrapi69.design.pattern.visitor.Acceptable;
+import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.gen.tree.handler.ITreeNodeHandlerExtensions;
+import io.github.astrapi69.gen.tree.handler.TreeNodeVisitorHandlerExtensions;
+import io.github.astrapi69.tree.api.ITree;
+import lombok.NonNull;
+
 import java.util.Collection;
 import java.util.List;
 
-import lombok.NonNull;
-import io.github.astrapi69.design.pattern.visitor.Acceptable;
-import io.github.astrapi69.design.pattern.visitor.Visitor;
-
 /**
- * The Interface {@link ITree} holds the children in a {@link Collection} object
+ * The Interface {@link ITreeNode} holds the children in a {@link Collection} object
  *
  * @param <V>
  *            the generic type of the value
  * @param <T>
  *            the generic type of the concrete tree node
  */
-public interface ITree<V, T> extends Serializable
+public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Acceptable<Visitor<T>>
 {
 
 	/**
@@ -49,7 +51,10 @@ public interface ITree<V, T> extends Serializable
 	 * @param child
 	 *            the child
 	 */
-	void addChild(final T child);
+	default void addChild(final T child)
+	{
+		ITreeNodeHandlerExtensions.addChild((T)this, child);
+	}
 
 	/**
 	 * Adds all the given children
@@ -57,7 +62,10 @@ public interface ITree<V, T> extends Serializable
 	 * @param children
 	 *            the children to add
 	 */
-	void addChildren(final @NonNull Collection<T> children);
+	default void addChildren(final @NonNull Collection<T> children)
+	{
+		ITreeNodeHandlerExtensions.addChildren((T)this, children);
+	}
 
 	/**
 	 * Returns all siblings of this node in the parent's children list. Returns null if this node is
@@ -65,7 +73,10 @@ public interface ITree<V, T> extends Serializable
 	 *
 	 * @return Returns all siblings of this node or null if this node is the root.
 	 */
-	Collection<T> getAllSiblings();
+	default Collection<T> getAllSiblings()
+	{
+		return ITreeNodeHandlerExtensions.getAllSiblings((T)this);
+	}
 
 	/**
 	 * Returns the previous sibling of this node in the parent's children list. Returns null if this
@@ -74,7 +85,10 @@ public interface ITree<V, T> extends Serializable
 	 * @return the next sibling of this node or null if this node is the root or is the parent's
 	 *         last child.
 	 */
-	T getPreviousSibling();
+	default T getPreviousSibling()
+	{
+		return ITreeNodeHandlerExtensions.getPreviousSibling((T)this);
+	}
 
 	/**
 	 * Returns the next sibling of this node in the parent's children list. Returns null if this
@@ -83,131 +97,80 @@ public interface ITree<V, T> extends Serializable
 	 * @return the next sibling of this node or null if this node is the root or is the parent's
 	 *         last child.
 	 */
-	T getNextSibling();
+	default T getNextSibling()
+	{
+		return ITreeNodeHandlerExtensions.getNextSibling((T)this);
+	}
 
 	/**
 	 * Gets the child count.
 	 *
 	 * @return the child count
 	 */
-	int getChildCount();
-
-	/**
-	 * Gets the children.
-	 *
-	 * @return the children
-	 */
-	Collection<T> getChildren();
-
-	/**
-	 * Sets the children.
-	 *
-	 * @param children
-	 *            the new children
-	 */
-	void setChildren(final Collection<T> children);
-
-	/**
-	 * Gets the optional display value.
-	 *
-	 * @return the display value
-	 */
-	String getDisplayValue();
-
-	/**
-	 * Sets the optional display value.
-	 *
-	 * @param displayValue
-	 *            the new optional display value
-	 */
-	void setDisplayValue(final String displayValue);
+	default int getChildCount()
+	{
+		return getChildren().size();
+	}
 
 	/**
 	 * Returns the distance from the root to this node. Returns 0 if this node is the root.
 	 *
 	 * @return the level from this node.
 	 */
-	int getLevel();
-
-	/**
-	 * Gets the parent.
-	 *
-	 * @return the parent
-	 */
-	T getParent();
-
-	/**
-	 * Sets the parent.
-	 *
-	 * @param parent
-	 *            the new parent
-	 */
-	void setParent(final T parent);
+	default int getLevel()
+	{
+		return ITreeNodeHandlerExtensions.getLevel((T)this);
+	}
 
 	/**
 	 * Gets the root object
 	 *
 	 * @return the root object
 	 */
-	T getRoot();
-
-	/**
-	 * Gets the value.
-	 *
-	 * @return the value
-	 */
-	V getValue();
-
-	/**
-	 * Sets the value.
-	 *
-	 * @param value
-	 *            the new value
-	 */
-	void setValue(final V value);
+	default T getRoot()
+	{
+		return ITreeNodeHandlerExtensions.getRoot((T)this);
+	}
 
 	/**
 	 * Checks for children.
 	 *
 	 * @return true, if successful
 	 */
-	boolean hasChildren();
+	default boolean hasChildren()
+	{
+		return ITreeNodeHandlerExtensions.hasChildren((T)this);
+	}
 
 	/**
 	 * Checks for parent
 	 *
 	 * @return true, if successful
 	 */
-	boolean hasParent();
-
-	/**
-	 * Checks if is leaf.
-	 *
-	 * @return true, if is leaf
-	 */
-	boolean isLeaf();
-
-	/**
-	 * Sets the flag that indicates if this tree node is a node or a leaf
-	 *
-	 * @param leaf
-	 *            The flag to set that indicates if this tree node is a node or a leaf
-	 */
-	void setLeaf(boolean leaf);
+	default boolean hasParent()
+	{
+		return ITreeNodeHandlerExtensions.hasParent((T)this);
+	}
 
 	/**
 	 * Checks if is node.
 	 *
 	 * @return true, if is node
 	 */
-	boolean isNode();
+	default boolean isNode()
+	{
+		return !isLeaf();
+	}
 
 	/**
-	 * Checks if this {@link ITree} is the root {@link ITree} object
+	 * Checks if this {@link ITreeNode} is the root {@link ITreeNode} object
 	 *
-	 * @return true, if this {@link ITree} is the root {@link ITree} object
+	 * @return true, if this {@link ITreeNode} is the root {@link ITreeNode} object
 	 */
-	boolean isRoot();
+	default boolean isRoot()
+	{
+		return ITreeNodeHandlerExtensions.isRoot((T)this);
+	}
 
 	/**
 	 * Removes the child.
@@ -215,22 +178,34 @@ public interface ITree<V, T> extends Serializable
 	 * @param child
 	 *            the child
 	 */
-	void removeChild(final T child);
+	default void removeChild(final T child)
+	{
+		ITreeNodeHandlerExtensions.removeChild((T)this, child);
+	}
 
 	/**
 	 * Removes all the children
 	 */
-	void clearChildren();
+	default void clearChildren()
+	{
+		ITreeNodeHandlerExtensions.clearChildren((T)this);
+	}
 
 	/**
 	 * Removes all the descendants
 	 */
-	void clearAll();
+	default void clearAll()
+	{
+		ITreeNodeHandlerExtensions.clearAll((T)this);
+	}
 
 	/**
 	 * Removes all the children
 	 */
-	void removeChildren();
+	default void removeChildren()
+	{
+		ITreeNodeHandlerExtensions.removeChildren((T)this);
+	}
 
 	/**
 	 * Removes all the given children
@@ -238,55 +213,81 @@ public interface ITree<V, T> extends Serializable
 	 * @param children
 	 *            the children to remove
 	 */
-	void removeChildren(final @NonNull Collection<T> children);
+	default void removeChildren(final @NonNull Collection<T> children)
+	{
+		ITreeNodeHandlerExtensions.removeChildren((T)this, children);
+	}
 
 	/**
-	 * Find all {@link ITree} objects that have the same value as the given value
+	 * {@inheritDoc}
+	 */
+	default void accept(final @NonNull Visitor<T> visitor)
+	{
+		TreeNodeVisitorHandlerExtensions.accept((T)this, visitor);
+	}
+
+	/**
+	 * Find all {@link ITreeNode} objects that have the same value as the given value
 	 *
 	 * @param value
 	 *            the value for the search process
 	 * @return a {@link Collection} object with all found occurrences that have the same value as
 	 *         the given value
 	 */
-	Collection<T> findAllByValue(final V value);
+	default Collection<T> findAllByValue(final V value)
+	{
+		return ITreeNodeHandlerExtensions.findAllByValue((T)this, value);
+	}
 
 	/**
-	 * Find all {@link ITree} objects that have the same value as the given value
+	 * Find all {@link ITreeNode} objects that have the same value as the given value
 	 *
 	 * @param value
 	 *            the value for the search process
 	 * @return a {@link Collection} object with all found occurrences that have the same value as
 	 *         the given value
 	 */
-	T findByValue(final @NonNull V value);
+	default T findByValue(final @NonNull V value)
+	{
+		return ITreeNodeHandlerExtensions.findByValue((T)this, value);
+	}
 
 	/**
-	 * Checks if the given {@link ITree} object is a descendant of this tree node
+	 * Checks if the given {@link ITreeNode} object is a descendant of this tree node
 	 *
 	 * @param treeNode
 	 *            the tree node to check
-	 * @return true if the given {@link ITree} object is a descendant of this tree node otherwise
-	 *         false
+	 * @return true if the given {@link ITreeNode} object is a descendant of this tree node
+	 *         otherwise false
 	 */
-	boolean contains(T treeNode);
+	default boolean contains(T treeNode)
+	{
+		return ITreeNodeHandlerExtensions.contains((T)this, treeNode);
+	}
 
 	/**
-	 * Checks if the given {@link Collection} object of {@link ITree} objects are descendants of
+	 * Checks if the given {@link Collection} object of {@link ITreeNode} objects are descendants of
 	 * this tree node
 	 *
 	 * @param treeNodes
 	 *            the children to add
-	 * @return true if the given {@link Collection} object of {@link ITree} objects are descendants
-	 *         of this tree node otherwise false
+	 * @return true if the given {@link Collection} object of {@link ITreeNode} objects are
+	 *         descendants of this tree node otherwise false
 	 */
-	boolean containsAll(final @NonNull Collection<T> treeNodes);
+	default boolean containsAll(final @NonNull Collection<T> treeNodes)
+	{
+		return ITreeNodeHandlerExtensions.containsAll((T)this, treeNodes);
+	}
 
 	/**
 	 * Traverse this node and adds all descendant with this included in to a {@link List} object
 	 *
 	 * @return a {@link List} object with this node and add all descendant
 	 */
-	List<T> toList();
+	default List<T> toList()
+	{
+		return ITreeNodeHandlerExtensions.toList((T)this);
+	}
 
 	/**
 	 * Traverse this node and adds all descendant with this included in to a {@link Collection}
@@ -294,6 +295,9 @@ public interface ITree<V, T> extends Serializable
 	 *
 	 * @return a {@link Collection} object with this node and add all descendant
 	 */
-	Collection<T> traverse();
+	default Collection<T> traverse()
+	{
+		return TreeNodeVisitorHandlerExtensions.traverse((T)this);
+	}
 
 }

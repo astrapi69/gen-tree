@@ -26,6 +26,7 @@ package io.github.astrapi69.tree;
 
 import io.github.astrapi69.AbstractTestCase;
 import io.github.astrapi69.collection.set.SetFactory;
+import io.github.astrapi69.gen.tree.BaseTreeNode;
 import io.github.astrapi69.id.generate.LongIdGenerator;
 import io.github.astrapi69.tree.element.TreeElement;
 import org.meanbean.lang.Factory;

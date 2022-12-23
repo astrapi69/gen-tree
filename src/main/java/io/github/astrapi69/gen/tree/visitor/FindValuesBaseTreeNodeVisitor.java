@@ -22,10 +22,10 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.tree.visitor;
+package io.github.astrapi69.gen.tree.visitor;
 
 import io.github.astrapi69.design.pattern.visitor.Visitor;
-import io.github.astrapi69.tree.BaseTreeNode;
+import io.github.astrapi69.gen.tree.BaseTreeNode;
 import lombok.Getter;
 
 import java.util.Collection;

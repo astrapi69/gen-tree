@@ -25,6 +25,7 @@
 package io.github.astrapi69.tree;
 
 import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.gen.tree.SimpleTreeNode;
 import io.github.astrapi69.id.generate.LongIdGenerator;
 import io.github.astrapi69.tree.visitor.DisplayValueOfSimpleTreeNodeVisitor;
 import io.github.astrapi69.tree.visitor.TraverseSimpleTreeNodeVisitor;

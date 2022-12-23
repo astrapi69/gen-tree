@@ -25,8 +25,8 @@
 package io.github.astrapi69.tree.visitor;
 
 import io.github.astrapi69.design.pattern.visitor.Visitor;
-import io.github.astrapi69.tree.SimpleTreeNode;
-import io.github.astrapi69.tree.api.ITreeNode;
+import io.github.astrapi69.gen.tree.SimpleTreeNode;
+import io.github.astrapi69.gen.tree.api.ITreeNode;
 import lombok.Getter;
 
 import java.util.Collection;

@@ -25,8 +25,9 @@
 package io.github.astrapi69.tree.handler;
 
 import io.github.astrapi69.collection.set.SetFactory;
+import io.github.astrapi69.gen.tree.handler.SimpleTreeNodeHandlerExtensions;
 import io.github.astrapi69.id.generate.LongIdGenerator;
-import io.github.astrapi69.tree.SimpleTreeNode;
+import io.github.astrapi69.gen.tree.SimpleTreeNode;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

@@ -25,6 +25,7 @@
 package io.github.astrapi69.tree.binary;
 
 import io.github.astrapi69.AbstractTestCase;
+import io.github.astrapi69.gen.tree.binary.LinkedNode;
 import io.github.astrapi69.tree.element.TreeElement;
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;

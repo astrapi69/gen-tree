@@ -3,4 +3,4 @@
  *
  * @author Asterios Raptis
  */
-package io.github.astrapi69.tree.api;
+package io.github.astrapi69.gen.tree.api;

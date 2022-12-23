@@ -22,7 +22,7 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.tree.api;
+package io.github.astrapi69.gen.tree.api;
 
 /**
  * The Interface {@link IBaseTreeNode} extends {@link ITreeNode} and provides an additional id field

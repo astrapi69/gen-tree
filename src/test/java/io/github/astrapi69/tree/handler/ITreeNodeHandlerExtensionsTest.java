@@ -24,11 +24,10 @@
  */
 package io.github.astrapi69.tree.handler;
 
-import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.gen.tree.handler.ITreeNodeHandlerExtensions;
 import io.github.astrapi69.id.generate.LongIdGenerator;
 import io.github.astrapi69.tree.TreeNode;
-import io.github.astrapi69.tree.api.ITreeNode;
-import io.github.astrapi69.tree.visitor.TraverseTreeNodeVisitor;
+import io.github.astrapi69.gen.tree.api.ITreeNode;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
