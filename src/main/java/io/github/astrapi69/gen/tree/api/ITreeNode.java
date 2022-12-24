@@ -46,10 +46,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 {
 
 	/**
-	 * Adds the given child
-	 *
-	 * @param child
-	 *            the child
+	 * {@inheritDoc}
 	 */
 	default void addChild(final T child)
 	{
@@ -57,10 +54,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	}
 
 	/**
-	 * Adds all the given children
-	 *
-	 * @param children
-	 *            the children to add
+	 * {@inheritDoc}
 	 */
 	default void addChildren(final @NonNull Collection<T> children)
 	{
@@ -68,10 +62,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	}
 
 	/**
-	 * Returns all siblings of this node in the parent's children list. Returns null if this node is
-	 * the root.
-	 *
-	 * @return Returns all siblings of this node or null if this node is the root.
+	 * {@inheritDoc}
 	 */
 	default Collection<T> getAllSiblings()
 	{
@@ -79,11 +70,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	}
 
 	/**
-	 * Returns the previous sibling of this node in the parent's children list. Returns null if this
-	 * node is the root or is the parent's first child.
-	 *
-	 * @return the next sibling of this node or null if this node is the root or is the parent's
-	 *         last child.
+	 * {@inheritDoc}
 	 */
 	default T getPreviousSibling()
 	{
@@ -91,11 +78,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	}
 
 	/**
-	 * Returns the next sibling of this node in the parent's children list. Returns null if this
-	 * node is the root or is the parent's last child.
-	 *
-	 * @return the next sibling of this node or null if this node is the root or is the parent's
-	 *         last child.
+	 * {@inheritDoc}
 	 */
 	default T getNextSibling()
 	{
@@ -103,9 +86,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	}
 
 	/**
-	 * Gets the child count.
-	 *
-	 * @return the child count
+	 * {@inheritDoc}
 	 */
 	default int getChildCount()
 	{
@@ -113,9 +94,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	}
 
 	/**
-	 * Returns the distance from the root to this node. Returns 0 if this node is the root.
-	 *
-	 * @return the level from this node.
+	 * {@inheritDoc}
 	 */
 	default int getLevel()
 	{
@@ -123,9 +102,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	}
 
 	/**
-	 * Gets the root object
-	 *
-	 * @return the root object
+	 * {@inheritDoc}
 	 */
 	default T getRoot()
 	{
@@ -133,9 +110,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	}
 
 	/**
-	 * Checks for children.
-	 *
-	 * @return true, if successful
+	 * {@inheritDoc}
 	 */
 	default boolean hasChildren()
 	{
@@ -143,9 +118,15 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	}
 
 	/**
-	 * Checks for parent
-	 *
-	 * @return true, if successful
+	 * {@inheritDoc}
+	 */
+	default boolean hasNextSibling()
+	{
+		return ITreeNodeHandlerExtensions.hasNextSibling((T)this);
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	default boolean hasParent()
 	{
@@ -153,9 +134,15 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	}
 
 	/**
-	 * Checks if is node.
-	 *
-	 * @return true, if is node
+	 * {@inheritDoc}
+	 */
+	default boolean hasPreviousSibling()
+	{
+		return ITreeNodeHandlerExtensions.hasPreviousSibling((T)this);
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	default boolean isNode()
 	{
@@ -163,9 +150,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	}
 
 	/**
-	 * Checks if this {@link ITreeNode} is the root {@link ITreeNode} object
-	 *
-	 * @return true, if this {@link ITreeNode} is the root {@link ITreeNode} object
+	 * {@inheritDoc}
 	 */
 	default boolean isRoot()
 	{
@@ -173,10 +158,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	}
 
 	/**
-	 * Removes the child.
-	 *
-	 * @param child
-	 *            the child
+	 * {@inheritDoc}
 	 */
 	default void removeChild(final T child)
 	{
@@ -184,7 +166,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	}
 
 	/**
-	 * Removes all the children
+	 * {@inheritDoc}
 	 */
 	default void clearChildren()
 	{
@@ -192,7 +174,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	}
 
 	/**
-	 * Removes all the descendants
+	 * {@inheritDoc}
 	 */
 	default void clearAll()
 	{
@@ -200,7 +182,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	}
 
 	/**
-	 * Removes all the children
+	 * {@inheritDoc}
 	 */
 	default void removeChildren()
 	{
@@ -208,10 +190,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	}
 
 	/**
-	 * Removes all the given children
-	 *
-	 * @param children
-	 *            the children to remove
+	 * {@inheritDoc}
 	 */
 	default void removeChildren(final @NonNull Collection<T> children)
 	{
@@ -227,12 +206,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	}
 
 	/**
-	 * Find all {@link ITreeNode} objects that have the same value as the given value
-	 *
-	 * @param value
-	 *            the value for the search process
-	 * @return a {@link Collection} object with all found occurrences that have the same value as
-	 *         the given value
+	 * {@inheritDoc}
 	 */
 	default Collection<T> findAllByValue(final V value)
 	{
@@ -240,12 +214,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	}
 
 	/**
-	 * Find all {@link ITreeNode} objects that have the same value as the given value
-	 *
-	 * @param value
-	 *            the value for the search process
-	 * @return a {@link Collection} object with all found occurrences that have the same value as
-	 *         the given value
+	 * {@inheritDoc}
 	 */
 	default T findByValue(final @NonNull V value)
 	{
@@ -253,12 +222,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	}
 
 	/**
-	 * Checks if the given {@link ITreeNode} object is a descendant of this tree node
-	 *
-	 * @param treeNode
-	 *            the tree node to check
-	 * @return true if the given {@link ITreeNode} object is a descendant of this tree node
-	 *         otherwise false
+	 * {@inheritDoc}
 	 */
 	default boolean contains(T treeNode)
 	{
@@ -266,13 +230,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	}
 
 	/**
-	 * Checks if the given {@link Collection} object of {@link ITreeNode} objects are descendants of
-	 * this tree node
-	 *
-	 * @param treeNodes
-	 *            the children to add
-	 * @return true if the given {@link Collection} object of {@link ITreeNode} objects are
-	 *         descendants of this tree node otherwise false
+	 * {@inheritDoc}
 	 */
 	default boolean containsAll(final @NonNull Collection<T> treeNodes)
 	{
@@ -280,9 +238,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	}
 
 	/**
-	 * Traverse this node and adds all descendant with this included in to a {@link List} object
-	 *
-	 * @return a {@link List} object with this node and add all descendant
+	 * {@inheritDoc}
 	 */
 	default List<T> toList()
 	{
@@ -290,10 +246,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	}
 
 	/**
-	 * Traverse this node and adds all descendant with this included in to a {@link Collection}
-	 * object
-	 *
-	 * @return a {@link Collection} object with this node and add all descendant
+	 * {@inheritDoc}
 	 */
 	default Collection<T> traverse()
 	{

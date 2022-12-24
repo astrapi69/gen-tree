@@ -4,7 +4,9 @@
 Version 7.4-SNAPSHOT
 -------------
 
+CHANGED:
 
+- update of dependency tree-api to new minor version 1.2
 
 Version 7.3
 -------------

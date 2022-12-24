@@ -305,6 +305,23 @@ public class ITreeNodeHandlerExtensions
 	}
 
 	/**
+	 * Checks if the given {@link ITreeNode} object has a next sibling {@link ITreeNode} object
+	 *
+	 * @param <V>
+	 *            the generic type of the value
+	 * @param <T>
+	 *            the generic type of the id of the node
+	 * @param treeNode
+	 *            the tree node
+	 * @return true, if the given {@link ITreeNode} object has a next sibling {@link ITreeNode}
+	 *         object otherwise false
+	 */
+	public static <V, T extends ITreeNode<V, T>> boolean hasNextSibling(final @NonNull T treeNode)
+	{
+		return treeNode.getNextSibling() != null;
+	}
+
+	/**
 	 * Checks if the given {@link ITreeNode} object has a parent {@link ITreeNode} object
 	 *
 	 * @param <V>
@@ -319,6 +336,24 @@ public class ITreeNodeHandlerExtensions
 	public static <V, T extends ITreeNode<V, T>> boolean hasParent(final @NonNull T treeNode)
 	{
 		return treeNode.getParent() != null;
+	}
+
+	/**
+	 * Checks if the given {@link ITreeNode} object has a previous sibling {@link ITreeNode} object
+	 *
+	 * @param <V>
+	 *            the generic type of the value
+	 * @param <T>
+	 *            the generic type of the id of the node
+	 * @param treeNode
+	 *            the tree node
+	 * @return true, if the given {@link ITreeNode} object has a previous sibling {@link ITreeNode}
+	 *         object otherwise false
+	 */
+	public static <V, T extends ITreeNode<V, T>> boolean hasPreviousSibling(
+		final @NonNull T treeNode)
+	{
+		return treeNode.getPreviousSibling() != null;
 	}
 
 	/**
