@@ -24,6 +24,9 @@
  */
 package io.github.astrapi69.gen.tree.api;
 
+import io.github.astrapi69.gen.tree.handler.IBaseTreeNodeHandlerExtensions;
+import lombok.NonNull;
+
 /**
  * The Interface {@link IBaseTreeNode} extends {@link ITreeNode} and provides an additional id field
  * that can be used as key
@@ -53,4 +56,11 @@ public interface IBaseTreeNode<V, K, T extends IBaseTreeNode<V, K, T>> extends I
 	 */
 	void setId(K id);
 
+	/**
+	 * {@inheritDoc}
+	 */
+	default T findById(final @NonNull K id)
+	{
+		return IBaseTreeNodeHandlerExtensions.findById((T)this, id);
+	}
 }

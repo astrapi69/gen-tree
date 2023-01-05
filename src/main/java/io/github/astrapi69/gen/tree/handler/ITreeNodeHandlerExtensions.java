@@ -41,6 +41,13 @@ import java.util.concurrent.atomic.AtomicReference;
 public class ITreeNodeHandlerExtensions
 {
 
+	public static <V, T extends ITreeNode<V, T>> T merge(final @NonNull T leftTreeNodeRoot, final @NonNull T rightTreeNodeRoot) {
+		T leftRoot = leftTreeNodeRoot.getRoot();
+		T rightRoot = rightTreeNodeRoot.getRoot();
+		// TODO
+		return leftRoot;
+	}
+
 	/**
 	 * Returns all siblings of the given {@link ITreeNode} object in the parent's children list
 	 *
