@@ -24,10 +24,13 @@
  */
 package io.github.astrapi69.gen.tree;
 
-import io.github.astrapi69.AbstractTestCase;
-import io.github.astrapi69.collection.set.SetFactory;
-import io.github.astrapi69.gen.tree.api.ITreeNode;
-import io.github.astrapi69.gen.tree.element.TreeElement;
+import static org.testng.AssertJUnit.*;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
@@ -36,12 +39,10 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-
-import static org.testng.AssertJUnit.*;
+import io.github.astrapi69.AbstractTestCase;
+import io.github.astrapi69.collection.set.SetFactory;
+import io.github.astrapi69.gen.tree.api.ITreeNode;
+import io.github.astrapi69.gen.tree.element.TreeElement;
 
 /**
  * The unit test class for the class {@link BaseTreeNode}
@@ -96,8 +97,8 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		Collection<BaseTreeNode<String, Long>> expected;
 
 		BaseTreeNode<String, Long> treeNode = BaseTreeNode.<String, Long> builder()
-			.id(testTree.getIdGenerator().getNextId()).parent(testTree.getThirdChild()).value(
-				testTree.getFifthGrandChildValue()).build();
+			.id(testTree.getIdGenerator().getNextId()).parent(testTree.getThirdChild())
+			.value(testTree.getFifthGrandChildValue()).build();
 		testTree.getThirdChild().addChild(treeNode);
 
 		actual = testTree.getRoot().findAllByValue(testTree.getFifthGrandChildValue());
@@ -135,7 +136,8 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		BaseTreeNode<String, Long> expected;
 
 		BaseTreeNode<String, Long> treeNode = BaseTreeNode.<String, Long> builder()
-			.id(testTree.getIdGenerator().getNextId()).parent(testTree.getThirdChild()).value(testTree.getFifthGrandChildValue()).build();
+			.id(testTree.getIdGenerator().getNextId()).parent(testTree.getThirdChild())
+			.value(testTree.getFifthGrandChildValue()).build();
 		testTree.getThirdChild().addChild(treeNode);
 
 		actual = testTree.getRoot().findByValue(testTree.getFifthGrandChildValue());
@@ -562,11 +564,12 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		BaseTreeNode<String, Long> fourthChild;
 		BaseTreeNode<String, Long> fifthChild;
 
-		fourthChild = BaseTreeNode.<String, Long> builder().id(testTree.getIdGenerator().getNextId()).parent(testTree.getRoot())
+		fourthChild = BaseTreeNode.<String, Long> builder()
+			.id(testTree.getIdGenerator().getNextId()).parent(testTree.getRoot())
 			.value("I'm the first child").build();
 
-		fifthChild = BaseTreeNode.<String, Long> builder().id(testTree.getIdGenerator().getNextId()).parent(testTree.getRoot())
-			.value("I'm the second child").build();
+		fifthChild = BaseTreeNode.<String, Long> builder().id(testTree.getIdGenerator().getNextId())
+			.parent(testTree.getRoot()).value("I'm the second child").build();
 		children = SetFactory.newLinkedHashSet(fourthChild, fifthChild);
 		testTree.getRoot().addChildren(children);
 		Collection<BaseTreeNode<String, Long>> rootChildren = testTree.getRoot().getChildren();

@@ -24,15 +24,15 @@
  */
 package io.github.astrapi69.gen.tree;
 
-import io.github.astrapi69.design.pattern.visitor.Acceptable;
-import io.github.astrapi69.design.pattern.visitor.Visitor;
-import io.github.astrapi69.gen.tree.handler.SimpleTreeNodeHandlerExtensions;
+import java.util.Collection;
+import java.util.Set;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-
-import java.util.Collection;
-import java.util.Set;
+import io.github.astrapi69.design.pattern.visitor.Acceptable;
+import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.gen.tree.handler.SimpleTreeNodeHandlerExtensions;
 
 /**
  * The generic class {@link SimpleTreeNode} holds only the parent, the left most child and the right
@@ -40,8 +40,12 @@ import java.util.Set;
  *
  * @param <T>
  *            the generic type of the value
+ * @param <K>
+ *            the generic type of the id of the node
  */
 @NoArgsConstructor
+@Getter
+@Setter
 @ToString(exclude = { "parent" })
 @SuperBuilder(toBuilder = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -49,33 +53,21 @@ public class SimpleTreeNode<T, K> implements Acceptable<Visitor<SimpleTreeNode<T
 {
 
 	/** The id from this node. */
-	@Getter
-	@Setter
 	K id;
 
 	/** The left most child */
-	@Getter
-	@Setter
 	SimpleTreeNode<T, K> parent;
 
 	/** The left most child */
-	@Getter
-	@Setter
 	SimpleTreeNode<T, K> leftMostChild;
 
 	/** The right sibling */
-	@Getter
-	@Setter
 	SimpleTreeNode<T, K> rightSibling;
 
 	/** The value */
-	@Getter
-	@Setter
 	T value;
 
 	/** The flag that indicates if this tree node is a leaf or a node */
-	@Getter
-	@Setter
 	boolean leaf;
 
 	/**

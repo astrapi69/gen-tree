@@ -24,12 +24,12 @@
  */
 package io.github.astrapi69.gen.tree.handler;
 
-import io.github.astrapi69.design.pattern.visitor.Visitor;
-import io.github.astrapi69.gen.tree.api.ITreeNode;
-import lombok.NonNull;
-
 import java.util.Collection;
 import java.util.LinkedHashSet;
+
+import lombok.NonNull;
+import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.gen.tree.api.ITreeNode;
 
 /**
  * The class {@link TreeNodeVisitorHandlerExtensions} provides handler methods for the visit all
@@ -45,7 +45,7 @@ public class TreeNodeVisitorHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param treeNode
 	 *            the tree node
 	 *
@@ -65,7 +65,7 @@ public class TreeNodeVisitorHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param treeNode
 	 *            the tree node
 	 * @param visitor
@@ -83,7 +83,7 @@ public class TreeNodeVisitorHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param treeNode
 	 *            the tree node
 	 * @param visitor
@@ -107,4 +107,5 @@ public class TreeNodeVisitorHandlerExtensions
 			visitor.visit(treeNode);
 		}
 	}
+
 }

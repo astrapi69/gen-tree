@@ -24,15 +24,15 @@
  */
 package io.github.astrapi69.gen.tree.handler;
 
-import io.github.astrapi69.design.pattern.visitor.Visitor;
-import io.github.astrapi69.gen.tree.api.ITreeNode;
-import lombok.NonNull;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+
+import lombok.NonNull;
+import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.gen.tree.api.ITreeNode;
 
 /**
  * The class {@link ITreeNodeHandlerExtensions} provides handler methods for the class
@@ -41,20 +41,13 @@ import java.util.concurrent.atomic.AtomicReference;
 public class ITreeNodeHandlerExtensions
 {
 
-	public static <V, T extends ITreeNode<V, T>> T merge(final @NonNull T leftTreeNodeRoot, final @NonNull T rightTreeNodeRoot) {
-		T leftRoot = leftTreeNodeRoot.getRoot();
-		T rightRoot = rightTreeNodeRoot.getRoot();
-		// TODO
-		return leftRoot;
-	}
-
 	/**
 	 * Returns all siblings of the given {@link ITreeNode} object in the parent's children list
 	 *
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param treeNode
 	 *            the tree node
 	 * @return Returns all siblings of the given {@link ITreeNode} object
@@ -78,7 +71,7 @@ public class ITreeNodeHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param treeNode
 	 *            the tree node
 	 * @return the root from the given {@link ITreeNode} object
@@ -105,7 +98,7 @@ public class ITreeNodeHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param currentTreeNode
 	 *            the tree node
 	 * @return the next sibling of the given {@link ITreeNode} object or null if the given
@@ -142,7 +135,7 @@ public class ITreeNodeHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 *
 	 * @param currentTreeNode
 	 *            the tree node
@@ -175,7 +168,7 @@ public class ITreeNodeHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 *
 	 * @param treeNode
 	 *            the tree node
@@ -198,7 +191,7 @@ public class ITreeNodeHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param parentTreeNode
 	 *            the parent tree node
 	 * @param child
@@ -225,7 +218,7 @@ public class ITreeNodeHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param parentTreeNode
 	 *            the parent tree node
 	 * @param child
@@ -246,7 +239,7 @@ public class ITreeNodeHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param parentTreeNode
 	 *            the parent tree node
 	 * @param child
@@ -266,7 +259,7 @@ public class ITreeNodeHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param parentTreeNode
 	 *            the parent tree node
 	 * @param children
@@ -284,7 +277,7 @@ public class ITreeNodeHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param parentTreeNode
 	 *            the parent tree node
 	 */
@@ -301,7 +294,7 @@ public class ITreeNodeHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param treeNode
 	 *            the tree node
 	 * @return true, if the given {@link ITreeNode} is the root {@link ITreeNode} object
@@ -317,7 +310,7 @@ public class ITreeNodeHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param treeNode
 	 *            the tree node
 	 * @return true, if the given {@link ITreeNode} object has a next sibling {@link ITreeNode}
@@ -334,7 +327,7 @@ public class ITreeNodeHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param treeNode
 	 *            the tree node
 	 * @return true, if the given {@link ITreeNode} object has a parent {@link ITreeNode} object
@@ -351,7 +344,7 @@ public class ITreeNodeHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param treeNode
 	 *            the tree node
 	 * @return true, if the given {@link ITreeNode} object has a previous sibling {@link ITreeNode}
@@ -369,7 +362,7 @@ public class ITreeNodeHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param treeNode
 	 *            the tree node
 	 * @return true, if the given {@link ITreeNode} object is a node otherwise false
@@ -385,7 +378,7 @@ public class ITreeNodeHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param treeNode
 	 *            the tree node
 	 */
@@ -400,7 +393,7 @@ public class ITreeNodeHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param treeNode
 	 *            the tree node
 	 */
@@ -417,7 +410,7 @@ public class ITreeNodeHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param parentTreeNode
 	 *            the parent tree node
 	 * @param child
@@ -439,7 +432,7 @@ public class ITreeNodeHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param parentTreeNode
 	 *            the parent tree node
 	 * @param children
@@ -460,7 +453,7 @@ public class ITreeNodeHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param treeNode
 	 *            the tree node
 	 * @return the child count
@@ -476,7 +469,7 @@ public class ITreeNodeHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param treeNode
 	 *            the tree node
 	 * @return true, if the given {@link ITreeNode} object has children otherwise false
@@ -493,7 +486,7 @@ public class ITreeNodeHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param treeNode
 	 *            the tree node
 	 *
@@ -508,62 +501,13 @@ public class ITreeNodeHandlerExtensions
 	}
 
 	/**
-	 * Accepts the given visitor that provides a custom algorithm for processing all elements
-	 *
-	 * @param <V>
-	 *            the generic type of the value
-	 * @param <T>
-	 *            the generic type of the id of the node
-	 * @param treeNode
-	 *            the tree node
-	 * @param visitor
-	 *            the visitor
-	 */
-	public static <V, T extends ITreeNode<V, T>> void accept(final @NonNull T treeNode,
-		final @NonNull Visitor<T> visitor)
-	{
-		ITreeNodeHandlerExtensions.accept(treeNode, visitor, false);
-	}
-
-	/**
-	 * Accepts the given visitor that provides a custom algorithm for processing all elements
-	 *
-	 * @param <V>
-	 *            the generic type of the value
-	 * @param <T>
-	 *            the generic type of the id of the node
-	 * @param treeNode
-	 *            the tree node
-	 * @param visitor
-	 *            the visitor
-	 * @param visitBefore
-	 *            the flag if this flag is true the visit of the given {@link ITreeNode} object is
-	 *            before visit the children otherwise the visit is after visit the children
-	 */
-	public static <V, T extends ITreeNode<V, T>> void accept(final @NonNull T treeNode,
-		final @NonNull Visitor<T> visitor, final boolean visitBefore)
-	{
-		boolean visitAfter = !visitBefore;
-		if (visitBefore)
-		{
-			visitor.visit(treeNode);
-		}
-		treeNode.getChildren()
-			.forEach(child -> ITreeNodeHandlerExtensions.accept(child, visitor, visitBefore));
-		if (visitAfter)
-		{
-			visitor.visit(treeNode);
-		}
-	}
-
-	/**
 	 * Find all {@link ITreeNode} objects from the first given {@link ITreeNode} object that serves
 	 * as the search target, that have the same value as the given value
 	 *
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param treeNode
 	 *            the tree node
 	 * @param value
@@ -603,7 +547,7 @@ public class ITreeNodeHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param treeNode
 	 *            the tree node
 	 * @param value
@@ -627,7 +571,7 @@ public class ITreeNodeHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param treeNode
 	 *            the tree node
 	 * @param descendantCandidate
@@ -652,7 +596,7 @@ public class ITreeNodeHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param treeNode
 	 *            the tree node
 	 * @param treeNodes
@@ -673,7 +617,7 @@ public class ITreeNodeHandlerExtensions
 	 * @param <V>
 	 *            the generic type of the value
 	 * @param <T>
-	 *            the generic type of the id of the node
+	 *            the generic type of the concrete tree node
 	 * @param treeNode
 	 *            the tree node
 	 *

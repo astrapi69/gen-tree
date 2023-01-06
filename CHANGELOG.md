@@ -4,7 +4,19 @@
 Version 7.5-SNAPSHOT
 -------------
 
+ADDED:
 
+- new method in interface IBaseTreeNode created for find a tree node by id
+- new handler class IBaseTreeNodeHandlerExtensions created that provides an implementation of the method findById
+- new visitor class MergeTreeNodesVisitor created for merge tree nodes
+
+CHANGED:
+
+- update gradle version to 8.0-rc-1
+- update of gradle-plugin dependency spotless-plugin-gradle to new minor version 6.12.1
+- update of test dependency silly-collection to new minor version 20.3
+- update of test dependency testng to new minor version 7.7.1
+- javadoc optimized
 
 Version 7.4
 -------------
