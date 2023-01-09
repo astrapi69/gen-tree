@@ -38,8 +38,8 @@ import java.util.stream.Collectors;
  * The class {@link BaseTreeNodeTransformer} provides algorithms for converting between the
  * {@link BaseTreeNode} objects and {@link TreeIdNode} objects. This is useful if you want to save
  * {@link BaseTreeNode} objects in a store, you have first to transform the {@link BaseTreeNode}
- * objects (you want to store) to {@link TreeIdNode} objects and save them. The {@link BaseTreeNode}
- * object is not be stored.
+ * objects (you want to store) to {@link TreeIdNode} objects and save them. Note: The {@link BaseTreeNode}
+ * object can not be stored
  */
 public final class BaseTreeNodeTransformer
 {
