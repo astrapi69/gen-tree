@@ -4,7 +4,14 @@
 Version 7.6-SNAPSHOT
 -------------
 
+ADDED:
 
+- new extension class BaseTreeNodeVisitorHandlerExtensions for visit BaseTreeNode objects
+
+CHANGED:
+
+- moved test-dependency data-api to project dependency and update to new version 4.1
+- interface IBaseTreeNode extends now from interface GenericIdentifiable
 
 Version 7.5
 -------------

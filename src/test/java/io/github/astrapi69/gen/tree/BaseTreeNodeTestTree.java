@@ -24,8 +24,8 @@
  */
 package io.github.astrapi69.gen.tree;
 
-import lombok.Data;
 import io.github.astrapi69.id.generate.LongIdGenerator;
+import lombok.Data;
 
 /**
  * The class {@link BaseTreeNodeTestTree} holds a tree for unit testing
@@ -131,7 +131,13 @@ public class BaseTreeNodeTestTree
 		thirdChild.addChild(fifthGrandChild);
 	}
 
-	protected void reset() throws Exception
+	public void reinitialize()
+	{
+		reset();
+		initialize();
+	}
+
+	public void reset()
 	{
 		root = null;
 		firstChild = null;

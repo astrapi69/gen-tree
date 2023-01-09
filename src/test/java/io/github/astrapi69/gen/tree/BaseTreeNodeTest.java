@@ -24,13 +24,15 @@
  */
 package io.github.astrapi69.gen.tree;
 
-import static org.testng.AssertJUnit.*;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-
+import io.github.astrapi69.AbstractTestCase;
+import io.github.astrapi69.collection.set.SetFactory;
+import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.gen.tree.api.ITreeNode;
+import io.github.astrapi69.gen.tree.element.TreeElement;
+import io.github.astrapi69.gen.tree.handler.BaseTreeNodeVisitorHandlerExtensions;
+import io.github.astrapi69.gen.tree.handler.TreeNodeVisitorHandlerExtensions;
+import io.github.astrapi69.gen.tree.visitor.ReindexTreeNodeVisitor;
+import io.github.astrapi69.id.generate.LongIdGenerator;
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
@@ -39,10 +41,16 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import io.github.astrapi69.AbstractTestCase;
-import io.github.astrapi69.collection.set.SetFactory;
-import io.github.astrapi69.gen.tree.api.ITreeNode;
-import io.github.astrapi69.gen.tree.element.TreeElement;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 /**
  * The unit test class for the class {@link BaseTreeNode}
@@ -85,6 +93,29 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	{
 		super.tearDown();
 		testTree = null;
+	}
+
+	/**
+	 * Test method for {@link TreeNodeVisitorHandlerExtensions#accept(ITreeNode, Visitor, boolean)}
+	 */
+	@Test
+	public void testAccept()
+	{
+		Long id;
+		ReindexTreeNodeVisitor<String, Long, BaseTreeNode<String, Long>> reindexTreeNodeVisitor;
+		reindexTreeNodeVisitor = new ReindexTreeNodeVisitor<>(LongIdGenerator.of(100L));
+		id = testTree.getRoot().getId();
+		assertEquals(id, Long.valueOf(0L));
+		BaseTreeNodeVisitorHandlerExtensions.accept(testTree.getRoot(), reindexTreeNodeVisitor,
+			true);
+		id = testTree.getRoot().getId();
+		assertEquals(id, Long.valueOf(100L));
+		reindexTreeNodeVisitor = new ReindexTreeNodeVisitor<>(LongIdGenerator.of(100L));
+		testTree.reinitialize();
+		BaseTreeNodeVisitorHandlerExtensions.accept(testTree.getRoot(), reindexTreeNodeVisitor,
+			false);
+		id = testTree.getRoot().getId();
+		assertEquals(id, Long.valueOf(111L));
 	}
 
 	/**

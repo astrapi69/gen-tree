@@ -3,13 +3,13 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:$lombokVersion")
 
     implementation("io.github.astrapi69:tree-api:$treeApiVersion")
+    implementation("io.github.astrapi69:data-api:$dataApiVersion")
     implementation("io.github.astrapi69:visitor:$designPatternsVersion")
 
     testCompileOnly("org.projectlombok:lombok:$lombokVersion")
     testAnnotationProcessor("org.projectlombok:lombok:$lombokVersion")
 
     testImplementation("io.github.astrapi69:silly-collection:$sillyCollectionVersion")
-    testImplementation("io.github.astrapi69:data-api:$dataApiVersion")
     testImplementation("io.github.astrapi69:id-generate:$idGenerateVersion")
     testImplementation("io.github.astrapi69:test-object:$testObjectVersion")
     testImplementation("io.github.astrapi69:jobj-contract-verifier:$jobjContractVerifierVersion")

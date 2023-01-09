@@ -26,6 +26,7 @@ module gen.tree {
     requires lombok;
     requires design.patterns.visitor;
     requires tree.api.main;
+    requires data.api;
     exports io.github.astrapi69.gen.tree;
     exports io.github.astrapi69.gen.tree.api;
     exports io.github.astrapi69.gen.tree.binary;

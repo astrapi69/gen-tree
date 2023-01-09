@@ -25,10 +25,10 @@
 package io.github.astrapi69.gen.tree.handler;
 
 import io.github.astrapi69.design.pattern.visitor.Visitor;
-import io.github.astrapi69.id.generate.LongIdGenerator;
 import io.github.astrapi69.gen.tree.TreeNode;
 import io.github.astrapi69.gen.tree.api.ITreeNode;
 import io.github.astrapi69.gen.tree.visitor.TraverseTreeNodeVisitor;
+import io.github.astrapi69.id.generate.LongIdGenerator;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
