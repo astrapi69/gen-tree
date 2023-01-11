@@ -4,7 +4,13 @@
 Version 8.1-SNAPSHOT
 -------------
 
+ADDED:
 
+- new method in class IBaseTreeNodeHandlerExtensions created for merge several tree nodes with a given root node
+
+CHANGED:
+
+- class MergeTreeNodesVisitor generified and has now three generic parameter
 
 Version 8
 -------------

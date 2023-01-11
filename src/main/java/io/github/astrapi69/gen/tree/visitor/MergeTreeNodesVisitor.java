@@ -24,35 +24,36 @@
  */
 package io.github.astrapi69.gen.tree.visitor;
 
-import lombok.NonNull;
 import io.github.astrapi69.design.pattern.visitor.Visitor;
-import io.github.astrapi69.gen.tree.BaseTreeNode;
+import io.github.astrapi69.gen.tree.api.IBaseTreeNode;
+import lombok.NonNull;
 
 /**
- * This visitor visits all {@link BaseTreeNode} objects and merges all nodes to the given
- * {@link BaseTreeNode} object. This means only the given {@link BaseTreeNode} object will be
- * changed and the {@link BaseTreeNode} object that implements this visitor will be not changed
+ * This visitor visits all {@link IBaseTreeNode} objects and merges all nodes to the given
+ * {@link IBaseTreeNode} object. This means only the given {@link IBaseTreeNode} object will be
+ * changed and the {@link IBaseTreeNode} object that implements this visitor will be not changed
  *
  * @param <T>
  *            the generic type of the value
  * @param <K>
  *            the generic type of the id of the node
  */
-public class MergeTreeNodesVisitor<T, K> implements Visitor<BaseTreeNode<T, K>>
+public class MergeTreeNodesVisitor<V, K, T extends IBaseTreeNode<V, K, T>> implements Visitor<T>
 {
+
 	/**
-	 * The {@link BaseTreeNode} object that will be merged with the {@link BaseTreeNode} object that
-	 * implements this visitor
+	 * The {@link IBaseTreeNode} object that will be merged with the {@link IBaseTreeNode} object
+	 * that implements this visitor
 	 */
-	BaseTreeNode<T, K> mergeWith;
+	T mergeWith;
 
 	/**
 	 * Instantiates a new {@link MergeTreeNodesVisitor} object
 	 *
 	 * @param mergeWith
-	 *            the {@link BaseTreeNode} object
+	 *            the {@link IBaseTreeNode} object
 	 */
-	public MergeTreeNodesVisitor(final @NonNull BaseTreeNode<T, K> mergeWith)
+	public MergeTreeNodesVisitor(final @NonNull T mergeWith)
 	{
 		this.mergeWith = mergeWith;
 	}
@@ -61,13 +62,15 @@ public class MergeTreeNodesVisitor<T, K> implements Visitor<BaseTreeNode<T, K>>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void visit(BaseTreeNode<T, K> treeNode)
+	public void visit(T treeNode)
 	{
-		BaseTreeNode<T, K> byId = this.mergeWith.findById(treeNode.getId());
+		final T byId = this.mergeWith.findById(treeNode.getId());
 		if (byId != null)
 		{
-			BaseTreeNode<T, K> parent = byId.getParent();
-			if (parent != null && !parent.getChildren().contains(treeNode))
+			final T parent = byId.getParent();
+			final T treeNodeParent = treeNode.getParent();
+			if (parent != null && treeNodeParent != null && parent.equals(treeNodeParent)
+				&& !parent.getChildren().contains(treeNode))
 			{
 				parent.addChild(treeNode);
 			}

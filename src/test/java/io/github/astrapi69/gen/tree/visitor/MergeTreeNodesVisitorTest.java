@@ -24,6 +24,7 @@
  */
 package io.github.astrapi69.gen.tree.visitor;
 
+import io.github.astrapi69.gen.tree.api.IBaseTreeNode;
 import io.github.astrapi69.gen.tree.handler.ITreeNodeHandlerExtensions;
 import org.testng.annotations.Test;
 
@@ -41,14 +42,14 @@ public class MergeTreeNodesVisitorTest
 {
 
 	/**
-	 * Test method for {@link MergeTreeNodesVisitor#visit(BaseTreeNode)}
+	 * Test method for {@link MergeTreeNodesVisitor#visit(IBaseTreeNode)}
 	 */
 	@Test
 	public void test()
 	{
 		BaseTreeNode<String, Long> baseTestTree;
 		BaseTreeNode<String, Long> root;
-		MergeTreeNodesVisitor<String, Long> mergeTreeNodesVisitor;
+		MergeTreeNodesVisitor<String, Long, BaseTreeNode<String, Long>> mergeTreeNodesVisitor;
 		Collection<BaseTreeNode<String, Long>> allTreeNodes;
 
 		root = BaseTreeNodeTestData.getSimpleTestTree();
