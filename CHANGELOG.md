@@ -6,7 +6,8 @@ Version 8.1-SNAPSHOT
 
 ADDED:
 
-- new method in class IBaseTreeNodeHandlerExtensions created for merge several tree nodes with a given root node
+- new method in class IBaseTreeNodeHandlerExtensions created for merge optional tree nodes with a given root node
+- new method in class IBaseTreeNodeHandlerExtensions created for merge a list of tree nodes with a given root node
 
 CHANGED:
 

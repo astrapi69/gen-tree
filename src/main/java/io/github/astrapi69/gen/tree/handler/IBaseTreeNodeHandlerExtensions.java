@@ -24,6 +24,8 @@
  */
 package io.github.astrapi69.gen.tree.handler;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import io.github.astrapi69.gen.tree.visitor.MergeTreeNodesVisitor;
@@ -88,7 +90,7 @@ public class IBaseTreeNodeHandlerExtensions
 	 * @return the root with the merged tree nodes
 	 */
 	public static <V, K, T extends IBaseTreeNode<V, K, T>> T mergeTreeNodes(final @NonNull T root,
-		T... treeNodes)
+		final @NonNull List<T> treeNodes)
 	{
 		MergeTreeNodesVisitor<V, K, T> visitor = new MergeTreeNodesVisitor<>(root);
 		for (T treeNode : treeNodes)
@@ -96,6 +98,27 @@ public class IBaseTreeNodeHandlerExtensions
 			treeNode.accept(visitor);
 		}
 		return root;
+	}
+
+	/**
+	 * Merge the given tree nodes with the given root tree node
+	 *
+	 * @param <V>
+	 *            the generic type of the value
+	 * @param <K>
+	 *            the generic type of the id of the node
+	 * @param <T>
+	 *            the generic type of the concrete tree node
+	 * @param root
+	 *            the root tree node
+	 * @param treeNodes
+	 *            the tree nodes to merge with
+	 * @return the root with the merged tree nodes
+	 */
+	public static <V, K, T extends IBaseTreeNode<V, K, T>> T mergeTreeNodes(final @NonNull T root,
+		T... treeNodes)
+	{
+		return mergeTreeNodes(root, Arrays.asList(treeNodes));
 	}
 
 }
