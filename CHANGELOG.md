@@ -6,12 +6,14 @@ Version 8.1-SNAPSHOT
 
 ADDED:
 
+- new enum class MergeStrategy created for indicate which strategy to take on merge process
+- new merge visitor class BaseMergeTreeNodesVisitor with the MergeStrategy and a tree node to merge
 - new method in class IBaseTreeNodeHandlerExtensions created for merge optional tree nodes with a given root node
 - new method in class IBaseTreeNodeHandlerExtensions created for merge a list of tree nodes with a given root node
 
 CHANGED:
 
-- class MergeTreeNodesVisitor generified and has now three generic parameter
+- class MergeTreeNodesVisitor extends now BaseMergeTreeNodesVisitor and use the merge strategy KEEP
 
 Version 8
 -------------

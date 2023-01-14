@@ -24,10 +24,12 @@
  */
 package io.github.astrapi69.gen.tree.visitor;
 
+import lombok.AccessLevel;
+import lombok.NonNull;
+import lombok.experimental.FieldDefaults;
 import io.github.astrapi69.design.pattern.visitor.Visitor;
 import io.github.astrapi69.gen.tree.api.IBaseTreeNode;
 import io.github.astrapi69.gen.tree.merge.enumeration.MergeStrategy;
-import lombok.NonNull;
 
 /**
  * This visitor visits all {@link IBaseTreeNode} objects and merges all nodes to the given
@@ -39,22 +41,60 @@ import lombok.NonNull;
  * @param <K>
  *            the generic type of the id of the node
  */
-public class MergeTreeNodesVisitor<V, K, T extends IBaseTreeNode<V, K, T>>
-	extends
-		BaseMergeTreeNodesVisitor<V, K, T>
-	implements
-		Visitor<T>
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
+public class BaseMergeTreeNodesVisitor<V, K, T extends IBaseTreeNode<V, K, T>> implements Visitor<T>
 {
 
 	/**
-	 * Instantiates a new {@link MergeTreeNodesVisitor} object
+	 * The {@link IBaseTreeNode} object that will be merged with the {@link IBaseTreeNode} object
+	 * that implements this visitor
+	 */
+	T mergeWith;
+
+	MergeStrategy mergeStrategy;
+
+	/**
+	 * Instantiates a new {@link BaseMergeTreeNodesVisitor} object
 	 *
 	 * @param mergeWith
 	 *            the {@link IBaseTreeNode} object
+	 * @param mergeStrategy
+	 *            the {@link MergeStrategy} object
 	 */
-	public MergeTreeNodesVisitor(final @NonNull T mergeWith)
+	public BaseMergeTreeNodesVisitor(final @NonNull T mergeWith,
+		final @NonNull MergeStrategy mergeStrategy)
 	{
-		super(mergeWith, MergeStrategy.KEEP);
+		this.mergeWith = mergeWith;
+		this.mergeStrategy = mergeStrategy;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void visit(T treeNode)
+	{
+		final T byId = this.mergeWith.findById(treeNode.getId());
+		if (byId != null)
+		{
+			final T parent = byId.getParent();
+			final T treeNodeParent = treeNode.getParent();
+			switch (mergeStrategy)
+			{
+				case OVERWRITE :
+					if (parent != null && parent.equals(treeNodeParent))
+					{
+						parent.addChild(treeNode);
+					}
+					break;
+				default :
+					if (parent != null && parent.equals(treeNodeParent)
+						&& !parent.getChildren().contains(treeNode))
+					{
+						parent.addChild(treeNode);
+					}
+			}
+		}
 	}
 
 }
