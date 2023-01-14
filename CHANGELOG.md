@@ -13,6 +13,7 @@ ADDED:
 
 CHANGED:
 
+- update of gradle-plugin dependency spotless-plugin-gradle to new minor version 6.13.ß
 - class MergeTreeNodesVisitor extends now BaseMergeTreeNodesVisitor and use the merge strategy KEEP
 
 Version 8
