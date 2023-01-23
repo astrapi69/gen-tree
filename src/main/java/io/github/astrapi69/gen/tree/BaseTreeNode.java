@@ -25,11 +25,17 @@
 package io.github.astrapi69.gen.tree;
 
 import io.github.astrapi69.gen.tree.api.IBaseTreeNode;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.LinkedHashSet;
 
 /**
@@ -50,23 +56,26 @@ import java.util.LinkedHashSet;
 public class BaseTreeNode<T, K> implements IBaseTreeNode<T, K, BaseTreeNode<T, K>>
 {
 
-	/** The id from this node. */
+	/** The id from this node */
 	K id;
 
-	/** The value. */
+	/** The value */
 	T value;
 
-	/** The children. */
-	@Builder.Default
-	Collection<BaseTreeNode<T, K>> children = new LinkedHashSet<>();
+	/** The comparator object for sort the children */
+	Comparator<BaseTreeNode<T, K>> childComparator;
 
-	/** The optional display value. */
+	/** The children */
+	Collection<BaseTreeNode<T, K>> children;
+
+	/** The optional display value */
 	String displayValue;
 
-	/** The parent from this node. If this is null it is the root. */
+	/** The parent from this node. If this is null it is the root */
 	BaseTreeNode<T, K> parent;
 
 	/** The flag that indicates if this tree node is a leaf or a node */
+
 	boolean leaf;
 
 	/**
@@ -80,4 +89,28 @@ public class BaseTreeNode<T, K> implements IBaseTreeNode<T, K, BaseTreeNode<T, K
 		setValue(value);
 	}
 
+	/**
+	 * Gets the children of this node
+	 *
+	 * @return the children
+	 */
+	public Collection<BaseTreeNode<T, K>> getChildren()
+	{
+		if (this.children == null)
+		{
+			this.children = new LinkedHashSet<>();
+		}
+		return this.children;
+	}
+
+	/**
+	 * Sorts the children collection if the comparator is not null
+	 */
+	public void sortChildren()
+	{
+		if (this.childComparator != null)
+		{
+			this.children.stream().sorted(this.childComparator);
+		}
+	}
 }

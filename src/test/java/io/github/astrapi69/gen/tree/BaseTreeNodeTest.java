@@ -43,6 +43,7 @@ import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -185,7 +186,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		final BaseTreeNode<String, Long> parentTreeNode = new BaseTreeNode<>("parent");
 		Configuration configuration = new ConfigurationBuilder()
 			.overrideFactory("parent", (Factory<BaseTreeNode<String, Long>>)() -> parentTreeNode)
-			.build();
+			.overrideFactory("childComparator", () -> Comparator.naturalOrder()).build();
 		final BeanTester beanTester = new BeanTester();
 		beanTester.addCustomConfiguration(BaseTreeNode.class, configuration);
 		beanTester.testBean(BaseTreeNode.class);

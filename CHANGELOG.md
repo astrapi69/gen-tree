@@ -4,6 +4,13 @@
 Version 8.2-SNAPSHOT
 -------------
 
+ADDED:
+
+- new field childComparator in class BaseTreeNode
+
+CHANGED:
+
+- update gradle version to 8.0-rc-2
 
 Version 8.1
 -------------
@@ -17,7 +24,7 @@ ADDED:
 
 CHANGED:
 
-- update of gradle-plugin dependency spotless-plugin-gradle to new minor version 6.13.ß
+- update of gradle-plugin dependency spotless-plugin-gradle to new minor version 6.13.0
 - class MergeTreeNodesVisitor extends now BaseMergeTreeNodesVisitor and use the merge strategy KEEP
 
 Version 8
