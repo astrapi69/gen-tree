@@ -52,4 +52,9 @@ public interface IBaseTreeNode<V, K, T extends IBaseTreeNode<V, K, T>>
 	{
 		return IBaseTreeNodeHandlerExtensions.findById((T)this, id);
 	}
+
+	/**
+	 * Sorts the children collection if the comparator is not null
+	 */
+	void sortChildren();
 }
