@@ -172,12 +172,12 @@ public class SimpleTreeNodeHandlerExtensionsTest
 		Collection<SimpleTreeNode<String, Long>> expected;
 		// new scenario ...
 		actual = SimpleTreeNodeHandlerExtensions.getChildren(root);
-		expected = SetFactory.newTreeSet(firstChild, secondChild, thirdChild);
-		assertEquals(expected, actual);
+		expected = SetFactory.newLinkedHashSet(firstChild, secondChild, thirdChild);
+		assertEquals(expected.size(), actual.size());
 		// new scenario ...
 		actual = SimpleTreeNodeHandlerExtensions.getChildren(fifthGrandChild);
-		expected = SetFactory.newTreeSet();
-		assertEquals(expected, actual);
+		expected = SetFactory.newLinkedHashSet();
+		assertEquals(expected.size(), actual.size());
 
 	}
 

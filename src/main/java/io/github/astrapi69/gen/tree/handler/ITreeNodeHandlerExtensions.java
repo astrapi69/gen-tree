@@ -26,6 +26,7 @@ package io.github.astrapi69.gen.tree.handler;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicReference;
@@ -57,9 +58,9 @@ public class ITreeNodeHandlerExtensions
 		final T parent = treeNode.getParent();
 		if (parent == null)
 		{
-			return new TreeSet<>();
+			return new LinkedHashSet<>();
 		}
-		final Collection<T> allSiblings = new TreeSet<>(parent.getChildren());
+		final Collection<T> allSiblings = new LinkedHashSet<>(parent.getChildren());
 		allSiblings.remove(treeNode);
 		return allSiblings;
 	}
@@ -519,7 +520,7 @@ public class ITreeNodeHandlerExtensions
 	{
 
 		AtomicReference<Collection<T>> foundTreeNodes = new AtomicReference<>(
-			new TreeSet<>());
+			new LinkedHashSet<>());
 		treeNode.accept(currentTreeNode -> {
 			if (value == null)
 			{

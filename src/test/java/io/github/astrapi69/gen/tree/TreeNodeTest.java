@@ -195,11 +195,11 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		thirdChild.addChild(treeNode);
 
 		actual = root.findAllByValue(fifthGrandChildValue);
-		expected = SetFactory.newTreeSet(fifthGrandChild, treeNode);
+		expected = SetFactory.newLinkedHashSet(fifthGrandChild, treeNode);
 		assertEquals(actual, expected);
 
 		actual = root.findAllByValue(null);
-		expected = SetFactory.newTreeSet(thirdGrandChild, fourthGrandChild);
+		expected = SetFactory.newLinkedHashSet(thirdGrandChild, fourthGrandChild);
 		assertEquals(actual, expected);
 	}
 
@@ -260,8 +260,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 
 			}).build();
 		final BeanTester beanTester = new BeanTester();
-		beanTester.addCustomConfiguration(TreeNode.class, configuration);
-		beanTester.testBean(TreeNode.class);
+		beanTester.testBean(TreeNode.class, configuration);
 	}
 
 	/**
@@ -672,7 +671,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		fourthChild = TreeNode.<String> builder().parent(root).value("I'm the first child").build();
 
 		fifthChild = TreeNode.<String> builder().parent(root).value("I'm the second child").build();
-		children = SetFactory.newTreeSet(fourthChild, fifthChild);
+		children = SetFactory.newLinkedHashSet(fourthChild, fifthChild);
 		root.addChildren(children);
 		Collection<TreeNode<String>> rootChildren = root.getChildren();
 		assertTrue(rootChildren.contains(fourthChild));

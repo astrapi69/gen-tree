@@ -154,7 +154,7 @@ public class LinkedNodeTest extends AbstractTestCase<Boolean, Boolean>
 			.overrideFactory("next", (Factory<LinkedNode<TreeElement>>)() -> secondTreeNode)
 			.build();
 		final BeanTester beanTester = new BeanTester();
-		beanTester.addCustomConfiguration(LinkedNode.class, configuration);
-		beanTester.testBean(LinkedNode.class);
+		// beanTester.addCustomConfiguration(LinkedNode.class, configuration);
+		beanTester.testBean(LinkedNode.class, configuration);
 	}
 }

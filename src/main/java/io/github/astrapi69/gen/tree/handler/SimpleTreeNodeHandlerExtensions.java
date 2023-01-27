@@ -30,8 +30,9 @@ import lombok.NonNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.TreeSet;
+//import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -56,7 +57,7 @@ public class SimpleTreeNodeHandlerExtensions
 	public static <T, K> Collection<SimpleTreeNode<T, K>> getChildren(
 		final @NonNull SimpleTreeNode<T, K> treeNode)
 	{
-		Collection<SimpleTreeNode<T, K>> children = new TreeSet<>();
+		Collection<SimpleTreeNode<T, K>> children = new ArrayList<>();
 		if (!treeNode.hasLeftMostChild())
 		{
 			return children;
@@ -91,7 +92,7 @@ public class SimpleTreeNodeHandlerExtensions
 	public static <T, K> Collection<SimpleTreeNode<T, K>> getAllSiblings(
 		final @NonNull SimpleTreeNode<T, K> treeNode)
 	{
-		Collection<SimpleTreeNode<T, K>> allSiblings = new TreeSet<>();
+		Collection<SimpleTreeNode<T, K>> allSiblings = new ArrayList<>();
 		if (treeNode.hasParent())
 		{
 			allSiblings = getChildren(treeNode.getParent());
@@ -480,7 +481,7 @@ public class SimpleTreeNodeHandlerExtensions
 	public static <T, K> Collection<SimpleTreeNode<T, K>> traverse(
 		final @NonNull SimpleTreeNode<T, K> treeNode)
 	{
-		final Collection<SimpleTreeNode<T, K>> allTreeNodes = new TreeSet<>();
+		final Collection<SimpleTreeNode<T, K>> allTreeNodes = new LinkedHashSet<>();
 		treeNode.accept(allTreeNodes::add);
 		return allTreeNodes;
 	}
@@ -560,7 +561,7 @@ public class SimpleTreeNodeHandlerExtensions
 	{
 
 		AtomicReference<Collection<SimpleTreeNode<T, K>>> foundTreeNodes = new AtomicReference<>(
-			new TreeSet<>());
+			new LinkedHashSet<>());
 		treeNode.accept(currentTreeNode -> {
 			if (value == null)
 			{
@@ -687,7 +688,7 @@ public class SimpleTreeNodeHandlerExtensions
 	public static <T, K> Collection<SimpleTreeNode<T, K>> getAllRightSiblings(
 		final @NonNull SimpleTreeNode<T, K> treeNode)
 	{
-		Collection<SimpleTreeNode<T, K>> allRightSiblings = new TreeSet<>();
+		Collection<SimpleTreeNode<T, K>> allRightSiblings = new ArrayList<>();
 		if (treeNode.hasRightSibling())
 		{
 			SimpleTreeNode<T, K> currentRightSibling;
@@ -716,7 +717,7 @@ public class SimpleTreeNodeHandlerExtensions
 	public static <T, K> Collection<SimpleTreeNode<T, K>> getAllLeftSiblings(
 		final @NonNull SimpleTreeNode<T, K> treeNode)
 	{
-		Collection<SimpleTreeNode<T, K>> allSiblings = new TreeSet<>();
+		Collection<SimpleTreeNode<T, K>> allSiblings = new ArrayList<>();
 		if (treeNode.hasParent())
 		{
 			SimpleTreeNode<T, K> parent = treeNode.getParent();

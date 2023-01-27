@@ -25,7 +25,7 @@
 package io.github.astrapi69.gen.tree.handler;
 
 import java.util.Collection;
-import java.util.TreeSet;
+import java.util.LinkedHashSet;
 
 import lombok.NonNull;
 import io.github.astrapi69.design.pattern.visitor.Visitor;
@@ -54,7 +54,7 @@ public class TreeNodeVisitorHandlerExtensions
 	 */
 	public static <V, T extends ITreeNode<V, T>> Collection<T> traverse(final @NonNull T treeNode)
 	{
-		final Collection<T> allTreeNodes = new TreeSet<>();
+		final Collection<T> allTreeNodes = new LinkedHashSet<>();
 		treeNode.accept(allTreeNodes::add);
 		return allTreeNodes;
 	}

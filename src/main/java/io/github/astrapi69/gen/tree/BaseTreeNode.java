@@ -53,7 +53,10 @@ import java.util.TreeSet;
 @ToString(exclude = { "children", "parent" })
 @SuperBuilder(toBuilder = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BaseTreeNode<T, K> implements IBaseTreeNode<T, K, BaseTreeNode<T, K>>, Comparable<BaseTreeNode<T, K>>
+public class BaseTreeNode<T, K>
+	implements
+		IBaseTreeNode<T, K, BaseTreeNode<T, K>>,
+		Comparable<BaseTreeNode<T, K>>
 {
 
 	/** The id from this node */
@@ -114,10 +117,13 @@ public class BaseTreeNode<T, K> implements IBaseTreeNode<T, K, BaseTreeNode<T, K
 		}
 	}
 
-	@Override public int compareTo(BaseTreeNode<T, K> other) {
-		if(this.comparator != null){
+	@Override
+	public int compareTo(BaseTreeNode<T, K> other)
+	{
+		if (this.comparator != null)
+		{
 			return this.comparator.compare(this, other);
 		}
-		return Integer.compare(this.hashCode(), other.hashCode());
+		return this.toString().compareTo(other.toString());
 	}
 }

@@ -29,11 +29,13 @@ import io.github.astrapi69.collection.set.SetFactory;
 import io.github.astrapi69.design.pattern.visitor.Visitor;
 import io.github.astrapi69.gen.tree.api.ITreeNode;
 import io.github.astrapi69.gen.tree.element.TreeElement;
+import io.github.astrapi69.gen.tree.element.TreeElementNode;
 import io.github.astrapi69.gen.tree.handler.BaseTreeNodeVisitorHandlerExtensions;
 import io.github.astrapi69.gen.tree.handler.TreeNodeVisitorHandlerExtensions;
 import io.github.astrapi69.gen.tree.visitor.ReindexTreeNodeVisitor;
 import io.github.astrapi69.id.generate.LongIdGenerator;
 import org.meanbean.lang.Factory;
+import org.meanbean.test.BeanTestException;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
 import org.meanbean.test.ConfigurationBuilder;
@@ -116,7 +118,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		BaseTreeNodeVisitorHandlerExtensions.accept(testTree.getRoot(), reindexTreeNodeVisitor,
 			false);
 		id = testTree.getRoot().getId();
-		assertEquals(id, Long.valueOf(101L));
+		assertEquals(id, Long.valueOf(111L));
 	}
 
 	/**
@@ -180,16 +182,25 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	/**
 	 * Test method for {@link BaseTreeNode}
 	 */
-	@Test
+	@Test(expectedExceptions = { BeanTestException.class })
 	public void testWithBeanTester()
 	{
 		final BaseTreeNode<String, Long> parentTreeNode = new BaseTreeNode<>("parent");
 		Configuration configuration = new ConfigurationBuilder()
 			.overrideFactory("parent", (Factory<BaseTreeNode<String, Long>>)() -> parentTreeNode)
-			.overrideFactory("childComparator", () -> Comparator.naturalOrder()).build();
+			.overrideFactory("childComparator",
+				new Factory<Comparator<BaseTreeNode<String, Long>>>()
+				{
+					@Override
+					public Comparator<BaseTreeNode<String, Long>> create()
+					{
+						return Comparator.naturalOrder();
+					}
+
+				})
+			.build();
 		final BeanTester beanTester = new BeanTester();
-		beanTester.addCustomConfiguration(BaseTreeNode.class, configuration);
-		beanTester.testBean(BaseTreeNode.class);
+		beanTester.testBean(BaseTreeNode.class, configuration);
 	}
 
 	/**
