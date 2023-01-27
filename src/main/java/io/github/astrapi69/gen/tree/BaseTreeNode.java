@@ -36,7 +36,7 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.LinkedHashSet;
+import java.util.TreeSet;
 
 /**
  * The generic class {@link BaseTreeNode} have a generic id and value object
@@ -53,7 +53,7 @@ import java.util.LinkedHashSet;
 @ToString(exclude = { "children", "parent" })
 @SuperBuilder(toBuilder = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BaseTreeNode<T, K> implements IBaseTreeNode<T, K, BaseTreeNode<T, K>>
+public class BaseTreeNode<T, K> implements IBaseTreeNode<T, K, BaseTreeNode<T, K>>, Comparable<BaseTreeNode<T, K>>
 {
 
 	/** The id from this node */
@@ -63,7 +63,7 @@ public class BaseTreeNode<T, K> implements IBaseTreeNode<T, K, BaseTreeNode<T, K
 	T value;
 
 	/** The comparator object for sort the children */
-	Comparator<BaseTreeNode<T, K>> childComparator;
+	Comparator<BaseTreeNode<T, K>> comparator;
 
 	/** The children */
 	Collection<BaseTreeNode<T, K>> children;
@@ -98,7 +98,7 @@ public class BaseTreeNode<T, K> implements IBaseTreeNode<T, K, BaseTreeNode<T, K
 	{
 		if (this.children == null)
 		{
-			this.children = new LinkedHashSet<>();
+			this.children = new TreeSet<>(this.comparator);
 		}
 		return this.children;
 	}
@@ -108,9 +108,16 @@ public class BaseTreeNode<T, K> implements IBaseTreeNode<T, K, BaseTreeNode<T, K
 	 */
 	public void sortChildren()
 	{
-		if (this.childComparator != null)
+		if (this.comparator != null)
 		{
-			this.children.stream().sorted(this.childComparator);
+			this.children.stream().sorted(this.comparator);
 		}
+	}
+
+	@Override public int compareTo(BaseTreeNode<T, K> other) {
+		if(this.comparator != null){
+			return this.comparator.compare(this, other);
+		}
+		return Integer.compare(this.hashCode(), other.hashCode());
 	}
 }

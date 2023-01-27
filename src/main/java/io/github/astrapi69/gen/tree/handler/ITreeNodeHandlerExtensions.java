@@ -26,12 +26,11 @@ package io.github.astrapi69.gen.tree.handler;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicReference;
 
 import lombok.NonNull;
-import io.github.astrapi69.design.pattern.visitor.Visitor;
 import io.github.astrapi69.gen.tree.api.ITreeNode;
 
 /**
@@ -58,9 +57,9 @@ public class ITreeNodeHandlerExtensions
 		final T parent = treeNode.getParent();
 		if (parent == null)
 		{
-			return new LinkedHashSet<>();
+			return new TreeSet<>();
 		}
-		final Collection<T> allSiblings = new LinkedHashSet<>(parent.getChildren());
+		final Collection<T> allSiblings = new TreeSet<>(parent.getChildren());
 		allSiblings.remove(treeNode);
 		return allSiblings;
 	}
@@ -495,7 +494,7 @@ public class ITreeNodeHandlerExtensions
 	 */
 	public static <V, T extends ITreeNode<V, T>> Collection<T> traverse(final @NonNull T treeNode)
 	{
-		final Collection<T> allTreeNodes = new LinkedHashSet<>();
+		final Collection<T> allTreeNodes = new TreeSet<>();
 		treeNode.accept(allTreeNodes::add);
 		return allTreeNodes;
 	}
@@ -520,7 +519,7 @@ public class ITreeNodeHandlerExtensions
 	{
 
 		AtomicReference<Collection<T>> foundTreeNodes = new AtomicReference<>(
-			new LinkedHashSet<>());
+			new TreeSet<>());
 		treeNode.accept(currentTreeNode -> {
 			if (value == null)
 			{

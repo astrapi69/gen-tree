@@ -28,8 +28,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
-import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * The generic class {@link TreeIdNode} keeps no references to the parent or the children, only the
@@ -67,7 +67,7 @@ public class TreeIdNode<T, K>
 	@Getter
 	@Setter
 	@Builder.Default
-	Set<K> childrenIds = new LinkedHashSet<>();
+	Set<K> childrenIds = new TreeSet<>();
 
 	/** The optional display value */
 	@Getter

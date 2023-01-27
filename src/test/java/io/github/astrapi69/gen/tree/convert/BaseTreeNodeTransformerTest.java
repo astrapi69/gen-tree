@@ -215,7 +215,7 @@ public class BaseTreeNodeTransformerTest
 
 		actual = BaseTreeNodeTransformer.toTreeIdNode(root);
 		expected = TreeIdNode.<String, Long> builder().id(root.getId()).leaf(root.isLeaf())
-			.childrenIds(SetFactory.newLinkedHashSet(1L, 2L, 9L)).value(root.getValue()).build();
+			.childrenIds(SetFactory.newTreeSet(1L, 2L, 9L)).value(root.getValue()).build();
 		assertEquals(actual, expected);
 	}
 

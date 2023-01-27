@@ -29,7 +29,7 @@ import io.github.astrapi69.gen.tree.SimpleTreeNode;
 import lombok.Getter;
 
 import java.util.Collection;
-import java.util.LinkedHashSet;
+import java.util.TreeSet;
 
 /**
  * This visitor visits all {@link SimpleTreeNode} objects and adds them to a {@link Collection}
@@ -44,7 +44,7 @@ public class TraverseSimpleTreeNodeVisitor<T, K> implements Visitor<SimpleTreeNo
 	 * a {@link Collection} object for store all {@link SimpleTreeNode} objects
 	 */
 	@Getter
-	private final Collection<SimpleTreeNode<T, K>> allTreeNodes = new LinkedHashSet<>();
+	private final Collection<SimpleTreeNode<T, K>> allTreeNodes = new TreeSet<>();
 
 	/**
 	 * {@inheritDoc}

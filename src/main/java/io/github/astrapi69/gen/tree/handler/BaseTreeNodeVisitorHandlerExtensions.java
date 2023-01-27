@@ -29,7 +29,7 @@ import io.github.astrapi69.gen.tree.api.IBaseTreeNode;
 import lombok.NonNull;
 
 import java.util.Collection;
-import java.util.LinkedHashSet;
+import java.util.TreeSet;
 
 /**
  * The class {@link BaseTreeNodeVisitorHandlerExtensions} provides handler methods for the visit all
@@ -57,7 +57,7 @@ public class BaseTreeNodeVisitorHandlerExtensions
 	public static <V, K, T extends IBaseTreeNode<V, K, T>> Collection<T> traverse(
 		final @NonNull T treeNode)
 	{
-		final Collection<T> allTreeNodes = new LinkedHashSet<>();
+		final Collection<T> allTreeNodes = new TreeSet<>();
 		treeNode.accept(allTreeNodes::add);
 		return allTreeNodes;
 	}

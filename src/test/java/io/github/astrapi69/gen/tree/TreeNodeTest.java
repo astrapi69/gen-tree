@@ -26,6 +26,7 @@ package io.github.astrapi69.gen.tree;
 
 import io.github.astrapi69.AbstractTestCase;
 import io.github.astrapi69.collection.set.SetFactory;
+import io.github.astrapi69.gen.tree.api.ITreeNode;
 import io.github.astrapi69.id.generate.LongIdGenerator;
 import io.github.astrapi69.gen.tree.element.TreeElement;
 import org.meanbean.lang.Factory;
@@ -194,11 +195,11 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		thirdChild.addChild(treeNode);
 
 		actual = root.findAllByValue(fifthGrandChildValue);
-		expected = SetFactory.newLinkedHashSet(fifthGrandChild, treeNode);
+		expected = SetFactory.newTreeSet(fifthGrandChild, treeNode);
 		assertEquals(actual, expected);
 
 		actual = root.findAllByValue(null);
-		expected = SetFactory.newLinkedHashSet(thirdGrandChild, fourthGrandChild);
+		expected = SetFactory.newTreeSet(thirdGrandChild, fourthGrandChild);
 		assertEquals(actual, expected);
 	}
 
@@ -566,7 +567,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link TreeNode#removeChild(TreeNode)}
+	 * Test method for {@link TreeNode#removeChild(ITreeNode)}
 	 */
 	@Test
 	public void testRemoveChild()
@@ -641,7 +642,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link TreeNode#contains(TreeNode)}
+	 * Test method for {@link TreeNode#contains(ITreeNode)}
 	 */
 	@Test
 	public void testContains()
@@ -671,7 +672,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		fourthChild = TreeNode.<String> builder().parent(root).value("I'm the first child").build();
 
 		fifthChild = TreeNode.<String> builder().parent(root).value("I'm the second child").build();
-		children = SetFactory.newLinkedHashSet(fourthChild, fifthChild);
+		children = SetFactory.newTreeSet(fourthChild, fifthChild);
 		root.addChildren(children);
 		Collection<TreeNode<String>> rootChildren = root.getChildren();
 		assertTrue(rootChildren.contains(fourthChild));

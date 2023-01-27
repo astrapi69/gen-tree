@@ -29,7 +29,7 @@ import io.github.astrapi69.gen.tree.BaseTreeNode;
 import lombok.Getter;
 
 import java.util.Collection;
-import java.util.LinkedHashSet;
+import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -48,7 +48,7 @@ public class FindValuesBaseTreeNodeVisitor<T, K> implements Visitor<BaseTreeNode
 	 */
 	@Getter
 	private final AtomicReference<Collection<BaseTreeNode<T, K>>> foundTreeNodes = new AtomicReference<>(
-		new LinkedHashSet<>());
+		new TreeSet<>());
 
 	/* The value */
 	@Getter
