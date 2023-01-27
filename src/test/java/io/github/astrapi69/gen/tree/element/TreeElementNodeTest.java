@@ -78,7 +78,6 @@ public class TreeElementNodeTest
 
 			}).build();
 		final BeanTester beanTester = new BeanTester();
-		beanTester.addCustomConfiguration(TreeNode.class, configuration);
-		beanTester.testBean(TreeNode.class);
+		beanTester.testBean(TreeNode.class, configuration);
 	}
 }

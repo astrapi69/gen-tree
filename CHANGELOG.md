@@ -11,6 +11,7 @@ ADDED:
 CHANGED:
 
 - update gradle version to 8.0-rc-2
+- update of test dependency 'com.github.meanbeanlib:meanbean' to new version 3.0.0-M9
 
 Version 8.1
 -------------

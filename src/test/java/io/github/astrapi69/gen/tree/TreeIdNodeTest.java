@@ -280,8 +280,7 @@ public class TreeIdNodeTest extends AbstractTestCase<Boolean, Boolean>
 			.overrideFactory("parent", (Factory<TreeIdNode<String, Long>>)() -> parentTreeNode)
 			.build();
 		final BeanTester beanTester = new BeanTester();
-		beanTester.addCustomConfiguration(TreeIdNode.class, configuration);
-		beanTester.testBean(TreeIdNode.class);
+		beanTester.testBean(TreeIdNode.class, configuration);
 	}
 
 }

@@ -26,6 +26,7 @@ package io.github.astrapi69.gen.tree;
 
 import io.github.astrapi69.AbstractTestCase;
 import io.github.astrapi69.collection.set.SetFactory;
+import io.github.astrapi69.gen.tree.api.ITreeNode;
 import io.github.astrapi69.id.generate.LongIdGenerator;
 import io.github.astrapi69.gen.tree.element.TreeElement;
 import org.meanbean.lang.Factory;
@@ -259,8 +260,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 
 			}).build();
 		final BeanTester beanTester = new BeanTester();
-		beanTester.addCustomConfiguration(TreeNode.class, configuration);
-		beanTester.testBean(TreeNode.class);
+		beanTester.testBean(TreeNode.class, configuration);
 	}
 
 	/**
@@ -566,7 +566,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link TreeNode#removeChild(TreeNode)}
+	 * Test method for {@link TreeNode#removeChild(ITreeNode)}
 	 */
 	@Test
 	public void testRemoveChild()
@@ -641,7 +641,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link TreeNode#contains(TreeNode)}
+	 * Test method for {@link TreeNode#contains(ITreeNode)}
 	 */
 	@Test
 	public void testContains()

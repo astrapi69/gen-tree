@@ -330,8 +330,7 @@ public class SimpleTreeNodeTest
 			.overrideFactory("parent", (Factory<SimpleTreeNode<String, Long>>)() -> parentTreeNode)
 			.build();
 		final BeanTester beanTester = new BeanTester();
-		beanTester.addCustomConfiguration(SimpleTreeNode.class, configuration);
-		beanTester.testBean(SimpleTreeNode.class);
+		beanTester.testBean(SimpleTreeNode.class, configuration);
 	}
 
 }

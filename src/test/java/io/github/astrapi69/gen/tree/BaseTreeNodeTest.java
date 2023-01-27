@@ -34,6 +34,7 @@ import io.github.astrapi69.gen.tree.handler.TreeNodeVisitorHandlerExtensions;
 import io.github.astrapi69.gen.tree.visitor.ReindexTreeNodeVisitor;
 import io.github.astrapi69.id.generate.LongIdGenerator;
 import org.meanbean.lang.Factory;
+import org.meanbean.test.BeanTestException;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
 import org.meanbean.test.ConfigurationBuilder;
@@ -186,10 +187,17 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		final BaseTreeNode<String, Long> parentTreeNode = new BaseTreeNode<>("parent");
 		Configuration configuration = new ConfigurationBuilder()
 			.overrideFactory("parent", (Factory<BaseTreeNode<String, Long>>)() -> parentTreeNode)
-			.overrideFactory("childComparator", () -> Comparator.naturalOrder()).build();
+			.overrideFactory("childComparator", new Factory<Comparator>()
+			{
+				@Override
+				public Comparator create()
+				{
+					return Comparator.naturalOrder();
+				}
+
+			}).build();
 		final BeanTester beanTester = new BeanTester();
-		beanTester.addCustomConfiguration(BaseTreeNode.class, configuration);
-		beanTester.testBean(BaseTreeNode.class);
+		beanTester.testBean(BaseTreeNode.class, configuration);
 	}
 
 	/**
