@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import lombok.NonNull;
-import io.github.astrapi69.design.pattern.visitor.Visitor;
 import io.github.astrapi69.gen.tree.api.ITreeNode;
 
 /**

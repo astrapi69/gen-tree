@@ -28,9 +28,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import io.github.astrapi69.gen.tree.visitor.MergeTreeNodesVisitor;
 import lombok.NonNull;
 import io.github.astrapi69.gen.tree.api.IBaseTreeNode;
+import io.github.astrapi69.gen.tree.visitor.MergeTreeNodesVisitor;
 
 /**
  * The class {@link IBaseTreeNodeHandlerExtensions} provides handler methods for the class

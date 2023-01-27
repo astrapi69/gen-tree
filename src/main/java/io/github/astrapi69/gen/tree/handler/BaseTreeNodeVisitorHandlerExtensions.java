@@ -24,12 +24,12 @@
  */
 package io.github.astrapi69.gen.tree.handler;
 
-import io.github.astrapi69.design.pattern.visitor.Visitor;
-import io.github.astrapi69.gen.tree.api.IBaseTreeNode;
-import lombok.NonNull;
-
 import java.util.Collection;
 import java.util.LinkedHashSet;
+
+import lombok.NonNull;
+import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.gen.tree.api.IBaseTreeNode;
 
 /**
  * The class {@link BaseTreeNodeVisitorHandlerExtensions} provides handler methods for the visit all

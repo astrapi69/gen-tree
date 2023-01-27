@@ -24,8 +24,8 @@
  */
 package io.github.astrapi69.gen.tree;
 
-import io.github.astrapi69.id.generate.LongIdGenerator;
 import lombok.Data;
+import io.github.astrapi69.id.generate.LongIdGenerator;
 
 /**
  * The class {@link BaseTreeNodeTestTree} holds a tree for unit testing

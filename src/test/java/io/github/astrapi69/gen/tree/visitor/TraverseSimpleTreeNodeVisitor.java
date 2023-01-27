@@ -24,12 +24,12 @@
  */
 package io.github.astrapi69.gen.tree.visitor;
 
-import io.github.astrapi69.design.pattern.visitor.Visitor;
-import io.github.astrapi69.gen.tree.SimpleTreeNode;
-import lombok.Getter;
-
 import java.util.Collection;
 import java.util.LinkedHashSet;
+
+import lombok.Getter;
+import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.gen.tree.SimpleTreeNode;
 
 /**
  * This visitor visits all {@link SimpleTreeNode} objects and adds them to a {@link Collection}

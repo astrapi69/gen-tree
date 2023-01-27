@@ -24,9 +24,9 @@
  */
 package io.github.astrapi69.gen.tree.api;
 
+import lombok.NonNull;
 import io.github.astrapi69.data.identifiable.GenericIdentifiable;
 import io.github.astrapi69.gen.tree.handler.IBaseTreeNodeHandlerExtensions;
-import lombok.NonNull;
 
 /**
  * The Interface {@link IBaseTreeNode} extends {@link ITreeNode} and provides an additional id field

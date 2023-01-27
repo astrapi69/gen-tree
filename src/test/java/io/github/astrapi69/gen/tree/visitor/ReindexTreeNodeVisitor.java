@@ -24,13 +24,13 @@
  */
 package io.github.astrapi69.gen.tree.visitor;
 
+import java.util.Collection;
+
+import lombok.Getter;
 import io.github.astrapi69.data.identifiable.IdGenerator;
 import io.github.astrapi69.design.pattern.visitor.Visitor;
 import io.github.astrapi69.gen.tree.api.IBaseTreeNode;
 import io.github.astrapi69.gen.tree.api.ITreeNode;
-import lombok.Getter;
-
-import java.util.Collection;
 
 /**
  * This visitor visits all {@link ITreeNode} objects and adds them to a {@link Collection} object

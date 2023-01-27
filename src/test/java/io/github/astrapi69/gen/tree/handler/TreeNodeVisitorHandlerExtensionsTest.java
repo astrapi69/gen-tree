@@ -24,17 +24,18 @@
  */
 package io.github.astrapi69.gen.tree.handler;
 
+import static org.testng.AssertJUnit.assertEquals;
+
+import java.util.Collection;
+
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 import io.github.astrapi69.design.pattern.visitor.Visitor;
 import io.github.astrapi69.gen.tree.TreeNode;
 import io.github.astrapi69.gen.tree.api.ITreeNode;
 import io.github.astrapi69.gen.tree.visitor.TraverseTreeNodeVisitor;
 import io.github.astrapi69.id.generate.LongIdGenerator;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import java.util.Collection;
-
-import static org.testng.AssertJUnit.assertEquals;
 
 public class TreeNodeVisitorHandlerExtensionsTest
 {
