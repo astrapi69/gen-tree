@@ -22,7 +22,8 @@ The gen-tree repository holds a generic model for simple and binary tree objects
 > Share this library with friends on Twitter and everywhere else you can
 >
 > If you love this
-> project [![donation](https://img.shields.io/badge/donate-❤-ff2244.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GVBTWLRAZ7HB8)
+>
+project [![donation](https://img.shields.io/badge/donate-❤-ff2244.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GVBTWLRAZ7HB8)
 
 ## License
 
@@ -189,20 +190,20 @@ or over flattr:
 
 ## Credits
 
-|**Nexus Sonatype repositories**|
-|     :---:      |
-|[![sonatype repository](https://img.shields.io/nexus/r/https/oss.sonatype.org/io.github.astrapi69/gen-tree.svg?style=for-the-badge)](https://oss.sonatype.org/index.html#nexus-search;gav~io.github.astrapi69~gen-tree~~~)|
-|Special thanks to [sonatype repository](https://www.sonatype.com) for providing a free maven repository service for open source projects|
-|     <img width=1000/>     |
+|                                                                                              **Nexus Sonatype repositories**                                                                                               |
+|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| [![sonatype repository](https://img.shields.io/nexus/r/https/oss.sonatype.org/io.github.astrapi69/gen-tree.svg?style=for-the-badge)](https://oss.sonatype.org/index.html#nexus-search;gav~io.github.astrapi69~gen-tree~~~) |
+|                                          Special thanks to [sonatype repository](https://www.sonatype.com) for providing a free maven repository service for open source projects                                          |
+|                                                                                                     <img width=1000/>                                                                                                      |
 
-|**codecov.io**|
-|     :---:      |
-|[![Coverage Status](https://codecov.io/gh/astrapi69/gen-tree/branch/develop/graph/badge.svg)](https://codecov.io/gh/astrapi69/gen-tree)|
-|Special thanks to [codecov.io](https://codecov.io) for providing a free code coverage for open source projects|
-|     <img width=1000/>     |
+|                                                             **codecov.io**                                                              |
+|:---------------------------------------------------------------------------------------------------------------------------------------:|
+| [![Coverage Status](https://codecov.io/gh/astrapi69/gen-tree/branch/develop/graph/badge.svg)](https://codecov.io/gh/astrapi69/gen-tree) |
+|             Special thanks to [codecov.io](https://codecov.io) for providing a free code coverage for open source projects              |
+|                                                            <img width=1000/>                                                            |
 
-|**javadoc.io**|
-|     :---:      |
-|[![Javadocs](http://www.javadoc.io/badge/io.github.astrapi69/gen-tree.svg)](http://www.javadoc.io/doc/io.github.astrapi69/gen-tree)|
-|Special thanks to [javadoc.io](http://www.javadoc.io) for providing a free javadoc documentation for open source projects|
-|     <img width=1000/>     |
+|                                                           **javadoc.io**                                                            |
+|:-----------------------------------------------------------------------------------------------------------------------------------:|
+| [![Javadocs](http://www.javadoc.io/badge/io.github.astrapi69/gen-tree.svg)](http://www.javadoc.io/doc/io.github.astrapi69/gen-tree) |
+|      Special thanks to [javadoc.io](http://www.javadoc.io) for providing a free javadoc documentation for open source projects      |
+|                                                          <img width=1000/>                                                          |

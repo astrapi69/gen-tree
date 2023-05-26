@@ -25,7 +25,6 @@
 package io.github.astrapi69.gen.tree;
 
 import io.github.astrapi69.AbstractTestCase;
-import io.github.astrapi69.clone.CloneObjectExtensions;
 import io.github.astrapi69.clone.CloneQuietlyExtensions;
 import io.github.astrapi69.collection.set.SetFactory;
 import io.github.astrapi69.design.pattern.visitor.Visitor;
@@ -44,7 +43,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;

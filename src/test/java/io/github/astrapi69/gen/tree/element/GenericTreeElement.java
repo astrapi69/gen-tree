@@ -24,10 +24,6 @@
  */
 package io.github.astrapi69.gen.tree.element;
 
-import java.io.Serializable;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,6 +33,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
+
+import java.io.Serializable;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The class {@link GenericTreeElement} represents as the name already presume a tree element

@@ -24,16 +24,15 @@
  */
 package io.github.astrapi69.gen.tree.visitor;
 
-import static org.testng.AssertJUnit.assertEquals;
-
-import java.util.Collection;
-
-import org.testng.annotations.Test;
-
 import io.github.astrapi69.gen.tree.BaseTreeNode;
 import io.github.astrapi69.gen.tree.BaseTreeNodeTestData;
 import io.github.astrapi69.gen.tree.api.IBaseTreeNode;
 import io.github.astrapi69.gen.tree.handler.ITreeNodeHandlerExtensions;
+import org.testng.annotations.Test;
+
+import java.util.Collection;
+
+import static org.testng.AssertJUnit.assertEquals;
 
 /**
  * The unit test class for the class {@link MergeTreeNodesVisitor}

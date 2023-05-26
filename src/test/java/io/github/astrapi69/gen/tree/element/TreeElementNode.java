@@ -24,12 +24,12 @@
  */
 package io.github.astrapi69.gen.tree.element;
 
+import io.github.astrapi69.gen.tree.TreeNode;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-import io.github.astrapi69.gen.tree.TreeNode;
 
 /**
  * The concreted class {@link TreeElementNode}

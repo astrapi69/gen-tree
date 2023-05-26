@@ -24,15 +24,14 @@
  */
 package io.github.astrapi69.gen.tree.element;
 
-import static org.testng.AssertJUnit.assertNotNull;
-
+import io.github.astrapi69.gen.tree.TreeNode;
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
 import org.meanbean.test.ConfigurationBuilder;
 import org.testng.annotations.Test;
 
-import io.github.astrapi69.gen.tree.TreeNode;
+import static org.testng.AssertJUnit.assertNotNull;
 
 /**
  * The unit test class for the class {@link TreeElementNode}

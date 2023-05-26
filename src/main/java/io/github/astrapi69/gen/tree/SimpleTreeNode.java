@@ -24,9 +24,9 @@
  */
 package io.github.astrapi69.gen.tree;
 
-import java.util.Collection;
-import java.util.Set;
-
+import io.github.astrapi69.design.pattern.visitor.Acceptable;
+import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.gen.tree.handler.SimpleTreeNodeHandlerExtensions;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,9 +34,9 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import io.github.astrapi69.design.pattern.visitor.Acceptable;
-import io.github.astrapi69.design.pattern.visitor.Visitor;
-import io.github.astrapi69.gen.tree.handler.SimpleTreeNodeHandlerExtensions;
+
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * The generic class {@link SimpleTreeNode} holds only the parent, the left most child and the right

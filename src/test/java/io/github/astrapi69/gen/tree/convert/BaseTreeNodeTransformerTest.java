@@ -24,24 +24,23 @@
  */
 package io.github.astrapi69.gen.tree.convert;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.meanbean.test.BeanTester;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import io.github.astrapi69.collection.set.SetFactory;
 import io.github.astrapi69.gen.tree.BaseTreeNode;
 import io.github.astrapi69.gen.tree.TreeIdNode;
 import io.github.astrapi69.gen.tree.element.GenericTreeElement;
 import io.github.astrapi69.gen.tree.element.MysticCryptEntryModelBean;
 import io.github.astrapi69.id.generate.LongIdGenerator;
+import org.meanbean.test.BeanTester;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 /**
  * The unit test class for the class {@link BaseTreeNodeTransformer}

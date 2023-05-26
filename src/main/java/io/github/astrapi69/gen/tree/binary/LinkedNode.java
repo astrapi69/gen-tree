@@ -24,9 +24,6 @@
  */
 package io.github.astrapi69.gen.tree.binary;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,6 +33,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * The class {@link LinkedNode} is a representation of a binary tree node and can have only one next

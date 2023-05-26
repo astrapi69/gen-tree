@@ -24,17 +24,16 @@
  */
 package io.github.astrapi69.gen.tree.handler;
 
-import static org.testng.AssertJUnit.assertEquals;
-
-import java.util.Collection;
-
+import io.github.astrapi69.collection.set.SetFactory;
+import io.github.astrapi69.gen.tree.SimpleTreeNode;
+import io.github.astrapi69.id.generate.LongIdGenerator;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import io.github.astrapi69.collection.set.SetFactory;
-import io.github.astrapi69.gen.tree.SimpleTreeNode;
-import io.github.astrapi69.id.generate.LongIdGenerator;
+import java.util.Collection;
+
+import static org.testng.AssertJUnit.assertEquals;
 
 /**
  * The unit test class for the class {@link SimpleTreeNodeHandlerExtensions}

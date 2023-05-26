@@ -24,15 +24,15 @@
  */
 package io.github.astrapi69.gen.tree.api;
 
-import java.util.Collection;
-import java.util.List;
-
-import lombok.NonNull;
 import io.github.astrapi69.design.pattern.visitor.Acceptable;
 import io.github.astrapi69.design.pattern.visitor.Visitor;
 import io.github.astrapi69.gen.tree.handler.ITreeNodeHandlerExtensions;
 import io.github.astrapi69.gen.tree.handler.TreeNodeVisitorHandlerExtensions;
 import io.github.astrapi69.tree.api.ITree;
+import lombok.NonNull;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * The Interface {@link ITreeNode} holds the children in a {@link Collection} object

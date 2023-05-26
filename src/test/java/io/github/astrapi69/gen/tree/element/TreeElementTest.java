@@ -24,13 +24,12 @@
  */
 package io.github.astrapi69.gen.tree.element;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-
+import io.github.astrapi69.evaluate.object.evaluator.EqualsHashCodeAndToStringEvaluator;
 import org.meanbean.test.BeanTester;
 import org.testng.annotations.Test;
 
-import io.github.astrapi69.evaluate.object.evaluator.EqualsHashCodeAndToStringEvaluator;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNotNull;
 
 /**
  * The unit test class for the class {@link TreeElement}

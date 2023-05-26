@@ -24,12 +24,12 @@
  */
 package io.github.astrapi69.gen.tree.visitor;
 
-import lombok.AccessLevel;
-import lombok.NonNull;
-import lombok.experimental.FieldDefaults;
 import io.github.astrapi69.design.pattern.visitor.Visitor;
 import io.github.astrapi69.gen.tree.api.IBaseTreeNode;
 import io.github.astrapi69.gen.tree.merge.enumeration.MergeStrategy;
+import lombok.AccessLevel;
+import lombok.NonNull;
+import lombok.experimental.FieldDefaults;
 
 /**
  * This visitor visits all {@link IBaseTreeNode} objects and merges all nodes to the given

@@ -24,14 +24,14 @@
  */
 package io.github.astrapi69.gen.tree.handler;
 
+import io.github.astrapi69.gen.tree.api.ITreeNode;
+import lombok.NonNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
-
-import lombok.NonNull;
-import io.github.astrapi69.gen.tree.api.ITreeNode;
 
 /**
  * The class {@link ITreeNodeHandlerExtensions} provides handler methods for the class
