@@ -24,13 +24,16 @@
  */
 package io.github.astrapi69.gen.tree.visitor;
 
-import java.util.Collection;
-import java.util.LinkedHashSet;
-
-import lombok.Getter;
 import io.github.astrapi69.design.pattern.visitor.Visitor;
 import io.github.astrapi69.gen.tree.SimpleTreeNode;
+import io.github.astrapi69.gen.tree.api.IBaseTreeNode;
 import io.github.astrapi69.gen.tree.api.ITreeNode;
+import io.github.astrapi69.gen.tree.merge.enumeration.MergeStrategy;
+import lombok.Getter;
+import lombok.NonNull;
+
+import java.util.Collection;
+import java.util.LinkedHashSet;
 
 /**
  * This visitor visits all {@link ITreeNode} objects and adds them to a {@link Collection} object
@@ -39,20 +42,39 @@ import io.github.astrapi69.gen.tree.api.ITreeNode;
  * @param <T>
  *            the generic type of the value
  */
-public class TraverseTreeNodeVisitor<T, K extends ITreeNode<T, K>> implements Visitor<K>
+@Getter
+public abstract class MaxIndexFinderTreeNodeVisitor<V, K, T extends IBaseTreeNode<V, K, T>>
+	implements
+		Visitor<T>
 {
+	K maxIndex;
+
 	/**
-	 * a {@link Collection} object for store all {@link ITreeNode} objects
+	 * Instantiates a new {@link MergeTreeNodesVisitor} object
+	 *
+	 * @param root
+	 *            the {@link IBaseTreeNode} object
 	 */
-	@Getter
-	private final Collection<K> allTreeNodes = new LinkedHashSet<>();
+	public MaxIndexFinderTreeNodeVisitor(final @NonNull T root)
+	{
+	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void visit(K simpleTreeNode)
+	public void visit(T treeNode)
 	{
-		allTreeNodes.add(simpleTreeNode);
+		K id = treeNode.getId();
+		if (maxIndex == null)
+		{
+			maxIndex = id;
+		}
+		if (isGreater(id))
+		{
+			maxIndex = id;
+		}
 	}
+
+	abstract boolean isGreater(K id);
 }

@@ -30,12 +30,16 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
+import io.github.astrapi69.clone.CloneObjectExtensions;
+import io.github.astrapi69.throwable.RuntimeExceptionDecorator;
+import io.github.astrapi69.throwable.api.ThrowableNoArgumentConsumer;
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
@@ -95,6 +99,34 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	{
 		super.tearDown();
 		testTree = null;
+	}
+
+	/**
+	 * Test method for clone a
+	 */
+	@Test
+	public void testClone()
+	{
+		BaseTreeNode<String, Long> root;
+		BaseTreeNode<String, Long> cloned;
+		try
+		{
+			root = testTree.getRoot();
+			cloned = (BaseTreeNode<String, Long>)CloneObjectExtensions.clone(root);
+			assertEquals(cloned, root);
+		}
+		catch (NoSuchMethodException e)
+		{
+			throw new RuntimeException(e);
+		}
+		catch (IllegalAccessException e)
+		{
+			throw new RuntimeException(e);
+		}
+		catch (InvocationTargetException e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**

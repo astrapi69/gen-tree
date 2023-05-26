@@ -9,6 +9,8 @@ dependencies {
     testCompileOnly("org.projectlombok:lombok:$lombokVersion")
     testAnnotationProcessor("org.projectlombok:lombok:$lombokVersion")
 
+    testImplementation("io.github.astrapi69:throwable:$throwableVersion")
+    testImplementation("io.github.astrapi69:jobj-cloner:$jobjClonerVersion")
     testImplementation("io.github.astrapi69:silly-collection:$sillyCollectionVersion")
     testImplementation("io.github.astrapi69:id-generate:$idGenerateVersion")
     testImplementation("io.github.astrapi69:test-object:$testObjectVersion")
