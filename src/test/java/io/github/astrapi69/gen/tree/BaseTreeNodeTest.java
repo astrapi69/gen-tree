@@ -24,22 +24,18 @@
  */
 package io.github.astrapi69.gen.tree;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
-
+import io.github.astrapi69.AbstractTestCase;
 import io.github.astrapi69.clone.CloneObjectExtensions;
-import io.github.astrapi69.throwable.RuntimeExceptionDecorator;
-import io.github.astrapi69.throwable.api.ThrowableNoArgumentConsumer;
+import io.github.astrapi69.clone.CloneQuietlyExtensions;
+import io.github.astrapi69.collection.set.SetFactory;
+import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.gen.tree.api.ITreeNode;
+import io.github.astrapi69.gen.tree.element.TreeElement;
+import io.github.astrapi69.gen.tree.handler.BaseTreeNodeVisitorHandlerExtensions;
+import io.github.astrapi69.gen.tree.handler.TreeNodeVisitorHandlerExtensions;
+import io.github.astrapi69.gen.tree.visitor.MaxIndexFinderTreeNodeVisitor;
+import io.github.astrapi69.gen.tree.visitor.ReindexTreeNodeVisitor;
+import io.github.astrapi69.id.generate.LongIdGenerator;
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
@@ -48,15 +44,18 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import io.github.astrapi69.AbstractTestCase;
-import io.github.astrapi69.collection.set.SetFactory;
-import io.github.astrapi69.design.pattern.visitor.Visitor;
-import io.github.astrapi69.gen.tree.api.ITreeNode;
-import io.github.astrapi69.gen.tree.element.TreeElement;
-import io.github.astrapi69.gen.tree.handler.BaseTreeNodeVisitorHandlerExtensions;
-import io.github.astrapi69.gen.tree.handler.TreeNodeVisitorHandlerExtensions;
-import io.github.astrapi69.gen.tree.visitor.ReindexTreeNodeVisitor;
-import io.github.astrapi69.id.generate.LongIdGenerator;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
+
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 /**
  * The unit test class for the class {@link BaseTreeNode}
@@ -109,24 +108,28 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	{
 		BaseTreeNode<String, Long> root;
 		BaseTreeNode<String, Long> cloned;
-		try
+		MaxIndexFinderTreeNodeVisitor<String, Long, BaseTreeNode<String, Long>> maxIndexFinderTreeNodeVisitor;
+		ReindexTreeNodeVisitor<String, Long, BaseTreeNode<String, Long>> reindexTreeNodeVisitor;
+
+		maxIndexFinderTreeNodeVisitor = new MaxIndexFinderTreeNodeVisitor<String, Long, BaseTreeNode<String, Long>>()
 		{
-			root = testTree.getRoot();
-			cloned = (BaseTreeNode<String, Long>)CloneObjectExtensions.clone(root);
-			assertEquals(cloned, root);
-		}
-		catch (NoSuchMethodException e)
-		{
-			throw new RuntimeException(e);
-		}
-		catch (IllegalAccessException e)
-		{
-			throw new RuntimeException(e);
-		}
-		catch (InvocationTargetException e)
-		{
-			throw new RuntimeException(e);
-		}
+			@Override
+			public boolean isGreater(Long id)
+			{
+				return getMaxIndex() < id;
+			}
+		};
+
+		root = testTree.getRoot();
+		cloned = CloneQuietlyExtensions.clone(root);
+		assertEquals(cloned, root);
+		root.accept(maxIndexFinderTreeNodeVisitor);
+		Long maxIndex = maxIndexFinderTreeNodeVisitor.getMaxIndex();
+
+		reindexTreeNodeVisitor = new ReindexTreeNodeVisitor<>(LongIdGenerator.of(maxIndex + 1));
+		reindexTreeNodeVisitor.visit(cloned);
+		cloned.accept(reindexTreeNodeVisitor);
+		assertTrue(maxIndex < cloned.getId());
 	}
 
 	/**
@@ -137,14 +140,17 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	{
 		Long id;
 		ReindexTreeNodeVisitor<String, Long, BaseTreeNode<String, Long>> reindexTreeNodeVisitor;
+
 		reindexTreeNodeVisitor = new ReindexTreeNodeVisitor<>(LongIdGenerator.of(100L));
 		id = testTree.getRoot().getId();
 		assertEquals(id, Long.valueOf(0L));
 		BaseTreeNodeVisitorHandlerExtensions.accept(testTree.getRoot(), reindexTreeNodeVisitor,
 			true);
+
 		id = testTree.getRoot().getId();
 		assertEquals(id, Long.valueOf(100L));
 		reindexTreeNodeVisitor = new ReindexTreeNodeVisitor<>(LongIdGenerator.of(100L));
+		// prepare tree for new test case...
 		testTree.reinitialize();
 		BaseTreeNodeVisitorHandlerExtensions.accept(testTree.getRoot(), reindexTreeNodeVisitor,
 			false);

@@ -24,16 +24,13 @@
  */
 package io.github.astrapi69.gen.tree.visitor;
 
+import io.github.astrapi69.data.identifiable.IdGenerator;
 import io.github.astrapi69.design.pattern.visitor.Visitor;
-import io.github.astrapi69.gen.tree.SimpleTreeNode;
 import io.github.astrapi69.gen.tree.api.IBaseTreeNode;
 import io.github.astrapi69.gen.tree.api.ITreeNode;
-import io.github.astrapi69.gen.tree.merge.enumeration.MergeStrategy;
 import lombok.Getter;
-import lombok.NonNull;
 
 import java.util.Collection;
-import java.util.LinkedHashSet;
 
 /**
  * This visitor visits all {@link ITreeNode} objects and adds them to a {@link Collection} object
@@ -42,21 +39,17 @@ import java.util.LinkedHashSet;
  * @param <T>
  *            the generic type of the value
  */
-@Getter
-public abstract class MaxIndexFinderTreeNodeVisitor<V, K, T extends IBaseTreeNode<V, K, T>>
-	implements
-		Visitor<T>
+public class ReindexTreeNodeVisitor<V, K, T extends IBaseTreeNode<V, K, T>> implements Visitor<T>
 {
-	K maxIndex;
-
 	/**
-	 * Instantiates a new {@link MergeTreeNodesVisitor} object
-	 *
-	 * @param root
-	 *            the {@link IBaseTreeNode} object
+	 * The {@link IdGenerator} object for reindex tree ids
 	 */
-	public MaxIndexFinderTreeNodeVisitor(final @NonNull T root)
+	@Getter
+	private final IdGenerator<K> idGenerator;
+
+	public ReindexTreeNodeVisitor(final IdGenerator<K> idGenerator)
 	{
+		this.idGenerator = idGenerator;
 	}
 
 	/**
@@ -65,16 +58,6 @@ public abstract class MaxIndexFinderTreeNodeVisitor<V, K, T extends IBaseTreeNod
 	@Override
 	public void visit(T treeNode)
 	{
-		K id = treeNode.getId();
-		if (maxIndex == null)
-		{
-			maxIndex = id;
-		}
-		if (isGreater(id))
-		{
-			maxIndex = id;
-		}
+		treeNode.setId(idGenerator.getNextId());
 	}
-
-	abstract boolean isGreater(K id);
 }

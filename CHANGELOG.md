@@ -7,6 +7,8 @@ Version 8.2-SNAPSHOT
 ADDED:
 
 - new field childComparator in class BaseTreeNode
+- new visitor class MaxIndexFinderTreeNodeVisitor for find the greatest index in the tree
+- new visitor class ReindexTreeNodeVisitor for reindex a tree node and the children of it
 
 CHANGED:
 
