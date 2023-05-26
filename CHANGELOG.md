@@ -12,7 +12,10 @@ ADDED:
 
 CHANGED:
 
-- update gradle version to 8.0-rc-2
+- update gradle version to 8.1.1
+- update of gradle-plugin dependency spotless-plugin-gradle to new minor version 6.19.0
+- update of test dependency silly-collection to new major version 21
+- update of test dependency testng to new minor version 7.8.0
 - update of test dependency 'com.github.meanbeanlib:meanbean' to new version 3.0.0-M9
 
 Version 8.1
