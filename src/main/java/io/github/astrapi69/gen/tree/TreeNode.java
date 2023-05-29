@@ -24,6 +24,9 @@
  */
 package io.github.astrapi69.gen.tree;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import io.github.astrapi69.gen.tree.api.ITreeNode;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -34,9 +37,6 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * The generic class TreeNode.

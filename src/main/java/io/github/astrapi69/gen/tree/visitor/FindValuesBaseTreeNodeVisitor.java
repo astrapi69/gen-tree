@@ -24,13 +24,13 @@
  */
 package io.github.astrapi69.gen.tree.visitor;
 
-import io.github.astrapi69.design.pattern.visitor.Visitor;
-import io.github.astrapi69.gen.tree.BaseTreeNode;
-import lombok.Getter;
-
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.concurrent.atomic.AtomicReference;
+
+import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.gen.tree.BaseTreeNode;
+import lombok.Getter;
 
 /**
  * This visitor visits all {@link BaseTreeNode} objects and checks if the value equals with the

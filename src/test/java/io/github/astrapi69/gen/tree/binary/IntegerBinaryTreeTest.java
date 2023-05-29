@@ -24,10 +24,10 @@
  */
 package io.github.astrapi69.gen.tree.binary;
 
-import org.testng.annotations.Test;
-
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
+
+import org.testng.annotations.Test;
 
 public class IntegerBinaryTreeTest
 {

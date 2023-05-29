@@ -24,12 +24,13 @@
  */
 package io.github.astrapi69.gen.tree.visitor;
 
+import static org.testng.Assert.assertEquals;
+
+import org.testng.annotations.Test;
+
 import io.github.astrapi69.gen.tree.BaseTreeNode;
 import io.github.astrapi69.gen.tree.BaseTreeNodeTestData;
 import io.github.astrapi69.gen.tree.api.IBaseTreeNode;
-import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertEquals;
 
 /**
  * The unit test class for the class {@link MaxIndexFinderTreeNodeVisitor}

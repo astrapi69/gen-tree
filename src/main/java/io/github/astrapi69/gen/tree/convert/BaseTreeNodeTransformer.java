@@ -24,15 +24,15 @@
  */
 package io.github.astrapi69.gen.tree.convert;
 
-import io.github.astrapi69.gen.tree.BaseTreeNode;
-import io.github.astrapi69.gen.tree.TreeIdNode;
-import lombok.NonNull;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
+
+import io.github.astrapi69.gen.tree.BaseTreeNode;
+import io.github.astrapi69.gen.tree.TreeIdNode;
+import lombok.NonNull;
 
 /**
  * The class {@link BaseTreeNodeTransformer} provides algorithms for converting between the

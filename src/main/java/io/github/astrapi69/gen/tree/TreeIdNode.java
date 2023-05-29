@@ -24,6 +24,9 @@
  */
 package io.github.astrapi69.gen.tree;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -33,9 +36,6 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 /**
  * The generic class {@link TreeIdNode} keeps no references to the parent or the children, only the

@@ -24,8 +24,11 @@
  */
 package io.github.astrapi69.gen.tree.binary;
 
-import io.github.astrapi69.AbstractTestCase;
-import io.github.astrapi69.gen.tree.element.TreeElement;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNotNull;
+
+import java.util.List;
+
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
@@ -34,10 +37,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.List;
-
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
+import io.github.astrapi69.AbstractTestCase;
+import io.github.astrapi69.gen.tree.element.TreeElement;
 
 /**
  * The unit test class for the class {@link LinkedNode}

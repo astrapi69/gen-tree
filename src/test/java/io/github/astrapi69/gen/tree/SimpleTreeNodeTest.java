@@ -24,10 +24,13 @@
  */
 package io.github.astrapi69.gen.tree;
 
-import io.github.astrapi69.design.pattern.visitor.Visitor;
-import io.github.astrapi69.gen.tree.visitor.DisplayValueOfSimpleTreeNodeVisitor;
-import io.github.astrapi69.gen.tree.visitor.TraverseSimpleTreeNodeVisitor;
-import io.github.astrapi69.id.generate.LongIdGenerator;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
+
+import java.util.Collection;
+
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
@@ -36,12 +39,10 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.Collection;
-
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
+import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.gen.tree.visitor.DisplayValueOfSimpleTreeNodeVisitor;
+import io.github.astrapi69.gen.tree.visitor.TraverseSimpleTreeNodeVisitor;
+import io.github.astrapi69.id.generate.LongIdGenerator;
 
 /**
  * The unit test class for the class {@link SimpleTreeNode}

@@ -24,12 +24,14 @@
  */
 package io.github.astrapi69.gen.tree;
 
-import io.github.astrapi69.AbstractTestCase;
-import io.github.astrapi69.evaluate.object.evaluator.EqualsHashCodeAndToStringEvaluator;
-import io.github.astrapi69.gen.tree.element.TreeElement;
-import io.github.astrapi69.id.generate.LongIdGenerator;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
+
+import java.util.Set;
+import java.util.UUID;
+
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
@@ -38,13 +40,12 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.Set;
-import java.util.UUID;
-
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
+import io.github.astrapi69.AbstractTestCase;
+import io.github.astrapi69.evaluate.object.evaluator.EqualsHashCodeAndToStringEvaluator;
+import io.github.astrapi69.gen.tree.element.TreeElement;
+import io.github.astrapi69.id.generate.LongIdGenerator;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 
 /**
  * The unit test class for the class {@link TreeIdNode}
@@ -287,4 +288,3 @@ public class TreeIdNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 }
-
