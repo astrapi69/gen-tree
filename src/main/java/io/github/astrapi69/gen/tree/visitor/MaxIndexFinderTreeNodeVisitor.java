@@ -22,39 +22,63 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.gen.tree.api;
+package io.github.astrapi69.gen.tree.visitor;
 
-import io.github.astrapi69.data.identifiable.GenericIdentifiable;
-import io.github.astrapi69.gen.tree.handler.IBaseTreeNodeHandlerExtensions;
-import lombok.NonNull;
+import java.util.Collection;
+
+import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.gen.tree.api.IBaseTreeNode;
+import io.github.astrapi69.gen.tree.api.ITreeNode;
+import lombok.Getter;
 
 /**
- * The Interface {@link IBaseTreeNode} extends {@link ITreeNode} and provides an additional id field
- * that can be used as key
+ * This visitor visits all {@link ITreeNode} objects and adds them to a {@link Collection} object
+ * with all descendant
  *
- * @param <V>
- *            the generic type of the value
- * @param <K>
- *            the generic type of the id of the node
  * @param <T>
- *            the generic type of the concrete tree node
+ *            the generic type of the value
  */
-public interface IBaseTreeNode<V, K, T extends IBaseTreeNode<V, K, T>>
-	extends
-		ITreeNode<V, T>,
-		GenericIdentifiable<K>
+@Getter
+public abstract class MaxIndexFinderTreeNodeVisitor<V, K, T extends IBaseTreeNode<V, K, T>>
+	implements
+		Visitor<T>
 {
+	/**
+	 * Placeholder for the maximum index of a tree
+	 */
+	K maxIndex;
+
+	/**
+	 * Instantiates a new {@link MergeTreeNodesVisitor} object
+	 */
+	public MaxIndexFinderTreeNodeVisitor()
+	{
+	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	default T findById(final @NonNull K id)
+	@Override
+	public void visit(T treeNode)
 	{
-		return IBaseTreeNodeHandlerExtensions.findById((T)this, id);
+		K id = treeNode.getId();
+		if (maxIndex == null)
+		{
+			maxIndex = id;
+		}
+		if (isGreater(id))
+		{
+			maxIndex = id;
+		}
 	}
 
 	/**
-	 * Sorts the children collection if the comparator is not null
+	 * Checks if the given id is greater than the current <code>maxIndex</code>
+	 *
+	 * @param id
+	 *            the id to check
+	 * @return true if the given id is greater than the current <code>maxIndex</code> otherwise
+	 *         false
 	 */
-	void sortChildren();
+	public abstract boolean isGreater(K id);
 }

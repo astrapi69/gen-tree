@@ -22,39 +22,20 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.gen.tree.api;
-
-import io.github.astrapi69.data.identifiable.GenericIdentifiable;
-import io.github.astrapi69.gen.tree.handler.IBaseTreeNodeHandlerExtensions;
-import lombok.NonNull;
+package io.github.astrapi69.gen.tree.merge.enumeration;
 
 /**
- * The Interface {@link IBaseTreeNode} extends {@link ITreeNode} and provides an additional id field
- * that can be used as key
- *
- * @param <V>
- *            the generic type of the value
- * @param <K>
- *            the generic type of the id of the node
- * @param <T>
- *            the generic type of the concrete tree node
+ * The enum {@link MergeStrategy} will be used for merge tree nodes
  */
-public interface IBaseTreeNode<V, K, T extends IBaseTreeNode<V, K, T>>
-	extends
-		ITreeNode<V, T>,
-		GenericIdentifiable<K>
+public enum MergeStrategy
 {
+	/**
+	 * This strategy will overwrite the existing node with the new one
+	 */
+	OVERWRITE,
 
 	/**
-	 * {@inheritDoc}
+	 * This strategy will keep the existing node and ignore the new one
 	 */
-	default T findById(final @NonNull K id)
-	{
-		return IBaseTreeNodeHandlerExtensions.findById((T)this, id);
-	}
-
-	/**
-	 * Sorts the children collection if the comparator is not null
-	 */
-	void sortChildren();
+	KEEP
 }

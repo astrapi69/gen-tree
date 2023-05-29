@@ -1,6 +1,74 @@
 ## Change log
 ----------------------
 
+Version 8.2
+-------------
+
+ADDED:
+
+- new field childComparator in class BaseTreeNode
+- new visitor class MaxIndexFinderTreeNodeVisitor for find the greatest index in the tree
+- new visitor class ReindexTreeNodeVisitor for reindex a tree node and the children of it
+
+CHANGED:
+
+- update gradle version to 8.1.1
+- update of gradle-plugin dependency spotless-plugin-gradle to new minor version 6.19.0
+- update of test dependency silly-collection to new major version 21
+- update of test dependency testng to new minor version 7.8.0
+- update of test dependency 'com.github.meanbeanlib:meanbean' to new version 3.0.0-M9
+
+Version 8.1
+-------------
+
+ADDED:
+
+- new enum class MergeStrategy created for indicate which strategy to take on merge process
+- new merge visitor class BaseMergeTreeNodesVisitor with the MergeStrategy and a tree node to merge
+- new method in class IBaseTreeNodeHandlerExtensions created for merge optional tree nodes with a given root node
+- new method in class IBaseTreeNodeHandlerExtensions created for merge a list of tree nodes with a given root node
+
+CHANGED:
+
+- update of gradle-plugin dependency spotless-plugin-gradle to new minor version 6.13.0
+- class MergeTreeNodesVisitor extends now BaseMergeTreeNodesVisitor and use the merge strategy KEEP
+
+Version 8
+-------------
+
+ADDED:
+
+- new extension class BaseTreeNodeVisitorHandlerExtensions for visit BaseTreeNode objects
+
+CHANGED:
+
+- moved test-dependency data-api to project dependency and update to new version 4.1
+- interface IBaseTreeNode extends now from interface GenericIdentifiable
+
+Version 7.5
+-------------
+
+ADDED:
+
+- new method in interface IBaseTreeNode created for find a tree node by id
+- new handler class IBaseTreeNodeHandlerExtensions created that provides an implementation of the method findById
+- new visitor class MergeTreeNodesVisitor created for merge tree nodes
+
+CHANGED:
+
+- update gradle version to 8.0-rc-1
+- update of gradle-plugin dependency spotless-plugin-gradle to new minor version 6.12.1
+- update of test dependency silly-collection to new minor version 20.3
+- update of test dependency testng to new minor version 7.7.1
+- javadoc optimized
+
+Version 7.4
+-------------
+
+CHANGED:
+
+- update of dependency tree-api to new minor version 1.2
+
 Version 7.3
 -------------
 
@@ -74,7 +142,8 @@ ADDED:
 - new interface IBaseTreeNode that extends ITreeNode and provides an id field
 - new extension class ITreeNodeHandlerExtensions for handling ITreeNode objects
 - new extension class SimpleTreeNodeHandlerExtensions for handling SimpleTreeNode objects
-- all relevant default methods from interface ITreeNode are now decorated with the new extension class ITreeNodeHandlerExtensions
+- all relevant default methods from interface ITreeNode are now decorated with the new extension class
+  ITreeNodeHandlerExtensions
 
 CHANGED:
 
@@ -96,17 +165,24 @@ ADDED:
 - new method clearChildren in class BaseTreeNode that removes all children from the tree node
 - new method clearAll in class BaseTreeNode that removes all descendants from the tree node
 - new method removeChildren in class BaseTreeNode that removes the given collection from the tree node
-- new method findAllByValue in class BaseTreeNode that finds all BaseTreeNode objects that have the same value as the given value
-- new method findByValue in class BaseTreeNode that finds the first occurrence of BaseTreeNode object that have the same value as the given value
-- new method contains in class BaseTreeNode that checks if the given BaseTreeNode object is a descendant of the tree node
-- new method containsAll in class BaseTreeNode that checks if the given collection of BaseTreeNode objects are descendants of the tree node
+- new method findAllByValue in class BaseTreeNode that finds all BaseTreeNode objects that have the same value as the
+  given value
+- new method findByValue in class BaseTreeNode that finds the first occurrence of BaseTreeNode object that have the same
+  value as the given value
+- new method contains in class BaseTreeNode that checks if the given BaseTreeNode object is a descendant of the tree
+  node
+- new method containsAll in class BaseTreeNode that checks if the given collection of BaseTreeNode objects are
+  descendants of the tree node
 - new method clearChildren in class ITreeNode that removes all children from the tree node
 - new method clearAll in class ITreeNode that removes all descendants from the tree node
 - new method removeChildren in class ITreeNode that removes the given collection from the tree node
-- new method findAllByValue in class ITreeNode that finds all ITreeNode objects that have the same value as the given value
-- new method findByValue in class ITreeNode that finds the first occurrence of ITreeNode object that have the same value as the given value
+- new method findAllByValue in class ITreeNode that finds all ITreeNode objects that have the same value as the given
+  value
+- new method findByValue in class ITreeNode that finds the first occurrence of ITreeNode object that have the same value
+  as the given value
 - new method contains in class ITreeNode that checks if the given ITreeNode object is a descendant of the tree node
-- new method containsAll in class ITreeNode that checks if the given collection of ITreeNode objects are descendants of the tree node
+- new method containsAll in class ITreeNode that checks if the given collection of ITreeNode objects are descendants of
+  the tree node
 
 CHANGED:
 

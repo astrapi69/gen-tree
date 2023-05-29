@@ -28,31 +28,34 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 
 import io.github.astrapi69.design.pattern.visitor.Visitor;
-import io.github.astrapi69.gen.tree.api.ITreeNode;
+import io.github.astrapi69.gen.tree.api.IBaseTreeNode;
 import lombok.NonNull;
 
 /**
- * The class {@link TreeNodeVisitorHandlerExtensions} provides handler methods for the visit all
- * field in the class {@link ITreeNode}
+ * The class {@link BaseTreeNodeVisitorHandlerExtensions} provides handler methods for the visit all
+ * field in the class {@link IBaseTreeNode}
  */
-public class TreeNodeVisitorHandlerExtensions
+public class BaseTreeNodeVisitorHandlerExtensions
 {
 
 	/**
-	 * Traverse the given {@link ITreeNode} object and add all descendants with the given
-	 * {@link ITreeNode} object included in to the returned {@link Collection} object
+	 * Traverse the given {@link IBaseTreeNode} object and add all descendants with the given
+	 * {@link IBaseTreeNode} object included in to the returned {@link Collection} object
 	 *
 	 * @param <V>
 	 *            the generic type of the value
+	 * @param <K>
+	 *            the generic type of the id of the node
 	 * @param <T>
 	 *            the generic type of the concrete tree node
 	 * @param treeNode
 	 *            the tree node
 	 *
-	 * @return a {@link Collection} object with the given {@link ITreeNode} object and add all
+	 * @return a {@link Collection} object with the given {@link IBaseTreeNode} object and add all
 	 *         descendants
 	 */
-	public static <V, T extends ITreeNode<V, T>> Collection<T> traverse(final @NonNull T treeNode)
+	public static <V, K, T extends IBaseTreeNode<V, K, T>> Collection<T> traverse(
+		final @NonNull T treeNode)
 	{
 		final Collection<T> allTreeNodes = new LinkedHashSet<>();
 		treeNode.accept(allTreeNodes::add);
@@ -64,6 +67,8 @@ public class TreeNodeVisitorHandlerExtensions
 	 *
 	 * @param <V>
 	 *            the generic type of the value
+	 * @param <K>
+	 *            the generic type of the id of the node
 	 * @param <T>
 	 *            the generic type of the concrete tree node
 	 * @param treeNode
@@ -71,10 +76,10 @@ public class TreeNodeVisitorHandlerExtensions
 	 * @param visitor
 	 *            the visitor
 	 */
-	public static <V, T extends ITreeNode<V, T>> void accept(final @NonNull T treeNode,
+	public static <V, K, T extends IBaseTreeNode<V, K, T>> void accept(final @NonNull T treeNode,
 		final @NonNull Visitor<T> visitor)
 	{
-		TreeNodeVisitorHandlerExtensions.accept(treeNode, visitor, false);
+		BaseTreeNodeVisitorHandlerExtensions.accept(treeNode, visitor, false);
 	}
 
 	/**
@@ -82,6 +87,8 @@ public class TreeNodeVisitorHandlerExtensions
 	 *
 	 * @param <V>
 	 *            the generic type of the value
+	 * @param <K>
+	 *            the generic type of the id of the node
 	 * @param <T>
 	 *            the generic type of the concrete tree node
 	 * @param treeNode
@@ -89,10 +96,10 @@ public class TreeNodeVisitorHandlerExtensions
 	 * @param visitor
 	 *            the visitor
 	 * @param visitBefore
-	 *            the flag if this flag is true the visit of the given {@link ITreeNode} object is
-	 *            before visit the children otherwise the visit is after visit the children
+	 *            the flag if this flag is true the visit of the given {@link IBaseTreeNode} object
+	 *            is before visit the children otherwise the visit is after visit the children
 	 */
-	public static <V, T extends ITreeNode<V, T>> void accept(final @NonNull T treeNode,
+	public static <V, K, T extends IBaseTreeNode<V, K, T>> void accept(final @NonNull T treeNode,
 		final @NonNull Visitor<T> visitor, final boolean visitBefore)
 	{
 		boolean visitAfter = !visitBefore;
@@ -100,8 +107,8 @@ public class TreeNodeVisitorHandlerExtensions
 		{
 			visitor.visit(treeNode);
 		}
-		treeNode.getChildren()
-			.forEach(child -> TreeNodeVisitorHandlerExtensions.accept(child, visitor, visitBefore));
+		treeNode.getChildren().forEach(
+			child -> BaseTreeNodeVisitorHandlerExtensions.accept(child, visitor, visitBefore));
 		if (visitAfter)
 		{
 			visitor.visit(treeNode);

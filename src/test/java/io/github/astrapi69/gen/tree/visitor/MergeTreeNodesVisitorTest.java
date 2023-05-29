@@ -24,34 +24,45 @@
  */
 package io.github.astrapi69.gen.tree.visitor;
 
-import java.util.Collection;
-import java.util.LinkedHashSet;
+import static org.testng.AssertJUnit.assertEquals;
 
-import io.github.astrapi69.design.pattern.visitor.Visitor;
-import io.github.astrapi69.gen.tree.api.ITreeNode;
-import lombok.Getter;
+import java.util.Collection;
+
+import org.testng.annotations.Test;
+
+import io.github.astrapi69.gen.tree.BaseTreeNode;
+import io.github.astrapi69.gen.tree.BaseTreeNodeTestData;
+import io.github.astrapi69.gen.tree.api.IBaseTreeNode;
+import io.github.astrapi69.gen.tree.handler.ITreeNodeHandlerExtensions;
 
 /**
- * This visitor visits all {@link ITreeNode} objects and adds them to a {@link Collection} object
- * with all descendant
- *
- * @param <T>
- *            the generic type of the value
+ * The unit test class for the class {@link MergeTreeNodesVisitor}
  */
-public class TraverseTreeNodeVisitor<T, K extends ITreeNode<T, K>> implements Visitor<K>
+public class MergeTreeNodesVisitorTest
 {
-	/**
-	 * a {@link Collection} object for store all {@link ITreeNode} objects
-	 */
-	@Getter
-	private final Collection<K> allTreeNodes = new LinkedHashSet<>();
 
 	/**
-	 * {@inheritDoc}
+	 * Test method for {@link MergeTreeNodesVisitor#visit(IBaseTreeNode)}
 	 */
-	@Override
-	public void visit(K simpleTreeNode)
+	@Test
+	public void test()
 	{
-		allTreeNodes.add(simpleTreeNode);
+		BaseTreeNode<String, Long> baseTestTree;
+		BaseTreeNode<String, Long> root;
+		MergeTreeNodesVisitor<String, Long, BaseTreeNode<String, Long>> mergeTreeNodesVisitor;
+		Collection<BaseTreeNode<String, Long>> allTreeNodes;
+
+		root = BaseTreeNodeTestData.getSimpleTestTree();
+
+		baseTestTree = BaseTreeNodeTestData.getBaseTestTree();
+		allTreeNodes = ITreeNodeHandlerExtensions.traverse(baseTestTree);
+		assertEquals(allTreeNodes.size(), 12);
+
+		mergeTreeNodesVisitor = new MergeTreeNodesVisitor<>(baseTestTree);
+
+		root.accept(mergeTreeNodesVisitor);
+		allTreeNodes = ITreeNodeHandlerExtensions.traverse(baseTestTree);
+		assertEquals(allTreeNodes.size(), 15);
 	}
+
 }

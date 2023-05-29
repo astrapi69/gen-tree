@@ -24,22 +24,22 @@
  */
 package io.github.astrapi69.gen.tree.convert;
 
-import io.github.astrapi69.gen.tree.BaseTreeNode;
-import io.github.astrapi69.gen.tree.TreeIdNode;
-import lombok.NonNull;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
+import io.github.astrapi69.gen.tree.BaseTreeNode;
+import io.github.astrapi69.gen.tree.TreeIdNode;
+import lombok.NonNull;
+
 /**
  * The class {@link BaseTreeNodeTransformer} provides algorithms for converting between the
  * {@link BaseTreeNode} objects and {@link TreeIdNode} objects. This is useful if you want to save
  * {@link BaseTreeNode} objects in a store, you have first to transform the {@link BaseTreeNode}
- * objects (you want to store) to {@link TreeIdNode} objects and save them. The {@link BaseTreeNode}
- * object is not be stored.
+ * objects (you want to store) to {@link TreeIdNode} objects and save them. Note: The
+ * {@link BaseTreeNode} object can not be stored
  */
 public final class BaseTreeNodeTransformer
 {

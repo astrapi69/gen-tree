@@ -24,7 +24,13 @@
  */
 package io.github.astrapi69.gen.tree.element;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * The class {@link LazyTreeElement} represents a lazy tree element that does not know about the

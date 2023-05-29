@@ -24,12 +24,16 @@
  */
 package io.github.astrapi69.gen.tree.element;
 
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-import lombok.experimental.SuperBuilder;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 
 @Data
 @NoArgsConstructor

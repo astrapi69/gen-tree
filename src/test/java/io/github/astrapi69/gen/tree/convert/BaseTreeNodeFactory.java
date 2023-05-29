@@ -24,13 +24,13 @@
  */
 package io.github.astrapi69.gen.tree.convert;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import io.github.astrapi69.data.identifiable.IdGenerator;
 import io.github.astrapi69.gen.tree.BaseTreeNode;
 import io.github.astrapi69.gen.tree.element.GenericTreeElement;
 import io.github.astrapi69.gen.tree.element.TreeElement;
 import lombok.NonNull;
-
-import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
  * Factory class for generate {@link DefaultMutableTreeNode} from {@link BaseTreeNode}

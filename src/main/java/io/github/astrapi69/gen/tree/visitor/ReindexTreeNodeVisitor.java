@@ -22,39 +22,42 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.gen.tree.api;
+package io.github.astrapi69.gen.tree.visitor;
 
-import io.github.astrapi69.data.identifiable.GenericIdentifiable;
-import io.github.astrapi69.gen.tree.handler.IBaseTreeNodeHandlerExtensions;
-import lombok.NonNull;
+import java.util.Collection;
+
+import io.github.astrapi69.data.identifiable.IdGenerator;
+import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.gen.tree.api.IBaseTreeNode;
+import io.github.astrapi69.gen.tree.api.ITreeNode;
+import lombok.Getter;
 
 /**
- * The Interface {@link IBaseTreeNode} extends {@link ITreeNode} and provides an additional id field
- * that can be used as key
+ * This visitor visits all {@link ITreeNode} objects and adds them to a {@link Collection} object
+ * with all descendant
  *
- * @param <V>
- *            the generic type of the value
- * @param <K>
- *            the generic type of the id of the node
  * @param <T>
- *            the generic type of the concrete tree node
+ *            the generic type of the value
  */
-public interface IBaseTreeNode<V, K, T extends IBaseTreeNode<V, K, T>>
-	extends
-		ITreeNode<V, T>,
-		GenericIdentifiable<K>
+public class ReindexTreeNodeVisitor<V, K, T extends IBaseTreeNode<V, K, T>> implements Visitor<T>
 {
+	/**
+	 * The {@link IdGenerator} object for reindex tree ids
+	 */
+	@Getter
+	private final IdGenerator<K> idGenerator;
+
+	public ReindexTreeNodeVisitor(final IdGenerator<K> idGenerator)
+	{
+		this.idGenerator = idGenerator;
+	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	default T findById(final @NonNull K id)
+	@Override
+	public void visit(T treeNode)
 	{
-		return IBaseTreeNodeHandlerExtensions.findById((T)this, id);
+		treeNode.setId(idGenerator.getNextId());
 	}
-
-	/**
-	 * Sorts the children collection if the comparator is not null
-	 */
-	void sortChildren();
 }

@@ -22,39 +22,39 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.github.astrapi69.gen.tree.api;
+package io.github.astrapi69.gen.tree.visitor;
 
-import io.github.astrapi69.data.identifiable.GenericIdentifiable;
-import io.github.astrapi69.gen.tree.handler.IBaseTreeNodeHandlerExtensions;
+import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.gen.tree.api.IBaseTreeNode;
+import io.github.astrapi69.gen.tree.merge.enumeration.MergeStrategy;
 import lombok.NonNull;
 
 /**
- * The Interface {@link IBaseTreeNode} extends {@link ITreeNode} and provides an additional id field
- * that can be used as key
+ * This visitor visits all {@link IBaseTreeNode} objects and merges all nodes to the given
+ * {@link IBaseTreeNode} object. This means only the given {@link IBaseTreeNode} object will be
+ * changed and the {@link IBaseTreeNode} object that implements this visitor will be not changed
  *
- * @param <V>
+ * @param <T>
  *            the generic type of the value
  * @param <K>
  *            the generic type of the id of the node
- * @param <T>
- *            the generic type of the concrete tree node
  */
-public interface IBaseTreeNode<V, K, T extends IBaseTreeNode<V, K, T>>
+public class MergeTreeNodesVisitor<V, K, T extends IBaseTreeNode<V, K, T>>
 	extends
-		ITreeNode<V, T>,
-		GenericIdentifiable<K>
+		BaseMergeTreeNodesVisitor<V, K, T>
+	implements
+		Visitor<T>
 {
 
 	/**
-	 * {@inheritDoc}
+	 * Instantiates a new {@link MergeTreeNodesVisitor} object
+	 *
+	 * @param mergeWith
+	 *            the {@link IBaseTreeNode} object
 	 */
-	default T findById(final @NonNull K id)
+	public MergeTreeNodesVisitor(final @NonNull T mergeWith)
 	{
-		return IBaseTreeNodeHandlerExtensions.findById((T)this, id);
+		super(mergeWith, MergeStrategy.KEEP);
 	}
 
-	/**
-	 * Sorts the children collection if the comparator is not null
-	 */
-	void sortChildren();
 }

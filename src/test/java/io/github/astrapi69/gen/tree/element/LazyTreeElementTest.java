@@ -24,9 +24,9 @@
  */
 package io.github.astrapi69.gen.tree.element;
 
-import org.testng.annotations.Test;
-
 import static org.testng.AssertJUnit.assertNotNull;
+
+import org.testng.annotations.Test;
 
 /**
  * The unit test class for the class {@link TreeElement}

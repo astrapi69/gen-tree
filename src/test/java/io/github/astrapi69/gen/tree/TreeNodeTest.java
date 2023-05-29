@@ -24,10 +24,17 @@
  */
 package io.github.astrapi69.gen.tree;
 
-import io.github.astrapi69.AbstractTestCase;
-import io.github.astrapi69.collection.set.SetFactory;
-import io.github.astrapi69.id.generate.LongIdGenerator;
-import io.github.astrapi69.gen.tree.element.TreeElement;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;
@@ -36,12 +43,11 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-
-import static org.testng.AssertJUnit.*;
+import io.github.astrapi69.AbstractTestCase;
+import io.github.astrapi69.collection.set.SetFactory;
+import io.github.astrapi69.gen.tree.api.ITreeNode;
+import io.github.astrapi69.gen.tree.element.TreeElement;
+import io.github.astrapi69.id.generate.LongIdGenerator;
 
 /**
  * The unit test class for the class {@link TreeNode}
@@ -259,8 +265,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 
 			}).build();
 		final BeanTester beanTester = new BeanTester();
-		beanTester.addCustomConfiguration(TreeNode.class, configuration);
-		beanTester.testBean(TreeNode.class);
+		beanTester.testBean(TreeNode.class, configuration);
 	}
 
 	/**
@@ -566,7 +571,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link TreeNode#removeChild(TreeNode)}
+	 * Test method for {@link TreeNode#removeChild(ITreeNode)}
 	 */
 	@Test
 	public void testRemoveChild()
@@ -641,7 +646,7 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for {@link TreeNode#contains(TreeNode)}
+	 * Test method for {@link TreeNode#contains(ITreeNode)}
 	 */
 	@Test
 	public void testContains()
