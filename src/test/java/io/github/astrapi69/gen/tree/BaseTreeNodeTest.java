@@ -109,6 +109,9 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		BaseTreeNode<String, Long> cloned;
 		MaxIndexFinderTreeNodeVisitor<String, Long, BaseTreeNode<String, Long>> maxIndexFinderTreeNodeVisitor;
 		ReindexTreeNodeVisitor<String, Long, BaseTreeNode<String, Long>> reindexTreeNodeVisitor;
+		LongIdGenerator idGenerator;
+		Long maxIndex;
+		Long nextId;
 
 		maxIndexFinderTreeNodeVisitor = new MaxIndexFinderTreeNodeVisitor<String, Long, BaseTreeNode<String, Long>>()
 		{
@@ -123,12 +126,17 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		cloned = CloneQuietlyExtensions.clone(root);
 		assertEquals(cloned, root);
 		root.accept(maxIndexFinderTreeNodeVisitor);
-		Long maxIndex = maxIndexFinderTreeNodeVisitor.getMaxIndex();
+		maxIndex = maxIndexFinderTreeNodeVisitor.getMaxIndex();
+		assertEquals(maxIndex, Long.valueOf(11));
 
-		reindexTreeNodeVisitor = new ReindexTreeNodeVisitor<>(LongIdGenerator.of(maxIndex + 1));
-		reindexTreeNodeVisitor.visit(cloned);
+		nextId = maxIndex + 1;
+		idGenerator = LongIdGenerator.of(nextId);
+		reindexTreeNodeVisitor = new ReindexTreeNodeVisitor<>(idGenerator);
 		cloned.accept(reindexTreeNodeVisitor);
 		assertTrue(maxIndex < cloned.getId());
+		cloned.accept(maxIndexFinderTreeNodeVisitor);
+		maxIndex = maxIndexFinderTreeNodeVisitor.getMaxIndex();
+		assertEquals(maxIndex, Long.valueOf(23));
 	}
 
 	/**
