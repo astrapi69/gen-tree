@@ -211,6 +211,25 @@ public class ITreeNodeHandlerExtensions
 	}
 
 	/**
+	 * Removes the given child from the given first {@link ITreeNode} Checks if the second given
+	 * {@link ITreeNode} object is a child of the first given {@link ITreeNode} object
+	 *
+	 * @param <V>
+	 *            the generic type of the value
+	 * @param <T>
+	 *            the generic type of the concrete tree node
+	 * @param parentTreeNode
+	 *            the parent tree node
+	 * @param child
+	 *            the child tree node to check
+	 */
+	public static <V, T extends ITreeNode<V, T>> boolean isChild(final @NonNull T parentTreeNode,
+		final T child)
+	{
+		return child != null && isChildOf(parentTreeNode, child);
+	}
+
+	/**
 	 * Checks if the second given {@link ITreeNode} object is a child of the first {@link ITreeNode}
 	 * object
 	 *

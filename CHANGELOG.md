@@ -4,7 +4,14 @@
 Version 8.3-SNAPSHOT
 -------------
 
+ADDED:
 
+- new method 'isChild' in interface ITreeNode created that checks if a given tree node is the child of this tree node
+- new method 'isChild' in extension class ITreeNodeHandlerExtensions created that checks if a given tree node is the child of this tree node
+
+CHANGED:
+
+- update of dependency tree-api to new minor version 1.3
 
 Version 8.2
 -------------
