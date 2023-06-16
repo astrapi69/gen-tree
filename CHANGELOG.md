@@ -1,7 +1,7 @@
 ## Change log
 ----------------------
 
-Version 8.3-SNAPSHOT
+Version 8.3
 -------------
 
 ADDED:
@@ -11,6 +11,7 @@ ADDED:
 
 CHANGED:
 
+- update of gradle-plugin dependency 'com.github.ben-manes.versions.gradle.plugin' to new version 0.47.0
 - update of dependency tree-api to new minor version 1.3
 
 Version 8.2
