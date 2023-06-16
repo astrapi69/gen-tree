@@ -1,6 +1,19 @@
 ## Change log
 ----------------------
 
+Version 8.3
+-------------
+
+ADDED:
+
+- new method 'isChild' in interface ITreeNode created that checks if a given tree node is the child of this tree node
+- new method 'isChild' in extension class ITreeNodeHandlerExtensions created that checks if a given tree node is the child of this tree node
+
+CHANGED:
+
+- update of gradle-plugin dependency 'com.github.ben-manes.versions.gradle.plugin' to new version 0.47.0
+- update of dependency tree-api to new minor version 1.3
+
 Version 8.2
 -------------
 

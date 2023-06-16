@@ -168,6 +168,14 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	/**
 	 * {@inheritDoc}
 	 */
+	default boolean isChild(final T child)
+	{
+		return ITreeNodeHandlerExtensions.isChild((T)this, child);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	default void clearChildren()
 	{
 		ITreeNodeHandlerExtensions.clearChildren((T)this);
