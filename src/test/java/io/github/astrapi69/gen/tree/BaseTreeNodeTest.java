@@ -255,15 +255,17 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		final BaseTreeNode<String, Long> parentTreeNode = new BaseTreeNode<>("parent");
 		Configuration configuration = new ConfigurationBuilder()
 			.overrideFactory("parent", (Factory<BaseTreeNode<String, Long>>)() -> parentTreeNode)
-			.overrideFactory("childComparator", new Factory<Comparator<BaseTreeNode<String, Long>>>()
-			{
-				@Override
-				public Comparator create()
+			.overrideFactory("childComparator",
+				new Factory<Comparator<BaseTreeNode<String, Long>>>()
 				{
-					return Comparator.naturalOrder();
-				}
+					@Override
+					public Comparator create()
+					{
+						return Comparator.naturalOrder();
+					}
 
-			}).build();
+				})
+			.build();
 		final BeanTester beanTester = new BeanTester();
 		beanTester.testBean(BaseTreeNode.class, configuration);
 	}
