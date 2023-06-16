@@ -100,7 +100,30 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
-	 * Test method for clone a
+	 * Test method for {@link BaseTreeNode#isChild(ITreeNode)}
+	 */
+	@Test
+	public void testIsChild()
+	{
+		boolean actual;
+		BaseTreeNode<String, Long> root;
+		BaseTreeNode<String, Long> firstChild;
+		BaseTreeNode<String, Long> firstGrandChild;
+
+		root = testTree.getRoot();
+		firstChild = testTree.getFirstChild();
+
+		actual = root.isChild(firstChild);
+		assertTrue(actual);
+
+		firstGrandChild = testTree.getFirstGrandChild();
+
+		actual = root.isChild(firstGrandChild);
+		assertFalse(actual);
+	}
+
+	/**
+	 * Test method for clone a tree node
 	 */
 	@Test
 	public void testClone()
@@ -113,7 +136,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		Long maxIndex;
 		Long nextId;
 
-		maxIndexFinderTreeNodeVisitor = new MaxIndexFinderTreeNodeVisitor<String, Long, BaseTreeNode<String, Long>>()
+		maxIndexFinderTreeNodeVisitor = new MaxIndexFinderTreeNodeVisitor<>()
 		{
 			@Override
 			public boolean isGreater(Long id)
@@ -232,7 +255,7 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		final BaseTreeNode<String, Long> parentTreeNode = new BaseTreeNode<>("parent");
 		Configuration configuration = new ConfigurationBuilder()
 			.overrideFactory("parent", (Factory<BaseTreeNode<String, Long>>)() -> parentTreeNode)
-			.overrideFactory("childComparator", new Factory<Comparator>()
+			.overrideFactory("childComparator", new Factory<Comparator<BaseTreeNode<String, Long>>>()
 			{
 				@Override
 				public Comparator create()

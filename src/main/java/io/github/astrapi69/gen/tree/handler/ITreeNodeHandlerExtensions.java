@@ -222,6 +222,8 @@ public class ITreeNodeHandlerExtensions
 	 *            the parent tree node
 	 * @param child
 	 *            the child tree node to check
+	 * @return true, if the second given {@link ITreeNode} object is a child of the first
+	 *         {@link ITreeNode} object otherwise false
 	 */
 	public static <V, T extends ITreeNode<V, T>> boolean isChild(final @NonNull T parentTreeNode,
 		final T child)
