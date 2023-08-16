@@ -261,4 +261,27 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 		return TreeNodeVisitorHandlerExtensions.traverse((T)this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	default boolean isAncestor(T treeNode)
+	{
+		return ITreeNodeHandlerExtensions.isAncestor((T)this, treeNode);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	default boolean isDescendant(T treeNode)
+	{
+		return ITreeNodeHandlerExtensions.isDescendant((T)this, treeNode);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	default boolean move(T treeNode)
+	{
+		return ITreeNodeHandlerExtensions.move((T)this, treeNode);
+	}
 }

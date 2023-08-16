@@ -36,7 +36,8 @@ import io.github.astrapi69.gen.tree.BaseTreeNode;
  *            the generic type of the id from the node
  */
 public class FindValuesBaseTreeNodeVisitor<V, K>
-	extends FindValuesIBaseTreeNodeVisitor<V, K, BaseTreeNode<V, K>>
+	extends
+		FindValuesIBaseTreeNodeVisitor<V, K, BaseTreeNode<V, K>>
 {
 
 	/**

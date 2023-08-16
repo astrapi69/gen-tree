@@ -7,9 +7,18 @@ Version 8.4-SNAPSHOT
 ADDED:
 
 - new visitor class FindValuesIBaseTreeNodeVisitor
+- new method 'isAncestor' in interface ITreeNode created that checks if a given tree node is an ancestor of this tree node
+- new method 'isDescendant' in interface ITreeNode created that checks if a given tree node is a descendant of this tree node
+- new method 'move' in interface ITreeNode created that moves a given tree node to the given new parent tree node
 - new method 'isAncestor' in the extension class ITreeNodeHandlerExtensions that checks if a given tree node is an ancestor of the given tree node
 - new method 'isDescendant' in the extension class ITreeNodeHandlerExtensions that checks if a given tree node is a descendant of the given tree node
 - new method 'move' in the extension class ITreeNodeHandlerExtensions that moves a given tree node to the given new parent tree node
+
+CHANGED:
+
+- update gradle version to 8.3-rc-4
+- update of gradle-plugin dependency spotless-plugin-gradle to new minor version 6.20.0
+- update of dependency tree-api to new minor version 1.4
 
 Version 8.3
 -------------
