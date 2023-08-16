@@ -41,10 +41,10 @@ import lombok.experimental.SuperBuilder;
 /**
  * The generic class {@link BaseTreeNode} have a generic id and value object
  *
- * @param <T>
+ * @param <V>
  *            the generic type of the value
  * @param <K>
- *            the generic type of the id of the node
+ *            the generic type of the id from the node
  */
 @Getter
 @Setter
@@ -53,26 +53,26 @@ import lombok.experimental.SuperBuilder;
 @ToString(exclude = { "children", "parent" })
 @SuperBuilder(toBuilder = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BaseTreeNode<T, K> implements IBaseTreeNode<T, K, BaseTreeNode<T, K>>
+public class BaseTreeNode<V, K> implements IBaseTreeNode<V, K, BaseTreeNode<V, K>>
 {
 
 	/** The id from this node */
 	K id;
 
 	/** The value */
-	T value;
+	V value;
 
 	/** The comparator object for sort the children */
-	Comparator<BaseTreeNode<T, K>> childComparator;
+	Comparator<BaseTreeNode<V, K>> childComparator;
 
 	/** The children */
-	Collection<BaseTreeNode<T, K>> children;
+	Collection<BaseTreeNode<V, K>> children;
 
 	/** The optional display value */
 	String displayValue;
 
 	/** The parent from this node. If this is null it is the root */
-	BaseTreeNode<T, K> parent;
+	BaseTreeNode<V, K> parent;
 
 	/** The flag that indicates if this tree node is a leaf or a node */
 
@@ -84,7 +84,7 @@ public class BaseTreeNode<T, K> implements IBaseTreeNode<T, K, BaseTreeNode<T, K
 	 * @param value
 	 *            the value
 	 */
-	public BaseTreeNode(final T value)
+	public BaseTreeNode(final V value)
 	{
 		setValue(value);
 	}
@@ -94,7 +94,7 @@ public class BaseTreeNode<T, K> implements IBaseTreeNode<T, K, BaseTreeNode<T, K
 	 *
 	 * @return the children
 	 */
-	public Collection<BaseTreeNode<T, K>> getChildren()
+	public Collection<BaseTreeNode<V, K>> getChildren()
 	{
 		if (this.children == null)
 		{

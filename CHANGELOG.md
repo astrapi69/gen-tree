@@ -4,6 +4,12 @@
 Version 8.4-SNAPSHOT
 -------------
 
+ADDED:
+
+- new visitor class FindValuesIBaseTreeNodeVisitor
+- new method 'isAncestor' in the extension class ITreeNodeHandlerExtensions that checks if a given tree node is an ancestor of the given tree node
+- new method 'isDescendant' in the extension class ITreeNodeHandlerExtensions that checks if a given tree node is a descendant of the given tree node
+- new method 'move' in the extension class ITreeNodeHandlerExtensions that moves a given tree node to the given new parent tree node
 
 Version 8.3
 -------------

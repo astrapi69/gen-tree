@@ -222,4 +222,39 @@ public class ITreeNodeHandlerExtensionsTest
 		assertEquals(actual, expected);
 	}
 
+	/**
+	 * Test method for {@link ITreeNodeHandlerExtensions#move(ITreeNode, ITreeNode)}
+	 */
+	@Test
+	public void testMove()
+	{
+		boolean actual;
+		boolean expected;
+
+		actual = ITreeNodeHandlerExtensions.move(firstChild, thirdChild);
+		expected = true;
+		assertEquals(actual, expected);
+
+		actual = ITreeNodeHandlerExtensions.move(root, firstGrandGrandGrandChild);
+		expected = false;
+		assertEquals(actual, expected);
+	}
+
+	/**
+	 * Test method for {@link ITreeNodeHandlerExtensions#isAncestor(ITreeNode, ITreeNode)}
+	 */
+	@Test
+	public void testIsAncestor()
+	{
+		boolean actual;
+		boolean expected;
+
+		actual = ITreeNodeHandlerExtensions.isAncestor(firstChild, thirdChild);
+		expected = false;
+		assertEquals(actual, expected);
+
+		actual = ITreeNodeHandlerExtensions.isAncestor(firstGrandGrandGrandChild, root);
+		expected = true;
+		assertEquals(actual, expected);
+	}
 }

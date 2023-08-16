@@ -24,30 +24,69 @@
  */
 package io.github.astrapi69.gen.tree.visitor;
 
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.concurrent.atomic.AtomicReference;
+
+import io.github.astrapi69.design.pattern.visitor.Visitor;
 import io.github.astrapi69.gen.tree.BaseTreeNode;
+import io.github.astrapi69.gen.tree.api.IBaseTreeNode;
+import lombok.Getter;
 
 /**
- * This visitor visits all {@link BaseTreeNode} objects and checks if the value equals with the
+ * This visitor visits all {@link IBaseTreeNode} objects and checks if the value equals with the
  * value of this visitor
  *
- * @param <V>
+ * @param <T>
  *            the generic type of the value
  * @param <K>
  *            the generic type of the id from the node
  */
-public class FindValuesBaseTreeNodeVisitor<V, K>
-	extends FindValuesIBaseTreeNodeVisitor<V, K, BaseTreeNode<V, K>>
+public class FindValuesIBaseTreeNodeVisitor<V, K, T extends IBaseTreeNode<V, K, T>>
+	implements
+		Visitor<T>
 {
+	/**
+	 * The decorator {@link AtomicReference} object for store all {@link BaseTreeNode} objects
+	 */
+	@Getter
+	private final AtomicReference<Collection<T>> foundTreeNodes = new AtomicReference<>(
+		new LinkedHashSet<>());
+
+	/* The value */
+	@Getter
+	private final V value;
 
 	/**
-	 * Instantiates a new {@link FindValuesBaseTreeNodeVisitor} object
+	 * Instantiates a new {@link FindValuesIBaseTreeNodeVisitor} object
 	 *
 	 * @param value
 	 *            the value
 	 */
-	public FindValuesBaseTreeNodeVisitor(final V value)
+	public FindValuesIBaseTreeNodeVisitor(final V value)
 	{
-		super(value);
+		this.value = value;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void visit(T treeNode)
+	{
+		if (this.value == null)
+		{
+			if (treeNode != null && treeNode.getValue() == null)
+			{
+				foundTreeNodes.get().add(treeNode);
+			}
+		}
+		else
+		{
+			if (this.value.equals(treeNode.getValue()))
+			{
+				foundTreeNodes.get().add(treeNode);
+			}
+		}
+	}
 }

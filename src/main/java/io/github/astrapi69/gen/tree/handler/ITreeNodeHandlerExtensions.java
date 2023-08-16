@@ -199,20 +199,75 @@ public class ITreeNodeHandlerExtensions
 	public static <V, T extends ITreeNode<V, T>> void removeChild(final @NonNull T parentTreeNode,
 		final T child)
 	{
+		removeChild(parentTreeNode, child, true);
+	}
+
+	/**
+	 * Removes the given child from the given first {@link ITreeNode}
+	 *
+	 * @param <V>
+	 *            the generic type of the value
+	 * @param <T>
+	 *            the generic type of the concrete tree node
+	 * @param parentTreeNode
+	 *            the parent tree node
+	 * @param child
+	 *            the child tree node
+	 */
+	public static <V, T extends ITreeNode<V, T>> void removeChild(final @NonNull T parentTreeNode,
+		final T child, final boolean clearChildren)
+	{
 		if (child != null)
 		{
 			if (isChildOf(parentTreeNode, child))
 			{
 				parentTreeNode.getChildren().remove(child);
 				child.setParent(null);
-				child.clearChildren();
+				if (clearChildren)
+				{
+					child.clearChildren();
+				}
 			}
 		}
 	}
 
 	/**
-	 * Removes the given child from the given first {@link ITreeNode} Checks if the second given
-	 * {@link ITreeNode} object is a child of the first given {@link ITreeNode} object
+	 * Moves the given {@link ITreeNode} object to the new given parent {@link ITreeNode} object
+	 * that can be null
+	 *
+	 * @param <V>
+	 *            the generic type of the value
+	 * @param <T>
+	 *            the generic type of the concrete tree node
+	 * @param treeNodeToMove
+	 *            the tree node that will be moved to the new parent tree node
+	 * @param newParentTreeNode
+	 *            the new parent tree node
+	 */
+	public static <V, T extends ITreeNode<V, T>> boolean move(final @NonNull T treeNodeToMove,
+		final T newParentTreeNode)
+	{
+		if (newParentTreeNode != null && newParentTreeNode.isLeaf())
+		{
+			return false;
+		}
+		// if the given new parent is a descendant of the tree node to move, then we return false
+		// and do not move the tree node
+		if (isDescendant(treeNodeToMove, newParentTreeNode))
+		{
+			return false;
+		}
+		if (treeNodeToMove.hasParent())
+		{
+			removeChild(treeNodeToMove.getParent(), treeNodeToMove, false);
+		}
+		newParentTreeNode.addChild(treeNodeToMove);
+		return true;
+	}
+
+	/**
+	 * Checks if the second given {@link ITreeNode} object is a child of the first given
+	 * {@link ITreeNode} object
 	 *
 	 * @param <V>
 	 *            the generic type of the value
@@ -646,6 +701,91 @@ public class ITreeNodeHandlerExtensions
 	public static <V, T extends ITreeNode<V, T>> List<T> toList(final @NonNull T treeNode)
 	{
 		return new ArrayList<>(TreeNodeVisitorHandlerExtensions.traverse(treeNode));
+	}
+
+	/**
+	 * Find the occurrence of {@link ITreeNode} object from the given possible descendant object
+	 * that serves as the search target
+	 *
+	 * @param <V>
+	 *            the generic type of the value
+	 * @param <T>
+	 *            the generic type of the concrete tree node
+	 * @param treeNode
+	 *            the tree node
+	 * @param possibleDescendant
+	 *            the id for the search process
+	 * @return the first occurrence of {@link ITreeNode} object that have the same value as the
+	 *         given value
+	 */
+	public static <V, T extends ITreeNode<V, T>> T findFirstOccurenceOfDescendant(
+		final @NonNull T treeNode, final T possibleDescendant)
+	{
+		final AtomicReference<Boolean> stopSearch = new AtomicReference<>(Boolean.FALSE);
+		final AtomicReference<T> found = new AtomicReference<>();
+		treeNode.accept(currentTreeNode -> {
+			if (!stopSearch.get())
+			{
+				if (currentTreeNode.equals(possibleDescendant))
+				{
+					stopSearch.set(Boolean.TRUE);
+					found.set(currentTreeNode);
+				}
+			}
+		});
+		return found.get();
+	}
+
+	/**
+	 * Checks if the second given {@link ITreeNode} object is a descendant of the first given
+	 * {@link ITreeNode} object
+	 *
+	 * @param <V>
+	 *            the generic type of the value
+	 * @param <T>
+	 *            the generic type of the concrete tree node
+	 * @param treeNode
+	 *            the tree node to check
+	 * @param possibleDescendant
+	 *            the possible descendant tree node to check
+	 * @return true, if the second given {@link ITreeNode} object is a descendant of the first
+	 *         {@link ITreeNode} object otherwise false
+	 */
+	public static <V, T extends ITreeNode<V, T>> boolean isDescendant(final @NonNull T treeNode,
+		final T possibleDescendant)
+	{
+		return findFirstOccurenceOfDescendant(treeNode, possibleDescendant) != null;
+	}
+
+	/**
+	 * Checks if the second given {@link ITreeNode} object is an ancestor of the first given
+	 * {@link ITreeNode} object
+	 *
+	 * @param <V>
+	 *            the generic type of the value
+	 * @param <T>
+	 *            the generic type of the concrete tree node
+	 * @param treeNode
+	 *            the tree node to check
+	 * @param possibleAncestor
+	 *            the possible ancestor tree node to check
+	 * @return true, if the second given {@link ITreeNode} object is a ancestor of the first
+	 *         {@link ITreeNode} object otherwise false
+	 */
+	public static <V, T extends ITreeNode<V, T>> boolean isAncestor(final @NonNull T treeNode,
+		final @NonNull T possibleAncestor)
+	{
+		T parent;
+		parent = treeNode.getParent();
+		while (parent != null)
+		{
+			if (parent == possibleAncestor)
+			{
+				return true;
+			}
+			parent = parent.getParent();
+		}
+		return false;
 	}
 
 }

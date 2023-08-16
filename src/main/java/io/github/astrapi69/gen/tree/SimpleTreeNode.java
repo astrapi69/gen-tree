@@ -42,7 +42,7 @@ import lombok.experimental.SuperBuilder;
  * The generic class {@link SimpleTreeNode} holds only the parent, the left most child and the right
  * sibling
  *
- * @param <T>
+ * @param <V>
  *            the generic type of the value
  * @param <K>
  *            the generic type of the id of the node
@@ -53,23 +53,23 @@ import lombok.experimental.SuperBuilder;
 @ToString(exclude = { "parent" })
 @SuperBuilder(toBuilder = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SimpleTreeNode<T, K> implements Acceptable<Visitor<SimpleTreeNode<T, K>>>
+public class SimpleTreeNode<V, K> implements Acceptable<Visitor<SimpleTreeNode<V, K>>>
 {
 
 	/** The id from this node. */
 	K id;
 
 	/** The left most child */
-	SimpleTreeNode<T, K> parent;
+	SimpleTreeNode<V, K> parent;
 
 	/** The left most child */
-	SimpleTreeNode<T, K> leftMostChild;
+	SimpleTreeNode<V, K> leftMostChild;
 
 	/** The right sibling */
-	SimpleTreeNode<T, K> rightSibling;
+	SimpleTreeNode<V, K> rightSibling;
 
 	/** The value */
-	T value;
+	V value;
 
 	/** The flag that indicates if this tree node is a leaf or a node */
 	boolean leaf;
@@ -80,7 +80,7 @@ public class SimpleTreeNode<T, K> implements Acceptable<Visitor<SimpleTreeNode<T
 	 * @param value
 	 *            the value
 	 */
-	public SimpleTreeNode(T value)
+	public SimpleTreeNode(V value)
 	{
 		this.value = value;
 	}
@@ -100,7 +100,7 @@ public class SimpleTreeNode<T, K> implements Acceptable<Visitor<SimpleTreeNode<T
 	 *
 	 * @return the root {@link SimpleTreeNode} object
 	 */
-	public SimpleTreeNode<T, K> getRoot()
+	public SimpleTreeNode<V, K> getRoot()
 	{
 		return SimpleTreeNodeHandlerExtensions.getRoot(this);
 	}
@@ -130,7 +130,7 @@ public class SimpleTreeNode<T, K> implements Acceptable<Visitor<SimpleTreeNode<T
 	 *
 	 * @return all the siblings from this node
 	 */
-	public Collection<SimpleTreeNode<T, K>> getAllSiblings()
+	public Collection<SimpleTreeNode<V, K>> getAllSiblings()
 	{
 		return SimpleTreeNodeHandlerExtensions.getAllSiblings(this);
 	}
@@ -140,7 +140,7 @@ public class SimpleTreeNode<T, K> implements Acceptable<Visitor<SimpleTreeNode<T
 	 *
 	 * @return all the left siblings from this node
 	 */
-	public Collection<SimpleTreeNode<T, K>> getAllLeftSiblings()
+	public Collection<SimpleTreeNode<V, K>> getAllLeftSiblings()
 	{
 		return SimpleTreeNodeHandlerExtensions.getAllLeftSiblings(this);
 	}
@@ -150,7 +150,7 @@ public class SimpleTreeNode<T, K> implements Acceptable<Visitor<SimpleTreeNode<T
 	 *
 	 * @return all the right siblings from this node
 	 */
-	public Collection<SimpleTreeNode<T, K>> getAllRightSiblings()
+	public Collection<SimpleTreeNode<V, K>> getAllRightSiblings()
 	{
 		return SimpleTreeNodeHandlerExtensions.getAllRightSiblings(this);
 	}
@@ -186,11 +186,11 @@ public class SimpleTreeNode<T, K> implements Acceptable<Visitor<SimpleTreeNode<T
 	}
 
 	/**
-	 * Traverse this node and add all descendant with this included in to a {@link Set}
+	 * Traverse this node and add all descendants with this included in to a {@link Set}
 	 *
-	 * @return a {@link Set} with this node and add all descendant
+	 * @return a {@link Set} with this node and add all descendants
 	 */
-	public Collection<SimpleTreeNode<T, K>> traverse()
+	public Collection<SimpleTreeNode<V, K>> traverse()
 	{
 		return SimpleTreeNodeHandlerExtensions.traverse(this);
 	}
@@ -200,7 +200,7 @@ public class SimpleTreeNode<T, K> implements Acceptable<Visitor<SimpleTreeNode<T
 	 *
 	 * @return the children
 	 */
-	public Collection<SimpleTreeNode<T, K>> getChildren()
+	public Collection<SimpleTreeNode<V, K>> getChildren()
 	{
 		return SimpleTreeNodeHandlerExtensions.getChildren(this);
 	}
@@ -209,7 +209,7 @@ public class SimpleTreeNode<T, K> implements Acceptable<Visitor<SimpleTreeNode<T
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void accept(Visitor<SimpleTreeNode<T, K>> visitor)
+	public void accept(Visitor<SimpleTreeNode<V, K>> visitor)
 	{
 		SimpleTreeNodeHandlerExtensions.accept(this, visitor);
 	}
