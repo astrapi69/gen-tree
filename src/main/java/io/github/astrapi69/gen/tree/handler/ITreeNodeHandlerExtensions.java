@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 import io.github.astrapi69.gen.tree.api.ITreeNode;
@@ -499,6 +500,100 @@ public class ITreeNodeHandlerExtensions
 			child.setParent(parentTreeNode);
 			parentTreeNode.getChildren().add(child);
 		}
+	}
+
+	/**
+	 * Adds the given child {@link ITreeNode} object to the first given parent {@link ITreeNode}
+	 * object
+	 *
+	 * @param <V>
+	 *            the generic type of the value
+	 * @param <T>
+	 *            the generic type of the concrete tree node
+	 * @param parentTreeNode
+	 *            the parent tree node
+	 * @param child
+	 *            the child
+	 * @param index
+	 *            the index of the child to insert
+	 */
+	public static <V, T extends ITreeNode<V, T>> void addChild(final @NonNull T parentTreeNode,
+		final T child, final int index)
+	{
+		if (child != null && parentTreeNode.isNode())
+		{
+			child.setParent(parentTreeNode);
+			if (parentTreeNode.getChildren() instanceof List)
+			{
+				List<T> children = (List<T>)parentTreeNode.getChildren();
+				children.add(index, child);
+			}
+			else
+			{
+				parentTreeNode.getChildren().add(child);
+			}
+		}
+	}
+
+	/**
+	 * Gets an {@link Optional} object with the child tree node from the given index from the first
+	 * given parent {@link ITreeNode} object
+	 *
+	 * @param <V>
+	 *            the generic type of the value
+	 * @param <T>
+	 *            the generic type of the concrete tree node
+	 * @param parentTreeNode
+	 *            the parent tree node
+	 * @param index
+	 *            the index of the child to get
+	 * @return an {@link Optional} object with the child tree node
+	 */
+	public static <V, T extends ITreeNode<V, T>> Optional<T> getChildAt(
+		final @NonNull T parentTreeNode, final int index)
+	{
+		if (parentTreeNode.isNode())
+		{
+			if (parentTreeNode.getChildren() instanceof List)
+			{
+				List<T> children = (List<T>)parentTreeNode.getChildren();
+				T child = children.get(index);
+				if (child != null)
+				{
+					return Optional.of(child);
+				}
+			}
+		}
+		return Optional.empty();
+	}
+
+	/**
+	 * Gets the index of the given child from the given index from the first given parent
+	 * {@link ITreeNode} object
+	 *
+	 * @param <V>
+	 *            the generic type of the value
+	 * @param <T>
+	 *            the generic type of the concrete tree node
+	 * @param parentTreeNode
+	 *            the parent tree node
+	 * @param child
+	 *            the child to resolve the index
+	 * @return the index of the given child in this tree node
+	 */
+	public static <V, T extends ITreeNode<V, T>> int getChildIndex(final @NonNull T parentTreeNode,
+		final T child)
+	{
+		if (child != null && parentTreeNode.isNode())
+		{
+			child.setParent(parentTreeNode);
+			if (parentTreeNode.getChildren() instanceof List)
+			{
+				List<T> children = (List<T>)parentTreeNode.getChildren();
+				return children.indexOf(child);
+			}
+		}
+		return -1;
 	}
 
 	/**

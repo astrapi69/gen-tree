@@ -13,12 +13,15 @@ ADDED:
 - new method 'isAncestor' in the extension class ITreeNodeHandlerExtensions that checks if a given tree node is an ancestor of the given tree node
 - new method 'isDescendant' in the extension class ITreeNodeHandlerExtensions that checks if a given tree node is a descendant of the given tree node
 - new method 'move' in the extension class ITreeNodeHandlerExtensions that moves a given tree node to the given new parent tree node
+- new method 'addChild' to insert a child tree node with a specific given index
+- new method 'getChildAt' to get an optional of the child tree node with the given index
+- new method 'getChildIndex' to the index from the given child tree node
 
 CHANGED:
 
-- update gradle version to 8.3-rc-4
+- update gradle version to 8.3
 - update of gradle-plugin dependency spotless-plugin-gradle to new minor version 6.20.0
-- update of dependency tree-api to new minor version 1.4
+- update of dependency tree-api to new minor version 1.5
 
 Version 8.3
 -------------

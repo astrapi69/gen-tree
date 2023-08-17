@@ -26,6 +26,7 @@ package io.github.astrapi69.gen.tree.api;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import io.github.astrapi69.design.pattern.visitor.Acceptable;
 import io.github.astrapi69.design.pattern.visitor.Visitor;
@@ -51,6 +52,30 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	default void addChild(final T child)
 	{
 		ITreeNodeHandlerExtensions.addChild((T)this, child);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	default void addChild(final T child, int index)
+	{
+		ITreeNodeHandlerExtensions.addChild((T)this, child, index);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	default Optional<T> getChildAt(int index)
+	{
+		return ITreeNodeHandlerExtensions.getChildAt((T)this, index);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	default int getChildIndex(T child)
+	{
+		return ITreeNodeHandlerExtensions.getChildIndex((T)this, child);
 	}
 
 	/**
