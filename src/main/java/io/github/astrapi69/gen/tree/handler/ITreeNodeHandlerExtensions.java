@@ -222,14 +222,70 @@ public class ITreeNodeHandlerExtensions
 	{
 		if (child != null)
 		{
-			if (isChildOf(parentTreeNode, child))
+			removeFromParent(parentTreeNode, child, clearChildren);
+		}
+	}
+
+	/**
+	 * Removes the parent from the given {@link ITreeNode} object
+	 *
+	 * @param <V>
+	 *            the generic type of the value
+	 * @param <T>
+	 *            the generic type of the concrete tree node
+	 * @param treeNode
+	 *            the tree node
+	 */
+	public static <V, T extends ITreeNode<V, T>> void removeFromParent(final @NonNull T treeNode)
+	{
+		if (treeNode.hasParent())
+		{
+			removeFromParent(treeNode.getParent(), treeNode);
+		}
+	}
+
+	/**
+	 * Removes the parent from the given child {@link ITreeNode} object
+	 *
+	 * @param <V>
+	 *            the generic type of the value
+	 * @param <T>
+	 *            the generic type of the concrete tree node
+	 * @param parentTreeNode
+	 *            the parent tree node
+	 * @param child
+	 *            the child
+	 */
+	public static <V, T extends ITreeNode<V, T>> void removeFromParent(
+		final @NonNull T parentTreeNode, final @NonNull T child)
+	{
+		removeFromParent(parentTreeNode, child, false);
+	}
+
+	/**
+	 * Removes the parent from the given child {@link ITreeNode} object
+	 *
+	 * @param <V>
+	 *            the generic type of the value
+	 * @param <T>
+	 *            the generic type of the concrete tree node
+	 * @param parentTreeNode
+	 *            the parent tree node
+	 * @param child
+	 *            the child
+	 * @param clearChildren
+	 *            the flag that indicates if the children from the child tree node will be cleared
+	 */
+	public static <V, T extends ITreeNode<V, T>> void removeFromParent(
+		final @NonNull T parentTreeNode, final @NonNull T child, final boolean clearChildren)
+	{
+		if (isChildOf(parentTreeNode, child))
+		{
+			parentTreeNode.getChildren().remove(child);
+			child.setParent(null);
+			if (clearChildren)
 			{
-				parentTreeNode.getChildren().remove(child);
-				child.setParent(null);
-				if (clearChildren)
-				{
-					child.clearChildren();
-				}
+				child.clearChildren();
 			}
 		}
 	}
@@ -265,7 +321,10 @@ public class ITreeNodeHandlerExtensions
 		{
 			removeChild(treeNodeToMove.getParent(), treeNodeToMove, false);
 		}
-		newParentTreeNode.addChild(treeNodeToMove);
+		if (newParentTreeNode != null && newParentTreeNode.isNode())
+		{
+			newParentTreeNode.addChild(treeNodeToMove);
+		}
 		return true;
 	}
 
