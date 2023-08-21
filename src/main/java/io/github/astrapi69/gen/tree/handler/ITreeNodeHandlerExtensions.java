@@ -214,6 +214,8 @@ public class ITreeNodeHandlerExtensions
 	 *            the parent tree node
 	 * @param child
 	 *            the child tree node
+	 * @param clearChildren
+	 *            the flag that indicates if the children from the child tree node will be cleared
 	 */
 	public static <V, T extends ITreeNode<V, T>> void removeChild(final @NonNull T parentTreeNode,
 		final T child, final boolean clearChildren)
@@ -244,6 +246,7 @@ public class ITreeNodeHandlerExtensions
 	 *            the tree node that will be moved to the new parent tree node
 	 * @param newParentTreeNode
 	 *            the new parent tree node
+	 * @return true if the given {@link ITreeNode} object was moved otherwise false
 	 */
 	public static <V, T extends ITreeNode<V, T>> boolean move(final @NonNull T treeNodeToMove,
 		final T newParentTreeNode)
