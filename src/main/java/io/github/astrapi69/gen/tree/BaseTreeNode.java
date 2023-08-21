@@ -27,6 +27,8 @@ package io.github.astrapi69.gen.tree;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import io.github.astrapi69.gen.tree.api.IBaseTreeNode;
 import lombok.AccessLevel;
@@ -71,11 +73,10 @@ public class BaseTreeNode<V, K> implements IBaseTreeNode<V, K, BaseTreeNode<V, K
 	/** The optional display value */
 	String displayValue;
 
-	/** The parent from this node. If this is null it is the root */
+	/** The parent from this node. If this is null, it is the root */
 	BaseTreeNode<V, K> parent;
 
 	/** The flag that indicates if this tree node is a leaf or a node */
-
 	boolean leaf;
 
 	/**
@@ -98,7 +99,14 @@ public class BaseTreeNode<V, K> implements IBaseTreeNode<V, K, BaseTreeNode<V, K
 	{
 		if (this.children == null)
 		{
-			this.children = new LinkedHashSet<>();
+			if (this.childComparator == null)
+			{
+				this.children = new LinkedHashSet<>();
+			}
+			else
+			{
+				this.children = new TreeSet<>(this.childComparator);
+			}
 		}
 		return this.children;
 	}
@@ -110,7 +118,8 @@ public class BaseTreeNode<V, K> implements IBaseTreeNode<V, K, BaseTreeNode<V, K
 	{
 		if (this.childComparator != null)
 		{
-			this.children.stream().sorted(this.childComparator);
+			this.children = this.children.stream().sorted(this.childComparator)
+				.collect(Collectors.toCollection(TreeSet::new));
 		}
 	}
 }
