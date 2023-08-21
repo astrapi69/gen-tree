@@ -1,12 +1,13 @@
 ## Change log
 ----------------------
 
-Version 8.4-SNAPSHOT
+Version 8.4
 -------------
 
 ADDED:
 
 - new visitor class FindValuesIBaseTreeNodeVisitor
+- new visitor class MaxIndexFinderTreeNodeVisitor
 - new method 'isAncestor' in interface ITreeNode created that checks if a given tree node is an ancestor of this tree node
 - new method 'isDescendant' in interface ITreeNode created that checks if a given tree node is a descendant of this tree node
 - new method 'move' in interface ITreeNode created that moves a given tree node to the given new parent tree node
