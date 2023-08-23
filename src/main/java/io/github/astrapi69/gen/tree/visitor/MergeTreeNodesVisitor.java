@@ -26,7 +26,7 @@ package io.github.astrapi69.gen.tree.visitor;
 
 import io.github.astrapi69.design.pattern.visitor.Visitor;
 import io.github.astrapi69.gen.tree.api.IBaseTreeNode;
-import io.github.astrapi69.gen.tree.merge.enumeration.MergeStrategy;
+import io.github.astrapi69.gen.tree.enumeration.merge.MergeStrategy;
 import lombok.NonNull;
 
 /**

@@ -7,7 +7,7 @@ Version 8.5-SNAPSHOT
 ADDED:
 
 - new methods 'removeFromParent' in the extension class ITreeNodeHandlerExtensions that removes the parent of a tree node
-
+- new enum TraversalType that provides the different types of traversing a tree
 
 Version 8.4
 -------------
