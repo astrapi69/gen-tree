@@ -1,6 +1,11 @@
 ## Change log
 ----------------------
 
+Version 9.1-SNAPSHOT
+-------------
+
+
+
 Version 9
 -------------
 
@@ -8,7 +13,6 @@ ADDED:
 
 - new methods 'removeFromParent' in the extension class ITreeNodeHandlerExtensions that removes the parent of a tree node
 - new enum TraversalType that provides the different types of traversing a tree
-
 
 CHANGED:
 
