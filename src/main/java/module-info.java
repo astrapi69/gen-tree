@@ -29,6 +29,8 @@ module gen.tree
 	exports io.github.astrapi69.gen.tree.api;
 	exports io.github.astrapi69.gen.tree.binary;
 	exports io.github.astrapi69.gen.tree.convert;
+	exports io.github.astrapi69.gen.tree.enumeration.merge;
+	exports io.github.astrapi69.gen.tree.enumeration.traversal;
 	exports io.github.astrapi69.gen.tree.handler;
 	exports io.github.astrapi69.gen.tree.visitor;
 }
