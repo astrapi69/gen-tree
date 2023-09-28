@@ -1,13 +1,23 @@
 ## Change log
 ----------------------
 
-Version 8.5-SNAPSHOT
+Version 9-SNAPSHOT
 -------------
 
 ADDED:
 
 - new methods 'removeFromParent' in the extension class ITreeNodeHandlerExtensions that removes the parent of a tree node
 - new enum TraversalType that provides the different types of traversing a tree
+
+
+CHANGED:
+
+- update to jdk version 17
+- update gradle version to 8.4-rc-2
+- update of lombok version to 1.18.30
+- update of gradle-plugin dependency 'com.github.ben-manes.versions.gradle.plugin' to new version 0.48.0
+- update of gradle-plugin dependency spotless-plugin-gradle to new minor version 6.21.0
+- update of test dependency silly-collection to new major version 27
 
 Version 8.4
 -------------

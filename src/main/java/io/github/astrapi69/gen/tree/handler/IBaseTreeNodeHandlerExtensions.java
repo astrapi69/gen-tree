@@ -115,6 +115,7 @@ public class IBaseTreeNodeHandlerExtensions
 	 *            the tree nodes to merge with
 	 * @return the root with the merged tree nodes
 	 */
+	@SuppressWarnings("unchecked")
 	public static <V, K, T extends IBaseTreeNode<V, K, T>> T mergeTreeNodes(final @NonNull T root,
 		T... treeNodes)
 	{

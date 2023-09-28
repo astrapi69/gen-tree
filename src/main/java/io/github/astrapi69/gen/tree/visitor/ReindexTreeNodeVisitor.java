@@ -34,19 +34,29 @@ import lombok.Getter;
 
 /**
  * This visitor visits all {@link ITreeNode} objects and adds them to a {@link Collection} object
- * with all descendant
+ * with all descendants
  *
- * @param <T>
+ * @param <V>
  *            the generic type of the value
+ * @param <K>
+ *            the generic type of the id of the node
+ * @param <T>
+ *            the generic type of the concrete tree node
  */
+@Getter
 public class ReindexTreeNodeVisitor<V, K, T extends IBaseTreeNode<V, K, T>> implements Visitor<T>
 {
 	/**
 	 * The {@link IdGenerator} object for reindex tree ids
 	 */
-	@Getter
 	private final IdGenerator<K> idGenerator;
 
+	/**
+	 * Instantiates a new {@link ReindexTreeNodeVisitor} object
+	 *
+	 * @param idGenerator
+	 *            the id generator
+	 */
 	public ReindexTreeNodeVisitor(final IdGenerator<K> idGenerator)
 	{
 		this.idGenerator = idGenerator;

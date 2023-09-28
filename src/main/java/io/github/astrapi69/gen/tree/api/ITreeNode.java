@@ -47,11 +47,23 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 {
 
 	/**
+	 * Gets the reference from this {@link ITreeNode} object
+	 * 
+	 * @return this {@link ITreeNode} object
+	 */
+	@SuppressWarnings("unchecked")
+	private T getThis()
+	{
+		T self = (T)this;
+		return self;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	default void addChild(final T child)
 	{
-		ITreeNodeHandlerExtensions.addChild((T)this, child);
+		ITreeNodeHandlerExtensions.addChild(getThis(), child);
 	}
 
 	/**
@@ -59,7 +71,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default void addChild(final T child, int index)
 	{
-		ITreeNodeHandlerExtensions.addChild((T)this, child, index);
+		ITreeNodeHandlerExtensions.addChild(getThis(), child, index);
 	}
 
 	/**
@@ -67,7 +79,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default Optional<T> getChildAt(int index)
 	{
-		return ITreeNodeHandlerExtensions.getChildAt((T)this, index);
+		return ITreeNodeHandlerExtensions.getChildAt(getThis(), index);
 	}
 
 	/**
@@ -75,7 +87,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default int getChildIndex(T child)
 	{
-		return ITreeNodeHandlerExtensions.getChildIndex((T)this, child);
+		return ITreeNodeHandlerExtensions.getChildIndex(getThis(), child);
 	}
 
 	/**
@@ -83,7 +95,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default void addChildren(final @NonNull Collection<T> children)
 	{
-		ITreeNodeHandlerExtensions.addChildren((T)this, children);
+		ITreeNodeHandlerExtensions.addChildren(getThis(), children);
 	}
 
 	/**
@@ -91,7 +103,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default Collection<T> getAllSiblings()
 	{
-		return ITreeNodeHandlerExtensions.getAllSiblings((T)this);
+		return ITreeNodeHandlerExtensions.getAllSiblings(getThis());
 	}
 
 	/**
@@ -99,7 +111,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default T getPreviousSibling()
 	{
-		return ITreeNodeHandlerExtensions.getPreviousSibling((T)this);
+		return ITreeNodeHandlerExtensions.getPreviousSibling(getThis());
 	}
 
 	/**
@@ -107,7 +119,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default T getNextSibling()
 	{
-		return ITreeNodeHandlerExtensions.getNextSibling((T)this);
+		return ITreeNodeHandlerExtensions.getNextSibling(getThis());
 	}
 
 	/**
@@ -123,7 +135,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default int getLevel()
 	{
-		return ITreeNodeHandlerExtensions.getLevel((T)this);
+		return ITreeNodeHandlerExtensions.getLevel(getThis());
 	}
 
 	/**
@@ -131,7 +143,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default T getRoot()
 	{
-		return ITreeNodeHandlerExtensions.getRoot((T)this);
+		return ITreeNodeHandlerExtensions.getRoot(getThis());
 	}
 
 	/**
@@ -139,7 +151,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default boolean hasChildren()
 	{
-		return ITreeNodeHandlerExtensions.hasChildren((T)this);
+		return ITreeNodeHandlerExtensions.hasChildren(getThis());
 	}
 
 	/**
@@ -147,7 +159,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default boolean hasNextSibling()
 	{
-		return ITreeNodeHandlerExtensions.hasNextSibling((T)this);
+		return ITreeNodeHandlerExtensions.hasNextSibling(getThis());
 	}
 
 	/**
@@ -155,7 +167,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default boolean hasParent()
 	{
-		return ITreeNodeHandlerExtensions.hasParent((T)this);
+		return ITreeNodeHandlerExtensions.hasParent(getThis());
 	}
 
 	/**
@@ -163,7 +175,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default boolean hasPreviousSibling()
 	{
-		return ITreeNodeHandlerExtensions.hasPreviousSibling((T)this);
+		return ITreeNodeHandlerExtensions.hasPreviousSibling(getThis());
 	}
 
 	/**
@@ -179,7 +191,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default boolean isRoot()
 	{
-		return ITreeNodeHandlerExtensions.isRoot((T)this);
+		return ITreeNodeHandlerExtensions.isRoot(getThis());
 	}
 
 	/**
@@ -187,7 +199,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default void removeChild(final T child)
 	{
-		ITreeNodeHandlerExtensions.removeChild((T)this, child);
+		ITreeNodeHandlerExtensions.removeChild(getThis(), child);
 	}
 
 	/**
@@ -195,7 +207,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default boolean isChild(final T child)
 	{
-		return ITreeNodeHandlerExtensions.isChild((T)this, child);
+		return ITreeNodeHandlerExtensions.isChild(getThis(), child);
 	}
 
 	/**
@@ -203,7 +215,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default void clearChildren()
 	{
-		ITreeNodeHandlerExtensions.clearChildren((T)this);
+		ITreeNodeHandlerExtensions.clearChildren(getThis());
 	}
 
 	/**
@@ -211,7 +223,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default void clearAll()
 	{
-		ITreeNodeHandlerExtensions.clearAll((T)this);
+		ITreeNodeHandlerExtensions.clearAll(getThis());
 	}
 
 	/**
@@ -219,7 +231,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default void removeChildren()
 	{
-		ITreeNodeHandlerExtensions.removeChildren((T)this);
+		ITreeNodeHandlerExtensions.removeChildren(getThis());
 	}
 
 	/**
@@ -227,7 +239,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default void removeChildren(final @NonNull Collection<T> children)
 	{
-		ITreeNodeHandlerExtensions.removeChildren((T)this, children);
+		ITreeNodeHandlerExtensions.removeChildren(getThis(), children);
 	}
 
 	/**
@@ -235,7 +247,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default void accept(final @NonNull Visitor<T> visitor)
 	{
-		TreeNodeVisitorHandlerExtensions.accept((T)this, visitor);
+		TreeNodeVisitorHandlerExtensions.accept(getThis(), visitor);
 	}
 
 	/**
@@ -243,7 +255,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default Collection<T> findAllByValue(final V value)
 	{
-		return ITreeNodeHandlerExtensions.findAllByValue((T)this, value);
+		return ITreeNodeHandlerExtensions.findAllByValue(getThis(), value);
 	}
 
 	/**
@@ -251,7 +263,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default T findByValue(final @NonNull V value)
 	{
-		return ITreeNodeHandlerExtensions.findByValue((T)this, value);
+		return ITreeNodeHandlerExtensions.findByValue(getThis(), value);
 	}
 
 	/**
@@ -259,7 +271,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default boolean contains(T treeNode)
 	{
-		return ITreeNodeHandlerExtensions.contains((T)this, treeNode);
+		return ITreeNodeHandlerExtensions.contains(getThis(), treeNode);
 	}
 
 	/**
@@ -267,7 +279,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default boolean containsAll(final @NonNull Collection<T> treeNodes)
 	{
-		return ITreeNodeHandlerExtensions.containsAll((T)this, treeNodes);
+		return ITreeNodeHandlerExtensions.containsAll(getThis(), treeNodes);
 	}
 
 	/**
@@ -275,7 +287,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default List<T> toList()
 	{
-		return ITreeNodeHandlerExtensions.toList((T)this);
+		return ITreeNodeHandlerExtensions.toList(getThis());
 	}
 
 	/**
@@ -283,7 +295,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default Collection<T> traverse()
 	{
-		return TreeNodeVisitorHandlerExtensions.traverse((T)this);
+		return TreeNodeVisitorHandlerExtensions.traverse(getThis());
 	}
 
 	/**
@@ -291,7 +303,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default boolean isAncestor(T treeNode)
 	{
-		return ITreeNodeHandlerExtensions.isAncestor((T)this, treeNode);
+		return ITreeNodeHandlerExtensions.isAncestor(getThis(), treeNode);
 	}
 
 	/**
@@ -299,7 +311,7 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default boolean isDescendant(T treeNode)
 	{
-		return ITreeNodeHandlerExtensions.isDescendant((T)this, treeNode);
+		return ITreeNodeHandlerExtensions.isDescendant(getThis(), treeNode);
 	}
 
 	/**
@@ -307,6 +319,6 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	 */
 	default boolean move(T treeNode)
 	{
-		return ITreeNodeHandlerExtensions.move((T)this, treeNode);
+		return ITreeNodeHandlerExtensions.move(getThis(), treeNode);
 	}
 }

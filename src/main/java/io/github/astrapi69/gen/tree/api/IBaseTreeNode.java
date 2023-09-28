@@ -48,6 +48,7 @@ public interface IBaseTreeNode<V, K, T extends IBaseTreeNode<V, K, T>>
 	/**
 	 * {@inheritDoc}
 	 */
+	@SuppressWarnings("unchecked")
 	default T findById(final @NonNull K id)
 	{
 		return IBaseTreeNodeHandlerExtensions.findById((T)this, id);
