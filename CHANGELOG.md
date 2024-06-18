@@ -8,6 +8,13 @@ ADDED:
 
 - new libs.versions.toml file for new automatic catalog versions update
 
+CHANGED:
+
+- update gradle version to 8.8
+- update of lombok version to 1.18.32
+- update of gradle-plugin dependency 'com.github.ben-manes.versions.gradle.plugin' to new version 0.51.0
+- update of gradle-plugin dependency spotless-plugin-gradle to new minor version 7.0.0.BETA1
+- update of test dependency silly-collection to new minor version 27.1
 
 Version 9
 -------------

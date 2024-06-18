@@ -1,5 +1,10 @@
 dependencies {
+
     compileOnly libs.lombok
+    annotationProcessor libs.lombok
+    testCompileOnly libs.lombok
+    testAnnotationProcessor libs.lombok
+
     implementation libs.tree.api
     implementation libs.data.api
     implementation libs.visitor

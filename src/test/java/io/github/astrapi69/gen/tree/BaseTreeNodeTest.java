@@ -44,7 +44,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import io.github.astrapi69.AbstractTestCase;
 import io.github.astrapi69.clone.CloneQuietlyExtensions;
 import io.github.astrapi69.collection.set.SetFactory;
 import io.github.astrapi69.design.pattern.visitor.Visitor;
@@ -55,6 +54,7 @@ import io.github.astrapi69.gen.tree.handler.TreeNodeVisitorHandlerExtensions;
 import io.github.astrapi69.gen.tree.visitor.MaxIndexFinderTreeNodeVisitor;
 import io.github.astrapi69.gen.tree.visitor.ReindexTreeNodeVisitor;
 import io.github.astrapi69.id.generate.LongIdGenerator;
+import io.github.astrapi69.test.base.AbstractTestCase;
 
 /**
  * The unit test class for the class {@link BaseTreeNode}
