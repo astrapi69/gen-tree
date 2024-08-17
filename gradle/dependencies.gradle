@@ -7,7 +7,8 @@ dependencies {
 
     implementation libs.tree.api
     implementation libs.data.api
-    implementation libs.visitor
+    implementation libs.visitor.pattern
+
     testImplementation libs.throwable
     testImplementation libs.jobj.cloner
     testImplementation libs.silly.collection

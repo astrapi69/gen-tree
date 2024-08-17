@@ -21,7 +21,7 @@
 module gen.tree
 {
 	requires lombok;
-	requires design.patterns.visitor;
+	requires io.github.astrapisixtynine.design.patterns.visitor;
 	requires tree.api.main;
 	requires data.api;
 

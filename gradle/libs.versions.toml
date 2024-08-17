@@ -2,21 +2,21 @@
 data-api-version = "4.1"
 gradle-plugin-grgit-version = "5.2.2"
 gradle-plugin-license-version = "0.16.1"
-gradle-plugin-lombok-version = "8.6"
+gradle-plugin-lombok-version = "8.7.1"
 gradle-plugin-spotless-version = "7.0.0.BETA1"
 gradle-plugin-version-catalog-update-version = "0.8.4"
 gradle-plugin-versions-version = "0.51.0"
 id-generate-version = "1.1"
 jobj-cloner-version = "2.1"
-jobj-contract-verifier-version = "4"
-lombok-version = "1.18.32"
+jobj-contract-verifier-version = "5.2"
+lombok-version = "1.18.34"
 meanbean-version = "3.0.0-M9"
 silly-collection-version = "27.1"
 test-object-version = "8.2"
 testng-version = "7.10.2"
-throwable-version = "2.3"
+throwable-version = "3"
 tree-api-version = "1.5"
-visitor-version = "6"
+visitor-pattern-version = "7"
 
 [libraries]
 data-api = { module = "io.github.astrapi69:data-api", version.ref = "data-api-version" }
@@ -30,7 +30,7 @@ test-object = { module = "io.github.astrapi69:test-object", version.ref = "test-
 testng = { module = "org.testng:testng", version.ref = "testng-version" }
 throwable = { module = "io.github.astrapi69:throwable", version.ref = "throwable-version" }
 tree-api = { module = "io.github.astrapi69:tree-api", version.ref = "tree-api-version" }
-visitor = { module = "io.github.astrapi69:visitor", version.ref = "visitor-version" }
+visitor-pattern = { module = "io.github.astrapi69:visitor-pattern", version.ref = "visitor-pattern-version" }
 
 [bundles]
 unit-testing = [
