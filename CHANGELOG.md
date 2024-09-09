@@ -10,12 +10,13 @@ ADDED:
 
 CHANGED:
 
-- update gradle version to 8.10
+- rename of module to new name 'io.github.astrapisixtynine.gen.tree'
+- update gradle version to 8.10.1
 - update of lombok version to 1.18.34
 - update of gradle-plugin dependency 'com.github.ben-manes.versions.gradle.plugin' to new version 0.51.0
-- update of gradle-plugin dependency spotless-plugin-gradle to new minor version 7.0.0.BETA1
-- update of test dependency silly-collection to new minor version 27.1
-- replace of old dependency visitor with new dependency visitor-pattern
+- update of gradle-plugin dependency spotless-plugin-gradle to new minor version 7.0.0.BETA2
+- update of test dependency silly-collection to new major version 28
+- replace of old dependency visitor with new dependency visitor-pattern in major version 7
 
 Version 9
 -------------

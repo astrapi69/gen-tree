@@ -18,12 +18,12 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module gen.tree
+module io.github.astrapisixtynine.gen.tree
 {
-	requires lombok;
+	requires static lombok;
 	requires io.github.astrapisixtynine.design.patterns.visitor;
-	requires tree.api.main;
-	requires data.api;
+	requires io.github.astrapisixtynine.tree.api;
+	requires io.github.astrapisixtynine.data.api;
 
 	exports io.github.astrapi69.gen.tree;
 	exports io.github.astrapi69.gen.tree.api;
