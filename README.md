@@ -30,32 +30,64 @@ project [![donation](https://img.shields.io/badge/donate-❤-ff2244.svg)](https:
 The source code comes under the liberal MIT License, making gen-tree great for all types of
 applications.
 
+## Import dependencies to your project
+
+<details>
+  <summary>gradle (click to expand)</summary>
+
 ## gradle dependency
 
+Replace the variable ${latestVersion} with the current latest
+version: [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/gen-tree/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/gen-tree)
+
 You can first define the version in the ext section and add than the following gradle dependency to
-your project `build.gradle` if you want to import the core functionality of silly-collections:
+your project `build.gradle` if you want to import the core functionality of gen-tree:
 
 define version in file gradle.properties
 
 ```
-genTreeVersion=9
+genTreeVersion=${latestVersion}
 ```
 
 or in build.gradle ext area
 
 ```
-    genTreeVersion = "9"
+    genTreeVersion = "${latestVersion}"
 ```
 
-and then add the dependency to the dependencies area
+then add the dependency to the dependencies area
 
 ```
     implementation("io.github.astrapi69:gen-tree:$genTreeVersion")
 ```
 
+# with new libs.versions.toml file
+
+If you use the new libs.versions.toml file for new automatic catalog versions update
+
+```
+[versions]
+gen-tree-version= "${latestVersion}"
+
+[libraries]
+gen-tree = { module = "io.github.astrapi69:gen-tree", version.ref = "gen-tree-version" }
+```
+
+then add the dependency to the dependencies area
+
+```
+    implementation libs.gen.tree
+```
+
+</details>
+
+<details>
+  <summary>Maven (click to expand)</summary>
+
 ## Maven dependency
 
-Maven dependency is now on sonatype. Check
+Maven dependency is now on sonatype.
+Check
 out [sonatype repository](https://oss.sonatype.org/index.html#nexus-search;gav~io.github.astrapi69~gen-tree~~~)
 for latest snapshots and releases.
 
@@ -65,22 +97,64 @@ functionality of gen-tree:
 Then you can add the dependency to your dependencies:
 
     <properties>
-            ...
-        <!-- GEN-TREE version -->
-        <gen-tree.version>9</gen-tree.version>
-            ...
+        ...
+
+```xml
+        <!-- gen-tree version -->
+<gen-tree.version>${latestVersion}</gen-tree.version>
+```
+
+        ...
     </properties>
-            ...
+        ...
         <dependencies>
-            ...
-            <!-- GEN-TREE DEPENDENCY -->
-            <dependency>
-                <groupId>io.github.astrapi69</groupId>
-                <artifactId>gen-tree</artifactId>
-                <version>${gen-tree.version}</version>
-            </dependency>
-            ...
+        ...
+
+```xml
+            <!-- gen-tree DEPENDENCY -->
+<dependency>
+    <groupId>io.github.astrapi69</groupId>
+    <artifactId>gen-tree</artifactId>
+    <version>${gen-tree.version}</version>
+</dependency>
+```
+
+        ...
         </dependencies>
+
+</details>
+
+
+<details>
+  <summary>Snapshots (click to expand)</summary>
+
+## 📸 Snapshots
+
+[![Snapshot](https://img.shields.io/badge/dynamic/xml?url=https://oss.sonatype.org/service/local/repositories/snapshots/content/io/github/astrapi69/gen-tree/maven-metadata.xml&label=snapshot&color=red&query=.//versioning/latest)](https://oss.sonatype.org/content/repositories/snapshots/io/github/astrapi69/gen-tree/)
+
+This section describes how to import snapshot versions into your project.
+Add the following code snippet to your gradle file in the repositories section:
+
+```
+repositories {
+   //...
+```
+
+```groovy
+    maven {
+    name "Sonatype Nexus Snapshots"
+    url "https://oss.sonatype.org/content/repositories/snapshots"
+    mavenContent {
+        snapshotsOnly()
+    }
+}
+```
+
+```
+}
+```
+
+</details>
 
 ## Semantic Versioning
 
