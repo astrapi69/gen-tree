@@ -12,10 +12,10 @@ jobj-contract-verifier-version = "5.2"
 lombok-version = "1.18.34"
 meanbean-version = "3.0.0-M9"
 silly-collection-version = "28"
-test-object-version = "8.2"
+test-object-version = "9"
 testng-version = "7.10.2"
 throwable-version = "3"
-tree-api-version = "2"
+tree-api-version = "2.1"
 visitor-pattern-version = "7"
 
 [libraries]

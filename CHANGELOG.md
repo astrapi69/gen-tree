@@ -4,6 +4,11 @@
 Version 10.1-SNAPSHOT
 -------------
 
+CHANGED:
+
+- update gradle version to 8.10.2
+- update of dependency tree-api to new minor version 2.1
+- update of test dependency test-object to new major version 9
 
 Version 10
 -------------
