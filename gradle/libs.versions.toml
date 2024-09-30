@@ -34,9 +34,14 @@ visitor-pattern = { module = "io.github.astrapi69:visitor-pattern", version.ref 
 
 [bundles]
 unit-testing = [
+    "id-generate",
+    "jobj-cloner",
+    "jobj-contract-verifier",
     "meanbean",
+    "silly-collection",
     "test-object",
     "testng",
+    "throwable",
 ]
 
 [plugins]

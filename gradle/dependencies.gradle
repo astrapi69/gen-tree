@@ -2,6 +2,7 @@ dependencies {
 
     compileOnly libs.lombok
     annotationProcessor libs.lombok
+
     testCompileOnly libs.lombok
     testAnnotationProcessor libs.lombok
 
@@ -9,12 +10,6 @@ dependencies {
     implementation libs.data.api
     implementation libs.visitor.pattern
 
-    testImplementation libs.throwable
-    testImplementation libs.jobj.cloner
-    testImplementation libs.silly.collection
-    testImplementation libs.id.generate
-    testImplementation libs.test.object
-    testImplementation libs.jobj.contract.verifier
     // Note: use of bundles...
     testImplementation libs.bundles.unit.testing
 }
