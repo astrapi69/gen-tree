@@ -1,6 +1,13 @@
 ## Change log
 ----------------------
 
+Version 11.0-SNAPSHOT
+-------------
+
+CHANGED:
+
+- update to jdk version 21
+
 Version 10.1
 -------------
 
