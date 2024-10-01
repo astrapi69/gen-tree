@@ -33,6 +33,29 @@ tree-api = { module = "io.github.astrapi69:tree-api", version.ref = "tree-api-ve
 visitor-pattern = { module = "io.github.astrapi69:visitor-pattern", version.ref = "visitor-pattern-version" }
 
 [bundles]
+# Dependencies for the annotation processor used during the compilation process
+annotation-processor = [
+    "lombok",
+]
+# Dependencies required only at compile-time and not included in the final artifact
+compile-only = [
+    "lombok",
+]
+# Bundle of core dependencies used across the project
+core-dependencies = [
+    "data-api",
+    "tree-api",
+    "visitor-pattern",
+]
+# Annotation processor dependencies used specifically for test classes
+test-annotation-processor = [
+    "lombok",
+]
+# Dependencies required only at test compile-time and not included in test runtime
+test-compile-only = [
+    "lombok",
+]
+# Bundle of test dependencies used for unit testing
 unit-testing = [
     "id-generate",
     "jobj-cloner",

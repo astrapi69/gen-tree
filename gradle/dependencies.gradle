@@ -1,15 +1,11 @@
 dependencies {
-
-    compileOnly libs.lombok
-    annotationProcessor libs.lombok
-
-    testCompileOnly libs.lombok
-    testAnnotationProcessor libs.lombok
-
-    implementation libs.tree.api
-    implementation libs.data.api
-    implementation libs.visitor.pattern
-
     // Note: use of bundles...
+    compileOnly libs.bundles.compile.only
+    annotationProcessor libs.bundles.annotation.processor
+    testCompileOnly libs.bundles.test.compile.only
+    testAnnotationProcessor libs.bundles.test.annotation.processor
+
+    implementation libs.bundles.core.dependencies
+
     testImplementation libs.bundles.unit.testing
 }
