@@ -61,18 +61,12 @@ public class SimpleTreeNodeHandlerExtensions
 		{
 			return children;
 		}
-		SimpleTreeNode<T, K> leftMostChild = treeNode.getLeftMostChild();
-		children.add(leftMostChild);
-		if (leftMostChild.hasRightSibling())
+		SimpleTreeNode<T, K> currentChild = treeNode.getLeftMostChild();
+		children.add(currentChild);
+		while (currentChild.hasRightSibling())
 		{
-			SimpleTreeNode<T, K> currentRightSibling = leftMostChild.getRightSibling();
-			children.add(currentRightSibling);
-			do
-			{
-				currentRightSibling = currentRightSibling.getRightSibling();
-				children.add(currentRightSibling);
-			}
-			while (currentRightSibling.hasRightSibling());
+			currentChild = currentChild.getRightSibling();
+			children.add(currentChild);
 		}
 		return children;
 	}
@@ -218,14 +212,24 @@ public class SimpleTreeNodeHandlerExtensions
 	public static <T, K> void removeChild(final @NonNull SimpleTreeNode<T, K> parentTreeNode,
 		final SimpleTreeNode<T, K> child)
 	{
-		if (child != null)
+		if (child != null && isChildOf(parentTreeNode, child))
 		{
-			if (isChildOf(parentTreeNode, child))
+			SimpleTreeNode<T, K> leftMostChild = parentTreeNode.getLeftMostChild();
+			if (leftMostChild.equals(child))
 			{
-				parentTreeNode.getChildren().remove(child);
-				child.setParent(null);
-				child.setLeftMostChild(null);
+				parentTreeNode.setLeftMostChild(child.getRightSibling());
 			}
+			else
+			{
+				SimpleTreeNode<T, K> currentChild = leftMostChild;
+				while (!currentChild.getRightSibling().equals(child))
+				{
+					currentChild = currentChild.getRightSibling();
+				}
+				currentChild.setRightSibling(child.getRightSibling());
+			}
+			child.setParent(null);
+			child.setLeftMostChild(null);
 		}
 	}
 
@@ -405,7 +409,19 @@ public class SimpleTreeNodeHandlerExtensions
 		if (child != null && parentTreeNode.isNode())
 		{
 			child.setParent(parentTreeNode);
-			parentTreeNode.getChildren().add(child);
+			if (!parentTreeNode.hasLeftMostChild())
+			{
+				parentTreeNode.setLeftMostChild(child);
+			}
+			else
+			{
+				SimpleTreeNode<T, K> lastChild = parentTreeNode.getLeftMostChild();
+				while (lastChild.hasRightSibling())
+				{
+					lastChild = lastChild.getRightSibling();
+				}
+				lastChild.setRightSibling(child);
+			}
 		}
 	}
 
@@ -526,13 +542,11 @@ public class SimpleTreeNodeHandlerExtensions
 		{
 			visitor.visit(treeNode);
 		}
-		if (treeNode.hasLeftMostChild())
+		SimpleTreeNode<T, K> currentChild = treeNode.getLeftMostChild();
+		while (currentChild != null)
 		{
-			treeNode.getLeftMostChild().accept(visitor);
-		}
-		if (treeNode.hasRightSibling())
-		{
-			treeNode.getRightSibling().accept(visitor);
+			SimpleTreeNodeHandlerExtensions.accept(currentChild, visitor, visitBefore);
+			currentChild = currentChild.getRightSibling();
 		}
 		if (visitAfter)
 		{
@@ -690,13 +704,13 @@ public class SimpleTreeNodeHandlerExtensions
 		Collection<SimpleTreeNode<T, K>> allRightSiblings = new LinkedHashSet<>();
 		if (treeNode.hasRightSibling())
 		{
-			SimpleTreeNode<T, K> currentRightSibling;
-			do
+			SimpleTreeNode<T, K> currentRightSibling = treeNode.getRightSibling();
+			allRightSiblings.add(currentRightSibling);
+			while (currentRightSibling.hasRightSibling())
 			{
-				currentRightSibling = treeNode.getRightSibling();
+				currentRightSibling = currentRightSibling.getRightSibling();
 				allRightSiblings.add(currentRightSibling);
 			}
-			while (currentRightSibling.hasRightSibling());
 		}
 		return allRightSiblings;
 	}

@@ -7,6 +7,16 @@ Version 11.1.2-SNAPSHOT
 ADDED:
 
 - integrated PIT mutation testing (info.solidsoft.pitest, TestNG plugin), gradle/mutation-testing.gradle and `make mutation-testing`. Baseline: 66% mutation score, 74% line coverage on mutated classes
+- raised jacoco instruction coverage from 59.8% to 99.3% and PIT mutation score from 66% to 98% across the whole module
+
+FIXED:
+
+- SimpleTreeNodeHandlerExtensions#getAllRightSiblings: infinite loop for a node with two or more right siblings (the do-while loop re-read treeNode.getRightSibling() every iteration instead of advancing from currentRightSibling)
+- SimpleTreeNodeHandlerExtensions#getChildren: NullPointerException for a node with exactly two children (the do-while loop advanced past the last sibling before checking hasRightSibling())
+- SimpleTreeNodeHandlerExtensions#removeChild and #addChild: both were no-ops, since getChildren() rebuilds a fresh, disposable collection on every call rather than returning a live view backed by the leftMostChild/rightSibling pointers; both now unlink/link the child directly in that pointer chain
+- SimpleTreeNodeHandlerExtensions#accept (and everything built on it: traverse, findAllByValue, findByValue, contains, containsAll, toList, clearAll): calling it on a non-root node with a right sibling incorrectly pulled in that sibling's entire subtree too; the loop over children and the descent into each child's own subtree are now separated
+- LinkedNode#getFirst: returned the node itself instead of walking back to the actual first node when called from the second node of a chain
+- BaseTreeNode#sortChildren: collected the sorted children into a natural-ordering TreeSet instead of one backed by childComparator, throwing ClassCastException on a second child instead of sorting (BaseTreeNode does not implement Comparable)
 
 Version 11.1.1
 -------------

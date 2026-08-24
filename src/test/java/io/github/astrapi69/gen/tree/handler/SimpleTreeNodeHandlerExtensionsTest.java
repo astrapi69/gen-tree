@@ -695,23 +695,14 @@ public class SimpleTreeNodeHandlerExtensionsTest
 	/**
 	 * Test method for {@link SimpleTreeNodeHandlerExtensions#getAllRightSiblings(SimpleTreeNode)}
 	 * <p>
-	 * FIXME: exposes suspected bug in getAllRightSiblings - inside the do-while loop the code
-	 * always re-reads {@code treeNode.getRightSibling()} instead of advancing with
-	 * {@code currentRightSibling.getRightSibling()}, so for any node with two or more right
-	 * siblings the loop never advances past the first sibling and spins forever. This test is
-	 * bounded with a TestNG timeout so it fails fast (instead of hanging the whole build) and
-	 * documents the expected, correct result. Disabled ({@code enabled = false}) because PIT
-	 * requires a fully green suite to run mutation analysis at all; a human should fix the source
-	 * by changing the re-assignment inside the do-while loop to advance from
-	 * {@code currentRightSibling}, then re-enable this test and remove the timeout/expected-failure
-	 * scaffolding.
+	 * Regression test: the do-while loop used to always re-read {@code treeNode.getRightSibling()}
+	 * instead of advancing with {@code currentRightSibling.getRightSibling()}, so for any node with
+	 * two or more right siblings the loop never advanced past the first sibling and spun forever.
+	 * Fixed by advancing from {@code currentRightSibling}
 	 */
-	@Test(timeOut = 3000, enabled = false)
+	@Test(timeOut = 3000)
 	public void testGetAllRightSiblingsInfiniteLoopOnThreeOrMoreSiblings()
 	{
-		// FIXME: exposes suspected bug in getAllRightSiblings - the loop never advances past the
-		// first right sibling when there are two or more right siblings, so this call hangs
-		// forever instead of returning {secondChild, thirdChild}
 		Collection<SimpleTreeNode<String, Long>> actual = SimpleTreeNodeHandlerExtensions
 			.getAllRightSiblings(firstChild);
 		Collection<SimpleTreeNode<String, Long>> expected = SetFactory.newLinkedHashSet(secondChild,
@@ -722,20 +713,14 @@ public class SimpleTreeNodeHandlerExtensionsTest
 	/**
 	 * Test method for {@link SimpleTreeNodeHandlerExtensions#getChildren(SimpleTreeNode)}
 	 * <p>
-	 * FIXME: exposes suspected bug in getChildren - when a node has exactly two children the
-	 * do-while loop advances one step past the last sibling before checking
-	 * {@code currentRightSibling.hasRightSibling()}, so it throws a NullPointerException instead of
-	 * returning the two children. Disabled ({@code enabled = false}) because PIT requires a fully
-	 * green suite to run mutation analysis at all; a human should fix the source, e.g. by turning
-	 * the loop into a standard while-loop that checks for null before dereferencing, then re-enable
-	 * this test and remove this FIXME comment.
+	 * Regression test: for a node with exactly two children the do-while loop used to advance one
+	 * step past the last sibling before checking {@code currentRightSibling.hasRightSibling()},
+	 * throwing a {@link NullPointerException} instead of returning the two children. Fixed by
+	 * checking {@code hasRightSibling()} before advancing
 	 */
-	@Test(enabled = false)
+	@Test
 	public void testGetChildrenNullPointerExceptionOnExactlyTwoChildren()
 	{
-		// FIXME: exposes suspected bug in getChildren - thirdChild has exactly two children
-		// (fourthGrandChild and fifthGrandChild); the expected result is a 2-element collection,
-		// but the current implementation throws a NullPointerException instead
 		Collection<SimpleTreeNode<String, Long>> actual = SimpleTreeNodeHandlerExtensions
 			.getChildren(thirdChild);
 		Collection<SimpleTreeNode<String, Long>> expected = SetFactory
@@ -747,22 +732,16 @@ public class SimpleTreeNodeHandlerExtensionsTest
 	 * Test method for
 	 * {@link SimpleTreeNodeHandlerExtensions#removeChild(SimpleTreeNode, SimpleTreeNode)}
 	 * <p>
-	 * FIXME: exposes suspected bug in removeChild - {@code parentTreeNode.getChildren()} builds and
-	 * returns a brand new, disposable {@link Collection} on every call (it is not a live view
-	 * backed by the leftMostChild/rightSibling pointers), so calling {@code .remove(child)} on it
-	 * has no effect on the actual tree structure. removeChild only clears the child's own
-	 * parent/leftMostChild fields but never adjusts the parent's leftMostChild pointer or the
-	 * previous sibling's rightSibling pointer, so the "removed" child is still reachable from the
-	 * parent afterward. Disabled ({@code enabled = false}) because PIT requires a fully green suite
-	 * to run mutation analysis at all; a human should fix removeChild to actually unlink the child
-	 * from the leftMostChild/rightSibling chain, then re-enable this test.
+	 * Regression test: {@code parentTreeNode.getChildren()} builds and returns a brand new,
+	 * disposable {@link Collection} on every call (not a live view backed by the
+	 * leftMostChild/rightSibling pointers), so calling {@code .remove(child)} on it used to have no
+	 * effect on the actual tree structure. Fixed by unlinking the child directly from the
+	 * leftMostChild/rightSibling chain
 	 */
-	@Test(enabled = false)
+	@Test
 	public void testRemoveChildDoesNotUnlinkFromParentsChildCollection()
 	{
 		SimpleTreeNodeHandlerExtensions.removeChild(secondChild, firstGrandChild);
-		// FIXME: exposes suspected bug in removeChild - firstGrandChild is still reachable from
-		// secondChild's children even though it was just removed
 		Collection<SimpleTreeNode<String, Long>> childrenAfterRemoval = SimpleTreeNodeHandlerExtensions
 			.getChildren(secondChild);
 		assertFalse(childrenAfterRemoval.contains(firstGrandChild));
@@ -770,18 +749,34 @@ public class SimpleTreeNodeHandlerExtensionsTest
 
 	/**
 	 * Test method for
+	 * {@link SimpleTreeNodeHandlerExtensions#removeChild(SimpleTreeNode, SimpleTreeNode)} that
+	 * removes a child from the third position in a three-or-more sibling chain, exercising the loop
+	 * body of the walk to the child's left neighbour (the leftmost-child case above only exercises
+	 * the branch, not the loop)
+	 */
+	@Test
+	public void testRemoveChildFromThirdPositionInSiblingChain()
+	{
+		SimpleTreeNodeHandlerExtensions.removeChild(secondChild, thirdGrandChild);
+		Collection<SimpleTreeNode<String, Long>> childrenAfterRemoval = SimpleTreeNodeHandlerExtensions
+			.getChildren(secondChild);
+		assertFalse(childrenAfterRemoval.contains(thirdGrandChild));
+		assertEquals(childrenAfterRemoval,
+			SetFactory.newLinkedHashSet(firstGrandChild, secondGrandChild));
+	}
+
+	/**
+	 * Test method for
 	 * {@link SimpleTreeNodeHandlerExtensions#addChild(SimpleTreeNode, SimpleTreeNode)}
 	 * <p>
-	 * FIXME: exposes suspected bug in addChild - like removeChild, it calls
+	 * Regression test: like removeChild, this used to call
 	 * {@code parentTreeNode.getChildren().add(child)} on the disposable collection returned by
 	 * getChildren() instead of updating the leftMostChild/rightSibling pointers, so the new child
-	 * is never actually reachable from the parent even though
-	 * {@code child.setParent(parentTreeNode)} is applied. Disabled ({@code enabled = false})
-	 * because PIT requires a fully green suite to run mutation analysis at all; a human should fix
-	 * addChild to actually link the child into the leftMostChild/rightSibling chain, then re-enable
-	 * this test.
+	 * was never actually reachable from the parent even though
+	 * {@code child.setParent(parentTreeNode)} was applied. Fixed by linking the child directly into
+	 * the leftMostChild/rightSibling chain
 	 */
-	@Test(enabled = false)
+	@Test
 	public void testAddChildDoesNotLinkIntoParentsChildCollection()
 	{
 		SimpleTreeNode<String, Long> freshParent = SimpleTreeNode.<String, Long> builder()
@@ -789,31 +784,51 @@ public class SimpleTreeNodeHandlerExtensionsTest
 		SimpleTreeNode<String, Long> freshChild = SimpleTreeNode.<String, Long> builder()
 			.value("fresh child").id(401L).build();
 		SimpleTreeNodeHandlerExtensions.addChild(freshParent, freshChild);
-		// FIXME: exposes suspected bug in addChild - freshChild is not reachable from
-		// freshParent's children even though it was just added
 		Collection<SimpleTreeNode<String, Long>> childrenAfterAdd = SimpleTreeNodeHandlerExtensions
 			.getChildren(freshParent);
 		assertTrue(childrenAfterAdd.contains(freshChild));
 	}
 
 	/**
+	 * Test method for
+	 * {@link SimpleTreeNodeHandlerExtensions#addChild(SimpleTreeNode, SimpleTreeNode)} that adds a
+	 * third child, exercising the loop body of the walk to the current last child (adding a second
+	 * child only exercises the branch, not the loop)
+	 */
+	@Test
+	public void testAddChildAppendsToEndOfExistingChildren()
+	{
+		SimpleTreeNode<String, Long> freshParent = SimpleTreeNode.<String, Long> builder()
+			.value("fresh parent").id(500L).build();
+		SimpleTreeNode<String, Long> firstFreshChild = SimpleTreeNode.<String, Long> builder()
+			.value("first fresh child").id(501L).build();
+		SimpleTreeNode<String, Long> secondFreshChild = SimpleTreeNode.<String, Long> builder()
+			.value("second fresh child").id(502L).build();
+		SimpleTreeNode<String, Long> thirdFreshChild = SimpleTreeNode.<String, Long> builder()
+			.value("third fresh child").id(503L).build();
+		SimpleTreeNodeHandlerExtensions.addChild(freshParent, firstFreshChild);
+		SimpleTreeNodeHandlerExtensions.addChild(freshParent, secondFreshChild);
+		SimpleTreeNodeHandlerExtensions.addChild(freshParent, thirdFreshChild);
+		Collection<SimpleTreeNode<String, Long>> children = SimpleTreeNodeHandlerExtensions
+			.getChildren(freshParent);
+		assertEquals(children,
+			SetFactory.newLinkedHashSet(firstFreshChild, secondFreshChild, thirdFreshChild));
+	}
+
+	/**
 	 * Test method for {@link SimpleTreeNodeHandlerExtensions#traverse(SimpleTreeNode)}
 	 * <p>
-	 * FIXME: exposes suspected bug in traverse/accept - per the javadoc, traverse(treeNode) should
-	 * return the given node plus all of ITS OWN descendants. In this left-child/right- sibling
-	 * representation, accept() also walks {@code treeNode.getRightSibling()} whenever present, so
-	 * calling traverse (or accept/findAllByValue/findByValue/contains/containsAll/ toList, all of
-	 * which are built on accept) on a non-root node that has a right sibling incorrectly pulls in
-	 * that sibling's entire subtree too, even though the sibling is not a descendant of the given
-	 * node. Disabled ({@code enabled = false}) because PIT requires a fully green suite to run
-	 * mutation analysis at all; a human should decide whether accept() needs a traversal mode that
-	 * does not walk the initial node's own right siblings, then re-enable this test.
+	 * Regression test: per the javadoc, traverse(treeNode) should return the given node plus all of
+	 * ITS OWN descendants. In this left-child/right-sibling representation, accept() used to also
+	 * walk {@code treeNode.getRightSibling()} whenever present, so calling traverse (or
+	 * accept/findAllByValue/findByValue/contains/containsAll/toList, all of which are built on
+	 * accept) on a non-root node that has a right sibling incorrectly pulled in that sibling's
+	 * entire subtree too, even though the sibling is not a descendant of the given node. Fixed by
+	 * separating "descend into children" from "advance across siblings" in accept()
 	 */
-	@Test(enabled = false)
+	@Test
 	public void testTraverseIncorrectlyIncludesRightSiblingSubtreeOnNonRootNode()
 	{
-		// FIXME: exposes suspected bug in traverse/accept - thirdChild is secondChild's right
-		// sibling, not its descendant, so it should not appear in traverse(secondChild)
 		Collection<SimpleTreeNode<String, Long>> actual = SimpleTreeNodeHandlerExtensions
 			.traverse(secondChild);
 		assertFalse(actual.contains(thirdChild));

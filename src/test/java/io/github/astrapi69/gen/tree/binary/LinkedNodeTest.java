@@ -167,14 +167,11 @@ public class LinkedNodeTest extends AbstractTestCase<Boolean, Boolean>
 	@Test
 	public void testGetFirstFromSecondNode()
 	{
-		// FIXME: exposes suspected bug in LinkedNode.getFirst() — when invoked on the second
-		// node of the chain the while-loop condition
-		// `previous != null && !previous.isFirst()` is already false on the very first check
-		// (because the second node's previous element is itself the first element, so
-		// `previous.isFirst()` is true), so the loop body never runs and the method returns
-		// the node it was called on instead of walking back to the actual first node.
+		// Regression test: LinkedNode.getFirst() used to return the node it was called on
+		// instead of walking back to the actual first node when invoked on the second node of
+		// the chain. Fixed by walking hasPrevious()/getPrevious() until exhausted.
 		LinkedNode<TreeElement> actual = secondTreeNode.getFirst();
-		assertEquals(actual, secondTreeNode);
+		assertEquals(actual, firstTreeNode);
 	}
 
 	/**

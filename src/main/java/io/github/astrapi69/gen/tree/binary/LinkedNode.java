@@ -83,14 +83,12 @@ public class LinkedNode<T>
 	 */
 	public LinkedNode<T> getFirst()
 	{
-		LinkedNode<T> first = this;
-		LinkedNode<T> previous = getPrevious();
-		while (previous != null && !previous.isFirst())
+		LinkedNode<T> current = this;
+		while (current.hasPrevious())
 		{
-			previous = previous.getPrevious();
-			first = previous;
+			current = current.getPrevious();
 		}
-		return first;
+		return current;
 	}
 
 	/**

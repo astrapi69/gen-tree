@@ -343,15 +343,15 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	 * Test method for {@link BaseTreeNode#sortChildren()} with a child comparator and more than one
 	 * child
 	 * <p>
-	 * FIXME: exposes suspected bug in {@link BaseTreeNode#sortChildren()} — the method sorts the
-	 * children stream with the configured {@code childComparator} but then collects the sorted
-	 * stream into a plain natural-ordering {@link TreeSet} via
-	 * {@code Collectors.toCollection(TreeSet::new)} instead of a {@link TreeSet} backed by that
-	 * same comparator. Since {@link BaseTreeNode} does not implement {@link Comparable}, adding a
-	 * second child to that natural-ordering {@link TreeSet} throws a {@link ClassCastException}
-	 * instead of producing a sorted children collection.
+	 * Regression test: {@link BaseTreeNode#sortChildren()} used to sort the children stream with
+	 * the configured {@code childComparator} but then collect the sorted stream into a plain
+	 * natural-ordering {@link TreeSet} via {@code Collectors.toCollection(TreeSet::new)} instead of
+	 * a {@link TreeSet} backed by that same comparator. Since {@link BaseTreeNode} does not
+	 * implement {@link Comparable}, adding a second child to that natural-ordering {@link TreeSet}
+	 * threw a {@link ClassCastException} instead of producing a sorted children collection. Fixed
+	 * by backing the collected {@link TreeSet} with {@code childComparator}
 	 */
-	@Test(expectedExceptions = ClassCastException.class)
+	@Test
 	public void testSortChildrenWithComparator()
 	{
 		BaseTreeNode<String, Long> node;
@@ -366,6 +366,9 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		node.addChild(childA);
 
 		node.sortChildren();
+
+		List<BaseTreeNode<String, Long>> sorted = new ArrayList<>(node.getChildren());
+		assertEquals(sorted, List.of(childA, childB));
 	}
 
 	/**

@@ -119,7 +119,7 @@ public class BaseTreeNode<V, K> implements IBaseTreeNode<V, K, BaseTreeNode<V, K
 		if (this.childComparator != null)
 		{
 			this.children = this.children.stream().sorted(this.childComparator)
-				.collect(Collectors.toCollection(TreeSet::new));
+				.collect(Collectors.toCollection(() -> new TreeSet<>(this.childComparator)));
 		}
 	}
 }
