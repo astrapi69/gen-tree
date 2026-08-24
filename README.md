@@ -5,7 +5,7 @@
 [![Java CI with Gradle](https://github.com/astrapi69/gen-tree/actions/workflows/gradle.yml/badge.svg)](https://github.com/astrapi69/gen-tree/actions/workflows/gradle.yml)
 [![Coverage Status](https://codecov.io/gh/astrapi69/gen-tree/branch/develop/graph/badge.svg)](https://codecov.io/gh/astrapi69/gen-tree)
 [![Open Issues](https://img.shields.io/github/issues/astrapi69/gen-tree.svg?style=flat)](https://github.com/astrapi69/gen-tree/issues)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/gen-tree/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/gen-tree)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.astrapi69/gen-tree.svg)](https://central.sonatype.com/artifact/io.github.astrapi69/gen-tree)
 [![Javadocs](http://www.javadoc.io/badge/io.github.astrapi69/gen-tree.svg)](http://www.javadoc.io/doc/io.github.astrapi69/gen-tree)
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](http://opensource.org/licenses/MIT)
 [![Donate](https://img.shields.io/badge/donate-❤-ff2244.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GVBTWLRAZ7HB8)
@@ -126,7 +126,7 @@ applications.
 ## gradle dependency
 
 Replace the variable ${latestVersion} with the current latest
-version: [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/gen-tree/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.astrapi69/gen-tree)
+version: [![Maven Central](https://img.shields.io/maven-central/v/io.github.astrapi69/gen-tree.svg)](https://central.sonatype.com/artifact/io.github.astrapi69/gen-tree)
 
 You can first define the version in the ext section and add than the following gradle dependency to
 your project `build.gradle` if you want to import the core functionality of gen-tree:
