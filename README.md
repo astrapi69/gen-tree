@@ -174,10 +174,9 @@ then add the dependency to the dependencies area
 
 ## Maven dependency
 
-Maven dependency is now on sonatype.
-Check
-out [sonatype repository](https://oss.sonatype.org/index.html#nexus-search;gav~io.github.astrapi69~gen-tree~~~)
-for latest snapshots and releases.
+Maven dependency is on the Sonatype Central Portal.
+Check out the [Central Portal listing](https://central.sonatype.com/artifact/io.github.astrapi69/gen-tree)
+for latest releases.
 
 Add the following maven dependency to your project `pom.xml` if you want to import the core
 functionality of gen-tree:
@@ -218,7 +217,8 @@ Then you can add the dependency to your dependencies:
 
 ## 📸 Snapshots
 
-[![Snapshot](https://img.shields.io/badge/dynamic/xml?url=https://oss.sonatype.org/service/local/repositories/snapshots/content/io/github/astrapi69/gen-tree/maven-metadata.xml&label=snapshot&color=red&query=.//versioning/latest)](https://oss.sonatype.org/content/repositories/snapshots/io/github/astrapi69/gen-tree/)
+Snapshots are published to the Sonatype Central Portal's snapshot repository:
+[central.sonatype.com/repository/maven-snapshots](https://central.sonatype.com/repository/maven-snapshots/io/github/astrapi69/gen-tree/)
 
 This section describes how to import snapshot versions into your project.
 Add the following code snippet to your gradle file in the repositories section:
@@ -231,7 +231,7 @@ repositories {
 ```groovy
     maven {
     name "Sonatype Nexus Snapshots"
-    url "https://oss.sonatype.org/content/repositories/snapshots"
+    url "https://central.sonatype.com/repository/maven-snapshots"
     mavenContent {
         snapshotsOnly()
     }
@@ -354,10 +354,10 @@ or over flattr:
 
 ## Credits
 
-|                                                                                              **Nexus Sonatype repositories**                                                                                               |
-|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| [![sonatype repository](https://img.shields.io/nexus/r/https/oss.sonatype.org/io.github.astrapi69/gen-tree.svg?style=for-the-badge)](https://oss.sonatype.org/index.html#nexus-search;gav~io.github.astrapi69~gen-tree~~~) |
-|                                          Special thanks to [sonatype repository](https://www.sonatype.com) for providing a free maven repository service for open source projects                                          |
+|                                                    **Sonatype Central Portal**                                                    |
+|:-----------------------------------------------------------------------------------------------------------------------------------:|
+| [![Maven Central](https://img.shields.io/maven-central/v/io.github.astrapi69/gen-tree.svg?style=for-the-badge)](https://central.sonatype.com/artifact/io.github.astrapi69/gen-tree) |
+|                     Special thanks to [Sonatype](https://www.sonatype.com) for providing a free maven repository service for open source projects                     |
 |                                                                                                     <img width=1000/>                                                                                                      |
 
 |                                                             **codecov.io**                                                              |
