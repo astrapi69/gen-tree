@@ -1,7 +1,7 @@
 .PHONY: build build-stacktrace build-warning central-drop central-list central-upload \
 	central-upload-repository clean \
 	dependencies dependency-updates jacoco-coverage jacoco-report jar javadoc \
-	license-format publish publish-local release spotless-apply \
+	license-format mutation-testing publish publish-local release spotless-apply \
 	spotless-check spotless-java spotless-misc tag-release test \
 	version-catalog-format version-catalog-update
 
@@ -47,6 +47,9 @@ jacoco-report:
 
 jar:
 	./gradlew jar
+
+mutation-testing:
+	./gradlew pitest
 
 javadoc:
 	./gradlew javadoc

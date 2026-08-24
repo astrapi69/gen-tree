@@ -4,6 +4,10 @@
 Version 11.1.2-SNAPSHOT
 -------------
 
+ADDED:
+
+- integrated PIT mutation testing (info.solidsoft.pitest, TestNG plugin), gradle/mutation-testing.gradle and `make mutation-testing`. Baseline: 66% mutation score, 74% line coverage on mutated classes
+
 Version 11.1.1
 -------------
 

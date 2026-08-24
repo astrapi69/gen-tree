@@ -1,6 +1,7 @@
 [versions]
 data-api-version = "5"
 gradle-plugin-lombok-version = "9.5.0"
+gradle-plugin-pitest-version = "1.19.0"
 gradle-plugin-spotless-version = "8.10.0"
 gradle-plugin-version-catalog-update-version = "1.1.1"
 gradle-plugin-versions-version = "0.61.0"
@@ -9,6 +10,8 @@ jobj-cloner-version = "2.1"
 jobj-contract-verifier-version = "5.2"
 lombok-version = "1.18.46"
 meanbean-version = "3.0.0-M9"
+pitest-testng-plugin-version = "1.0.0"
+pitest-version = "1.25.9"
 silly-collection-version = "28"
 test-object-version = "9"
 testng-version = "7.10.2"
@@ -23,6 +26,7 @@ jobj-cloner = { module = "io.github.astrapi69:jobj-cloner", version.ref = "jobj-
 jobj-contract-verifier = { module = "io.github.astrapi69:jobj-contract-verifier", version.ref = "jobj-contract-verifier-version" }
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok-version" }
 meanbean = { module = "com.github.meanbeanlib:meanbean", version.ref = "meanbean-version" }
+pitest-testng-plugin = { module = "org.pitest:pitest-testng-plugin", version.ref = "pitest-testng-plugin-version" }
 silly-collection = { module = "io.github.astrapi69:silly-collection", version.ref = "silly-collection-version" }
 test-object = { module = "io.github.astrapi69:test-object", version.ref = "test-object-version" }
 testng = { module = "org.testng:testng", version.ref = "testng-version" }
@@ -68,5 +72,6 @@ unit-testing = [
 [plugins]
 gradle-versions-plugin = { id = "com.github.ben-manes.versions", version.ref = "gradle-plugin-versions-version" }
 lombok-plugin = { id = "io.freefair.lombok", version.ref = "gradle-plugin-lombok-version" }
+pitest-gradle-plugin = { id = "info.solidsoft.pitest", version.ref = "gradle-plugin-pitest-version" }
 spotless-plugin-gradle = { id = "com.diffplug.spotless", version.ref = "gradle-plugin-spotless-version" }
 versionCatalogUpdate = { id = "nl.littlerobots.version-catalog-update", version.ref = "gradle-plugin-version-catalog-update-version" }
