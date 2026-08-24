@@ -27,9 +27,13 @@ package io.github.astrapi69.gen.tree.api;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiFunction;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 
 import io.github.astrapi69.design.pattern.visitor.Acceptable;
 import io.github.astrapi69.design.pattern.visitor.Visitor;
+import io.github.astrapi69.gen.tree.enumeration.traversal.TraversalType;
 import io.github.astrapi69.gen.tree.handler.ITreeNodeHandlerExtensions;
 import io.github.astrapi69.gen.tree.handler.TreeNodeVisitorHandlerExtensions;
 import io.github.astrapi69.tree.api.ITree;
@@ -320,5 +324,89 @@ public interface ITreeNode<V, T extends ITreeNode<V, T>> extends ITree<V, T>, Ac
 	default boolean move(T treeNode)
 	{
 		return ITreeNodeHandlerExtensions.move(getThis(), treeNode);
+	}
+
+	/**
+	 * Returns the greatest distance from this {@link ITreeNode} object down to any of its
+	 * descendants. Returns 0 if this {@link ITreeNode} object is a leaf. The counterpart of
+	 * {@link #getLevel()}, which measures the distance up to the root
+	 *
+	 * @return the height of the subtree of this {@link ITreeNode} object
+	 */
+	default int height()
+	{
+		return ITreeNodeHandlerExtensions.height(getThis());
+	}
+
+	/**
+	 * Finds the deepest {@link ITreeNode} object that is an ancestor of, or equal to, both this
+	 * {@link ITreeNode} object and the given {@link ITreeNode} object
+	 *
+	 * @param treeNode
+	 *            the other tree node
+	 * @return the lowest common ancestor of this {@link ITreeNode} object and the given
+	 *         {@link ITreeNode} object or null if they do not share a common ancestor, for instance
+	 *         because they belong to different trees
+	 */
+	default T lowestCommonAncestor(final T treeNode)
+	{
+		return ITreeNodeHandlerExtensions.lowestCommonAncestor(getThis(), treeNode);
+	}
+
+	/**
+	 * Keeps only the descendants of this {@link ITreeNode} object (itself included) that satisfy
+	 * the given predicate, preserving the hierarchy of the survivors: when a node is dropped, its
+	 * surviving descendants are promoted to take its place under the nearest surviving ancestor.
+	 * Mutates this {@link ITreeNode} object and its descendants in place by detaching the nodes
+	 * that do not satisfy the predicate and reattaching their surviving descendants
+	 *
+	 * @param predicate
+	 *            the predicate that a surviving node has to satisfy
+	 * @return a {@link List} object with this {@link ITreeNode} object if it satisfies the
+	 *         predicate, or with its promoted surviving descendants otherwise. An empty
+	 *         {@link List} object means that no descendant survived the filtering
+	 */
+	default List<T> filterTree(final Predicate<T> predicate)
+	{
+		return ITreeNodeHandlerExtensions.filterTree(getThis(), predicate);
+	}
+
+	/**
+	 * Creates a deep, independent copy of the subtree of this {@link ITreeNode} object. Since a
+	 * generic type parameter cannot be instantiated directly, the caller supplies a shallow copy
+	 * function that copies a single node's own fields (for instance id and value, but not its
+	 * parent or children); {@code cloneSubtree} wires up the copied children itself
+	 *
+	 * @param nodeCopier
+	 *            the function that creates a shallow copy of a single {@link ITreeNode} object,
+	 *            without its parent or children
+	 * @return a new {@link ITreeNode} object that is a deep, detached copy of this
+	 *         {@link ITreeNode} object
+	 */
+	default T cloneSubtree(final UnaryOperator<T> nodeCopier)
+	{
+		return ITreeNodeHandlerExtensions.cloneSubtree(getThis(), nodeCopier);
+	}
+
+	/**
+	 * Folds every value in the subtree of this {@link ITreeNode} object into a single accumulator,
+	 * in the given traversal order. The tree-shaped counterpart of {@code Stream.reduce}
+	 *
+	 * @param <A>
+	 *            the generic type of the accumulator
+	 * @param seed
+	 *            the initial accumulator value
+	 * @param accumulator
+	 *            the function that combines the current accumulator with a visited node
+	 * @param traversalType
+	 *            the traversal order, either {@link TraversalType#PREORDER} or
+	 *            {@link TraversalType#POSTORDER}. {@link TraversalType#INORDER} is not supported
+	 *            since it is only meaningful for binary trees
+	 * @return the final accumulator value after every node in the subtree has been visited
+	 */
+	default <A> A reduceTree(final A seed, final BiFunction<A, T, A> accumulator,
+		final TraversalType traversalType)
+	{
+		return ITreeNodeHandlerExtensions.reduceTree(getThis(), seed, accumulator, traversalType);
 	}
 }

@@ -46,6 +46,7 @@ import org.testng.annotations.Test;
 import io.github.astrapi69.collection.set.SetFactory;
 import io.github.astrapi69.gen.tree.api.ITreeNode;
 import io.github.astrapi69.gen.tree.element.TreeElement;
+import io.github.astrapi69.gen.tree.enumeration.traversal.TraversalType;
 import io.github.astrapi69.id.generate.LongIdGenerator;
 import io.github.astrapi69.test.base.AbstractTestCase;
 
@@ -681,6 +682,94 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		Collection<TreeNode<String>> rootChildren = root.getChildren();
 		assertTrue(rootChildren.contains(fourthChild));
 		assertTrue(rootChildren.contains(fifthChild));
+	}
+
+	/**
+	 * Test method for {@link TreeNode#height()}
+	 */
+	@Test
+	public void testHeight()
+	{
+		int actual;
+		int expected;
+
+		actual = fifthGrandChild.height();
+		expected = 0;
+		assertEquals(expected, actual);
+
+		actual = root.height();
+		expected = 4;
+		assertEquals(expected, actual);
+	}
+
+	/**
+	 * Test method for {@link TreeNode#lowestCommonAncestor(ITreeNode)}
+	 */
+	@Test
+	public void testLowestCommonAncestor()
+	{
+		TreeNode<String> actual;
+
+		actual = firstGrandGrandChild.lowestCommonAncestor(secondGrandGrandChild);
+		assertEquals(firstGrandChild, actual);
+
+		actual = firstGrandGrandGrandChild.lowestCommonAncestor(secondGrandChild);
+		assertEquals(secondChild, actual);
+	}
+
+	/**
+	 * Test method for {@link TreeNode#filterTree(java.util.function.Predicate)}
+	 */
+	@Test
+	public void testFilterTree()
+	{
+		List<TreeNode<String>> actual;
+
+		actual = root.filterTree(node -> !"I'm the first grand child".equals(node.getValue()));
+
+		assertEquals(1, actual.size());
+		assertEquals(root, actual.get(0));
+
+		Collection<TreeNode<String>> secondChildChildren = secondChild.getChildren();
+		assertFalse(secondChildChildren.contains(firstGrandChild));
+		assertTrue(secondChildChildren.contains(firstGrandGrandChild));
+		assertTrue(secondChildChildren.contains(secondGrandGrandChild));
+	}
+
+	/**
+	 * Test method for {@link TreeNode#cloneSubtree(java.util.function.UnaryOperator)}
+	 */
+	@Test
+	public void testCloneSubtree()
+	{
+		TreeNode<String> clone = secondGrandGrandChild
+			.cloneSubtree(node -> TreeNode.<String> builder().value(node.getValue())
+				.displayValue(node.getDisplayValue()).leaf(node.isLeaf()).build());
+
+		assertNotNull(clone);
+		assertFalse(clone == secondGrandGrandChild);
+		assertEquals(secondGrandGrandChild.getValue(), clone.getValue());
+		assertNull(clone.getParent());
+		assertEquals(1, clone.getChildren().size());
+
+		// the original subtree is untouched
+		assertEquals(1, secondGrandGrandChild.getChildren().size());
+		assertTrue(secondGrandGrandChild.getChildren().contains(firstGrandGrandGrandChild));
+	}
+
+	/**
+	 * Test method for
+	 * {@link TreeNode#reduceTree(Object, java.util.function.BiFunction, TraversalType)}
+	 */
+	@Test
+	public void testReduceTree()
+	{
+		int actual;
+		int expected;
+
+		actual = secondChild.reduceTree(0, (count, node) -> count + 1, TraversalType.PREORDER);
+		expected = secondChild.traverse().size();
+		assertEquals(expected, actual);
 	}
 
 }
