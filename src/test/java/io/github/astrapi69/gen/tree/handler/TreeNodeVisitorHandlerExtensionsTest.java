@@ -139,4 +139,56 @@ public class TreeNodeVisitorHandlerExtensionsTest
 		Collection<TreeNode<String>> baseTreeNodes = visitor.getAllTreeNodes();
 		assertEquals(12, baseTreeNodes.size());
 	}
+
+	/**
+	 * Test method for {@link TreeNodeVisitorHandlerExtensions#traverse(ITreeNode)} with a null tree
+	 * node
+	 */
+	@Test(expectedExceptions = NullPointerException.class)
+	public void testTraverseWithNullTreeNode()
+	{
+		TreeNodeVisitorHandlerExtensions.traverse(null);
+	}
+
+	/**
+	 * Test method for {@link TreeNodeVisitorHandlerExtensions#accept(ITreeNode, Visitor)} with a
+	 * null tree node
+	 */
+	@Test(expectedExceptions = NullPointerException.class)
+	public void testAcceptTwoArgWithNullTreeNode()
+	{
+		TraverseTreeNodeVisitor<String, TreeNode<String>> visitor = new TraverseTreeNodeVisitor<>();
+		TreeNodeVisitorHandlerExtensions.accept(null, visitor);
+	}
+
+	/**
+	 * Test method for {@link TreeNodeVisitorHandlerExtensions#accept(ITreeNode, Visitor)} with a
+	 * null visitor
+	 */
+	@Test(expectedExceptions = NullPointerException.class)
+	public void testAcceptTwoArgWithNullVisitor()
+	{
+		TreeNodeVisitorHandlerExtensions.accept(root, null);
+	}
+
+	/**
+	 * Test method for {@link TreeNodeVisitorHandlerExtensions#accept(ITreeNode, Visitor, boolean)}
+	 * with a null tree node
+	 */
+	@Test(expectedExceptions = NullPointerException.class)
+	public void testAcceptThreeArgWithNullTreeNode()
+	{
+		TraverseTreeNodeVisitor<String, TreeNode<String>> visitor = new TraverseTreeNodeVisitor<>();
+		TreeNodeVisitorHandlerExtensions.accept(null, visitor, true);
+	}
+
+	/**
+	 * Test method for {@link TreeNodeVisitorHandlerExtensions#accept(ITreeNode, Visitor, boolean)}
+	 * with a null visitor
+	 */
+	@Test(expectedExceptions = NullPointerException.class)
+	public void testAcceptThreeArgWithNullVisitor()
+	{
+		TreeNodeVisitorHandlerExtensions.accept(root, null, true);
+	}
 }

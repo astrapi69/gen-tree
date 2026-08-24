@@ -27,6 +27,7 @@ package io.github.astrapi69.gen.tree;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.Set;
@@ -204,6 +205,7 @@ public class TreeIdNodeTest extends AbstractTestCase<Boolean, Boolean>
 		parentTreeNode.setValue(parent);
 		parentTreeNode = new TreeIdNode<>(parent);
 		assertNotNull(parentTreeNode);
+		assertEquals(parentTreeNode.getValue(), parent);
 		TreeIdNode<TreeElement, UUID> treeNode = TreeIdNode.<TreeElement, UUID> builder().build();
 		assertNotNull(treeNode);
 		assertTrue(treeNode.isNode());
@@ -271,6 +273,76 @@ public class TreeIdNodeTest extends AbstractTestCase<Boolean, Boolean>
 
 		childrenIds = root.getChildrenIds();
 		assertFalse(childrenIds.contains(firstChild.getId()));
+		assertNull(firstChild.getParentId());
+	}
+
+	/**
+	 * Test method for {@link TreeIdNode#addChild(TreeIdNode)} with a null child
+	 */
+	@Test
+	public void testAddChildWithNullChild()
+	{
+		int countBefore = root.getChildCount();
+
+		root.addChild(null);
+
+		assertEquals(countBefore, root.getChildCount());
+	}
+
+	/**
+	 * Test method for {@link TreeIdNode#addChild(TreeIdNode)} when this tree node is a leaf
+	 */
+	@Test
+	public void testAddChildWhenLeaf()
+	{
+		TreeIdNode<String, Long> leaf;
+		TreeIdNode<String, Long> child;
+
+		leaf = TreeIdNode.<String, Long> builder().id(idGenerator.getNextId()).leaf(true)
+			.value("leaf").build();
+		child = TreeIdNode.<String, Long> builder().id(idGenerator.getNextId()).value("child")
+			.build();
+
+		leaf.addChild(child);
+
+		assertEquals(0, leaf.getChildCount());
+		assertFalse(leaf.hasChildren());
+	}
+
+	/**
+	 * Test method for {@link TreeIdNode#addChild(TreeIdNode)} verifying that the child's parentId
+	 * is set to the id of this tree node
+	 */
+	@Test
+	public void testAddChildSetsParentId()
+	{
+		TreeIdNode<String, Long> parent;
+		TreeIdNode<String, Long> child;
+
+		parent = TreeIdNode.<String, Long> builder().id(idGenerator.getNextId()).value("parent")
+			.build();
+		child = TreeIdNode.<String, Long> builder().id(idGenerator.getNextId()).value("child")
+			.build();
+
+		parent.addChild(child);
+
+		assertEquals(parent.getId(), child.getParentId());
+	}
+
+	/**
+	 * Test method for {@link TreeIdNode#hasChildren()} when the childrenIds {@link Set} object is
+	 * {@code null}
+	 */
+	@Test
+	public void testHasChildrenWithNullChildrenIds()
+	{
+		TreeIdNode<String, Long> node;
+
+		node = TreeIdNode.<String, Long> builder().id(idGenerator.getNextId()).value("node")
+			.build();
+		node.setChildrenIds(null);
+
+		assertFalse(node.hasChildren());
 	}
 
 	/**

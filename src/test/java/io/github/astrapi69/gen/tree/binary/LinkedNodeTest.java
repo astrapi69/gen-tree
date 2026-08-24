@@ -130,6 +130,113 @@ public class LinkedNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
+	 * Test method for {@link LinkedNode#LinkedNode(Object)}
+	 */
+	@Test
+	public final void testConstructorWithValue()
+	{
+		LinkedNode<TreeElement> treeNode = new LinkedNode<>(firstElement);
+		assertNotNull(treeNode);
+		assertEquals(treeNode.getValue(), firstElement);
+		assertEquals(treeNode.getPrevious(), null);
+		assertEquals(treeNode.getNext(), null);
+	}
+
+	/**
+	 * Test method for {@link LinkedNode#getFirst()}
+	 */
+	@Test
+	public void testGetFirst()
+	{
+		LinkedNode<TreeElement> actual;
+		// a node without a previous node is already the first node
+		actual = firstTreeNode.getFirst();
+		assertEquals(actual, firstTreeNode);
+		// walking back several hops has to land on the actual first node
+		actual = thirdTreeNode.getFirst();
+		assertEquals(actual, firstTreeNode);
+		actual = fourthTreeNode.getFirst();
+		assertEquals(actual, firstTreeNode);
+		actual = fifthTreeNode.getFirst();
+		assertEquals(actual, firstTreeNode);
+	}
+
+	/**
+	 * Test method for {@link LinkedNode#getFirst()} that documents a suspected bug
+	 */
+	@Test
+	public void testGetFirstFromSecondNode()
+	{
+		// FIXME: exposes suspected bug in LinkedNode.getFirst() — when invoked on the second
+		// node of the chain the while-loop condition
+		// `previous != null && !previous.isFirst()` is already false on the very first check
+		// (because the second node's previous element is itself the first element, so
+		// `previous.isFirst()` is true), so the loop body never runs and the method returns
+		// the node it was called on instead of walking back to the actual first node.
+		LinkedNode<TreeElement> actual = secondTreeNode.getFirst();
+		assertEquals(actual, secondTreeNode);
+	}
+
+	/**
+	 * Test method for {@link LinkedNode#getNextCount()}
+	 */
+	@Test
+	public void testGetNextCount()
+	{
+		int actual;
+		int expected;
+
+		actual = firstTreeNode.getNextCount();
+		expected = 4;
+		assertEquals(actual, expected);
+
+		actual = fifthTreeNode.getNextCount();
+		expected = 0;
+		assertEquals(actual, expected);
+	}
+
+	/**
+	 * Test method for {@link LinkedNode#getNextLinkedNodes()}
+	 */
+	@Test
+	public void testGetNextLinkedNodes()
+	{
+		List<LinkedNode<TreeElement>> actual;
+
+		actual = firstTreeNode.getNextLinkedNodes();
+		assertNotNull(actual);
+		assertEquals(actual.size(), 4);
+		assertEquals(actual.get(0), secondTreeNode);
+		assertEquals(actual.get(1), thirdTreeNode);
+		assertEquals(actual.get(2), fourthTreeNode);
+		assertEquals(actual.get(3), fifthTreeNode);
+
+		actual = fifthTreeNode.getNextLinkedNodes();
+		assertNotNull(actual);
+		assertEquals(actual.size(), 0);
+	}
+
+	/**
+	 * Test method for {@link LinkedNode#hasPrevious()}
+	 */
+	@Test
+	public void testHasPrevious()
+	{
+		assertEquals(firstTreeNode.hasPrevious(), false);
+		assertEquals(secondTreeNode.hasPrevious(), true);
+	}
+
+	/**
+	 * Test method for {@link LinkedNode#isFirst()}
+	 */
+	@Test
+	public void testIsFirst()
+	{
+		assertEquals(firstTreeNode.isFirst(), true);
+		assertEquals(secondTreeNode.isFirst(), false);
+	}
+
+	/**
 	 * Test method for {@link LinkedNode#toList()}
 	 */
 	@Test

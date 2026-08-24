@@ -33,6 +33,7 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.meanbean.lang.Factory;
@@ -281,10 +282,27 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		parentTreeNode.setValue("parent");
 		parentTreeNode = new TreeNode<>("parent");
 		assertNotNull(parentTreeNode);
+		assertEquals(parentTreeNode.getValue(), "parent");
 		BaseTreeNode<TreeElement, Long> treeNode = BaseTreeNode.<TreeElement, Long> builder()
 			.build();
 		assertNotNull(treeNode);
 		assertTrue(treeNode.isNode());
+	}
+
+	/**
+	 * Test method for {@link TreeNode#getChildren()} when the children collection was explicitly
+	 * set to {@code null}
+	 */
+	@Test
+	public void testGetChildrenReinitializesWhenNull()
+	{
+		Collection<TreeNode<String>> children;
+
+		root.setChildren(null);
+		children = root.getChildren();
+
+		assertNotNull(children);
+		assertEquals(children.size(), 0);
 	}
 
 	/**
@@ -644,6 +662,13 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		actual = root.containsAll(children);
 		expected = true;
 		assertEquals(actual, expected);
+
+		Collection<TreeNode<String>> foreign = new ArrayList<>();
+		foreign.add(TreeNode.<String> builder().value("not part of the tree").build());
+
+		actual = root.containsAll(foreign);
+		expected = false;
+		assertEquals(actual, expected);
 	}
 
 	/**
@@ -682,6 +707,113 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		Collection<TreeNode<String>> rootChildren = root.getChildren();
 		assertTrue(rootChildren.contains(fourthChild));
 		assertTrue(rootChildren.contains(fifthChild));
+	}
+
+	/**
+	 * Test method for {@link ITreeNode#addChild(io.github.astrapi69.gen.tree.api.ITreeNode, int)}
+	 */
+	@Test
+	public void testAddChildAtIndex()
+	{
+		TreeNode<String> newChild;
+		List<TreeNode<String>> children;
+
+		newChild = TreeNode.<String> builder().value("inserted at index 1").build();
+		root.addChild(newChild, 1);
+
+		children = (List<TreeNode<String>>)root.getChildren();
+		assertEquals(children.get(1), newChild);
+		assertEquals(newChild.getParent(), root);
+		assertEquals(4, children.size());
+	}
+
+	/**
+	 * Test method for {@link ITreeNode#getChildAt(int)}
+	 */
+	@Test
+	public void testGetChildAt()
+	{
+		Optional<TreeNode<String>> childAt;
+
+		childAt = root.getChildAt(0);
+		assertTrue(childAt.isPresent());
+		assertEquals(firstChild, childAt.get());
+
+		childAt = fifthGrandChild.getChildAt(0);
+		assertFalse(childAt.isPresent());
+	}
+
+	/**
+	 * Test method for {@link ITreeNode#getChildIndex(io.github.astrapi69.gen.tree.api.ITreeNode)}
+	 */
+	@Test
+	public void testGetChildIndex()
+	{
+		int index;
+
+		index = root.getChildIndex(secondChild);
+		assertEquals(1, index);
+
+		index = root.getChildIndex(null);
+		assertEquals(-1, index);
+	}
+
+	/**
+	 * Test method for {@link ITreeNode#hasNextSibling()}
+	 */
+	@Test
+	public void testHasNextSibling()
+	{
+		assertTrue(firstChild.hasNextSibling());
+		assertFalse(thirdChild.hasNextSibling());
+	}
+
+	/**
+	 * Test method for {@link ITreeNode#hasPreviousSibling()}
+	 */
+	@Test
+	public void testHasPreviousSibling()
+	{
+		assertFalse(firstChild.hasPreviousSibling());
+		assertTrue(secondChild.hasPreviousSibling());
+	}
+
+	/**
+	 * Test method for {@link ITreeNode#isAncestor(io.github.astrapi69.gen.tree.api.ITreeNode)}
+	 */
+	@Test
+	public void testIsAncestor()
+	{
+		assertTrue(firstGrandGrandGrandChild.isAncestor(root));
+		assertFalse(root.isAncestor(firstGrandGrandGrandChild));
+	}
+
+	/**
+	 * Test method for {@link ITreeNode#isDescendant(io.github.astrapi69.gen.tree.api.ITreeNode)}
+	 */
+	@Test
+	public void testIsDescendant()
+	{
+		assertTrue(root.isDescendant(firstGrandGrandGrandChild));
+		assertFalse(firstGrandGrandGrandChild.isDescendant(root));
+	}
+
+	/**
+	 * Test method for {@link ITreeNode#move(io.github.astrapi69.gen.tree.api.ITreeNode)}
+	 */
+	@Test
+	public void testMove()
+	{
+		boolean moved;
+
+		moved = firstGrandGrandChild.move(thirdChild);
+		assertTrue(moved);
+		assertEquals(thirdChild, firstGrandGrandChild.getParent());
+		assertTrue(thirdChild.getChildren().contains(firstGrandGrandChild));
+
+		// moving a tree node into one of its own descendants must fail and leave the tree as is
+		moved = root.move(firstChild);
+		assertFalse(moved);
 	}
 
 	/**
@@ -770,6 +902,52 @@ public class TreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		actual = secondChild.reduceTree(0, (count, node) -> count + 1, TraversalType.PREORDER);
 		expected = secondChild.traverse().size();
 		assertEquals(expected, actual);
+	}
+
+	/**
+	 * Test method for {@link ITreeNode#addChildren(Collection)} with a null children argument
+	 */
+	@Test(expectedExceptions = NullPointerException.class)
+	public void testAddChildrenWithNullCollection()
+	{
+		root.addChildren(null);
+	}
+
+	/**
+	 * Test method for {@link ITreeNode#removeChildren(Collection)} with a null children argument
+	 */
+	@Test(expectedExceptions = NullPointerException.class)
+	public void testRemoveChildrenWithNullCollection()
+	{
+		root.removeChildren(null);
+	}
+
+	/**
+	 * Test method for {@link ITreeNode#accept(io.github.astrapi69.design.pattern.visitor.Visitor)}
+	 * with a null visitor
+	 */
+	@Test(expectedExceptions = NullPointerException.class)
+	public void testAcceptWithNullVisitor()
+	{
+		root.accept(null);
+	}
+
+	/**
+	 * Test method for {@link ITreeNode#findByValue(Object)} with a null value
+	 */
+	@Test(expectedExceptions = NullPointerException.class)
+	public void testFindByValueWithNullValue()
+	{
+		root.findByValue(null);
+	}
+
+	/**
+	 * Test method for {@link ITreeNode#containsAll(Collection)} with a null collection
+	 */
+	@Test(expectedExceptions = NullPointerException.class)
+	public void testContainsAllWithNullCollection()
+	{
+		root.containsAll(null);
 	}
 
 }

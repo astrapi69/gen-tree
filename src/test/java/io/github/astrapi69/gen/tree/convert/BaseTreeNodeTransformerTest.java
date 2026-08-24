@@ -34,6 +34,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.meanbean.test.BeanTester;
 import org.testng.annotations.BeforeMethod;
@@ -244,6 +245,56 @@ public class BaseTreeNodeTransformerTest
 	}
 
 	/**
+	 * Test method for {@link BaseTreeNodeTransformer#transform(Map)} that verifies that the
+	 * children of each transformed {@link BaseTreeNode} are populated. Note:
+	 * {@link BaseTreeNode#equals(Object)} excludes the children field, so an equality check alone
+	 * (as in {@link #testTransform()}) would not detect a missing children assignment
+	 */
+	@Test
+	public void testTransformSetsChildren()
+	{
+		Map<Long, TreeIdNode<String, Long>> keyMap = BaseTreeNodeTransformer.toKeyMap(root);
+		Map<Long, BaseTreeNode<String, Long>> convert = BaseTreeNodeTransformer.transform(keyMap);
+
+		BaseTreeNode<String, Long> convertedRoot = convert.get(root.getId());
+		Set<Long> actualRootChildrenIds = convertedRoot.getChildren().stream()
+			.map(BaseTreeNode::getId).collect(Collectors.toCollection(LinkedHashSet::new));
+		Set<Long> expectedRootChildrenIds = SetFactory.newLinkedHashSet(firstChild.getId(),
+			secondChild.getId(), thirdChild.getId());
+		assertEquals(actualRootChildrenIds, expectedRootChildrenIds);
+
+		BaseTreeNode<String, Long> convertedSecondChild = convert.get(secondChild.getId());
+		Set<Long> actualSecondChildChildrenIds = convertedSecondChild.getChildren().stream()
+			.map(BaseTreeNode::getId).collect(Collectors.toCollection(LinkedHashSet::new));
+		Set<Long> expectedSecondChildChildrenIds = SetFactory.newLinkedHashSet(
+			firstGrandChild.getId(), secondGrandChild.getId(), thirdGrandChild.getId());
+		assertEquals(actualSecondChildChildrenIds, expectedSecondChildChildrenIds);
+
+		BaseTreeNode<String, Long> convertedFirstChild = convert.get(firstChild.getId());
+		assertEquals(convertedFirstChild.getChildren().size(), 0);
+	}
+
+	/**
+	 * Test method for the {@code @NonNull} guarded parameters of {@link BaseTreeNodeTransformer}
+	 * that verifies that a {@link NullPointerException} is thrown instead of the argument being
+	 * silently accepted
+	 */
+	@Test
+	public void testNullArgumentsThrowNullPointerException()
+	{
+		assertThrows(NullPointerException.class,
+			() -> BaseTreeNodeTransformer.toKeyMap((BaseTreeNode<String, Long>)null));
+		assertThrows(NullPointerException.class,
+			() -> BaseTreeNodeTransformer.toTreeIdNode((BaseTreeNode<String, Long>)null));
+		assertThrows(NullPointerException.class,
+			() -> BaseTreeNodeTransformer.toKeyBaseTreeNodeMap((BaseTreeNode<String, Long>)null));
+		assertThrows(NullPointerException.class,
+			() -> BaseTreeNodeTransformer.transform((Map<Long, TreeIdNode<String, Long>>)null));
+		assertThrows(NullPointerException.class,
+			() -> BaseTreeNodeTransformer.getRoot((Map<Long, TreeIdNode<String, Long>>)null));
+	}
+
+	/**
 	 * Test method for {@link BaseTreeNodeTransformer}
 	 */
 	@Test
@@ -271,6 +322,29 @@ public class BaseTreeNodeTransformerTest
 
 		assertThrows(IllegalStateException.class,
 			() -> BaseTreeNodeTransformer.toKeyMap(duplicateRoot));
+	}
+
+	/**
+	 * Test method for {@link BaseTreeNodeTransformer#toKeyBaseTreeNodeMap(BaseTreeNode)} that
+	 * verifies that a duplicate id is reported instead of silently keeping only the first
+	 * occurrence. This exercises the merge function that is local to
+	 * {@link BaseTreeNodeTransformer#toKeyBaseTreeNodeMap(BaseTreeNode)}, which is distinct from
+	 * the one used by {@link BaseTreeNodeTransformer#toKeyMap(BaseTreeNode)}
+	 */
+	@Test
+	public void testToKeyBaseTreeNodeMapThrowsOnDuplicateId()
+	{
+		BaseTreeNode<String, Long> duplicateRoot = BaseTreeNode.<String, Long> builder().id(1L)
+			.value("root").build();
+		BaseTreeNode<String, Long> firstWithId2 = BaseTreeNode.<String, Long> builder().id(2L)
+			.value("first with id 2").build();
+		BaseTreeNode<String, Long> secondWithId2 = BaseTreeNode.<String, Long> builder().id(2L)
+			.value("second with id 2").build();
+		duplicateRoot.addChild(firstWithId2);
+		duplicateRoot.addChild(secondWithId2);
+
+		assertThrows(IllegalStateException.class,
+			() -> BaseTreeNodeTransformer.toKeyBaseTreeNodeMap(duplicateRoot));
 	}
 
 	/**

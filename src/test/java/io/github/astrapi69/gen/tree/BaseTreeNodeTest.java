@@ -33,8 +33,10 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.meanbean.lang.Factory;
 import org.meanbean.test.BeanTester;
@@ -282,10 +284,97 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		parentTreeNode.setValue("parent");
 		parentTreeNode = new BaseTreeNode<>("parent");
 		assertNotNull(parentTreeNode);
+		assertEquals(parentTreeNode.getValue(), "parent");
 		BaseTreeNode<TreeElement, Long> treeNode = BaseTreeNode.<TreeElement, Long> builder()
 			.build();
 		assertNotNull(treeNode);
 		assertTrue(treeNode.isNode());
+	}
+
+	/**
+	 * Test method for {@link BaseTreeNode#getChildren()}
+	 */
+	@Test
+	public void testGetChildrenInitialization()
+	{
+		BaseTreeNode<String, Long> node;
+		BaseTreeNode<String, Long> child;
+		BaseTreeNode<String, Long> sortedNode;
+		Collection<BaseTreeNode<String, Long>> children;
+
+		// the very first call on a fresh node without a child comparator must lazily create an
+		// empty LinkedHashSet
+		node = new BaseTreeNode<>();
+		children = node.getChildren();
+		assertNotNull(children);
+		assertEquals(children.getClass(), LinkedHashSet.class);
+		assertEquals(children.size(), 0);
+
+		// adding a child must be reflected on every subsequent call, the children collection must
+		// not be wiped or replaced by a re-initialization
+		child = BaseTreeNode.<String, Long> builder().value("child").build();
+		node.addChild(child);
+		children = node.getChildren();
+		assertEquals(children.size(), 1);
+		assertTrue(children.contains(child));
+
+		// a node that has a child comparator set before the very first access must use a TreeSet
+		// instead of a LinkedHashSet
+		sortedNode = BaseTreeNode.<String, Long> builder()
+			.childComparator(Comparator.comparing(BaseTreeNode::getValue)).build();
+		assertEquals(sortedNode.getChildren().getClass(), TreeSet.class);
+	}
+
+	/**
+	 * Test method for {@link BaseTreeNode#sortChildren()} without a child comparator
+	 */
+	@Test
+	public void testSortChildrenWithoutComparator()
+	{
+		BaseTreeNode<String, Long> node;
+
+		// sortChildren without a child comparator must be a no-op and must not throw
+		node = BaseTreeNode.<String, Long> builder().build();
+		node.sortChildren();
+		assertNotNull(node.getChildren());
+	}
+
+	/**
+	 * Test method for {@link BaseTreeNode#sortChildren()} with a child comparator and more than one
+	 * child
+	 * <p>
+	 * FIXME: exposes suspected bug in {@link BaseTreeNode#sortChildren()} — the method sorts the
+	 * children stream with the configured {@code childComparator} but then collects the sorted
+	 * stream into a plain natural-ordering {@link TreeSet} via
+	 * {@code Collectors.toCollection(TreeSet::new)} instead of a {@link TreeSet} backed by that
+	 * same comparator. Since {@link BaseTreeNode} does not implement {@link Comparable}, adding a
+	 * second child to that natural-ordering {@link TreeSet} throws a {@link ClassCastException}
+	 * instead of producing a sorted children collection.
+	 */
+	@Test(expectedExceptions = ClassCastException.class)
+	public void testSortChildrenWithComparator()
+	{
+		BaseTreeNode<String, Long> node;
+		BaseTreeNode<String, Long> childB;
+		BaseTreeNode<String, Long> childA;
+
+		node = BaseTreeNode.<String, Long> builder()
+			.childComparator(Comparator.comparing(BaseTreeNode::getValue)).build();
+		childB = BaseTreeNode.<String, Long> builder().value("b").build();
+		childA = BaseTreeNode.<String, Long> builder().value("a").build();
+		node.addChild(childB);
+		node.addChild(childA);
+
+		node.sortChildren();
+	}
+
+	/**
+	 * Test method for {@link BaseTreeNode#findById(Object)} with a null id
+	 */
+	@Test(expectedExceptions = NullPointerException.class)
+	public void testFindByIdWithNullId()
+	{
+		testTree.getRoot().findById(null);
 	}
 
 	/**

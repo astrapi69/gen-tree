@@ -237,6 +237,31 @@ public class SimpleTreeNodeTest
 	}
 
 	/**
+	 * Test method for {@link SimpleTreeNode#isNode()}
+	 */
+	@Test
+	public void testIsNode()
+	{
+		assertTrue(root.isNode());
+		assertFalse(fifthGrandChild.isNode());
+	}
+
+	/**
+	 * Test method for {@link SimpleTreeNode#getChildren()}
+	 */
+	@Test
+	public void testGetChildren()
+	{
+		Collection<SimpleTreeNode<String, Long>> children;
+
+		children = root.getChildren();
+		assertTrue(children.contains(firstChild));
+
+		children = fifthGrandChild.getChildren();
+		assertEquals(children.size(), 0);
+	}
+
+	/**
 	 * Test method for {@link SimpleTreeNode#getRoot()}
 	 */
 	@Test

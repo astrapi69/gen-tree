@@ -63,6 +63,24 @@ public class MergeTreeNodesVisitorTest
 		root.accept(mergeTreeNodesVisitor);
 		allTreeNodes = ITreeNodeHandlerExtensions.traverse(baseTestTree);
 		assertEquals(allTreeNodes.size(), 15);
+
+		// merging the same source tree a second time must not add any duplicate children, since
+		// the KEEP strategy skips nodes that are already contained in the merged-with parent
+		root.accept(mergeTreeNodesVisitor);
+		allTreeNodes = ITreeNodeHandlerExtensions.traverse(baseTestTree);
+		assertEquals(allTreeNodes.size(), 15);
+	}
+
+	/**
+	 * Test method for {@link MergeTreeNodesVisitor#MergeTreeNodesVisitor(IBaseTreeNode)} with a
+	 * null mergeWith argument
+	 */
+	@Test(expectedExceptions = NullPointerException.class)
+	public void testConstructorWithNullMergeWith()
+	{
+		BaseTreeNode<String, Long> mergeWith = null;
+
+		new MergeTreeNodesVisitor<>(mergeWith);
 	}
 
 }
