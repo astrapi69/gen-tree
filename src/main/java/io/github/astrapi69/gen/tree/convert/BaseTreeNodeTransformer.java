@@ -25,6 +25,7 @@
 package io.github.astrapi69.gen.tree.convert;
 
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
@@ -63,9 +64,35 @@ public final class BaseTreeNodeTransformer
 	{
 		return root.traverse().stream().collect(Collectors.toMap(BaseTreeNode::getId, // keyMapper
 			BaseTreeNodeTransformer::toTreeIdNode, // valueMapper
-			(first, second) -> first, // mergeFunction
+			BaseTreeNodeTransformer::throwOnDuplicateId, // mergeFunction
 			LinkedHashMap::new // mapFactory
 		));
+	}
+
+	/**
+	 * Merge function for a
+	 * {@link Collectors#toMap(java.util.function.Function, java.util.function.Function, java.util.function.BinaryOperator)}
+	 * collector that rejects two {@link TreeIdNode} objects mapped to the same id instead of
+	 * silently keeping the first one and dropping the second, which would hide a corrupt id
+	 * assignment
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param <K>
+	 *            the generic type of the id of the node
+	 * @param first
+	 *            the {@link TreeIdNode} object that was collected first
+	 * @param second
+	 *            the {@link TreeIdNode} object that was collected under the same, already used id
+	 * @return never returns normally
+	 * @throws IllegalStateException
+	 *             always, reporting the duplicate id
+	 */
+	private static <T, K> TreeIdNode<T, K> throwOnDuplicateId(final TreeIdNode<T, K> first,
+		final TreeIdNode<T, K> second)
+	{
+		throw new IllegalStateException(
+			"BaseTreeNodeTransformer.toKeyMap: duplicate id " + first.getId());
 	}
 
 	/**
@@ -107,7 +134,10 @@ public final class BaseTreeNodeTransformer
 	{
 		return root.traverse().stream().collect(Collectors.toMap(BaseTreeNode::getId, // keyMapper
 			element -> element, // valueMapper
-			(first, second) -> first, // mergeFunction
+			(first, second) -> {
+				throw new IllegalStateException(
+					"BaseTreeNodeTransformer.toKeyBaseTreeNodeMap: duplicate id " + first.getId());
+			}, // mergeFunction
 			LinkedHashMap::new // mapFactory
 		));
 	}
@@ -133,7 +163,7 @@ public final class BaseTreeNodeTransformer
 					.value(entry.getValue().getValue())
 					.displayValue(entry.getValue().getDisplayValue())
 					.leaf(entry.getValue().isLeaf()).build(), // valueMapper
-				(first, second) -> first, // mergeFunction
+				BaseTreeNodeTransformer::throwOnDuplicateBaseTreeNodeId, // mergeFunction
 				LinkedHashMap::new // mapFactory
 			));
 		for (Map.Entry<K, TreeIdNode<T, K>> entry : treeIdNodeMap.entrySet())
@@ -141,15 +171,102 @@ public final class BaseTreeNodeTransformer
 			K key = entry.getKey();
 			TreeIdNode<T, K> treeIdNode = entry.getValue();
 			BaseTreeNode<T, K> baseTreeNode = baseTreeNodeMap.get(key);
-			BaseTreeNode<T, K> parent = treeIdNode.getParentId() != null
-				? baseTreeNodeMap.get(treeIdNode.getParentId())
-				: null;
+
+			BaseTreeNode<T, K> parent = null;
+			if (treeIdNode.getParentId() != null)
+			{
+				parent = baseTreeNodeMap.get(treeIdNode.getParentId());
+				if (parent == null)
+				{
+					throw new IllegalStateException("BaseTreeNodeTransformer.transform: node " + key
+						+ " references unknown parent id " + treeIdNode.getParentId());
+				}
+			}
 			baseTreeNode.setParent(parent);
-			Set<BaseTreeNode<T, K>> children = treeIdNode.getChildrenIds().stream()
-				.map(baseTreeNodeMap::get).collect(Collectors.toSet());
+
+			Set<BaseTreeNode<T, K>> children = new LinkedHashSet<>();
+			for (K childId : treeIdNode.getChildrenIds())
+			{
+				BaseTreeNode<T, K> child = baseTreeNodeMap.get(childId);
+				if (child == null)
+				{
+					throw new IllegalStateException("BaseTreeNodeTransformer.transform: node " + key
+						+ " references unknown child id " + childId);
+				}
+				children.add(child);
+			}
 			baseTreeNode.setChildren(children);
 		}
+		assertNoCycles(baseTreeNodeMap);
 		return baseTreeNodeMap;
+	}
+
+	/**
+	 * Merge function for the id-to-node map built inside {@link #transform(Map)} that rejects two
+	 * nodes mapped to the same id instead of silently keeping the first one, which would hide a
+	 * corrupt id assignment
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param <K>
+	 *            the generic type of the id of the node
+	 * @param first
+	 *            the {@link BaseTreeNode} object that was collected first
+	 * @param second
+	 *            the {@link BaseTreeNode} object that was collected under the same, already used id
+	 * @return never returns normally
+	 * @throws IllegalStateException
+	 *             always, reporting the duplicate id
+	 */
+	private static <T, K> BaseTreeNode<T, K> throwOnDuplicateBaseTreeNodeId(
+		final BaseTreeNode<T, K> first, final BaseTreeNode<T, K> second)
+	{
+		throw new IllegalStateException(
+			"BaseTreeNodeTransformer.transform: duplicate id " + first.getId());
+	}
+
+	/**
+	 * Verifies that every node's parent chain terminates at a root instead of looping back on
+	 * itself. A cycle among {@link TreeIdNode} objects has no root at all, and wiring it into
+	 * {@link BaseTreeNode} parent/child pointers would otherwise loop forever the first time
+	 * something walks up from one of its members, for instance {@link BaseTreeNode#getRoot()}
+	 * <p>
+	 * Every node's chain is walked at most once in total: once a node's chain is known to reach a
+	 * root, every node visited on the way there is remembered as resolved and skipped by later
+	 * calls
+	 *
+	 * @param <T>
+	 *            the generic type of the value
+	 * @param <K>
+	 *            the generic type of the id of the node
+	 * @param baseTreeNodeMap
+	 *            the id-to-node map to check
+	 * @throws IllegalStateException
+	 *             if a cycle is detected
+	 */
+	private static <T, K> void assertNoCycles(final Map<K, BaseTreeNode<T, K>> baseTreeNodeMap)
+	{
+		final Set<K> resolved = new LinkedHashSet<>();
+		for (K key : baseTreeNodeMap.keySet())
+		{
+			if (resolved.contains(key))
+			{
+				continue;
+			}
+			final Set<K> onPath = new LinkedHashSet<>();
+			BaseTreeNode<T, K> current = baseTreeNodeMap.get(key);
+			while (current != null && !resolved.contains(current.getId()))
+			{
+				if (!onPath.add(current.getId()))
+				{
+					throw new IllegalStateException(
+						"BaseTreeNodeTransformer.transform: cycle detected involving id "
+							+ current.getId());
+				}
+				current = current.getParent();
+			}
+			resolved.addAll(onPath);
+		}
 	}
 
 	/**

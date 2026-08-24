@@ -30,8 +30,12 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.BiFunction;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 
 import io.github.astrapi69.gen.tree.api.ITreeNode;
+import io.github.astrapi69.gen.tree.enumeration.traversal.TraversalType;
 import lombok.NonNull;
 
 /**
@@ -943,6 +947,191 @@ public class ITreeNodeHandlerExtensions
 			parent = parent.getParent();
 		}
 		return false;
+	}
+
+	/**
+	 * Returns the greatest distance from the given {@link ITreeNode} object down to any of its
+	 * descendants. Returns 0 if the given {@link ITreeNode} object is a leaf. The counterpart of
+	 * {@link ITreeNode#getLevel()}, which measures the distance up to the root
+	 *
+	 * @param <V>
+	 *            the generic type of the value
+	 * @param <T>
+	 *            the generic type of the concrete tree node
+	 * @param treeNode
+	 *            the tree node
+	 * @return the height of the subtree of the given {@link ITreeNode} object
+	 */
+	public static <V, T extends ITreeNode<V, T>> int height(final @NonNull T treeNode)
+	{
+		if (!treeNode.hasChildren())
+		{
+			return 0;
+		}
+		int maxChildHeight = 0;
+		for (T child : treeNode.getChildren())
+		{
+			int childHeight = ITreeNodeHandlerExtensions.height(child);
+			if (maxChildHeight < childHeight)
+			{
+				maxChildHeight = childHeight;
+			}
+		}
+		return maxChildHeight + 1;
+	}
+
+	/**
+	 * Finds the deepest {@link ITreeNode} object that is an ancestor of, or equal to, both given
+	 * {@link ITreeNode} objects. Walks the parent chain of the first given {@link ITreeNode} object
+	 * once and then walks the parent chain of the second given {@link ITreeNode} object until a
+	 * common node is found
+	 *
+	 * @param <V>
+	 *            the generic type of the value
+	 * @param <T>
+	 *            the generic type of the concrete tree node
+	 * @param first
+	 *            the first tree node
+	 * @param second
+	 *            the second tree node
+	 * @return the lowest common ancestor of both given {@link ITreeNode} objects or null if they do
+	 *         not share a common ancestor, for instance because they belong to different trees
+	 */
+	public static <V, T extends ITreeNode<V, T>> T lowestCommonAncestor(final @NonNull T first,
+		final @NonNull T second)
+	{
+		final Collection<T> ancestorsOfFirst = new LinkedHashSet<>();
+		for (T current = first; current != null; current = current.getParent())
+		{
+			ancestorsOfFirst.add(current);
+		}
+		for (T current = second; current != null; current = current.getParent())
+		{
+			if (ancestorsOfFirst.contains(current))
+			{
+				return current;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Keeps only the descendants of the given {@link ITreeNode} object (itself included) that
+	 * satisfy the given predicate, preserving the hierarchy of the survivors: when a node is
+	 * dropped, its surviving descendants are promoted to take its place under the nearest surviving
+	 * ancestor. Mutates the given {@link ITreeNode} object and its descendants in place by
+	 * detaching the nodes that do not satisfy the predicate and reattaching their surviving
+	 * descendants
+	 *
+	 * @param <V>
+	 *            the generic type of the value
+	 * @param <T>
+	 *            the generic type of the concrete tree node
+	 * @param treeNode
+	 *            the tree node
+	 * @param predicate
+	 *            the predicate that a surviving node has to satisfy
+	 * @return a {@link List} object with the given {@link ITreeNode} object if it satisfies the
+	 *         predicate, or with its promoted surviving descendants otherwise. An empty
+	 *         {@link List} object means that no descendant survived the filtering
+	 */
+	public static <V, T extends ITreeNode<V, T>> List<T> filterTree(final @NonNull T treeNode,
+		final @NonNull Predicate<T> predicate)
+	{
+		final List<T> originalChildren = new ArrayList<>(treeNode.getChildren());
+		final List<T> survivors = new ArrayList<>();
+		for (T child : originalChildren)
+		{
+			survivors.addAll(ITreeNodeHandlerExtensions.filterTree(child, predicate));
+		}
+		// detach with clearChildren=false: the survivors already carry their own fixed-up
+		// descendants and must keep them when they get promoted or reattached below
+		for (T child : originalChildren)
+		{
+			ITreeNodeHandlerExtensions.removeChild(treeNode, child, false);
+		}
+		if (predicate.test(treeNode))
+		{
+			survivors.forEach(treeNode::addChild);
+			final List<T> result = new ArrayList<>();
+			result.add(treeNode);
+			return result;
+		}
+		return survivors;
+	}
+
+	/**
+	 * Creates a deep, independent copy of the subtree of the given {@link ITreeNode} object. Since
+	 * a generic type parameter cannot be instantiated directly, the caller supplies a shallow copy
+	 * function that copies a single node's own fields (for instance id and value, but not its
+	 * parent or children); {@code cloneSubtree} wires up the copied children itself
+	 *
+	 * @param <V>
+	 *            the generic type of the value
+	 * @param <T>
+	 *            the generic type of the concrete tree node
+	 * @param treeNode
+	 *            the tree node
+	 * @param nodeCopier
+	 *            the function that creates a shallow copy of a single {@link ITreeNode} object,
+	 *            without its parent or children
+	 * @return a new {@link ITreeNode} object that is a deep, detached copy of the given
+	 *         {@link ITreeNode} object
+	 */
+	public static <V, T extends ITreeNode<V, T>> T cloneSubtree(final @NonNull T treeNode,
+		final @NonNull UnaryOperator<T> nodeCopier)
+	{
+		final T copy = nodeCopier.apply(treeNode);
+		copy.setParent(null);
+		// replace rather than clear: if nodeCopier reused the source's children collection by
+		// reference (for instance a Lombok toBuilder() copy), clearing it in place would rip the
+		// children out of the original tree too. A fresh collection can never alias the source
+		copy.setChildren(new ArrayList<>());
+		for (T child : treeNode.getChildren())
+		{
+			copy.addChild(ITreeNodeHandlerExtensions.cloneSubtree(child, nodeCopier));
+		}
+		return copy;
+	}
+
+	/**
+	 * Folds every value in the subtree of the given {@link ITreeNode} object into a single
+	 * accumulator, in the given traversal order. The tree-shaped counterpart of
+	 * {@code Stream.reduce}
+	 *
+	 * @param <V>
+	 *            the generic type of the value
+	 * @param <T>
+	 *            the generic type of the concrete tree node
+	 * @param <A>
+	 *            the generic type of the accumulator
+	 * @param treeNode
+	 *            the tree node
+	 * @param seed
+	 *            the initial accumulator value
+	 * @param accumulator
+	 *            the function that combines the current accumulator with a visited node
+	 * @param traversalType
+	 *            the traversal order, either {@link TraversalType#PREORDER} or
+	 *            {@link TraversalType#POSTORDER}. {@link TraversalType#INORDER} is not supported
+	 *            since it is only meaningful for binary trees
+	 * @return the final accumulator value after every node in the subtree has been visited
+	 */
+	public static <V, T extends ITreeNode<V, T>, A> A reduceTree(final @NonNull T treeNode,
+		final A seed, final @NonNull BiFunction<A, T, A> accumulator,
+		final @NonNull TraversalType traversalType)
+	{
+		if (traversalType == TraversalType.INORDER)
+		{
+			throw new UnsupportedOperationException(
+				"reduceTree: INORDER traversal is only supported for binary trees");
+		}
+		final boolean visitBefore = traversalType == TraversalType.PREORDER;
+		final AtomicReference<A> result = new AtomicReference<>(seed);
+		TreeNodeVisitorHandlerExtensions.accept(treeNode,
+			currentTreeNode -> result.set(accumulator.apply(result.get(), currentTreeNode)),
+			visitBefore);
+		return result.get();
 	}
 
 }

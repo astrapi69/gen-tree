@@ -4,9 +4,38 @@
 Version 11.0-SNAPSHOT
 -------------
 
+ADDED:
+
+- new Makefile with build, test, release and publish targets
+- new license header file src/main/resources/license-header.txt for the spotless licenseHeaderFile step
+- new publishing repository configuration for the Central Portal (releases over the OSSRH staging API, snapshots to central.sonatype.com) with credentials from CENTRAL_USERNAME/CENTRAL_PASSWORD or the gradle properties centralUsername/centralPassword
+- new gradle file tagging.gradle with the tagRelease task based on a plain git Exec task
+- new foojay-resolver-convention plugin in settings.gradle for automatic JDK provisioning
+- new ITreeNodeHandlerExtensions#height(ITreeNode) that returns the greatest distance from a node down to any of its descendants
+- new ITreeNodeHandlerExtensions#lowestCommonAncestor(ITreeNode, ITreeNode) that finds the deepest node that is an ancestor of, or equal to, both given nodes
+- new ITreeNodeHandlerExtensions#filterTree(ITreeNode, Predicate) that keeps only the descendants matching a predicate and promotes the survivors of a dropped node to the nearest surviving ancestor
+- new ITreeNodeHandlerExtensions#cloneSubtree(ITreeNode, UnaryOperator) that creates a deep, independent copy of a subtree from a caller-supplied shallow node copier
+- new ITreeNodeHandlerExtensions#reduceTree(ITreeNode, Object, BiFunction, TraversalType) that folds every value in a subtree into a single accumulator in pre- or post-order
+
+FIXED:
+
+- BaseTreeNodeTransformer#toKeyMap/#toKeyBaseTreeNodeMap silently kept the first node on a duplicate id instead of reporting the corrupt id assignment; both now throw IllegalStateException
+- BaseTreeNodeTransformer#transform silently turned a node with an unknown parent id into a root, and silently dropped an unknown child id reference; both now throw IllegalStateException
+- BaseTreeNodeTransformer#transform did not detect a cycle among the given TreeIdNode objects, which had no root and would loop forever the first time something walked up from one of its members, for instance BaseTreeNode#getRoot(); transform now throws IllegalStateException on a detected cycle
+
 CHANGED:
 
 - update to jdk version 21
+- update gradle wrapper to new version 9.7.0
+- migrate publishing to Central Portal (in-memory GPG signing from environment variables)
+- replace license-gradle-plugin with the spotless licenseHeaderFile step
+- replace the grgit gradle plugin with a plain git Exec task for tagRelease, so the configuration cache works without workarounds
+- update of dependency lombok to new version 1.18.46
+- update of gradle-plugin dependency io.freefair.lombok to new version 9.5.0
+- update of gradle-plugin dependency com.diffplug.spotless:spotless-plugin-gradle to new version 8.10.0
+- update of gradle-plugin dependency com.github.ben-manes:gradle-versions-plugin to new version 0.61.0
+- update of gradle-plugin dependency nl.littlerobots.version-catalog-update to new version 1.1.1
+- github-actions workflow: remove obsolete ossrh secrets, update setup-gradle to v4 and codecov-action to v5
 
 Version 10.1
 -------------

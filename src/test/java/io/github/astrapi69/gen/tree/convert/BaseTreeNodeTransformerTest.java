@@ -26,11 +26,14 @@ package io.github.astrapi69.gen.tree.convert;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertThrows;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.meanbean.test.BeanTester;
 import org.testng.annotations.BeforeMethod;
@@ -248,6 +251,78 @@ public class BaseTreeNodeTransformerTest
 	{
 		final BeanTester beanTester = new BeanTester();
 		beanTester.testBean(BaseTreeNodeTransformer.class);
+	}
+
+	/**
+	 * Test method for {@link BaseTreeNodeTransformer#toKeyMap(BaseTreeNode)} that verifies that a
+	 * duplicate id is reported instead of silently keeping only the first occurrence
+	 */
+	@Test
+	public void testToKeyMapThrowsOnDuplicateId()
+	{
+		BaseTreeNode<String, Long> duplicateRoot = BaseTreeNode.<String, Long> builder().id(1L)
+			.value("root").build();
+		BaseTreeNode<String, Long> firstWithId2 = BaseTreeNode.<String, Long> builder().id(2L)
+			.value("first with id 2").build();
+		BaseTreeNode<String, Long> secondWithId2 = BaseTreeNode.<String, Long> builder().id(2L)
+			.value("second with id 2").build();
+		duplicateRoot.addChild(firstWithId2);
+		duplicateRoot.addChild(secondWithId2);
+
+		assertThrows(IllegalStateException.class,
+			() -> BaseTreeNodeTransformer.toKeyMap(duplicateRoot));
+	}
+
+	/**
+	 * Test method for {@link BaseTreeNodeTransformer#transform(Map)} that verifies that a
+	 * {@link TreeIdNode} referencing an unknown parent id is reported instead of silently becoming
+	 * a root
+	 */
+	@Test
+	public void testTransformThrowsOnUnknownParent()
+	{
+		Map<Long, TreeIdNode<String, Long>> treeIdNodeMap = new LinkedHashMap<>();
+		treeIdNodeMap.put(1L,
+			TreeIdNode.<String, Long> builder().id(1L).parentId(99L).value("orphan").build());
+
+		assertThrows(IllegalStateException.class,
+			() -> BaseTreeNodeTransformer.transform(treeIdNodeMap));
+	}
+
+	/**
+	 * Test method for {@link BaseTreeNodeTransformer#transform(Map)} that verifies that a
+	 * {@link TreeIdNode} referencing an unknown child id is reported instead of silently dropping
+	 * the reference
+	 */
+	@Test
+	public void testTransformThrowsOnUnknownChild()
+	{
+		Set<Long> childrenIds = new LinkedHashSet<>();
+		childrenIds.add(99L);
+		Map<Long, TreeIdNode<String, Long>> treeIdNodeMap = new LinkedHashMap<>();
+		treeIdNodeMap.put(1L, TreeIdNode.<String, Long> builder().id(1L).value("root")
+			.childrenIds(childrenIds).build());
+
+		assertThrows(IllegalStateException.class,
+			() -> BaseTreeNodeTransformer.transform(treeIdNodeMap));
+	}
+
+	/**
+	 * Test method for {@link BaseTreeNodeTransformer#transform(Map)} that verifies that a cycle
+	 * among the given {@link TreeIdNode} objects is reported instead of looping forever the first
+	 * time something walks up the parent chain
+	 */
+	@Test
+	public void testTransformThrowsOnCycle()
+	{
+		Map<Long, TreeIdNode<String, Long>> treeIdNodeMap = new LinkedHashMap<>();
+		treeIdNodeMap.put(1L,
+			TreeIdNode.<String, Long> builder().id(1L).parentId(2L).value("a").build());
+		treeIdNodeMap.put(2L,
+			TreeIdNode.<String, Long> builder().id(2L).parentId(1L).value("b").build());
+
+		assertThrows(IllegalStateException.class,
+			() -> BaseTreeNodeTransformer.transform(treeIdNodeMap));
 	}
 
 }

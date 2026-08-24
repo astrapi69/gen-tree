@@ -25,8 +25,14 @@
 package io.github.astrapi69.gen.tree.handler;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertNotSame;
+import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -34,6 +40,7 @@ import org.testng.annotations.Test;
 
 import io.github.astrapi69.gen.tree.TreeNode;
 import io.github.astrapi69.gen.tree.api.ITreeNode;
+import io.github.astrapi69.gen.tree.enumeration.traversal.TraversalType;
 import io.github.astrapi69.id.generate.LongIdGenerator;
 
 /**
@@ -256,5 +263,137 @@ public class ITreeNodeHandlerExtensionsTest
 		actual = ITreeNodeHandlerExtensions.isAncestor(firstGrandGrandGrandChild, root);
 		expected = true;
 		assertEquals(actual, expected);
+	}
+
+	/**
+	 * Test method for {@link ITreeNodeHandlerExtensions#height(ITreeNode)}
+	 */
+	@Test
+	public void testHeight()
+	{
+		int actual;
+		int expected;
+
+		actual = ITreeNodeHandlerExtensions.height(fifthGrandChild);
+		expected = 0;
+		assertEquals(expected, actual);
+
+		actual = ITreeNodeHandlerExtensions.height(secondGrandGrandChild);
+		expected = 1;
+		assertEquals(expected, actual);
+
+		actual = ITreeNodeHandlerExtensions.height(firstGrandChild);
+		expected = 2;
+		assertEquals(expected, actual);
+
+		actual = ITreeNodeHandlerExtensions.height(secondChild);
+		expected = 3;
+		assertEquals(expected, actual);
+
+		actual = ITreeNodeHandlerExtensions.height(root);
+		expected = 4;
+		assertEquals(expected, actual);
+	}
+
+	/**
+	 * Test method for {@link ITreeNodeHandlerExtensions#lowestCommonAncestor(ITreeNode, ITreeNode)}
+	 */
+	@Test
+	public void testLowestCommonAncestor()
+	{
+		TreeNode<String> actual;
+
+		actual = ITreeNodeHandlerExtensions.lowestCommonAncestor(firstGrandGrandChild,
+			secondGrandGrandChild);
+		assertEquals(firstGrandChild, actual);
+
+		actual = ITreeNodeHandlerExtensions.lowestCommonAncestor(firstGrandGrandGrandChild,
+			secondGrandChild);
+		assertEquals(secondChild, actual);
+
+		actual = ITreeNodeHandlerExtensions.lowestCommonAncestor(firstChild, fifthGrandChild);
+		assertEquals(root, actual);
+
+		actual = ITreeNodeHandlerExtensions.lowestCommonAncestor(root, firstGrandGrandGrandChild);
+		assertEquals(root, actual);
+	}
+
+	/**
+	 * Test method for
+	 * {@link ITreeNodeHandlerExtensions#filterTree(ITreeNode, java.util.function.Predicate)}
+	 */
+	@Test
+	public void testFilterTree()
+	{
+		List<TreeNode<String>> actual;
+
+		// drop firstGrandChild but keep its descendants, promoted under secondChild
+		actual = ITreeNodeHandlerExtensions.filterTree(root,
+			node -> !"I'm the first grand child".equals(node.getValue()));
+
+		assertEquals(1, actual.size());
+		assertEquals(root, actual.get(0));
+
+		Collection<TreeNode<String>> secondChildChildren = secondChild.getChildren();
+		assertFalse(secondChildChildren.contains(firstGrandChild));
+		assertTrue(secondChildChildren.contains(firstGrandGrandChild));
+		assertTrue(secondChildChildren.contains(secondGrandGrandChild));
+		// the untouched part of the promoted subtree keeps its own structure
+		assertTrue(secondGrandGrandChild.getChildren().contains(firstGrandGrandGrandChild));
+		assertEquals(secondChild, firstGrandGrandChild.getParent());
+		assertEquals(secondChild, secondGrandGrandChild.getParent());
+	}
+
+	/**
+	 * Test method for
+	 * {@link ITreeNodeHandlerExtensions#cloneSubtree(ITreeNode, java.util.function.UnaryOperator)}
+	 */
+	@Test
+	public void testCloneSubtree()
+	{
+		TreeNode<String> clone = ITreeNodeHandlerExtensions.cloneSubtree(secondGrandGrandChild,
+			node -> TreeNode.<String> builder().value(node.getValue())
+				.displayValue(node.getDisplayValue()).leaf(node.isLeaf()).build());
+
+		assertNotSame(secondGrandGrandChild, clone);
+		assertEquals(secondGrandGrandChild.getValue(), clone.getValue());
+		assertNull(clone.getParent());
+		assertEquals(1, clone.getChildren().size());
+
+		TreeNode<String> clonedGrandChild = clone.getChildren().iterator().next();
+		assertNotSame(firstGrandGrandGrandChild, clonedGrandChild);
+		assertEquals(firstGrandGrandGrandChild.getValue(), clonedGrandChild.getValue());
+		assertEquals(clone, clonedGrandChild.getParent());
+
+		// the original subtree is untouched
+		assertEquals(1, secondGrandGrandChild.getChildren().size());
+		assertTrue(secondGrandGrandChild.getChildren().contains(firstGrandGrandGrandChild));
+	}
+
+	/**
+	 * Test method for
+	 * {@link ITreeNodeHandlerExtensions#reduceTree(ITreeNode, Object, java.util.function.BiFunction, TraversalType)}
+	 */
+	@Test
+	public void testReduceTree()
+	{
+		int actual;
+		int expected;
+
+		actual = ITreeNodeHandlerExtensions.reduceTree(secondChild, 0, (count, node) -> count + 1,
+			TraversalType.PREORDER);
+		expected = secondChild.traverse().size();
+		assertEquals(expected, actual);
+
+		actual = ITreeNodeHandlerExtensions.reduceTree(secondChild, 0, (count, node) -> count + 1,
+			TraversalType.POSTORDER);
+		assertEquals(expected, actual);
+
+		List<String> preOrderValues = ITreeNodeHandlerExtensions.reduceTree(secondChild,
+			new ArrayList<String>(), (list, node) -> {
+				list.add(node.getValue());
+				return list;
+			}, TraversalType.PREORDER);
+		assertEquals("I'm the second child", preOrderValues.get(0));
 	}
 }
