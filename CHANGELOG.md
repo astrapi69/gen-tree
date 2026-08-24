@@ -1,8 +1,12 @@
 ## Change log
 ----------------------
 
-Version 11.1-SNAPSHOT
+Version 11.2-SNAPSHOT
 -------------
+
+ADDED:
+
+- new ITreeNode#height(), #lowestCommonAncestor(ITreeNode), #filterTree(Predicate), #cloneSubtree(UnaryOperator) and #reduceTree(Object, BiFunction, TraversalType) default methods, delegating to the ITreeNodeHandlerExtensions counterparts added in 11.1
 
 Version 11.0
 -------------
