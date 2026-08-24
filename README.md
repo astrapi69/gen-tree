@@ -13,7 +13,95 @@
 
 </div>
 
-The gen-tree repository holds a generic model for simple and binary tree objects
+The gen-tree repository holds a generic model for simple and binary tree objects. It is the reference Java
+implementation of [`ITree<V, T>`](https://github.com/astrapi69/tree-api): mutable, parent-pointer nodes with
+navigation, search, mutation and traversal built in. A TypeScript redesign of the same model — immutable nodes,
+copy-on-write mutation, generator-based traversal — lives in [`tree-kit`](https://github.com/astrapi69/tree-kit).
+
+## Node types
+
+| Type | Shape | Use it when |
+|---|---|---|
+| `BaseTreeNode<V, K>` | value `V`, id `K`, parent pointer, children collection | the default choice — id-addressable nodes with the full `ITree` contract |
+| `TreeNode<V>` | value `V`, parent pointer, children collection, no separate id | the value itself is identity enough |
+| `SimpleTreeNode<V, K>` | leftmost-child / right-sibling links instead of a children collection | many siblings, memory matters more than `O(1)` child access |
+| `TreeIdNode<T, K>` | `id`, `parentId`, `childrenIds` — ids only, no object references | persistence: the only one of these that is cycle-free and directly serialisable |
+
+All but `TreeIdNode` implement [`IBaseTreeNode<V, K, T>`](src/main/java/io/github/astrapi69/gen/tree/api/IBaseTreeNode.java) /
+[`ITreeNode<V, T>`](src/main/java/io/github/astrapi69/gen/tree/api/ITreeNode.java), which extend
+[`ITree<V, T>`](https://github.com/astrapi69/tree-api) and add the visitor `accept()` plus id-aware `findById()`.
+
+## Quick start
+
+```java
+BaseTreeNode<String, Long> root = BaseTreeNode.<String, Long> builder().id(1L).value("root").build();
+BaseTreeNode<String, Long> child = BaseTreeNode.<String, Long> builder().id(2L).value("child").build();
+root.addChild(child);
+
+root.isRoot();      // true
+child.getLevel();   // 1
+child.getParent();  // root
+root.getAllSiblings(); // siblings in the parent's children collection
+```
+
+## Traversal
+
+`accept(Visitor<T>)` is **post-order** by default — every child is visited before its parent:
+
+```java
+root.accept(node -> System.out.println(node.getValue())); // child, then root
+```
+
+For pre-order (parent before its children), go through the static handler directly with `visitBefore = true`:
+
+```java
+BaseTreeNodeVisitorHandlerExtensions.accept(root, node -> System.out.println(node.getValue()), true);
+```
+
+`traverse()` and `toList()` collect the same post-order walk into a `Collection<T>` / `List<T>`; `findByValue(V)` /
+`findAllByValue(V)` search it for a matching value.
+
+## Query and transform utilities
+
+Added alongside the [tree-kit](https://github.com/astrapi69/tree-kit) port — same vocabulary as its `height` /
+`lowestCommonAncestor` / `filterTree` / `cloneSubtree` / `reduceTree`, adapted to this library's mutable node model
+(`filterTree` mutates the tree in place here; tree-kit's copy-on-write equivalent returns a new one):
+
+```java
+root.height();                                      // 0 for a leaf, deepest descent below this node
+root.lowestCommonAncestor(otherNode);                // deepest shared ancestor, or null if unrelated
+root.filterTree(node -> node.getValue() != null);    // keep matches, promote a dropped node's survivors
+root.cloneSubtree(node -> node.toBuilder().build());  // deep, detached copy from a caller-supplied node copier
+root.reduceTree(0, (count, node) -> count + 1, TraversalType.PREORDER); // fold, the tree-shaped Stream.reduce
+```
+
+`filterTree` is a *reparenting* filter, not a subtree prune: when a node fails the predicate, its surviving
+descendants are promoted to the nearest surviving ancestor instead of being dropped with it — the behaviour
+`findAllByValue` cannot give you, since that returns a flat list rather than a tree. `cloneSubtree` needs a
+node-copier because a generic type parameter cannot be instantiated directly; `node.toBuilder().build()` is safe to
+use as one even though Lombok's `toBuilder()` initially carries over the source's children collection by
+reference — `cloneSubtree` replaces it with a fresh collection before ever touching it, rather than clearing it in
+place, so the source tree is never mutated through that shared reference.
+
+Every method above is also available as a static utility taking the node explicitly, for callers that prefer it:
+`ITreeNodeHandlerExtensions.height(node)`, `.lowestCommonAncestor(a, b)`, `.filterTree(node, predicate)`,
+`.cloneSubtree(node, copier)`, `.reduceTree(node, seed, accumulator, traversalType)`.
+
+## Flat ⇄ tree conversion
+
+`BaseTreeNodeTransformer` converts a `BaseTreeNode` tree to and from `TreeIdNode` — the id-only shape a database row
+or a JSON document can hold without cycles:
+
+```java
+Map<Long, TreeIdNode<String, Long>> flat = BaseTreeNodeTransformer.toKeyMap(root);
+Map<Long, BaseTreeNode<String, Long>> rebuilt = BaseTreeNodeTransformer.transform(flat);
+BaseTreeNode<String, Long> rebuiltRoot = BaseTreeNodeTransformer.getRoot(flat);
+```
+
+`transform` fails loudly instead of producing a corrupt tree: a duplicate id, a `parentId` that names no row, an
+unknown `childrenIds` reference, or a cycle among the given `TreeIdNode` objects all throw `IllegalStateException`
+naming the offending id — the same defects [tree-kit's `buildTreeFromFlat`](https://github.com/astrapi69/tree-kit#strict-by-default-tolerant-on-request)
+rejects on the TypeScript side.
 
 > Please support this project by simply putting a Github <!-- Place this tag where you want the button to render. -->
 <a class="github-button" href="https://github.com/astrapi69/gen-tree" data-icon="octicon-star" aria-label="Star astrapi69/gen-tree on GitHub">
@@ -256,6 +344,8 @@ or over flattr:
 
 ## Similar projects
 
+* [tree-api](https://github.com/astrapi69/tree-api) The `ITree<V, T>` interface this library implements
+* [tree-kit](https://github.com/astrapi69/tree-kit) TypeScript sibling: immutable nodes, copy-on-write mutation, generator traversal
 * [Tree Data Structure Java Library](https://github.com/Scalified/tree) This Library contains
   different implementations of the tree data structures, such as K-ary, binary, expression trees
   etc.
