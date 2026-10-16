@@ -30,6 +30,9 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
       - name: Execute Gradle build
         run: ./gradlew build
+      - name: Mutation testing (PIT, fails below mutationThreshold in build.gradle)
+        run: |
+          ./gradlew pitest
       - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
