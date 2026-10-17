@@ -1014,14 +1014,24 @@ public class ITreeNodeHandlerExtensionsTest
 		expected = 1;
 		assertEquals(expected, actual);
 
-		// getChildIndex reparents the given child to the given parent as a side effect, even
-		// when the child was not attached there before the call
+		// getChildIndex only looks the child up, it does not touch the child's parent: a child
+		// that was put into the children collection directly keeps its null parent
 		detached = TreeNode.<String> builder().value("detached").build();
 		root.getChildren().add(detached);
 		actual = ITreeNodeHandlerExtensions.getChildIndex(root, detached);
 		expected = 3;
 		assertEquals(expected, actual);
-		assertEquals(root, detached.getParent());
+		assertNull(detached.getParent());
+
+		// a node that is not a child of the given parent is not found and stays where it is: it
+		// used to be reparented to the given parent while its own parent still held it, which
+		// left the two trees pointing at each other inconsistently
+		actual = ITreeNodeHandlerExtensions.getChildIndex(root, firstGrandChild);
+		expected = -1;
+		assertEquals(expected, actual);
+		assertSame(secondChild, firstGrandChild.getParent());
+		assertEquals(2, firstGrandChild.getLevel());
+		assertTrue(secondChild.getChildren().contains(firstGrandChild));
 
 		// null child -> -1, no NullPointerException
 		actual = ITreeNodeHandlerExtensions.getChildIndex(root, null);

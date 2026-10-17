@@ -645,14 +645,16 @@ public class ITreeNodeHandlerExtensions
 	 *            the parent tree node
 	 * @param child
 	 *            the child to resolve the index
-	 * @return the index of the given child in this tree node
+	 * @return the index of the given child in the children of the given parent tree node, or -1 if
+	 *         it is not one of them, if the parent is a leaf or if the parent does not keep its
+	 *         children in a {@link List}. The given child is only looked up, its parent is not
+	 *         changed
 	 */
 	public static <V, T extends ITreeNode<V, T>> int getChildIndex(final @NonNull T parentTreeNode,
 		final T child)
 	{
 		if (child != null && parentTreeNode.isNode())
 		{
-			child.setParent(parentTreeNode);
 			if (parentTreeNode.getChildren() instanceof List)
 			{
 				List<T> children = (List<T>)parentTreeNode.getChildren();
