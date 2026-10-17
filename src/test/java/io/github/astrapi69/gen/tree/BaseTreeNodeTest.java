@@ -46,7 +46,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import io.github.astrapi69.clone.CloneQuietlyExtensions;
 import io.github.astrapi69.collection.set.SetFactory;
 import io.github.astrapi69.design.pattern.visitor.Visitor;
 import io.github.astrapi69.gen.tree.api.ITreeNode;
@@ -148,7 +147,11 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		};
 
 		root = testTree.getRoot();
-		cloned = CloneQuietlyExtensions.clone(root);
+		// cloned with the library's own cloneSubtree, not with CloneQuietlyExtensions.clone from
+		// jobj-cloner: that one also copies the static fields of the cloned class and replaced the
+		// coverage probes PIT keeps in BaseTreeNode with copies, so every later test lost its
+		// coverage of BaseTreeNode (https://github.com/astrapi69/jobj-cloner/issues/1)
+		cloned = root.cloneSubtree(treeNode -> treeNode.toBuilder().build());
 		assertEquals(cloned, root);
 		root.accept(maxIndexFinderTreeNodeVisitor);
 		maxIndex = maxIndexFinderTreeNodeVisitor.getMaxIndex();
