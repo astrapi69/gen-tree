@@ -25,9 +25,12 @@
 package io.github.astrapi69.gen.tree.visitor;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertSame;
 
 import java.util.Collection;
 
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import io.github.astrapi69.gen.tree.BaseTreeNode;
@@ -40,10 +43,7 @@ import io.github.astrapi69.gen.tree.enumeration.merge.MergeStrategy;
  * The unit test class for the class {@link BaseMergeTreeNodesVisitor}
  * <p>
  * Note: every test method that merges into a base tree builds its own fresh
- * {@link BaseTreeNodeTestTree} object instead of reusing
- * {@link BaseTreeNodeTestData#getBaseTestTree()}, since that method always returns the very same
- * shared, mutable tree object; merging into it here would otherwise leak mutations into other test
- * classes that rely on that shared tree being in its pristine state
+ * {@link BaseTreeNodeTestTree} object, so that no merge can leak into another test
  */
 public class BaseMergeTreeNodesVisitorTest
 {
@@ -101,6 +101,70 @@ public class BaseMergeTreeNodesVisitorTest
 		root.accept(mergeTreeNodesVisitor);
 		allTreeNodes = baseTestTree.traverse();
 		assertEquals(allTreeNodes.size(), 15);
+	}
+
+	/**
+	 * The merge strategies, one row per strategy
+	 *
+	 * @return the rows
+	 */
+	@DataProvider
+	public static Object[][] mergeStrategies()
+	{
+		return new Object[][] { { MergeStrategy.OVERWRITE }, { MergeStrategy.KEEP } };
+	}
+
+	/**
+	 * Test method for {@link BaseMergeTreeNodesVisitor#visit(IBaseTreeNode)} with every merge
+	 * strategy for a visited tree node whose id belongs to a node under a different parent in the
+	 * tree node to merge with: it is not attached there
+	 *
+	 * @param mergeStrategy
+	 *            the merge strategy
+	 */
+	@Test(dataProvider = "mergeStrategies")
+	public void testVisitDoesNotAttachUnderADifferentParent(final MergeStrategy mergeStrategy)
+	{
+		BaseTreeNodeTestTree baseTestTree;
+		BaseTreeNode<String, Long> root;
+		BaseTreeNode<String, Long> sixthGrandChild;
+
+		root = BaseTreeNodeTestData.getSimpleTestTree();
+		baseTestTree = new BaseTreeNodeTestTree();
+		// id 3 is the sixth grand child under the second child (id 1) here, and the first grand
+		// child under the second child (id 2) in the base test tree
+		sixthGrandChild = root.findById(3L);
+
+		root.accept(new BaseMergeTreeNodesVisitor<>(baseTestTree.getRoot(), mergeStrategy));
+
+		assertFalse(baseTestTree.getSecondChild().getChildren().contains(sixthGrandChild));
+		assertSame(root.findById(1L), sixthGrandChild.getParent());
+	}
+
+	/**
+	 * Test method for {@link BaseMergeTreeNodesVisitor#visit(IBaseTreeNode)} with the
+	 * {@link MergeStrategy#KEEP} strategy for visited tree nodes that already have an equal node at
+	 * the same place in the tree node to merge with: KEEP keeps the existing node and ignores the
+	 * new one, so the new one stays in its own tree, under its own parent
+	 */
+	@Test
+	public void testVisitWithKeepStrategyIgnoresNodesThatAreAlreadyThere()
+	{
+		BaseTreeNode<String, Long> mergeWith;
+		BaseTreeNode<String, Long> root;
+		BaseTreeNode<String, Long> secondChild;
+		BaseTreeNode<String, Long> sixthGrandChild;
+
+		mergeWith = BaseTreeNodeTestData.getSimpleTestTree();
+		root = BaseTreeNodeTestData.getSimpleTestTree();
+		secondChild = root.findById(1L);
+		sixthGrandChild = root.findById(3L);
+
+		root.accept(new BaseMergeTreeNodesVisitor<>(mergeWith, MergeStrategy.KEEP));
+
+		assertSame(root, secondChild.getParent());
+		assertSame(secondChild, sixthGrandChild.getParent());
+		assertEquals(4, mergeWith.traverse().size());
 	}
 
 	/**

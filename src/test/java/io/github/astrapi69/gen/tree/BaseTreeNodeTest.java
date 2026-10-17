@@ -46,7 +46,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import io.github.astrapi69.clone.CloneQuietlyExtensions;
 import io.github.astrapi69.collection.set.SetFactory;
 import io.github.astrapi69.design.pattern.visitor.Visitor;
 import io.github.astrapi69.gen.tree.api.ITreeNode;
@@ -148,7 +147,11 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 		};
 
 		root = testTree.getRoot();
-		cloned = CloneQuietlyExtensions.clone(root);
+		// cloned with the library's own cloneSubtree, not with CloneQuietlyExtensions.clone from
+		// jobj-cloner: that one also copies the static fields of the cloned class and replaced the
+		// coverage probes PIT keeps in BaseTreeNode with copies, so every later test lost its
+		// coverage of BaseTreeNode (https://github.com/astrapi69/jobj-cloner/issues/1)
+		cloned = root.cloneSubtree(treeNode -> treeNode.toBuilder().build());
 		assertEquals(cloned, root);
 		root.accept(maxIndexFinderTreeNodeVisitor);
 		maxIndex = maxIndexFinderTreeNodeVisitor.getMaxIndex();
@@ -369,6 +372,39 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 
 		List<BaseTreeNode<String, Long>> sorted = new ArrayList<>(node.getChildren());
 		assertEquals(sorted, List.of(childA, childB));
+	}
+
+	/**
+	 * Test method for {@link BaseTreeNode#sortChildren()} with a child comparator that is set after
+	 * the children were added
+	 * <p>
+	 * The children of a node without a child comparator are kept in insertion order. Setting a
+	 * comparator afterwards does not reorder them by itself, {@link BaseTreeNode#sortChildren()}
+	 * does
+	 */
+	@Test
+	public void testSortChildrenWithComparatorSetAfterTheChildren()
+	{
+		BaseTreeNode<String, Long> node;
+		BaseTreeNode<String, Long> childB;
+		BaseTreeNode<String, Long> childA;
+		List<BaseTreeNode<String, Long>> actual;
+
+		node = BaseTreeNode.<String, Long> builder().build();
+		childB = BaseTreeNode.<String, Long> builder().value("b").build();
+		childA = BaseTreeNode.<String, Long> builder().value("a").build();
+		node.addChild(childB);
+		node.addChild(childA);
+		node.setChildComparator(Comparator.comparing(BaseTreeNode::getValue));
+
+		actual = new ArrayList<>(node.getChildren());
+		assertEquals(List.of(childB, childA), actual);
+
+		node.sortChildren();
+
+		actual = new ArrayList<>(node.getChildren());
+		assertEquals(List.of(childA, childB), actual);
+		assertEquals(TreeSet.class, node.getChildren().getClass());
 	}
 
 	/**

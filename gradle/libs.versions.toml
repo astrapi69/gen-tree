@@ -6,7 +6,6 @@ gradle-plugin-spotless-version = "8.10.0"
 gradle-plugin-version-catalog-update-version = "1.1.1"
 gradle-plugin-versions-version = "0.61.0"
 id-generate-version = "1.1"
-jobj-cloner-version = "2.1"
 jobj-contract-verifier-version = "5.2"
 lombok-version = "1.18.46"
 meanbean-version = "3.0.0-M9"
@@ -22,7 +21,6 @@ visitor-pattern-version = "7"
 [libraries]
 data-api = { module = "io.github.astrapi69:data-api", version.ref = "data-api-version" }
 id-generate = { module = "io.github.astrapi69:id-generate", version.ref = "id-generate-version" }
-jobj-cloner = { module = "io.github.astrapi69:jobj-cloner", version.ref = "jobj-cloner-version" }
 jobj-contract-verifier = { module = "io.github.astrapi69:jobj-contract-verifier", version.ref = "jobj-contract-verifier-version" }
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok-version" }
 meanbean = { module = "com.github.meanbeanlib:meanbean", version.ref = "meanbean-version" }
@@ -60,7 +58,6 @@ test-compile-only = [
 # Bundle of test dependencies used for unit testing
 unit-testing = [
     "id-generate",
-    "jobj-cloner",
     "jobj-contract-verifier",
     "meanbean",
     "silly-collection",

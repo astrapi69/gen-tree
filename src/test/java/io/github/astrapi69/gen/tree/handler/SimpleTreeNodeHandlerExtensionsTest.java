@@ -475,10 +475,22 @@ public class SimpleTreeNodeHandlerExtensionsTest
 	@Test
 	public void testHasChildren()
 	{
+		SimpleTreeNode<String, Long> withoutChildrenCollection;
+
 		// new scenario ...
 		assertTrue(SimpleTreeNodeHandlerExtensions.hasChildren(root));
 		// new scenario ...
 		assertFalse(SimpleTreeNodeHandlerExtensions.hasChildren(firstChild));
+		// a subclass whose getChildren() returns null has no children
+		withoutChildrenCollection = new SimpleTreeNode<>("without children collection")
+		{
+			@Override
+			public Collection<SimpleTreeNode<String, Long>> getChildren()
+			{
+				return null;
+			}
+		};
+		assertFalse(SimpleTreeNodeHandlerExtensions.hasChildren(withoutChildrenCollection));
 	}
 
 	/**
