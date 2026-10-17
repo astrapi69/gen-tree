@@ -375,6 +375,39 @@ public class BaseTreeNodeTest extends AbstractTestCase<Boolean, Boolean>
 	}
 
 	/**
+	 * Test method for {@link BaseTreeNode#sortChildren()} with a child comparator that is set after
+	 * the children were added
+	 * <p>
+	 * The children of a node without a child comparator are kept in insertion order. Setting a
+	 * comparator afterwards does not reorder them by itself, {@link BaseTreeNode#sortChildren()}
+	 * does
+	 */
+	@Test
+	public void testSortChildrenWithComparatorSetAfterTheChildren()
+	{
+		BaseTreeNode<String, Long> node;
+		BaseTreeNode<String, Long> childB;
+		BaseTreeNode<String, Long> childA;
+		List<BaseTreeNode<String, Long>> actual;
+
+		node = BaseTreeNode.<String, Long> builder().build();
+		childB = BaseTreeNode.<String, Long> builder().value("b").build();
+		childA = BaseTreeNode.<String, Long> builder().value("a").build();
+		node.addChild(childB);
+		node.addChild(childA);
+		node.setChildComparator(Comparator.comparing(BaseTreeNode::getValue));
+
+		actual = new ArrayList<>(node.getChildren());
+		assertEquals(List.of(childB, childA), actual);
+
+		node.sortChildren();
+
+		actual = new ArrayList<>(node.getChildren());
+		assertEquals(List.of(childA, childB), actual);
+		assertEquals(TreeSet.class, node.getChildren().getClass());
+	}
+
+	/**
 	 * Test method for {@link BaseTreeNode#findById(Object)} with a null id
 	 */
 	@Test(expectedExceptions = NullPointerException.class)
