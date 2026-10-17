@@ -40,10 +40,7 @@ import io.github.astrapi69.gen.tree.enumeration.merge.MergeStrategy;
  * The unit test class for the class {@link BaseMergeTreeNodesVisitor}
  * <p>
  * Note: every test method that merges into a base tree builds its own fresh
- * {@link BaseTreeNodeTestTree} object instead of reusing
- * {@link BaseTreeNodeTestData#getBaseTestTree()}, since that method always returns the very same
- * shared, mutable tree object; merging into it here would otherwise leak mutations into other test
- * classes that rely on that shared tree being in its pristine state
+ * {@link BaseTreeNodeTestTree} object, so that no merge can leak into another test
  */
 public class BaseMergeTreeNodesVisitorTest
 {

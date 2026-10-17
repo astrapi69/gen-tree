@@ -28,11 +28,19 @@ import io.github.astrapi69.id.generate.LongIdGenerator;
 
 public class BaseTreeNodeTestData
 {
-	private static final BaseTreeNodeTestTree testTree = new BaseTreeNodeTestTree();
 
+	/**
+	 * Builds a new base test tree on every call. The tree used to be a single static instance, so a
+	 * test that merged into it (for instance {@code MergeTreeNodesVisitorTest}) changed it for
+	 * every later test in the same JVM. Under PIT a minion runs the tests of several mutants in one
+	 * JVM, so whether such a test passed depended on which mutants ran before it in the same
+	 * minion, and the mutation score swung between runs of the same commit
+	 *
+	 * @return the root of a new base test tree, see {@link BaseTreeNodeTestTree}
+	 */
 	public static BaseTreeNode<String, Long> getBaseTestTree()
 	{
-		return testTree.getRoot();
+		return new BaseTreeNodeTestTree().getRoot();
 	}
 
 	public static BaseTreeNode<String, Long> getSimpleTestTree()
