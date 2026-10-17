@@ -34,6 +34,7 @@ import static org.testng.AssertJUnit.assertSame;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -41,6 +42,7 @@ import java.util.Optional;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import io.github.astrapi69.gen.tree.TreeNode;
@@ -526,6 +528,50 @@ public class ITreeNodeHandlerExtensionsTest
 	}
 
 	/**
+	 * The traversal types {@link ITreeNodeHandlerExtensions#reduceTree} supports, one row per type:
+	 * the type and the values of the subtree of the second child in the order they are folded in
+	 *
+	 * @return the rows
+	 */
+	@DataProvider
+	public static Object[][] reduceTreeOrderRows()
+	{
+		return new Object[][] { { TraversalType.PREORDER,
+				Arrays.asList("I'm the second child", "I'm the first grand child",
+					"I'm the first grand grand child", "I'm the second grand grand child",
+					"I'm the first grand grand grand child", "I'm the second grand child", null) },
+				{ TraversalType.POSTORDER,
+						Arrays.asList("I'm the first grand grand child",
+							"I'm the first grand grand grand child",
+							"I'm the second grand grand child", "I'm the first grand child",
+							"I'm the second grand child", null, "I'm the second child") } };
+	}
+
+	/**
+	 * Test method for
+	 * {@link ITreeNodeHandlerExtensions#reduceTree(ITreeNode, Object, java.util.function.BiFunction, TraversalType)}
+	 * that verifies that the nodes are folded in in the order of the given traversal type
+	 *
+	 * @param traversalType
+	 *            the traversal type
+	 * @param expected
+	 *            the values in the expected order
+	 */
+	@Test(dataProvider = "reduceTreeOrderRows")
+	public void testReduceTreeOrder(final TraversalType traversalType, final List<String> expected)
+	{
+		List<String> actual;
+
+		actual = ITreeNodeHandlerExtensions.reduceTree(secondChild, new ArrayList<String>(),
+			(list, node) -> {
+				list.add(node.getValue());
+				return list;
+			}, traversalType);
+
+		assertEquals(expected, actual);
+	}
+
+	/**
 	 * Test method for
 	 * {@link ITreeNodeHandlerExtensions#reduceTree(ITreeNode, Object, java.util.function.BiFunction, TraversalType)}
 	 * that verifies that {@link TraversalType#INORDER} is rejected since it is only meaningful for
@@ -712,6 +758,13 @@ public class ITreeNodeHandlerExtensionsTest
 	public void testRemoveFromParentWithClearChildrenFlag()
 	{
 		TreeNode<String> outsider;
+
+		// a grand child is not a child of the root: it keeps its parent, its place in the parent's
+		// children and its own children, although clearChildren is true
+		ITreeNodeHandlerExtensions.removeFromParent(root, firstGrandChild, true);
+		assertSame(secondChild, firstGrandChild.getParent());
+		assertTrue(secondChild.getChildren().contains(firstGrandChild));
+		assertEquals(2, firstGrandChild.getChildren().size());
 
 		// clearChildren = true also clears the removed node's own children
 		ITreeNodeHandlerExtensions.removeFromParent(root, secondChild, true);
@@ -1107,8 +1160,21 @@ public class ITreeNodeHandlerExtensionsTest
 	@Test
 	public void testHasChildren()
 	{
+		TreeNode<String> withoutChildrenCollection;
+
 		assertTrue(ITreeNodeHandlerExtensions.hasChildren(root));
 		assertFalse(ITreeNodeHandlerExtensions.hasChildren(fifthGrandChild));
+
+		// an implementation whose getChildren() returns null has no children
+		withoutChildrenCollection = new TreeNode<>("without children collection")
+		{
+			@Override
+			public Collection<TreeNode<String>> getChildren()
+			{
+				return null;
+			}
+		};
+		assertFalse(ITreeNodeHandlerExtensions.hasChildren(withoutChildrenCollection));
 
 		assertThrows(NullPointerException.class,
 			() -> ITreeNodeHandlerExtensions.hasChildren((TreeNode<String>)null));
