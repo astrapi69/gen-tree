@@ -7,10 +7,12 @@ pitest {
     pitestVersion = libs.versions.pitest.version.get()
     targetClasses = ["io.github.astrapi69.gen.tree.*"]
     threads = 4
-    // The mutator set, named so a reader of the score knows it: DEFAULTS is what PIT
-    // runs when nothing is said. STRONGER measured 546 of 579 (94 %) on 2026-10-17,
-    // under the floor of 95 in build.gradle; switching needs the survivors triaged first.
-    mutators = ["DEFAULTS"]
+    // The mutator set, named so a reader of the score knows it. STRONGER adds to
+    // DEFAULTS the mutators that force a condition to true and the switch mutator.
+    // Measured 562 of 578 (97.2 %) on 2026-10-17, the same in three runs (DEFAULTS:
+    // 416 of 422, 98.6 %). The 16 survivors are triaged in docs/MUTATION_TESTING.md;
+    // none is excluded here.
+    mutators = ["STRONGER"]
     // XML is what the mutation-context step in .github/workflows/gradle.yml reads.
     outputFormats = ["HTML", "XML"]
     timestampedReports = false

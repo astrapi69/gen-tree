@@ -27,9 +27,11 @@ description = "$rootProject.name"
 apply from: "gradle/apply-gradle-files.gradle"
 
 // Mutation-score floor the CI build fails below: .github/workflows/gradle.yml
-// runs `./gradlew pitest` after the build. Measured 97.6 % (413 of 423) on
-// 2026-10-16. Kept here, not in gradle/mutation-testing.gradle, so that the
-// floor sits in the file a reader (and awesome-well-tested's check) looks at.
+// runs `./gradlew pitest` after the build. Measured 97.2 % (562 of 578) with the
+// STRONGER mutators on 2026-10-17, stable across three runs; see
+// docs/MUTATION_TESTING.md. Kept here, not in gradle/mutation-testing.gradle, so
+// that the floor sits in the file a reader (and awesome-well-tested's check)
+// looks at.
 pitest {
     mutationThreshold = 95
 }

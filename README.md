@@ -4,7 +4,7 @@
 
 [![Java CI with Gradle](https://github.com/astrapi69/gen-tree/actions/workflows/gradle.yml/badge.svg)](https://github.com/astrapi69/gen-tree/actions/workflows/gradle.yml)
 [![Coverage Status](https://codecov.io/gh/astrapi69/gen-tree/branch/develop/graph/badge.svg)](https://codecov.io/gh/astrapi69/gen-tree)
-[![Mutation Coverage](https://img.shields.io/badge/mutation%20coverage-98%25-brightgreen)](https://pitest.org/)
+[![Mutation Coverage](https://img.shields.io/badge/mutation%20coverage-97%25-brightgreen)](docs/MUTATION_TESTING.md)
 [![Open Issues](https://img.shields.io/github/issues/astrapi69/gen-tree.svg?style=flat)](https://github.com/astrapi69/gen-tree/issues)
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.astrapi69/gen-tree.svg)](https://central.sonatype.com/artifact/io.github.astrapi69/gen-tree)
 [![Javadocs](http://www.javadoc.io/badge/io.github.astrapi69/gen-tree.svg)](http://www.javadoc.io/doc/io.github.astrapi69/gen-tree)
@@ -103,6 +103,13 @@ BaseTreeNode<String, Long> rebuiltRoot = BaseTreeNodeTransformer.getRoot(flat);
 unknown `childrenIds` reference, or a cycle among the given `TreeIdNode` objects all throw `IllegalStateException`
 naming the offending id — the same defects [tree-kit's `buildTreeFromFlat`](https://github.com/astrapi69/tree-kit#strict-by-default-tolerant-on-request)
 rejects on the TypeScript side.
+
+## Mutation testing
+
+Every build runs [PIT](https://pitest.org/) with the `STRONGER` mutators over the whole library and fails below a
+mutation score of 95 % (`mutationThreshold` in `build.gradle`). It measured 97.2 % (562 of 578 mutants) on 2026-10-17;
+[docs/MUTATION_TESTING.md](docs/MUTATION_TESTING.md) has the numbers, how to run it, and the reason each of the 16
+surviving mutants survives.
 
 > Please support this project by simply putting a Github <!-- Place this tag where you want the button to render. -->
 <a class="github-button" href="https://github.com/astrapi69/gen-tree" data-icon="octicon-star" aria-label="Star astrapi69/gen-tree on GitHub">

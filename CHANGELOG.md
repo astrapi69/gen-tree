@@ -4,6 +4,10 @@
 Version 11.1.3-SNAPSHOT
 -------------
 
+CHANGED:
+
+- PIT runs the STRONGER mutator group instead of DEFAULTS: 97.2 % (562 of 578 mutants), the floor stays at 95 %. The survivors are triaged in docs/MUTATION_TESTING.md
+
 FIXED:
 
 - ITreeNodeHandlerExtensions#getChildIndex (and ITreeNode#getChildIndex, which delegates to it): set the parent of the child it looked up to the given parent tree node, even when that node was not one of its children; a lookup such as root.getChildIndex(grandChild) re-pointed the grand child's parent at the root while its real parent still held it. The child is now only looked up
