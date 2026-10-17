@@ -98,7 +98,9 @@ public abstract class GenericBinaryTree<T>
 	}
 
 	/**
-	 * Adds the given value to the binary tree at the right position
+	 * Adds the given value to the binary tree at the right position. A value that is neither
+	 * smaller nor greater than a value already in this tree counts as that value and is not added a
+	 * second time
 	 *
 	 * @param value
 	 *            the value
