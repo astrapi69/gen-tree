@@ -6,6 +6,9 @@ Version 11.1.3-SNAPSHOT
 
 CHANGED:
 
+- publishing as in the rest of the family (#18): the Central Portal through the nmcp settings plugin, a release
+  waiting for the maintainer (USER_MANAGED), the signing subkey through GPG_KEY_ID, a refused upload when only half
+  of the key is set, and uploads only from CI, a release only from its RELEASE-* tag
 - PIT runs the STRONGER mutator group instead of DEFAULTS: 97.2 % (562 of 578 mutants), the floor stays at 95 %. The survivors are triaged in docs/MUTATION_TESTING.md
 
 FIXED:
